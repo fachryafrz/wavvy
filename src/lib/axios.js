@@ -1,12 +1,15 @@
 import Axios from "axios";
+import { cookies } from "next/headers";
+import { spotify_authorization } from "./constants";
+
+const cookiesStore = cookies();
 
 const axios = Axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-  params: { api_key: "84aa2a7d5e4394ded7195035a4745dbd" },
-  // headers: {
-  //   Accept: "application/json",
-  //   Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_READ}`,
-  // },
+  baseURL: process.env.API_URL,
+  headers: {
+    Accept: "application/json",
+    Authorization: `Bearer ${cookiesStore.get(spotify_authorization)}`,
+  },
 });
 
 export default axios;

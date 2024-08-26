@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import AccessToken from "@/components/AccessToken";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,6 +16,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <Suspense>
         <GoogleAnalytics />
+        <AccessToken />
       </Suspense>
 
       <body className={inter.className}>{children}</body>
