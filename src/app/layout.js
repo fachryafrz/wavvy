@@ -2,7 +2,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
-import AccessToken from "@/components/AccessToken";
+import AccessToken from "@/components/Auth/AccessToken";
+import Navbar from "@/components/Layout/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,6 +13,10 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const authorizationURL = process.env.AUTHORIZATION_URL;
+  const client_id = process.env.CLIENT_ID;
+  const redirect_uri = process.env.NEXT_PUBLIC_APP_URL;
+
   return (
     <html lang="en">
       <Suspense>
@@ -19,7 +24,15 @@ export default function RootLayout({ children }) {
         <AccessToken />
       </Suspense>
 
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Navbar
+          authorizationURL={authorizationURL}
+          client_id={client_id}
+          redirect_uri={redirect_uri}
+        />
+
+        {children}
+      </body>
     </html>
   );
 }

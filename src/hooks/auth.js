@@ -2,10 +2,17 @@ import useSWR from "swr";
 import { useEffect, useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Axios from "axios";
+import { spotify_show_dialog } from "@/lib/constants";
+import { generateRandomString } from "@/lib/randomString";
 
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const current = useMemo(
+    () => new URLSearchParams(searchParams),
+    [searchParams],
+  );
 
   const {
     data: user,
@@ -19,7 +26,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         .catch((error) => {
           if (error.response.status !== 409) throw error;
         }),
-
     {
       revalidateOnFocus: false,
       revalidateOnMount: true,
@@ -30,16 +36,20 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     },
   );
 
-  const login = async ({ request_token, setIsLoading }) => {
-    Axios.post(`/api/auth/login`, { request_token }).then(({ data }) => {
+  const login = async ({ code }) => {
+    await Axios.post(`/api/access-token`, { code }).then(() => {
+      localStorage.setItem(spotify_show_dialog, "false");
       mutate();
-      setIsLoading(false);
+      router.push(pathname);
     });
   };
 
   const logout = async () => {
     if (!error) {
-      await Axios.delete(`/api/auth/logout`).then(() => mutate(null));
+      await Axios.delete(`/api/auth/logout`).then(() => {
+        mutate(null);
+        Axios.post(`/api/access-token`, { code: "" });
+      });
     }
 
     if (pathname === "/profile") {

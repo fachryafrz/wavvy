@@ -15,32 +15,13 @@ export async function POST(request) {
   };
 
   try {
-    if (!code) {
-      if (cookiesStore.has(spotify_access_token)) {
-        return NextResponse.json(
-          { access_token: cookiesStore.get(spotify_access_token).value },
-          { status: 200 },
-        );
-      } else {
-        const { data } = await axios.post(
-          process.env.ACCESS_TOKEN_URL,
-          { grant_type: "client_credentials" },
-          { headers: headers },
-        );
-
-        cookiesStore.set(spotify_access_token, data.access_token, {
-          maxAge: data.expires_in,
-        });
-
-        return NextResponse.json(data, { status: 200 });
-      }
-    } else {
+    if (cookiesStore.has(spotify_refresh_token)) {
       const { data } = await axios.post(
         process.env.ACCESS_TOKEN_URL,
         {
-          code: code,
-          redirect_uri: process.env.NEXT_PUBLIC_APP_URL,
-          grant_type: "authorization_code",
+          refresh_token: cookiesStore.get(spotify_refresh_token).value,
+          grant_type: "refresh_token",
+          client_id: process.env.CLIENT_ID,
         },
         { headers: headers },
       );
