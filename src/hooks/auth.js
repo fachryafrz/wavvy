@@ -8,11 +8,6 @@ import { generateRandomString } from "@/lib/randomString";
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const current = useMemo(
-    () => new URLSearchParams(searchParams),
-    [searchParams],
-  );
 
   const {
     data: user,

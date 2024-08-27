@@ -23,9 +23,7 @@ export default function Navbar({ authorizationURL, client_id, redirect_uri }) {
       )}
 
       {user && (
-        <Suspense>
           <Logout />
-        </Suspense>
       )}
     </div>
   );
