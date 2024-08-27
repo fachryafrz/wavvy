@@ -1,4 +1,8 @@
-import { spotify_access_token, spotify_authorization } from "@/lib/constants";
+import {
+  spotify_access_token,
+  spotify_authorization,
+  spotify_refresh_token,
+} from "@/lib/constants";
 import { generateRandomString } from "@/lib/randomString";
 import axios from "axios";
 import { cookies } from "next/headers";
@@ -14,6 +18,10 @@ export async function GET(request) {
           Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
         },
       });
+
+      return NextResponse.json(data, { status: 200 });
+    } else if (cookiesStore.has(spotify_refresh_token)) {
+      const { data } = await axios.post(`/api/refresh-token`);
 
       return NextResponse.json(data, { status: 200 });
     }

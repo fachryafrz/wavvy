@@ -24,7 +24,6 @@ export default function Player() {
 
         setIsLoading(false);
 
-        console.log(data);
         setTrack(data);
         setArtists(data.item.artists.map((artist) => artist.name).join(", "));
         setTrackImage(
@@ -43,7 +42,7 @@ export default function Player() {
 
   return (
     <div
-      className={`grid w-full grid-cols-6 items-center gap-4 md:grid-cols-12`}
+      className={`grid w-full grid-cols-6 items-center gap-2 sm:gap-4 md:grid-cols-12`}
     >
       {/* Track Info (Image, Title, Artist) */}
       <div className={`col-span-1 sm:col-span-2`}>

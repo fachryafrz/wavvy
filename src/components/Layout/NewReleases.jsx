@@ -6,6 +6,7 @@ import axios from "axios";
 import LoadingCard from "../Loading/Card";
 import moment from "moment";
 import TrackCard from "../Track/Card";
+import { checkToken } from "@/helper/checkToken";
 
 export default function NewReleases() {
   const [albums, setAlbums] = useState([]);
@@ -19,7 +20,7 @@ export default function NewReleases() {
       setAlbums(data.albums.items.slice(0, 5));
     };
 
-    fetchNewReleases();
+    checkToken(fetchNewReleases);
   }, []);
 
   return (
