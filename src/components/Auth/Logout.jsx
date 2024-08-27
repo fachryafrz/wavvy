@@ -19,26 +19,31 @@ export default function Logout() {
             <figure
               className={`flex w-10 overflow-hidden rounded-full border-2 border-base-100 outline outline-2 outline-primary`}
             >
-              <img src={profilePicture.url} alt={user.display_name} />
+              <img
+                src={profilePicture.url}
+                alt={user.display_name}
+                loading="lazy"
+                draggable="false"
+              />
             </figure>
           </div>
           <ul
             tabIndex={0}
-            className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow"
+            className="menu dropdown-content z-[1] w-52 rounded-box bg-base-200 p-2 shadow"
           >
             <li>
-              <Link href={`/`} className={`font-medium`}>
+              <Link href={`/profile`} className={`font-medium`}>
                 <PersonCircle color={"#ffffff"} height="24px" width="24px" />
 
                 <span>Profile</span>
               </Link>
             </li>
             <li>
-              <Link href={`/`} className={`font-medium text-error`}>
+              <button onClick={logout} className={`font-medium text-error`}>
                 <ExitOutline color={"#b91c1c"} height="24px" width="24px" />
 
                 <span>Logout</span>
-              </Link>
+              </button>
             </li>
           </ul>
         </div>

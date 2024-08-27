@@ -10,7 +10,7 @@ export default function Navbar({ authorizationURL, client_id, redirect_uri }) {
   const { user } = useAuth();
 
   return (
-    <header className={`flex items-center gap-4 justify-between p-4`}>
+    <header className={`flex items-center gap-4 justify-between p-4 sticky`}>
       <SearchBar />
 
       {!user && (

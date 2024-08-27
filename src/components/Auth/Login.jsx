@@ -29,6 +29,7 @@ export default function Login({ authorizationURL, client_id, redirect_uri }) {
     "user-library-read",
     "user-read-playback-state",
     "user-modify-playback-state",
+    "playlist-read-private",
   ].join(" ");
 
   const handleLogin = () => {
@@ -64,7 +65,7 @@ export default function Login({ authorizationURL, client_id, redirect_uri }) {
 
   return (
     <div>
-      <button onClick={handleLogin} className={`btn btn-sm btn-primary`}>
+      <button onClick={handleLogin} className={`btn btn-primary rounded-2xl`}>
         Login
       </button>
     </div>
