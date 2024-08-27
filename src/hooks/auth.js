@@ -22,12 +22,9 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
           if (error.response.status !== 409) throw error;
         }),
     {
+      revalidateIfStale: false,
       revalidateOnFocus: false,
-      revalidateOnMount: true,
       revalidateOnReconnect: false,
-      refreshWhenOffline: false,
-      refreshWhenHidden: false,
-      refreshInterval: 0,
     },
   );
 
