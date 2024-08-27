@@ -1,3 +1,4 @@
+import NewReleases from "@/components/Layout/NewReleases";
 import React from "react";
 
 export default function Home() {
@@ -9,9 +10,9 @@ export default function Home() {
 
       {/* Right Sidebar */}
       <div
-        className={`bg-base-200 p-4 lg:col-span-4 lg:col-start-9 xl:col-span-3 xl:col-start-10`}
+        className={`bg-base-100 p-4 lg:col-span-4 lg:col-start-9 xl:col-span-3 xl:col-start-10`}
       >
-        Right
+        <NewReleases />
       </div>
     </>
   );

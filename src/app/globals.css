@@ -4,7 +4,7 @@
 
 @layer components {
   * {
-    @apply scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neutral-400;
+    @apply scrollbar-thin scrollbar-track-transparent scrollbar-thumb-base-100;
   }
 
   img {
@@ -13,5 +13,17 @@
 
   .nav-link.active {
     @apply !text-primary before:absolute before:-left-4 before:top-0 before:h-full before:w-8 before:bg-gradient-to-r before:from-primary before:via-10% before:opacity-25 after:absolute after:-left-4 after:top-0 after:h-full after:w-0.5 after:bg-primary;
+  }
+
+  .section-title {
+    @apply text-xs font-medium uppercase tracking-wider opacity-50;
+  }
+
+  .before-content::before {
+    content: attr(data-before-content);
+  }
+
+  .after-content::after {
+    content: attr(data-after-content);
   }
 }

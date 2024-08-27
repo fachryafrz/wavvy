@@ -14,6 +14,12 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      gridTemplateRows: {
+        18: "repeat(18, minmax(0, 1fr))",
+      },
+      gridRow: {
+        "start-17": "grid-row-start: 17",
+      },
     },
   },
   daisyui: {
