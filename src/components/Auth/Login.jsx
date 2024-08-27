@@ -5,7 +5,7 @@ import { spotify_show_dialog } from "@/lib/constants";
 import { generateRandomString } from "@/lib/randomString";
 import axios from "axios";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Login({ authorizationURL, client_id, redirect_uri }) {
   const { login } = useAuth();
@@ -18,7 +18,7 @@ export default function Login({ authorizationURL, client_id, redirect_uri }) {
     [searchParams],
   );
 
-  const showDialog = localStorage.getItem(spotify_show_dialog);
+  const [showDialog, setShowDialog] = useState();
 
   const state = generateRandomString(16);
   const scope = [
@@ -43,10 +43,17 @@ export default function Login({ authorizationURL, client_id, redirect_uri }) {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem(spotify_show_dialog)) {
-      localStorage.setItem(spotify_show_dialog, "true");
-    }
+    if (localStorage.getItem(spotify_show_dialog)) {
+      const showDialog = localStorage.getItem(spotify_show_dialog);
 
+      setShowDialog(showDialog);
+    } else {
+      localStorage.setItem(spotify_show_dialog, true);
+      setShowDialog(true);
+    }
+  }, []);
+
+  useEffect(() => {
     if (current.has("code")) {
       const code = current.get("code");
 
