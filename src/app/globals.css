@@ -2,15 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-  @apply scrollbar-thin;
-}
-
-img {
-  @apply h-full w-full object-cover italic;
-}
-
 @layer components {
+  * {
+    @apply scrollbar-thin scrollbar-track-transparent scrollbar-thumb-neutral-400;
+  }
+
+  img {
+    @apply h-full w-full object-cover italic;
+  }
+
   .nav-link.active {
     @apply !text-primary before:absolute before:-left-4 before:top-0 before:h-full before:w-8 before:bg-gradient-to-r before:from-primary before:via-10% before:opacity-25 after:absolute after:-left-4 after:top-0 after:h-full after:w-0.5 after:bg-primary;
   }
