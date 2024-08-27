@@ -3,6 +3,7 @@
 import { useAuth } from "@/hooks/auth";
 import Login from "../Auth/Login";
 import Logout from "../Auth/Logout";
+import { Suspense } from "react";
 
 export default function Navbar({ authorizationURL, client_id, redirect_uri }) {
   const { user } = useAuth();
@@ -12,14 +13,20 @@ export default function Navbar({ authorizationURL, client_id, redirect_uri }) {
       <span>Navbar</span>
 
       {!user && (
-        <Login
-          authorizationURL={authorizationURL}
-          client_id={client_id}
-          redirect_uri={redirect_uri}
-        />
+        <Suspense>
+          <Login
+            authorizationURL={authorizationURL}
+            client_id={client_id}
+            redirect_uri={redirect_uri}
+          />
+        </Suspense>
       )}
 
-      {user && <Logout />}
+      {user && (
+        <Suspense>
+          <Logout />
+        </Suspense>
+      )}
     </div>
   );
 }
