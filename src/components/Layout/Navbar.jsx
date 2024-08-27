@@ -4,13 +4,14 @@ import { useAuth } from "@/hooks/auth";
 import Login from "../Auth/Login";
 import Logout from "../Auth/Logout";
 import { Suspense } from "react";
+import SearchBar from "./SearchBar";
 
 export default function Navbar({ authorizationURL, client_id, redirect_uri }) {
   const { user } = useAuth();
 
   return (
-    <div className={`flex items-center justify-between p-2`}>
-      <span>Navbar</span>
+    <header className={`flex items-center gap-4 justify-between p-4`}>
+      <SearchBar />
 
       {!user && (
         <Suspense>
@@ -22,9 +23,7 @@ export default function Navbar({ authorizationURL, client_id, redirect_uri }) {
         </Suspense>
       )}
 
-      {user && (
-          <Logout />
-      )}
-    </div>
+      {user && <Logout />}
+    </header>
   );
 }
