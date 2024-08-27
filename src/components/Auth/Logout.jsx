@@ -9,7 +9,7 @@ export default function Logout() {
   if (user) {
     return (
       <div>
-        <button onClick={logout} className={`btn btn-sm`}>
+        <button onClick={logout} className={`btn btn-primary btn-sm`}>
           {user.display_name}
         </button>
       </div>

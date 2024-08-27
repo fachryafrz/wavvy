@@ -64,7 +64,7 @@ export default function Login({ authorizationURL, client_id, redirect_uri }) {
 
   return (
     <div>
-      <button onClick={handleLogin} className={`btn btn-sm`}>
+      <button onClick={handleLogin} className={`btn btn-sm btn-primary`}>
         Login
       </button>
     </div>
