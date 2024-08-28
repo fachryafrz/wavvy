@@ -38,7 +38,10 @@ export default function Logout() {
             </Link>
           </li>
           <li>
-            <button onClick={logout} className={`font-medium text-error`}>
+            <button
+              onClick={logout}
+              className={`font-medium text-error active:!text-error hocus:!text-error`}
+            >
               <ExitOutline color={"#b91c1c"} height="24px" width="24px" />
 
               <span>Logout</span>

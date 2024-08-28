@@ -26,7 +26,7 @@ export default function Sidebar({
           </label>
 
           <div className={`flex h-full flex-col overflow-y-auto`}>
-            <header className={`sticky top-0 z-50 pl-16 lg:pl-0`}>
+            <header className={`sticky top-0 z-50 pl-16 lg:pl-0 bg-base-100 bg-opacity-90 backdrop-blur`}>
               <Navbar
                 authorizationURL={authorizationURL}
                 client_id={client_id}

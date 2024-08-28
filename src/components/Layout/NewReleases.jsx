@@ -9,7 +9,9 @@ import TrackCard from "../Track/Card";
 import { checkToken } from "@/helper/checkToken";
 
 export default function NewReleases() {
-  const [albums, setAlbums] = useState([]);
+  const showLimit = 2;
+
+  const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -17,7 +19,7 @@ export default function NewReleases() {
       const { data } = await axios.get(`/api/browse/new-releases`);
 
       setIsLoading(false);
-      setAlbums(data.albums.items.slice(0, 5));
+      setData(data.albums.items.slice(0, showLimit));
     };
 
     checkToken(fetchNewReleases);
@@ -36,22 +38,25 @@ export default function NewReleases() {
 
       {isLoading && (
         <div className={`flex flex-col`}>
-          {[...Array(5)].map((_, i) => (
+          {[...Array(showLimit)].map((_, i) => (
             <LoadingCard key={i} />
           ))}
         </div>
       )}
 
       {/* Cards */}
-      {!isLoading && albums.length > 0 && (
+      {!isLoading && data.length > 0 && (
         <ul className={`flex flex-col`}>
-          {albums.map((album, i) => {
+          {data.map((album, i) => {
             const releaseDate = moment(album.release_date).get("year");
             const albumImage = album.images.find((image) => image.width === 64);
 
             return (
               <li key={album.id}>
-                <Link href={`/albums/${album.id}`}>
+                <Link
+                  href={`/albums/${album.id}`}
+                  className={`block transition-all hocus:rounded-lg hocus:bg-neutral`}
+                >
                   <TrackCard
                     name={album.name}
                     image={albumImage.url}

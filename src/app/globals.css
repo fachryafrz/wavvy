@@ -26,4 +26,12 @@
   .after-content::after {
     content: attr(data-after-content);
   }
+
+  .outline-title {
+    color: transparent;
+    -webkit-text-stroke: 1px gray;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
 }

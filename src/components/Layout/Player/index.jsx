@@ -25,9 +25,9 @@ export default function Player() {
         setIsLoading(false);
 
         setTrack(data);
-        setArtists(data.item.artists.map((artist) => artist.name).join(", "));
+        setArtists(data.item?.artists.map((artist) => artist.name).join(", "));
         setTrackImage(
-          data.item.album.images.find((image) => image.width === 64),
+          data.item?.album.images.find((image) => image.width === 64),
         );
       };
 
@@ -50,7 +50,7 @@ export default function Player() {
 
         {!isLoading && (
           <TrackCard
-            name={track?.item.name ?? "Nothing playing"}
+            name={track?.item?.name ?? "Nothing playing"}
             image={trackImage?.url ?? "/maskable/maskable_icon_x192.png"}
             responsive={true}
             info={

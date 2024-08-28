@@ -1,6 +1,6 @@
 {
   "name": "rhythmic",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -16,6 +16,7 @@
     "moment": "^2.30.1",
     "next": "14.2.6",
     "next-client-cookies": "^1.1.1",
+    "numeral": "^2.0.6",
     "react": "^18",
     "react-dom": "^18",
     "react-ga4": "^2.1.0",

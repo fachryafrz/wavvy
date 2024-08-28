@@ -13,7 +13,7 @@ export default function PlaybackOptions({ track, isLoading }) {
         <div className={`h-1 w-24 rounded-full bg-neutral-600`}>
           <div
             className={`h-full w-1/4 rounded-full bg-primary`}
-            style={{ width: `${track?.device.volume_percent}%` }}
+            style={{ width: `${track?.device?.volume_percent}%` }}
           ></div>
         </div>
       </div>

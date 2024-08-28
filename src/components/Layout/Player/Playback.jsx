@@ -8,31 +8,23 @@ import {
 } from "react-ionicons";
 
 export default function Playback({ track, isLoading }) {
-  const [currentProgress, setCurrentProgress] = useState();
+  const [currentProgress, setCurrentProgress] = useState(track ? track.progress_ms : 0);
 
   useEffect(() => {
     let interval;
 
-    setCurrentProgress(track?.progress_ms || 0);
-
-    if (track?.is_playing) {
-      interval = setInterval(() => {
-        if (track?.progress_ms !== undefined) {
-          setCurrentProgress((prevProgress) => prevProgress + 1000);
-        }
-      }, 1000);
-    }
+    // if (track?.is_playing) {
+    //   interval = setInterval(() => {
+    //     if (track?.progress_ms !== undefined) {
+    //       setCurrentProgress((prevProgress) => prevProgress + 1000);
+    //     }
+    //   }, 1000);
+    // }
 
     return () => {
       clearInterval(interval);
     };
   }, [track?.is_playing, track?.progress_ms]);
-
-  // useEffect(() => {
-  //   if (currentProgress >= track?.item.duration_ms) {
-  //     setCurrentProgress(0);
-  //   }
-  // }, [currentProgress, track]);
 
   const convertProgress = (progress) => {
     const duration = moment.duration(progress);
@@ -78,14 +70,14 @@ export default function Playback({ track, isLoading }) {
           <div
             className={`h-full rounded-full bg-primary`}
             style={{
-              width: `${calculateProgressPercentage(currentProgress, track?.item.duration_ms || 1)}%`,
+              width: `${calculateProgressPercentage(currentProgress, track?.item?.duration_ms || 1)}%`,
             }}
           ></div>
         </div>
 
         {/* Minutes */}
         <span className={`text-xs font-medium text-neutral-500`}>
-          {`${convertProgress(currentProgress)}/${convertProgress(track?.item.duration_ms || 0)}`}
+          {`${convertProgress(currentProgress)}/${convertProgress(track?.item?.duration_ms || 0)}`}
         </span>
       </div>
     </div>
