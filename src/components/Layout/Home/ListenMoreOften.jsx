@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import LoadingCard from "../Loading/Card";
+import LoadingCard from "../../Loading/Card";
 import moment from "moment";
-import TrackCard from "../Track/Card";
+import TrackCard from "../../Track/Card";
 import { checkToken } from "@/helper/checkToken";
 import { EllipsisVertical, Heart } from "react-ionicons";
 import { useAuth } from "@/hooks/auth";
@@ -64,7 +64,7 @@ export default function ListenMoreOften() {
                 key={track.id}
                 className={`flex items-center justify-between`}
               >
-                <Link href={`/albums/${track.id}`}>
+                <Link href={`/track/${track.id}`} className={`w-full block`}>
                   <TrackCard
                     name={track.name}
                     image={albumImage.url}

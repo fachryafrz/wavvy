@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import LoadingCard from "../Loading/Card";
+import LoadingCard from "../../Loading/Card";
 import moment from "moment";
-import TrackCard from "../Track/Card";
+import TrackCard from "../../Track/Card";
 import { checkToken } from "@/helper/checkToken";
 
 export default function NewReleases() {
@@ -54,7 +54,7 @@ export default function NewReleases() {
             return (
               <li key={album.id}>
                 <Link
-                  href={`/albums/${album.id}`}
+                  href={`/album/${album.id}`}
                   className={`block transition-all hocus:rounded-lg hocus:bg-neutral`}
                 >
                   <TrackCard

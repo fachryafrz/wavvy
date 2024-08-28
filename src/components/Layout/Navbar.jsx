@@ -3,14 +3,14 @@
 import { useAuth } from "@/hooks/auth";
 import Login from "../Auth/Login";
 import Logout from "../Auth/Logout";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 
 export default function Navbar({ authorizationURL, client_id, redirect_uri }) {
   const { user } = useAuth();
 
   return (
-    <nav className={`flex items-center gap-4 justify-between p-4 sticky z-50`}>
+    <nav className={`sticky z-50 flex items-center justify-between gap-4 p-4`}>
       <SearchBar />
 
       {!user && (

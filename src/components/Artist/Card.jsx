@@ -24,7 +24,9 @@ export default function ArtistCard({ artist, index }) {
 
       <div>
         <div className={`flex w-full flex-col`}>
-          <h3 className={`line-clamp-1 text-sm font-medium`}>{artist.name}</h3>
+          <h3 className={`line-clamp-2 text-sm font-medium 2xl:text-base`}>
+            {artist.name}
+          </h3>
 
           <span
             data-before-content={`${followers} followers`}

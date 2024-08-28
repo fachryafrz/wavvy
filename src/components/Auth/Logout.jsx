@@ -34,7 +34,7 @@ export default function Logout() {
             <Link href={`/profile`} className={`font-medium`}>
               <PersonCircle color={"#ffffff"} height="24px" width="24px" />
 
-              <span>Profile</span>
+              <span className={`line-clamp-1`}>{user.display_name}</span>
             </Link>
           </li>
           <li>

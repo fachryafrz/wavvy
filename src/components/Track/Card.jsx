@@ -11,7 +11,7 @@ export default function TrackCard({ image, name, info, responsive = false }) {
       <div
         className={`w-full flex-col ${responsive ? `hidden sm:flex` : `flex`}`}
       >
-        <h3 className={`line-clamp-1 text-sm font-medium`}>{name}</h3>
+        <h3 className={`line-clamp-1 text-sm 2xl:text-base font-medium`}>{name}</h3>
 
         {info}
       </div>

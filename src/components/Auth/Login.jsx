@@ -6,6 +6,7 @@ import { generateRandomString } from "@/lib/randomString";
 import axios from "axios";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { PersonCircle } from "react-ionicons";
 
 export default function Login({ authorizationURL, client_id, redirect_uri }) {
   const { login } = useAuth();
@@ -55,18 +56,21 @@ export default function Login({ authorizationURL, client_id, redirect_uri }) {
   }, []);
 
   useEffect(() => {
-    if (current.has("code")) {
-      const code = current.get("code");
+    if (searchParams.has("code")) {
+      const code = searchParams.get("code");
 
-      login({ code });
+      login(code);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current, pathname]);
+  }, [searchParams]);
 
   return (
-    <div>
-      <button onClick={handleLogin} className={`btn btn-primary rounded-2xl`}>
-        Login
+    <div className={`aspect-square min-w-12`}>
+      <button
+        onClick={handleLogin}
+        className={`btn btn-ghost btn-sm flex h-full max-h-12 w-full rounded-full p-0`}
+      >
+        <PersonCircle color={"#808080"} height="40px" width="40px" />
       </button>
     </div>
   );

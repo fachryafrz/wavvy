@@ -60,7 +60,7 @@ export default function FavoriteArtists() {
             return (
               <li key={item.id}>
                 <Link
-                  href={`/artists/${item.id}`}
+                  href={`/artist/${item.id}`}
                   className={`flex items-center justify-between`}
                 >
                   <ArtistCard artist={item} index={i} />

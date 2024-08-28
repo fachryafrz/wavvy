@@ -28,7 +28,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     },
   );
 
-  const login = async ({ code }) => {
+  const login = async (code, setIsLoading) => {
     await Axios.post(`/api/access-token`, { code }).then(() => {
       localStorage.setItem(spotify_show_dialog, "false");
       mutate();
