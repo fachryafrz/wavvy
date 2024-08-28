@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import PlaylistCardSmall from "@/components/Playlist/CardSmall";
 import { useAuth } from "@/hooks/auth";
 import axios from "axios";
 import Link from "next/link";
@@ -67,37 +68,39 @@ export default function SidebarContent() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      const fetchCurrentUserPlaylists = async () => {
-        setIsLoading(true);
-
-        const { data } = await axios.get(`/api/me/playlists`);
-
-        setIsLoading(false);
-
-        const playlistsObject = {
-          section: "Your Playlists",
-          links: data.items.map((playlist) => ({
-            title: playlist.name,
-            href: `/playlist/${playlist.id}`,
-            image: playlist.images[0].url,
-          })),
-        };
-
-        setSidebar((sidebar) => [...sidebar, playlistsObject]);
-      };
-
-      const isAlreadyInSidebar = sidebar.some(
-        (section) => section.section === "Your Playlists",
-      );
-
-      if (!isAlreadyInSidebar) {
-        fetchCurrentUserPlaylists();
-      }
-    } else {
+    if (!user) {
       setSidebar((sidebar) =>
         sidebar.filter((section) => section.section !== "Your Playlists"),
       );
+
+      return;
+    }
+
+    const fetchCurrentUserPlaylists = async () => {
+      setIsLoading(true);
+
+      const { data } = await axios.get(`/api/me/playlists`);
+
+      setIsLoading(false);
+
+      const playlistsObject = {
+        section: "Your Playlists",
+        links: data.items.map((playlist) => ({
+          title: playlist.name,
+          href: `/playlist/${playlist.id}`,
+          image: playlist.images[0].url,
+        })),
+      };
+
+      setSidebar((sidebar) => [...sidebar, playlistsObject]);
+    };
+
+    const isAlreadyInSidebar = sidebar.some(
+      (section) => section.section === "Your Playlists",
+    );
+
+    if (!isAlreadyInSidebar) {
+      fetchCurrentUserPlaylists();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
@@ -161,36 +164,5 @@ export default function SidebarContent() {
         )}
       </div>
     </>
-  );
-}
-
-function PlaylistCardSmall({ link }) {
-  const pathname = usePathname();
-  const isActive = pathname === link.href;
-  const iconColor = isActive ? "#ff6337" : "#ffffff";
-
-  return (
-    <Link
-      href={link.href}
-      className={`nav-link relative !bg-transparent font-medium hocus:bg-transparent hocus:opacity-50 ${isActive ? "active" : ""}`}
-    >
-      {link.icon && React.cloneElement(link.icon, { color: iconColor })}
-
-      {link.image && (
-        <figure>
-          <img
-            src={link.image}
-            alt={link.title}
-            loading="lazy"
-            draggable="false"
-            className={`h-8 w-8 rounded-lg`}
-          />
-        </figure>
-      )}
-
-      <span title={link.title} className={`line-clamp-1 leading-tight`}>
-        {link.title}
-      </span>
-    </Link>
   );
 }

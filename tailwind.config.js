@@ -20,6 +20,9 @@ module.exports = {
       gridRow: {
         "start-17": "grid-row-start: 17",
       },
+      screens: {
+        xs: "375px",
+      },
     },
   },
   daisyui: {

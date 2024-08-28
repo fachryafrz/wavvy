@@ -31,7 +31,7 @@ export default function PlaybackOptions({ track, isLoading }) {
         className={`btn btn-square btn-ghost btn-sm relative !bg-transparent`}
       >
         <Repeat
-          color={track?.repeat_state !== "off" ? "#ff6337" : "#ffffff"}
+          color={track && track?.repeat_state !== "off" ? "#ff6337" : "#ffffff"}
           width={`20px`}
           height={`20px`}
         />

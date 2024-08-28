@@ -27,13 +27,13 @@ export default function PlaylistOfTheDay() {
 
   return (
     <div
-      className={`rounded-xl bg-opacity-20 bg-gradient-to-r from-[#3E2532] to-[#24202B] p-4`}
+      className={`w-full rounded-xl bg-opacity-20 bg-gradient-to-r from-[#3E2532] to-[#24202B] p-4`}
     >
       {/* Header */}
       <div className={`flex flex-col gap-2`}>
         {/* Small Info */}
         <div
-          className={`flex items-center gap-1 text-xs font-medium text-neutral-500`}
+          className={`flex flex-wrap items-center gap-1 text-xs font-medium text-neutral-500`}
         >
           <span>69 tracks</span>
           <span>{`\u2022`}</span>
@@ -41,11 +41,15 @@ export default function PlaylistOfTheDay() {
         </div>
 
         {/* Title */}
-        <h2 className={`text-2xl font-medium`}>Playlist of the day</h2>
+        <h2 className={`text-pretty text-lg font-medium @sm:text-2xl`}>
+          Playlist of the day
+        </h2>
       </div>
 
       {/* Image Cover */}
-      <div className={`flex justify-center p-6 px-8`}>
+      <div
+        className={`flex justify-start pt-4 @2xl:justify-center @2xl:p-6 @2xl:px-8`}
+      >
         {isLoading && (
           <span
             className={`aspect-square w-40 animate-pulse rounded-xl bg-neutral-400 bg-opacity-50`}
@@ -58,7 +62,7 @@ export default function PlaylistOfTheDay() {
             className={`flex transition-all duration-500 hocus:scale-105 hocus:shadow-2xl`}
           >
             <figure
-              className={`aspect-square min-w-40 max-w-40 overflow-hidden rounded-xl`}
+              className={`aspect-square max-w-40 overflow-hidden rounded-xl md:min-w-40`}
             >
               <img
                 src={image?.url}

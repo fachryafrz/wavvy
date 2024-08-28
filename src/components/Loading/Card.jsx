@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function LoadingCard({ responsive = false }) {
+export default function LoadingCard({ responsive = false, info = true }) {
   return (
     <div className={`flex items-center gap-2 p-1`}>
       <span
@@ -12,7 +12,7 @@ export default function LoadingCard({ responsive = false }) {
       >
         <span className={`h-4 w-12 sm:w-28`}></span>
 
-        <span className={`h-2 w-8 !rounded-sm sm:w-14`}></span>
+        {info && <span className={`h-2 w-8 !rounded-sm sm:w-14`}></span>}
       </div>
     </div>
   );

@@ -11,8 +11,12 @@
     @apply h-full w-full object-cover italic;
   }
 
-  .nav-link.active {
+  .nav-link.active-left {
     @apply !text-primary before:absolute before:-left-4 before:top-0 before:h-full before:w-8 before:bg-gradient-to-r before:from-primary before:via-10% before:opacity-25 after:absolute after:-left-4 after:top-0 after:h-full after:w-0.5 after:bg-primary;
+  }
+
+  .nav-link.active-top {
+    @apply !text-primary before:absolute before:-top-4 before:left-0 before:h-8 before:w-full before:bg-gradient-to-b before:from-primary before:via-10% before:opacity-25 after:absolute after:-top-4 after:left-0 after:h-0.5 after:w-full after:bg-primary;
   }
 
   .section-title {

@@ -1,33 +1,27 @@
 "use client";
 
+import { useAuth } from "@/hooks/auth";
 import PlaylistOfTheDay from "../PlaylistOfTheDay";
+import HomeTabs from "./Tabs";
 
 export default function LeftContent() {
+  const { user } = useAuth();
+
   return (
-    <div className={`flex flex-col gap-8`}>
+    <div className={`flex flex-col gap-8 @container`}>
       {/* Playlist of the Day & Video */}
-      <section className={`flex gap-4`}>
+      <section className={`flex flex-col gap-4 @2xl:flex-row`}>
         {/* Playlist of the Day */}
-        <PlaylistOfTheDay />
+        <div className={`flex justify-center md:justify-start`}>
+          <PlaylistOfTheDay />
+        </div>
 
         {/* Video */}
         <span>Video</span>
       </section>
 
       {/* Playlists, Artists, Albums, Streams */}
-      <section className={`flex gap-4`}>
-        {/* Playlists */}
-        <span>Playlist</span>
-
-        {/* Artists */}
-        <span>Artists</span>
-
-        {/* Albums */}
-        <span>Albums</span>
-
-        {/* Streams */}
-        <span>Streams</span>
-      </section>
+      <section>{user && <HomeTabs />}</section>
     </div>
   );
 }

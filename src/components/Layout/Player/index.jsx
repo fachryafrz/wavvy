@@ -16,28 +16,30 @@ export default function Player() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (user) {
-      const fetchCurrentUserPlaybackState = async () => {
-        setIsLoading(true);
-
-        const { data } = await axios.get(`/api/me/player`);
-
-        setIsLoading(false);
-
-        setTrack(data);
-        setArtists(data.item?.artists.map((artist) => artist.name).join(", "));
-        setTrackImage(
-          data.item?.album.images.find((image) => image.width === 64),
-        );
-      };
-
-      fetchCurrentUserPlaybackState();
-    } else {
+    if (!user) {
       setTrack(null);
       setArtists(null);
       setTrackImage(null);
       setIsLoading(false);
+
+      return;
     }
+
+    const fetchCurrentUserPlaybackState = async () => {
+      setIsLoading(true);
+
+      const { data } = await axios.get(`/api/me/player`);
+
+      setIsLoading(false);
+
+      setTrack(data);
+      setArtists(data.item?.artists.map((artist) => artist.name).join(", "));
+      setTrackImage(
+        data.item?.album.images.find((image) => image.width === 64),
+      );
+    };
+
+    fetchCurrentUserPlaybackState();
   }, [user]);
 
   return (
