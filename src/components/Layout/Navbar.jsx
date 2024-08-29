@@ -5,12 +5,20 @@ import Login from "../Auth/Login";
 import Logout from "../Auth/Logout";
 import { Suspense, useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
+import { Menu } from "react-ionicons";
 
 export default function Navbar({ authorizationURL, client_id, redirect_uri }) {
   const { user } = useAuth();
 
   return (
-    <nav className={`sticky z-50 flex items-center justify-between gap-4 p-4`}>
+    <nav className={`z-40 flex items-center justify-between gap-4 p-4`}>
+      <label
+        htmlFor="sidebar"
+        className="btn btn-square btn-primary drawer-button fixed left-4 top-4 rounded-2xl lg:hidden"
+      >
+        <Menu />
+      </label>
+
       <SearchBar />
 
       {!user && (
