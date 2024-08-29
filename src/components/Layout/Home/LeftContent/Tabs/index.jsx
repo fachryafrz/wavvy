@@ -1,12 +1,14 @@
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import TabPlaylists from "./Playlists";
 import TabArtists from "./Artists";
-import TabAlbums from "./Albums";
+import TabAlbums from "./Tracks";
 import TabStreams from "./Streams";
+import TabTracks from "./Tracks";
 
 export default function HomeTabs() {
+  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -21,14 +23,18 @@ export default function HomeTabs() {
       href: "/?tab=artists",
     },
     {
-      title: "Albums",
-      href: "/?tab=albums",
+      title: "Tracks",
+      href: "/?tab=tracks",
     },
     {
       title: "Streams",
       href: "/?tab=streams",
     },
   ];
+
+  const handleTabChange = (tab) => {
+    router.replace(tab.href, { scroll: false });
+  };
 
   return (
     <div className={`flex flex-col gap-2 sm:gap-4`}>
@@ -40,13 +46,13 @@ export default function HomeTabs() {
           const isActive = tab.href.includes(`tab=${tabParam}`);
 
           return (
-            <Link
+            <button
               key={tab.href}
-              href={tab.href}
+              onClick={() => handleTabChange(tab)}
               className={`nav-link relative !bg-transparent text-sm font-medium hocus:bg-transparent hocus:opacity-50 ${isActive ? "active-top" : ""}`}
             >
               <h2>{tab.title}</h2>
-            </Link>
+            </button>
           );
         })}
       </div>
@@ -57,7 +63,7 @@ export default function HomeTabs() {
 
         {tabParam === "artists" && <TabArtists />}
 
-        {tabParam === "albums" && <TabAlbums />}
+        {tabParam === "tracks" && <TabTracks />}
 
         {tabParam === "streams" && <TabStreams />}
       </div>

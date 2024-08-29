@@ -64,14 +64,14 @@ export default function ListenMoreOften() {
                 key={track.id}
                 className={`flex items-center justify-between`}
               >
-                <Link href={`/track/${track.id}`} className={`w-full block`}>
+                <Link href={`/track/${track.id}`} className={`block w-full`}>
                   <TrackCard
                     name={track.name}
                     image={albumImage.url}
                     info={
                       <span
                         data-before-content={track.artists[0].name}
-                        className={`before-content text-xs font-medium text-neutral-500`}
+                        className={`before-content`}
                       />
                     }
                   />

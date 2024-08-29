@@ -61,9 +61,7 @@ export default function NewReleases() {
                     name={album.name}
                     image={albumImage.url}
                     info={
-                      <div
-                        className={`flex items-center gap-1 text-xs font-medium capitalize text-neutral-500`}
-                      >
+                      <div className={`flex items-center gap-1 capitalize`}>
                         <span
                           data-before-content={album.album_type}
                           className={`before-content`}

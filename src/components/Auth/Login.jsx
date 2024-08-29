@@ -67,6 +67,7 @@ export default function Login({ authorizationURL, client_id, redirect_uri }) {
   return (
     <div className={`aspect-square min-w-12`}>
       <button
+        id="login"
         onClick={handleLogin}
         className={`btn btn-ghost btn-sm flex h-full max-h-12 w-full rounded-full p-0`}
       >

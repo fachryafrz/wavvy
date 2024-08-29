@@ -8,7 +8,9 @@ import {
 } from "react-ionicons";
 
 export default function Playback({ track, isLoading }) {
-  const [currentProgress, setCurrentProgress] = useState(track ? track.progress_ms : 0);
+  const [currentProgress, setCurrentProgress] = useState(
+    track ? track.progress_ms : 0,
+  );
 
   useEffect(() => {
     let interval;
@@ -27,9 +29,8 @@ export default function Playback({ track, isLoading }) {
   }, [track?.is_playing, track?.progress_ms]);
 
   const convertProgress = (progress) => {
-    const duration = moment.duration(progress);
-    const minutes = Math.floor(duration.asMinutes());
-    const seconds = duration.seconds().toString().padStart(2, "0");
+    const minutes = moment(progress).format("m");
+    const seconds = moment(progress).format("ss");
 
     return `${minutes}:${seconds}`;
   };
@@ -38,16 +39,26 @@ export default function Playback({ track, isLoading }) {
     return (progress / duration) * 100;
   };
 
+  const handleLoginAlert = () => {
+    document.getElementById("loginAlert").showModal();
+  };
+
   return (
     <div className={`flex flex-col items-center justify-center sm:flex-row`}>
       <div className={`flex items-center justify-center`}>
         {/* Previous */}
-        <button className={`btn btn-square btn-ghost btn-sm !bg-transparent`}>
+        <button
+          onClick={handleLoginAlert}
+          className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
+        >
           <PlaySkipBack color={"#ffffff"} width={`20px`} height={`20px`} />
         </button>
 
         {/* Play/Pause */}
-        <button className={`btn btn-square btn-ghost !bg-transparent`}>
+        <button
+          onClick={handleLoginAlert}
+          className={`btn btn-square btn-ghost !bg-transparent`}
+        >
           {track?.is_playing ? (
             <PauseCircle color={"#ffffff"} width={`40px`} height={`40px`} />
           ) : (
@@ -56,7 +67,10 @@ export default function Playback({ track, isLoading }) {
         </button>
 
         {/* Next */}
-        <button className={`btn btn-square btn-ghost btn-sm !bg-transparent`}>
+        <button
+          onClick={handleLoginAlert}
+          className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
+        >
           <PlaySkipForward color={"#ffffff"} width={`20px`} height={`20px`} />
         </button>
       </div>

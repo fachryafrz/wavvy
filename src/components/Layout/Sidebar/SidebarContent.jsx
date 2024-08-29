@@ -11,7 +11,7 @@ import {
   HeartOutline,
   MicOutline,
   MusicalNoteOutline,
-  StatsChartOutline,
+  StatsChart,
   TimeOutline,
 } from "react-ionicons";
 
@@ -35,7 +35,7 @@ export default function SidebarContent() {
         {
           title: "Statistics",
           href: "/statistics",
-          icon: <StatsChartOutline />,
+          icon: <StatsChart />,
         },
       ],
     },

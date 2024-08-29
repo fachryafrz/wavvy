@@ -55,13 +55,7 @@ export default function Player() {
             name={track?.item?.name ?? "Nothing playing"}
             image={trackImage?.url ?? "/maskable/maskable_icon_x192.png"}
             responsive={true}
-            info={
-              <span
-                className={`line-clamp-1 text-xs font-medium text-neutral-500`}
-              >
-                {artists}
-              </span>
-            }
+            info={artists}
           />
         )}
       </div>

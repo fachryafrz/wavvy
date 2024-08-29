@@ -2,11 +2,18 @@ import React from "react";
 import { Repeat, Shuffle, VolumeMedium } from "react-ionicons";
 
 export default function PlaybackOptions({ track, isLoading }) {
+  const handleLoginAlert = () => {
+    document.getElementById("loginAlert").showModal();
+  };
+
   return (
     <div className={`flex flex-wrap items-center justify-end lg:flex-nowrap`}>
       {/* Volume */}
       <div className={`mr-4 hidden items-center lg:flex`}>
-        <button className={`btn btn-square btn-ghost btn-sm !bg-transparent`}>
+        <button
+          onClick={handleLoginAlert}
+          className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
+        >
           <VolumeMedium color={"#ffffff"} width={`20px`} height={`20px`} />
         </button>
 
@@ -19,7 +26,10 @@ export default function PlaybackOptions({ track, isLoading }) {
       </div>
 
       {/* Shuffle, Repeat */}
-      <button className={`btn btn-square btn-ghost btn-sm !bg-transparent`}>
+      <button
+        onClick={handleLoginAlert}
+        className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
+      >
         <Shuffle
           color={track?.shuffle_state ? "#ff6337" : "#ffffff"}
           width={`20px`}
@@ -28,6 +38,7 @@ export default function PlaybackOptions({ track, isLoading }) {
       </button>
 
       <button
+        onClick={handleLoginAlert}
         className={`btn btn-square btn-ghost btn-sm relative !bg-transparent`}
       >
         <Repeat

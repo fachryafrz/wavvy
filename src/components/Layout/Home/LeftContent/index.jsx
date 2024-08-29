@@ -3,6 +3,7 @@
 import { useAuth } from "@/hooks/auth";
 import PlaylistOfTheDay from "../PlaylistOfTheDay";
 import HomeTabs from "./Tabs";
+import LoginBanner from "../../LoginBanner";
 
 export default function LeftContent() {
   const { user } = useAuth();
@@ -21,6 +22,7 @@ export default function LeftContent() {
       </section>
 
       {/* Playlists, Artists, Albums, Streams */}
+      <section>{!user && <LoginBanner />}</section>
       <section>{user && <HomeTabs />}</section>
     </div>
   );

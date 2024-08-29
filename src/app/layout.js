@@ -4,6 +4,7 @@ import GoogleAnalytics from "@/components/GoogleAnalytics";
 import AccessToken from "@/components/Auth/AccessToken";
 import Sidebar from "@/components/Layout/Sidebar";
 import { CookiesProvider } from "next-client-cookies/server";
+import LoginAlert from "@/components/Modals/LoginAlert";
 
 export const metadata = {
   title: process.env.NEXT_PUBLIC_APP_NAME,
@@ -34,6 +35,8 @@ export default function RootLayout({ children }) {
               {children}
             </main>
           </Sidebar>
+
+          <LoginAlert />
         </CookiesProvider>
       </body>
     </html>
