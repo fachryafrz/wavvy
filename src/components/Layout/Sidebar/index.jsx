@@ -49,9 +49,7 @@ export default function Sidebar({
       </div>
 
       {/* Player */}
-      <div
-        className={`col-span-full row-[17/19] flex items-center bg-neutral p-2 px-4`}
-      >
+      <div className={`flex items-center bg-neutral p-2 px-4`}>
         <Player />
       </div>
     </div>
