@@ -8,10 +8,10 @@ import numeral from "numeral";
 export default function CardLong({ item, link, image, secondInfo, thirdInfo, smallInfo }) {
   return (
     <div
-      className={`grid grid-cols-12 items-center gap-2 @container hocus:rounded-lg hocus:bg-neutral`}
+      className={`grid grid-cols-6 @lg:grid-cols-12 items-center gap-2 @container hocus:rounded-lg hocus:bg-neutral`}
     >
       {/* Image, Title */}
-      <div className={`col-span-4`}>
+      <div className={`col-span-4 @lg:col-span-4`}>
         <TrackCard
           name={
             <Link href={link} className={`hocus:underline`}>
@@ -35,7 +35,7 @@ export default function CardLong({ item, link, image, secondInfo, thirdInfo, sma
       {/* Genres */}
       {thirdInfo && (
         <div
-          className={`col-span-6 hidden justify-center @sm:flex @lg:col-span-3`}
+          className={`col-span-3 hidden justify-center @lg:flex @lg:col-span-3`}
         >
           <span className={`line-clamp-1 text-xs font-medium`}>
             {thirdInfo}
@@ -44,7 +44,7 @@ export default function CardLong({ item, link, image, secondInfo, thirdInfo, sma
       )}
 
       {/* Play, Options */}
-      <div className={`col-span-2 col-start-11 flex justify-end pr-1`}>
+      <div className={`col-span-2 col-start-5 @lg:col-start-11 flex justify-end pr-1`}>
         <button className={`btn btn-square btn-ghost btn-sm`}>
           <Play color={`#ffffff`} width={`20px`} height={`20px`} />
         </button>

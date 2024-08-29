@@ -1,10 +1,7 @@
-import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import TabPlaylists from "./Playlists";
 import TabArtists from "./Artists";
-import TabAlbums from "./Tracks";
-import TabStreams from "./Streams";
 import TabTracks from "./Tracks";
 
 export default function HomeTabs() {
@@ -12,23 +9,19 @@ export default function HomeTabs() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const tabParam = searchParams.get("tab") || "playlists";
+  const tabParam = searchParams.get("tab") || "tracks";
   const tabs = [
     {
-      title: "Playlists",
-      href: "/?tab=playlists",
+      title: "Tracks",
+      href: "/?tab=tracks",
     },
     {
       title: "Artists",
       href: "/?tab=artists",
     },
     {
-      title: "Tracks",
-      href: "/?tab=tracks",
-    },
-    {
-      title: "Streams",
-      href: "/?tab=streams",
+      title: "Playlists",
+      href: "/?tab=playlists",
     },
   ];
 
@@ -59,13 +52,11 @@ export default function HomeTabs() {
 
       {/* List */}
       <div>
-        {tabParam === "playlists" && <TabPlaylists />}
+        {tabParam === "tracks" && <TabTracks />}
 
         {tabParam === "artists" && <TabArtists />}
 
-        {tabParam === "tracks" && <TabTracks />}
-
-        {tabParam === "streams" && <TabStreams />}
+        {tabParam === "playlists" && <TabPlaylists />}
       </div>
     </div>
   );

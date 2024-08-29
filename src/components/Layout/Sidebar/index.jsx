@@ -3,8 +3,10 @@
 import Player from "../Player";
 import Navbar from "../Navbar";
 import { Menu } from "react-ionicons";
-import React from "react";
+import React, { useEffect } from "react";
 import SidebarContent from "./SidebarContent";
+import { userStore } from "@/zustand/user";
+import { useAuth } from "@/hooks/auth";
 
 export default function Sidebar({
   children,
@@ -12,6 +14,19 @@ export default function Sidebar({
   client_id,
   redirect_uri,
 }) {
+  const { user } = useAuth();
+  const { setUser } = userStore();
+
+  useEffect(() => {
+    if (user) {
+      setUser(user);
+      console.log(user)
+    } else {
+      setUser(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
   return (
     <div className={`flex h-screen flex-col`}>
       <div className="drawer lg:drawer-open">
@@ -42,7 +57,7 @@ export default function Sidebar({
           ></label>
 
           {/* Sidebar content here */}
-          <div className="menu max-h-full w-80 flex-nowrap overflow-y-auto bg-base-200 p-4 text-base-content lg:w-full lg:bg-base-100">
+          <div className="menu max-h-full w-60 flex-nowrap overflow-y-auto bg-base-200 p-4 text-base-content lg:w-full lg:bg-base-100">
             <SidebarContent />
           </div>
         </div>

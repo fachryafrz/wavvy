@@ -8,14 +8,14 @@ import moment from "moment";
 import TrackCard from "../Track/Card";
 import { checkToken } from "@/helper/checkToken";
 import { ChevronForward, EllipsisVertical, Heart } from "react-ionicons";
-import { useAuth } from "@/hooks/auth";
+import { userStore } from "@/zustand/user";
 import numeral from "numeral";
 import ArtistCard from "../Artist/Card";
 
 export default function FavoriteArtists() {
   const showLimit = 5;
 
-  const { user } = useAuth();
+  const { user } = userStore();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 

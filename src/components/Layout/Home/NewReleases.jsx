@@ -9,7 +9,7 @@ import TrackCard from "../../Track/Card";
 import { checkToken } from "@/helper/checkToken";
 
 export default function NewReleases() {
-  const showLimit = 2;
+  const showLimit = 5;
 
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);

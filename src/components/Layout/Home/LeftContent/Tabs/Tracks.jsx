@@ -1,7 +1,7 @@
 import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
 import { checkToken } from "@/helper/checkToken";
-import { useAuth } from "@/hooks/auth";
+import { userStore } from "@/zustand/user";
 import axios from "axios";
 import moment from "moment";
 import Link from "next/link";
@@ -10,7 +10,7 @@ import React, { useEffect, useState } from "react";
 import { ChevronDown } from "react-ionicons";
 
 export default function TabTracks() {
-  const { user } = useAuth();
+  const { user } = userStore();
 
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -41,7 +41,7 @@ export default function TabTracks() {
       {isLoading && (
         <div className={`flex flex-col`}>
           {[...Array(3)].map((_, i) => (
-            <LoadingCard key={i} responsive={true} info={false} />
+            <LoadingCard key={i} info={false} />
           ))}
         </div>
       )}

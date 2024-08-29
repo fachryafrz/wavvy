@@ -1,12 +1,12 @@
 import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
 import { checkToken } from "@/helper/checkToken";
-import { useAuth } from "@/hooks/auth";
+import { userStore } from "@/zustand/user";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 export default function TabPlaylists() {
-  const { user } = useAuth();
+  const { user } = userStore();
 
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);

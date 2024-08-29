@@ -2,12 +2,14 @@
 "use client";
 
 import { useAuth } from "@/hooks/auth";
+import { userStore } from "@/zustand/user";
 import axios from "axios";
 import Link from "next/link";
 import { ExitOutline, PersonCircle } from "react-ionicons";
 
 export default function Logout() {
-  const { user, logout } = useAuth();
+  const { user } = userStore();
+  const { logout } = useAuth();
 
   const profilePicture = user.images.find((image) => image.width === 300);
 

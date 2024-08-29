@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useAuth } from "@/hooks/auth";
+import { userStore } from "@/zustand/user";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import TrackCard from "../../Track/Card";
@@ -8,7 +8,7 @@ import LoadingCard from "@/components/Loading/Card";
 import PlaybackOptions from "./Options";
 
 export default function Player() {
-  const { user } = useAuth();
+  const { user } = userStore();
 
   const [track, setTrack] = useState();
   const [artists, setArtists] = useState();

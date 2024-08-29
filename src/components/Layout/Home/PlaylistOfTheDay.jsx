@@ -41,7 +41,7 @@ export default function PlaylistOfTheDay() {
         </div>
 
         {/* Title */}
-        <h2 className={`text-pretty text-lg font-medium @sm:text-2xl`}>
+        <h2 className={`text-pretty font-medium text-2xl`}>
           Playlist of the day
         </h2>
       </div>

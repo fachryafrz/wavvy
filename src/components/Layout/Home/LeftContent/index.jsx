@@ -1,12 +1,12 @@
 "use client";
 
-import { useAuth } from "@/hooks/auth";
+import { userStore } from "@/zustand/user";
 import PlaylistOfTheDay from "../PlaylistOfTheDay";
 import HomeTabs from "./Tabs";
 import LoginBanner from "../../LoginBanner";
 
 export default function LeftContent() {
-  const { user } = useAuth();
+  const { user } = userStore();
 
   return (
     <div className={`flex flex-col gap-8 @container`}>
@@ -22,8 +22,11 @@ export default function LeftContent() {
       </section>
 
       {/* Playlists, Artists, Albums, Streams */}
-      <section>{!user && <LoginBanner />}</section>
-      <section>{user && <HomeTabs />}</section>
+      <section>
+        {!user && <LoginBanner />}
+
+        {user && <HomeTabs />}
+      </section>
     </div>
   );
 }

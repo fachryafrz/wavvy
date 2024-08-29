@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import PlaylistCardSmall from "@/components/Playlist/CardSmall";
-import { useAuth } from "@/hooks/auth";
+import { userStore } from "@/zustand/user";
 import axios from "axios";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,7 +16,7 @@ import {
 } from "react-ionicons";
 
 export default function SidebarContent() {
-  const { user } = useAuth();
+  const { user } = userStore();
 
   const [sidebar, setSidebar] = useState([
     {

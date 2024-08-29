@@ -8,12 +8,12 @@ import moment from "moment";
 import TrackCard from "../../Track/Card";
 import { checkToken } from "@/helper/checkToken";
 import { EllipsisVertical, Heart } from "react-ionicons";
-import { useAuth } from "@/hooks/auth";
+import { userStore } from "@/zustand/user";
 
 export default function ListenMoreOften() {
-  const showLimit = 3;
+  const showLimit = 5;
 
-  const { user } = useAuth();
+  const { user } = userStore();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 

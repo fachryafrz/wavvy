@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/hooks/auth";
+import { userStore } from "@/zustand/user";
 import Login from "../Auth/Login";
 import Logout from "../Auth/Logout";
 import { Suspense, useEffect, useState } from "react";
@@ -8,7 +8,7 @@ import SearchBar from "./SearchBar";
 import { Menu } from "react-ionicons";
 
 export default function Navbar({ authorizationURL, client_id, redirect_uri }) {
-  const { user } = useAuth();
+  const { user } = userStore();
 
   return (
     <nav className={`z-40 flex items-center justify-between gap-4 p-4`}>
