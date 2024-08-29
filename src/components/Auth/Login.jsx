@@ -19,8 +19,6 @@ export default function Login({ authorizationURL, client_id, redirect_uri }) {
     [searchParams],
   );
 
-  const [showDialog, setShowDialog] = useState();
-
   const state = generateRandomString(16);
   const scope = [
     "user-read-email",
@@ -39,21 +37,10 @@ export default function Login({ authorizationURL, client_id, redirect_uri }) {
     current.set("redirect_uri", redirect_uri);
     current.set("scope", scope);
     current.set("state", state);
-    current.set("show_dialog", showDialog);
+    current.set("show_dialog", true);
 
     router.push(`${authorizationURL}?${current.toString()}`);
   };
-
-  useEffect(() => {
-    if (localStorage.getItem(spotify_show_dialog)) {
-      const showDialog = localStorage.getItem(spotify_show_dialog);
-
-      setShowDialog(showDialog);
-    } else {
-      localStorage.setItem(spotify_show_dialog, true);
-      setShowDialog(true);
-    }
-  }, []);
 
   useEffect(() => {
     if (searchParams.has("code")) {

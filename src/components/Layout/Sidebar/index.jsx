@@ -57,7 +57,7 @@ export default function Sidebar({
           ></label>
 
           {/* Sidebar content here */}
-          <div className="menu max-h-full w-60 flex-nowrap overflow-y-auto bg-base-200 p-4 text-base-content lg:w-full lg:bg-base-100">
+          <div className="menu max-h-full min-w-60 max-w-60 flex-nowrap overflow-y-auto bg-base-200 p-4 text-base-content lg:bg-base-100">
             <SidebarContent />
           </div>
         </div>

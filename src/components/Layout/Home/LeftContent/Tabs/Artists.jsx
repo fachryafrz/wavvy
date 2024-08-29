@@ -11,12 +11,12 @@ export default function TabArtists() {
 
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [showLimit, setShowLimit] = useState(5);
+  const [showLimit, setShowLimit] = useState(10);
   const [showMore, setShowMore] = useState(false);
 
   const handleShowMore = () => {
     setShowMore(!showMore);
-    setShowLimit(showMore ? 5 : data.items.length);
+    setShowLimit(showMore ? 10 : data.items.length);
   };
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function TabArtists() {
     <div>
       {isLoading && (
         <div className={`flex flex-col`}>
-          {[...Array(3)].map((_, i) => (
+          {[...Array(5)].map((_, i) => (
             <LoadingCard key={i} responsive={true} info={false} />
           ))}
         </div>

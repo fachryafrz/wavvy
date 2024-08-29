@@ -32,7 +32,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     await Axios.post(`/api/access-token`, { code }).then(() => {
       localStorage.setItem(spotify_show_dialog, "false");
       mutate();
-      router.push(pathname);
+      router.replace(pathname);
     });
   };
 
@@ -42,10 +42,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         mutate(null);
         Axios.post(`/api/access-token`, { code: "" });
       });
-    }
-
-    if (pathname === "/profile") {
-      router.replace("/login");
     }
   };
 
