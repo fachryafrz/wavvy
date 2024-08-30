@@ -14,7 +14,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   const authorizationURL = process.env.AUTHORIZATION_URL;
   const client_id = process.env.CLIENT_ID;
-  const redirect_uri = process.env.NEXT_PUBLIC_APP_URL;
 
   return (
     <html lang="en">
@@ -25,11 +24,7 @@ export default function RootLayout({ children }) {
 
       <body className={``}>
         <CookiesProvider>
-          <Sidebar
-            authorizationURL={authorizationURL}
-            client_id={client_id}
-            redirect_uri={redirect_uri}
-          >
+          <Sidebar authorizationURL={authorizationURL} client_id={client_id}>
             {children}
           </Sidebar>
 

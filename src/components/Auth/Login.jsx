@@ -8,7 +8,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { PersonCircle } from "react-ionicons";
 
-export default function Login({ authorizationURL, client_id, redirect_uri }) {
+export default function Login({ authorizationURL, client_id }) {
   const { login } = useAuth();
 
   const router = useRouter();
@@ -50,7 +50,7 @@ export default function Login({ authorizationURL, client_id, redirect_uri }) {
   const handleLogin = () => {
     current.set("client_id", client_id);
     current.set("response_type", "code");
-    current.set("redirect_uri", redirect_uri);
+    current.set("redirect_uri", window.location.origin);
     current.set("scope", scope);
     current.set("state", state);
     current.set("show_dialog", true);

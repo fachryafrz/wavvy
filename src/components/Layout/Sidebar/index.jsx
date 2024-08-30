@@ -12,7 +12,6 @@ export default function Sidebar({
   children,
   authorizationURL,
   client_id,
-  redirect_uri,
 }) {
   const { user } = useAuth();
   const { setUser } = userStore();
@@ -41,7 +40,6 @@ export default function Sidebar({
               <Navbar
                 authorizationURL={authorizationURL}
                 client_id={client_id}
-                redirect_uri={redirect_uri}
               />
             </header>
 

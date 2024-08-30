@@ -7,7 +7,7 @@ import { Suspense, useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import { Menu } from "react-ionicons";
 
-export default function Navbar({ authorizationURL, client_id, redirect_uri }) {
+export default function Navbar({ authorizationURL, client_id }) {
   const { user } = userStore();
 
   return (
@@ -26,7 +26,6 @@ export default function Navbar({ authorizationURL, client_id, redirect_uri }) {
           <Login
             authorizationURL={authorizationURL}
             client_id={client_id}
-            redirect_uri={redirect_uri}
           />
         </Suspense>
       )}
