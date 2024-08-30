@@ -38,7 +38,7 @@ export default function FavoriteArtists() {
     <div className={`flex flex-col gap-2`}>
       {/* Header */}
       <div className={`flex items-center justify-between`}>
-        <h2 className={`section-title ml-1`}>Favorite Artists</h2>
+        <h2 className={`section-title`}>Favorite Artists</h2>
 
         <Link href={`/`} className={`text-xs font-medium text-primary`}>
           See all
@@ -46,7 +46,7 @@ export default function FavoriteArtists() {
       </div>
 
       {isLoading && (
-        <div className={`flex flex-col`}>
+        <div className={`-mx-1 flex flex-col`}>
           {[...Array(showLimit)].map((_, i) => (
             <LoadingCard key={i} />
           ))}
@@ -55,7 +55,7 @@ export default function FavoriteArtists() {
 
       {/* Cards */}
       {!isLoading && data.length > 0 && (
-        <ul className={`flex flex-col`}>
+        <ul className={`-mx-1 flex flex-col`}>
           {data.map((item, i) => {
             return (
               <li key={item.id}>

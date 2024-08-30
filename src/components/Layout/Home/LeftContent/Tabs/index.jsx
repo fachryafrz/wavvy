@@ -51,7 +51,7 @@ export default function HomeTabs() {
       </div>
 
       {/* List */}
-      <div>
+      <div className={`-mx-1`}>
         {tabParam === "tracks" && <TabTracks />}
 
         {tabParam === "artists" && <TabArtists />}

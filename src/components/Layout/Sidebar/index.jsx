@@ -20,7 +20,6 @@ export default function Sidebar({
   useEffect(() => {
     if (user) {
       setUser(user);
-      console.log(user);
     } else {
       setUser(null);
     }

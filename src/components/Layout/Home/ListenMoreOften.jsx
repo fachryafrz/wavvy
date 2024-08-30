@@ -34,7 +34,7 @@ export default function ListenMoreOften() {
     <div className={`flex flex-col gap-2`}>
       {/* Header */}
       <div className={`flex items-center justify-between`}>
-        <h2 className={`section-title ml-1`}>Listen More Often</h2>
+        <h2 className={`section-title`}>Listen More Often</h2>
 
         <Link href={`/`} className={`text-xs font-medium text-primary`}>
           See all
@@ -42,7 +42,7 @@ export default function ListenMoreOften() {
       </div>
 
       {isLoading && (
-        <div className={`flex flex-col`}>
+        <div className={`-mx-1 flex flex-col`}>
           {[...Array(showLimit)].map((_, i) => (
             <LoadingCard key={i} />
           ))}
@@ -51,7 +51,7 @@ export default function ListenMoreOften() {
 
       {/* Cards */}
       {!isLoading && data.length > 0 && (
-        <ul className={`flex flex-col`}>
+        <ul className={`-mx-1 flex flex-col`}>
           {data.map((item, i) => {
             const track = item.track;
             const releaseDate = moment(track.album.release_date).get("year");

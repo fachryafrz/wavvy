@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.swiper-button-disabled {
+  @apply !opacity-10;
+}
+
 @layer components {
   * {
     @apply scrollbar-thin scrollbar-track-transparent scrollbar-thumb-base-100;
