@@ -8,11 +8,7 @@ import SidebarContent from "./Content";
 import { userStore } from "@/zustand/user";
 import { useAuth } from "@/hooks/auth";
 
-export default function Sidebar({
-  children,
-  authorizationURL,
-  client_id,
-}) {
+export default function Sidebar({ children, authorizationURL, client_id }) {
   const { user } = useAuth();
   const { setUser } = userStore();
 
@@ -44,11 +40,7 @@ export default function Sidebar({
             </header>
 
             {/* Center */}
-            <main
-              className={`flex flex-col gap-4 p-4 pt-2 lg:grid lg:grid-cols-12`}
-            >
-              {children}
-            </main>
+            <main className={`p-4 pt-2`}>{children}</main>
           </div>
         </div>
 
@@ -63,7 +55,7 @@ export default function Sidebar({
           ></label>
 
           {/* Sidebar content here */}
-          <div className="menu h-full min-w-64 max-w-64 flex-nowrap overflow-y-auto bg-base-200 pt-2 p-4 text-base-content lg:bg-base-100">
+          <div className="menu h-full min-w-64 max-w-64 flex-nowrap overflow-y-auto bg-base-200 p-4 pt-2 text-base-content lg:bg-base-100">
             <SidebarContent />
           </div>
         </div>
