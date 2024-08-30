@@ -11,7 +11,7 @@ export default function CardVertical({ track }) {
       </figure>
 
       <div className={`flex flex-col gap-1`}>
-        <h3 title={track.name} className={`line-clamp-1 hocus:underline`}>
+        <h3 title={track.name} className={`line-clamp-1 font-medium hocus:underline`}>
           {track.name}
         </h3>
 
