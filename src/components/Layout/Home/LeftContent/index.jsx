@@ -11,10 +11,27 @@ export default function LeftContent() {
 
   return (
     <div className={`flex flex-col gap-4 @container`}>
-      {!user && <LoginBanner />}
+      {!user && (
+        <section>
+          <LoginBanner />
+        </section>
+      )}
+
+      {user && (
+        <section>
+          <RecentlyPlayed />
+        </section>
+      )}
+
+      {/* Playlists, Artists, Albums, Streams */}
+      {user && (
+        <section>
+          <HomeTabs />
+        </section>
+      )}
 
       {/* Playlist of the Day & Video */}
-      <section className={`flex flex-col gap-4 @2xl:flex-row`}>
+      {/* <section className={`flex flex-col gap-4 @2xl:flex-row`}> */}
         {/* Playlist of the Day */}
         {/* <div className={`flex justify-center md:justify-start`}>
           <PlaylistOfTheDay />
@@ -22,12 +39,7 @@ export default function LeftContent() {
 
         {/* Video */}
         {/* <span>Video</span> */}
-
-        {user && <RecentlyPlayed />}
-      </section>
-
-      {/* Playlists, Artists, Albums, Streams */}
-      <section>{user && <HomeTabs />}</section>
+      {/* </section> */}
     </div>
   );
 }
