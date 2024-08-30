@@ -9,7 +9,7 @@ export default function LeftContent() {
   const { user } = userStore();
 
   return (
-    <div className={`flex flex-col gap-8 @container`}>
+    <div className={`flex flex-col gap-4 @container`}>
       {/* Playlist of the Day & Video */}
       <section className={`flex flex-col gap-4 @2xl:flex-row`}>
         {/* Playlist of the Day */}

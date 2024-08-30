@@ -134,7 +134,7 @@ export default function SidebarContent() {
         <h1 className={`sr-only`}>{process.env.NEXT_PUBLIC_APP_NAME}</h1>
       </Link>
 
-      <div className={`flex flex-col gap-8 py-4 pt-8`}>
+      <div className={`flex flex-col gap-8 py-4`}>
         {sidebar.map((sidebar, i) => {
           return (
             <div key={i} className={`flex flex-col gap-2`}>

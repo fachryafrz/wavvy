@@ -4,7 +4,7 @@ import Player from "../Player";
 import Navbar from "../Navbar";
 import { Menu } from "react-ionicons";
 import React, { useEffect } from "react";
-import SidebarContent from "./SidebarContent";
+import SidebarContent from "./Content";
 import { userStore } from "@/zustand/user";
 import { useAuth } from "@/hooks/auth";
 
@@ -20,7 +20,7 @@ export default function Sidebar({
   useEffect(() => {
     if (user) {
       setUser(user);
-      console.log(user)
+      console.log(user);
     } else {
       setUser(null);
     }
@@ -28,10 +28,12 @@ export default function Sidebar({
   }, [user]);
 
   return (
-    <div className={`flex h-screen flex-col`}>
+    <div className={`flex h-screen flex-col justify-between`}>
       <div className="drawer lg:drawer-open">
         <input id="sidebar" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content max-h-[calc(100dvh-80px)] overflow-y-auto sm:max-h-[calc(100dvh-72px)]">
+        <div
+          className={`drawer-content max-h-[calc(100dvh-80px)] overflow-y-auto sm:max-h-[calc(100dvh-72px)]`}
+        >
           {/* Page content here */}
           <div className={`flex flex-col`}>
             <header
@@ -44,12 +46,19 @@ export default function Sidebar({
               />
             </header>
 
-            {children}
+            {/* Center */}
+            <main
+              className={`flex flex-col gap-4 p-4 pt-2 lg:grid lg:grid-cols-12`}
+            >
+              {children}
+            </main>
           </div>
         </div>
 
         {/* Left Sidebar */}
-        <div className="drawer-side z-50 max-h-[calc(100dvh-80px)] sm:max-h-[calc(100dvh-72px)]">
+        <div
+          className={`drawer-side z-50 max-h-[calc(100dvh-80px)] sm:max-h-[calc(100dvh-72px)]`}
+        >
           <label
             htmlFor="sidebar"
             aria-label="close sidebar"
@@ -57,7 +66,7 @@ export default function Sidebar({
           ></label>
 
           {/* Sidebar content here */}
-          <div className="menu h-full min-w-60 max-w-60 flex-nowrap overflow-y-auto bg-base-200 p-4 text-base-content lg:bg-base-100">
+          <div className="menu h-full min-w-64 max-w-64 flex-nowrap overflow-y-auto bg-base-200 pt-2 p-4 text-base-content lg:bg-base-100">
             <SidebarContent />
           </div>
         </div>

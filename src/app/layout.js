@@ -30,10 +30,7 @@ export default function RootLayout({ children }) {
             client_id={client_id}
             redirect_uri={redirect_uri}
           >
-            {/* Center */}
-            <main className={`flex flex-col lg:grid lg:grid-cols-12`}>
-              {children}
-            </main>
+            {children}
           </Sidebar>
 
           <LoginAlert />

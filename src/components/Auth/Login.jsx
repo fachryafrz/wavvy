@@ -48,6 +48,10 @@ export default function Login({ authorizationURL, client_id, redirect_uri }) {
 
       login(code);
     }
+
+    if (searchParams.has("error")) {
+      router.replace(pathname);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 

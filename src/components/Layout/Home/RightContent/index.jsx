@@ -10,7 +10,7 @@ export default function RightContent() {
   const { user } = userStore();
 
   return (
-    <div className={`flex flex-col gap-8`}>
+    <div className={`flex flex-col gap-4`}>
       <NewReleases />
 
       {!user && <LoginBanner />}
