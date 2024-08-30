@@ -69,10 +69,6 @@ export default function RecentlyPlayed() {
               slidesPerView: 4,
               slidesPerGroup: 4,
             },
-            1024: {
-              slidesPerView: 5,
-              slidesPerGroup: 5,
-            },
           }}
           className={`!-ml-2`}
         >
