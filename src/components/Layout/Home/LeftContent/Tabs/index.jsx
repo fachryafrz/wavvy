@@ -33,7 +33,7 @@ export default function HomeTabs() {
     <div className={`flex flex-col gap-2 mt-4 sm:gap-4`}>
       {/* Tabs */}
       <div
-        className={`relative flex items-center gap-6 overflow-x-auto py-4 before:absolute before:-top-4 before:left-0 before:h-0.5 before:w-full before:bg-neutral sm:overflow-x-visible sm:py-0`}
+        className={`relative flex items-center gap-6 before:absolute before:-top-4 before:left-0 before:h-0.5 before:w-full before:bg-neutral`}
       >
         {tabs.map((tab, index) => {
           const isActive = tab.href.includes(`tab=${tabParam}`);
