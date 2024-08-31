@@ -25,7 +25,7 @@ export default async function page({ params }) {
       </header>
 
       <ul
-        className={`-mx-2 grid grid-cols-2 @xl:grid-cols-3 @3xl:grid-cols-4 @5xl:grid-cols-5`}
+        className={`-mx-2 grid grid-cols-2 @md:grid-cols-3 @2xl:grid-cols-4 @5xl:grid-cols-5`}
       >
         {data.playlists.items.map((item, i) => {
           const [image] = item.images;

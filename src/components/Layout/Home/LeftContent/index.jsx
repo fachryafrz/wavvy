@@ -4,6 +4,7 @@ import { userStore } from "@/zustand/user";
 import HomeTabs from "./Tabs";
 import RecentlyPlayed from "./RecentlyPlayed";
 import SliderPlaylist from "../../../Slider/Playlist";
+import Link from "next/link";
 
 export default function LeftContent({ categories, categoriesPlaylists }) {
   const { user } = userStore();
@@ -16,7 +17,14 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
           <section key={category.id}>
             <SliderPlaylist
               id={category.id}
-              title={category.name}
+              title={
+                <Link
+                  href={`/section/${category.id}`}
+                  className={`hocus:underline`}
+                >
+                  {category.name}
+                </Link>
+              }
               data={
                 categoriesPlaylists.find((cp) => cp.message === category.name)
                   .playlists
@@ -40,7 +48,14 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
           <section key={category.id}>
             <SliderPlaylist
               id={category.id}
-              title={category.name}
+              title={
+                <Link
+                  href={`/section/${category.id}`}
+                  className={`hocus:underline`}
+                >
+                  {category.name}
+                </Link>
+              }
               data={
                 categoriesPlaylists.find((cp) => cp.message === category.name)
                   .playlists

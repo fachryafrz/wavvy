@@ -9,11 +9,7 @@ export default function SliderPlaylist({ id, title, data }) {
   return (
     <Slider
       id={`slider-${id}`}
-      title={
-        <Link href={`/me/playlists`} className={`hocus:underline`}>
-          {title}
-        </Link>
-      }
+      title={title}
       breakpoints={{
         480: {
           slidesPerGroup: 3,
