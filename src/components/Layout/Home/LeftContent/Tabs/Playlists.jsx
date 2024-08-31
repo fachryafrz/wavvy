@@ -21,15 +21,15 @@ export default function TabPlaylists() {
   useEffect(() => {
     if (!user) return;
 
-    const fetchCurrentUserPlaylists = async () => {
+    const fetch = async () => {
       setIsLoading(true);
-      const { data } = await axios.get(`/api/me/playlists`);
+      const { data } = await axios.get(`/api/browse/featured-playlists`);
       setIsLoading(false);
 
-      setData(data);
+      setData(data.playlists);
     };
 
-    checkToken(fetchCurrentUserPlaylists);
+    checkToken(fetch);
   }, [user]);
 
   return (

@@ -8,46 +8,46 @@ import moment from "moment";
 import TrackCard from "../../Track/Card";
 import { checkToken } from "@/helper/checkToken";
 
-export default function NewReleases() {
+export default function NewReleases({ data }) {
   const showLimit = 5;
 
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [data, setData] = useState([]);
+  // const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchNewReleases = async () => {
-      const { data } = await axios.get(`/api/browse/new-releases`);
+  // useEffect(() => {
+  //   const fetchNewReleases = async () => {
+  //     const { data } = await axios.get(`/api/browse/new-releases`);
 
-      setIsLoading(false);
-      setData(data.albums.items.slice(0, showLimit));
-    };
+  //     setIsLoading(false);
+  //     setData(data.albums.items.slice(0, showLimit));
+  //   };
 
-    checkToken(fetchNewReleases);
-  }, []);
+  //   checkToken(fetchNewReleases);
+  // }, []);
 
   return (
     <div className={`flex flex-col gap-2`}>
       {/* Header */}
       <div className={`flex items-center justify-between`}>
-        <h2 className={`section-title`}>New Releases</h2>
+        <h2 className={`section-title`}>You Might Like</h2>
 
         <Link href={`/`} className={`text-xs font-medium text-primary`}>
           See all
         </Link>
       </div>
 
-      {isLoading && (
+      {/* {isLoading && (
         <div className={`-mx-1 flex flex-col`}>
           {[...Array(showLimit)].map((_, i) => (
             <LoadingCard key={i} />
           ))}
         </div>
-      )}
+      )} */}
 
       {/* Cards */}
-      {!isLoading && data.length > 0 && (
+      {data.albums.items.length > 0 && (
         <ul className={`-mx-1 flex flex-col`}>
-          {data.map((album, i) => {
+          {data.albums.items.slice(0, showLimit).map((album, i) => {
             const releaseDate = moment(album.release_date).get("year");
             const albumImage = album.images.find((image) => image.width === 64);
 

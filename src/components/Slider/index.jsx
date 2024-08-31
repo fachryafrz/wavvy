@@ -13,7 +13,7 @@ import Link from "next/link";
 import CardVertical from "@/components/Card/CardVertical";
 import { ChevronBack, ChevronForward } from "react-ionicons";
 
-export default function Slider({ id, title, isLoading, children }) {
+export default function Slider({ id, title, isLoading = false, children }) {
   return (
     <div className={`flex w-full max-w-full flex-col`}>
       <header className={`flex items-center justify-between`}>
@@ -38,14 +38,18 @@ export default function Slider({ id, title, isLoading, children }) {
       <div>
         <Swiper
           modules={[Navigation]}
-          slidesPerView={3}
-          slidesPerGroup={3}
+          slidesPerView={2}
+          slidesPerGroup={2}
           spaceBetween={0}
           navigation={{
             nextEl: `#${id}_next`,
             prevEl: `#${id}_prev`,
           }}
           breakpoints={{
+            640: {
+              slidesPerView: 3,
+              slidesPerGroup: 3,
+            },
             768: {
               slidesPerView: 4,
               slidesPerGroup: 4,

@@ -12,15 +12,15 @@ export default function HomeTabs() {
   const tabParam = searchParams.get("tab") || "tracks";
   const tabs = [
     {
-      title: "Tracks",
+      title: "Your Top Tracks",
       href: "/?tab=tracks",
     },
     {
-      title: "Artists",
+      title: "Your Top Artists",
       href: "/?tab=artists",
     },
     {
-      title: "Playlists",
+      title: "Popular Playlists",
       href: "/?tab=playlists",
     },
   ];

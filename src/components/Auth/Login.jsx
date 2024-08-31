@@ -58,28 +58,13 @@ export default function Login({ authorizationURL, client_id }) {
     router.push(`${authorizationURL}?${current.toString()}`);
   };
 
-  useEffect(() => {
-    if (searchParams.has("code")) {
-      const code = searchParams.get("code");
-
-      login(code);
-    }
-
-    if (searchParams.has("error")) {
-      router.replace(pathname);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
-
   return (
-    <div className={`aspect-square min-w-12`}>
-      <button
-        id="login"
-        onClick={handleLogin}
-        className={`btn btn-ghost btn-sm flex h-full max-h-12 w-full rounded-full p-0`}
-      >
-        <PersonCircle color={"#808080"} height="40px" width="40px" />
-      </button>
-    </div>
+    <button
+      id="login"
+      onClick={handleLogin}
+      className={`btn btn-primary max-w-fit rounded-full`}
+    >
+      Start Listening
+    </button>
   );
 }

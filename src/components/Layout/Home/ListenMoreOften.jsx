@@ -10,25 +10,25 @@ import { checkToken } from "@/helper/checkToken";
 import { EllipsisVertical, Heart } from "react-ionicons";
 import { userStore } from "@/zustand/user";
 
-export default function ListenMoreOften() {
+export default function ListenMoreOften({ data }) {
   const showLimit = 5;
 
-  const { user } = userStore();
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // const { user } = userStore();
+  // const [data, setData] = useState([]);
+  // const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    if (!user) return;
+  // useEffect(() => {
+  //   if (!user) return;
 
-    const fetchSavedTracks = async () => {
-      const { data } = await axios.get(`/api/me/tracks`);
+  //   const fetchSavedTracks = async () => {
+  //     const { data } = await axios.get(`/api/me/tracks`);
 
-      setIsLoading(false);
-      setData(data.items.slice(0, showLimit));
-    };
+  //     setIsLoading(false);
+  //     setData(data.items.slice(0, showLimit));
+  //   };
 
-    checkToken(fetchSavedTracks);
-  }, [user]);
+  //   checkToken(fetchSavedTracks);
+  // }, [user]);
 
   return (
     <div className={`flex flex-col gap-2`}>
@@ -41,18 +41,18 @@ export default function ListenMoreOften() {
         </Link>
       </div>
 
-      {isLoading && (
+      {/* {isLoading && (
         <div className={`-mx-1 flex flex-col`}>
           {[...Array(showLimit)].map((_, i) => (
             <LoadingCard key={i} />
           ))}
         </div>
-      )}
+      )} */}
 
       {/* Cards */}
-      {!isLoading && data.length > 0 && (
+      {data.items.length > 0 && (
         <ul className={`-mx-1 flex flex-col`}>
-          {data.map((item, i) => {
+          {data.items.slice(0, showLimit).map((item, i) => {
             const track = item.track;
             const releaseDate = moment(track.album.release_date).get("year");
             const albumImage = track.album.images.find(

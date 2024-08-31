@@ -43,6 +43,8 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         Axios.post(`/api/access-token`, { code: "" });
       });
     }
+
+    router.push("/login");
   };
 
   useEffect(() => {

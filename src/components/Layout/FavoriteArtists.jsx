@@ -12,27 +12,27 @@ import { userStore } from "@/zustand/user";
 import numeral from "numeral";
 import ArtistCard from "../Artist/Card";
 
-export default function FavoriteArtists() {
+export default function FavoriteArtists({data}) {
   const showLimit = 5;
 
-  const { user } = userStore();
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // const { user } = userStore();
+  // const [data, setData] = useState([]);
+  // const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    if (!user) return;
+  // useEffect(() => {
+  //   if (!user) return;
 
-    const fetchSavedTracks = async () => {
-      const { data } = await axios.get(`/api/me/following`, {
-        params: { type: "artist" },
-      });
+  //   const fetchSavedTracks = async () => {
+  //     const { data } = await axios.get(`/api/me/following`, {
+  //       params: { type: "artist" },
+  //     });
 
-      setIsLoading(false);
-      setData(data.artists.items.slice(0, showLimit));
-    };
+  //     setIsLoading(false);
+  //     setData(data.artists.items.slice(0, showLimit));
+  //   };
 
-    checkToken(fetchSavedTracks);
-  }, [user]);
+  //   checkToken(fetchSavedTracks);
+  // }, [user]);
 
   return (
     <div className={`flex flex-col gap-2`}>
@@ -45,18 +45,18 @@ export default function FavoriteArtists() {
         </Link>
       </div>
 
-      {isLoading && (
+      {/* {isLoading && (
         <div className={`-mx-1 flex flex-col`}>
           {[...Array(showLimit)].map((_, i) => (
             <LoadingCard key={i} />
           ))}
         </div>
-      )}
+      )} */}
 
       {/* Cards */}
-      {!isLoading && data.length > 0 && (
+      {data.artists.items.length > 0 && (
         <ul className={`-mx-1 flex flex-col`}>
-          {data.map((item, i) => {
+          {data.artists.items.slice(0, showLimit).map((item, i) => {
             return (
               <li key={item.id}>
                 <Link

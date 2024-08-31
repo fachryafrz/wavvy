@@ -1,11 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
 
 export default function CardVertical({ name, image, info }) {
   return (
     <article className={`flex flex-col gap-2`}>
       <figure className={`overflow-hidden rounded-lg`}>
-        <img src={image} alt={name} />
+        <img src={image} alt={name} loading="lazy" draggable="false" />
       </figure>
 
       <div className={`flex flex-col gap-1`}>
