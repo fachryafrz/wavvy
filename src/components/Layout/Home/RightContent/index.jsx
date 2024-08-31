@@ -9,15 +9,15 @@ import LoginBanner from "../../LoginBanner";
 export default function RightContent() {
   const { user } = userStore();
 
-  return (
-    <div className={`flex flex-col gap-4`}>
-      <NewReleases />
+  if (user) {
+    return (
+      <div className={`flex flex-col gap-4`}>
+        <NewReleases />
 
-      {!user && <LoginBanner />}
+        <ListenMoreOften />
 
-      {user && <ListenMoreOften />}
-
-      {user && <FavoriteArtists />}
-    </div>
-  );
+        <FavoriteArtists />
+      </div>
+    );
+  }
 }
