@@ -6,8 +6,6 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";
 
-export const revalidate = 3600;
-
 export default async function Home() {
   const cookiesStore = cookies();
 

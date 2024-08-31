@@ -60,7 +60,7 @@ export async function POST(request) {
         process.env.ACCESS_TOKEN_URL,
         {
           code: code,
-          redirect_uri: process.env.NEXT_PUBLIC_APP_URL,
+          redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}/login`,
           grant_type: "authorization_code",
         },
         { headers: headers },

@@ -1,9 +1,7 @@
 import useSWR from "swr";
-import { useEffect, useMemo } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import Axios from "axios";
-import { spotify_show_dialog } from "@/lib/constants";
-import { generateRandomString } from "@/lib/randomString";
+import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import axios from "axios";
 
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   const router = useRouter();
@@ -16,7 +14,8 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   } = useSWR(
     "/api/me",
     () =>
-      Axios.get(`/api/me`)
+      axios
+        .get(`/api/me`)
         .then(({ data }) => data)
         .catch((error) => {
           if (error.response.status !== 409) throw error;
@@ -28,19 +27,17 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     },
   );
 
-  const login = async (code, setIsLoading) => {
-    await Axios.post(`/api/access-token`, { code }).then(() => {
-      localStorage.setItem(spotify_show_dialog, "false");
+  const login = async (code) => {
+    await axios.post(`/api/access-token`, { code }).then(() => {
       mutate();
-      router.replace(pathname);
     });
   };
 
   const logout = async () => {
     if (!error) {
-      await Axios.delete(`/api/auth/logout`).then(() => {
+      await axios.delete(`/api/auth/logout`).then(() => {
         mutate(null);
-        Axios.post(`/api/access-token`, { code: "" });
+        axios.post(`/api/access-token`, { code: "" });
       });
     }
 
