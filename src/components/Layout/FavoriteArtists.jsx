@@ -1,18 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import LoadingCard from "../Loading/Card";
-import moment from "moment";
-import TrackCard from "../Track/Card";
-import { checkToken } from "@/helper/checkToken";
-import { ChevronForward, EllipsisVertical, Heart } from "react-ionicons";
-import { userStore } from "@/zustand/user";
-import numeral from "numeral";
+import { ChevronForward } from "react-ionicons";
 import ArtistCard from "../Artist/Card";
 
-export default function FavoriteArtists({data}) {
+export default function FavoriteArtists({ data }) {
   const showLimit = 5;
 
   // const { user } = userStore();

@@ -10,7 +10,7 @@ import { checkToken } from "@/helper/checkToken";
 import { EllipsisVertical, Heart } from "react-ionicons";
 import { userStore } from "@/zustand/user";
 
-export default function ListenMoreOften({ data }) {
+export default function SavedTracks({ data }) {
   const showLimit = 5;
 
   // const { user } = userStore();
@@ -34,7 +34,7 @@ export default function ListenMoreOften({ data }) {
     <div className={`flex flex-col gap-2`}>
       {/* Header */}
       <div className={`flex items-center justify-between`}>
-        <h2 className={`section-title`}>Listen More Often</h2>
+        <h2 className={`section-title`}>Saved Tracks</h2>
 
         <Link href={`/`} className={`text-xs font-medium text-primary`}>
           See all

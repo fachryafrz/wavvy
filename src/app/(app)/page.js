@@ -44,7 +44,7 @@ export default async function Home() {
     `${process.env.API_URL}/browse/new-releases`,
     { headers: headers },
   );
-  const { data: listenMoreOften } = await axios.get(
+  const { data: savedTracks } = await axios.get(
     `${process.env.API_URL}/me/tracks`,
     { headers: headers },
   );
@@ -72,7 +72,7 @@ export default async function Home() {
       >
         <RightContent
           newReleases={newReleases}
-          listenMoreOften={listenMoreOften}
+          savedTracks={savedTracks}
           favoriteArtists={favoriteArtists}
         />
       </div>

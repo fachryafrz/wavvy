@@ -2,7 +2,7 @@
 import numeral from "numeral";
 
 export default function ArtistCard({ artist, index }) {
-  const image = artist.images.find((image) => image.width === 160);
+  const [image] = artist.images;
   const followers = numeral(artist.followers.total).format(`0a`);
 
   return (
