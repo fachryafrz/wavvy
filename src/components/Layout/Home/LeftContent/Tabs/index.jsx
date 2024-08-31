@@ -1,5 +1,5 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import TabPlaylists from "./Playlists";
 import TabArtists from "./Artists";
 import TabTracks from "./Tracks";
@@ -8,35 +8,36 @@ export default function HomeTabs() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [tabParam, setTabParam] = useState("tracks");
 
-  const tabParam = searchParams.get("tab") || "tracks";
+  // const tabParam = searchParams.get("tab") || "tracks";
   const tabs = [
     {
       title: "Your Top Tracks",
-      href: "/?tab=tracks",
+      tab: "tracks",
     },
     {
       title: "Your Top Artists",
-      href: "/?tab=artists",
+      tab: "artists",
     },
     {
       title: "Popular Playlists",
-      href: "/?tab=playlists",
+      tab: "playlists",
     },
   ];
 
   const handleTabChange = (tab) => {
-    router.replace(tab.href, { scroll: false });
+    setTabParam(tab.tab);
   };
 
   return (
-    <div className={`flex flex-col gap-2 mt-4 sm:gap-4`}>
+    <div className={`mt-4 flex flex-col gap-2 sm:gap-4`}>
       {/* Tabs */}
       <div
         className={`relative flex items-center gap-6 before:absolute before:-top-4 before:left-0 before:h-0.5 before:w-full before:bg-neutral`}
       >
         {tabs.map((tab, index) => {
-          const isActive = tab.href.includes(`tab=${tabParam}`);
+          const isActive = tab.tab.includes(tabParam);
 
           return (
             <button
