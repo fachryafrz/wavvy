@@ -27,7 +27,7 @@ export default function LoginBanner({ authorizationURL, client_id }) {
         </Suspense>
       </div>
 
-      {/* Image of Rhythmic when Logged In (Coming Soon) */}
+      {/* Image of Ryth when Logged In (Coming Soon) */}
       {/* <figure></figure> */}
     </div>
   );
