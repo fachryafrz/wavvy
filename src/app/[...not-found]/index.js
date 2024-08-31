@@ -1,3 +1,3 @@
 export default function page() {
-  return <div>Playlists</div>;
+  return <div>Not Found</div>;
 }
