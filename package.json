@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.8",
-    "@smakss/react-scroll-direction": "^4.2.0",
     "@tailwindcss/container-queries": "^0.1.1",
     "axios": "^1.7.5",
     "dayjs": "^1.11.13",
