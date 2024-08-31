@@ -18,7 +18,7 @@ export default function LoginBanner({ authorizationURL, client_id }) {
 
           <p className={`max-w-[270px] text-sm font-medium text-neutral-500`}>
             Enjoy any music by login to {process.env.NEXT_PUBLIC_APP_NAME}. Find
-            your rhythm. Enjoy unlimited music.
+            your rythm. Enjoy unlimited music.
           </p>
         </div>
 

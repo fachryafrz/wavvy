@@ -33,9 +33,9 @@ export default function SidebarContent() {
           icon: <MusicalNoteOutline />,
         },
         {
-          title: "Statistics",
-          href: "/statistics",
-          icon: <StatsChart />,
+          title: "Podcasts",
+          href: "/podcasts",
+          icon: <MicOutline />,
         },
       ],
     },
@@ -56,11 +56,6 @@ export default function SidebarContent() {
           title: "History",
           href: "/history",
           icon: <CalendarOutline />,
-        },
-        {
-          title: "Podcasts",
-          href: "/podcasts",
-          icon: <MicOutline />,
         },
       ],
     },
@@ -85,7 +80,7 @@ export default function SidebarContent() {
 
       const playlistsObject = {
         section: "Your Playlists",
-        links: data.items.map((playlist) => ({
+        links: data.items.slice(0, 5).map((playlist) => ({
           title: playlist.name,
           href: `/playlist/${playlist.id}`,
           image: playlist.images[0].url,

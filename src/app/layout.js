@@ -4,6 +4,7 @@ import GoogleAnalytics from "@/components/GoogleAnalytics";
 import AccessToken from "@/components/Auth/AccessToken";
 import { CookiesProvider } from "next-client-cookies/server";
 import LoginAlert from "@/components/Modals/LoginAlert";
+import PremiumAlert from "@/components/Modals/PremiumAlert";
 
 export const revalidate = 3600;
 
@@ -23,6 +24,9 @@ export default function RootLayout({ children }) {
       <body className={``}>
         <CookiesProvider>
           {children}
+
+          {/* Modals */}
+          <PremiumAlert />
           <LoginAlert />
         </CookiesProvider>
       </body>

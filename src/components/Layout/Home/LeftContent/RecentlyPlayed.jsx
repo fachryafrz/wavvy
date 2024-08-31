@@ -39,13 +39,17 @@ export default function RecentlyPlayed() {
       id={`recentlyPlayed`}
       title={`Recently Played`}
       isLoading={isLoading}
+      isLoadingClassName={`!max-w-[calc(100%/2)] @md:!max-w-[calc(100%/3)] @2xl:!max-w-[calc(100%/4)]`}
     >
       {!isLoading &&
         data?.items.map((item, i) => {
           const [image] = item.track.album.images;
 
           return (
-            <SwiperSlide key={i}>
+            <SwiperSlide
+              key={i}
+              className={`!max-w-[calc(100%/2)] @md:!max-w-[calc(100%/3)] @2xl:!max-w-[calc(100%/4)]`}
+            >
               <Link
                 href={`/track/${item.track.id}`}
                 className={`block rounded-xl p-2 hocus:bg-neutral`}
@@ -53,7 +57,9 @@ export default function RecentlyPlayed() {
                 <CardVertical
                   name={item.track.name}
                   image={image.url}
-                  info={item.track.artists.map((artist) => artist.name).join(", ")}
+                  info={item.track.artists
+                    .map((artist) => artist.name)
+                    .join(", ")}
                 />
               </Link>
             </SwiperSlide>

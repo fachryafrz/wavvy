@@ -8,5 +8,5 @@ export const checkToken = async (fetch) => {
       clearInterval(interval);
       fetch();
     }
-  }, 500);
+  }, 1000);
 };

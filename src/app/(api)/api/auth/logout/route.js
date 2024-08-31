@@ -18,6 +18,6 @@ export async function DELETE(request) {
       );
     }
   } catch (error) {
-    return NextResponse.error(error);
+    return NextResponse.json(error, { status: error.status });
   }
 }

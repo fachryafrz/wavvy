@@ -8,17 +8,22 @@ import axios from "axios";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-export async function GET(request) {
+export async function PUT(request) {
+  const url = new URL(request.url);
+  const { state, device_id } = Object.fromEntries(url.searchParams);
+
   const cookiesStore = cookies();
 
   try {
     if (cookiesStore.has(spotify_access_token)) {
-      const { data } = await axios.get(
-        `${process.env.API_URL}/browse/featured-playlists`,
+      const { data } = await axios.put(
+        `${process.env.API_URL}/me/player/repeat`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
           },
+          params: { state, device_id },
         },
       );
 

@@ -13,7 +13,22 @@ import Link from "next/link";
 import CardVertical from "@/components/Card/CardVertical";
 import { ChevronBack, ChevronForward } from "react-ionicons";
 
-export default function Slider({ id, title, isLoading = false, children }) {
+export default function Slider({
+  id,
+  title,
+  isLoading = false,
+  children,
+  ...props
+}) {
+  const breakpoints = {
+    640: {
+      slidesPerGroup: 3,
+    },
+    768: {
+      slidesPerGroup: 4,
+    },
+  };
+
   return (
     <div className={`flex w-full max-w-full flex-col`}>
       <header className={`flex items-center justify-between`}>
@@ -35,32 +50,23 @@ export default function Slider({ id, title, isLoading = false, children }) {
         </div>
       </header>
 
-      <div>
+      <div className={`@container`}>
         <Swiper
           modules={[Navigation]}
-          slidesPerView={2}
+          slidesPerView={`auto`}
           slidesPerGroup={2}
           spaceBetween={0}
           navigation={{
             nextEl: `#${id}_next`,
             prevEl: `#${id}_prev`,
           }}
-          breakpoints={{
-            640: {
-              slidesPerView: 3,
-              slidesPerGroup: 3,
-            },
-            768: {
-              slidesPerView: 4,
-              slidesPerGroup: 4,
-            },
-          }}
+          breakpoints={props.breakpoints ? props.breakpoints : breakpoints}
           className={`!-ml-2`}
         >
           {isLoading && (
             <div>
               {[...Array(5)].map((_, i) => (
-                <SwiperSlide key={i}>
+                <SwiperSlide key={i} className={props.isLoadingClassName}>
                   <div
                     className={`flex w-full flex-col gap-2 p-2 [&_*]:animate-pulse [&_*]:bg-neutral-500 [&_*]:bg-opacity-50`}
                   >
