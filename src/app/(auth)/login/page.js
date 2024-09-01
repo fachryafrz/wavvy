@@ -9,7 +9,7 @@ export default function page() {
   const cookiesStore = cookies();
 
   return (
-    <div className={`flex h-screen flex-col items-center justify-center`}>
+    <div className={`flex h-svh flex-col items-center justify-center`}>
       {!cookiesStore.has(spotify_access_token) &&
       cookiesStore.has(spotify_refresh_token) ? (
         <figure className={`animate-spin`}>
