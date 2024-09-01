@@ -54,7 +54,7 @@ export default function SidebarContent() {
         // },
         {
           title: "History",
-          href: "/history",
+          href: "/me/player/recently-played",
           icon: <CalendarOutline />,
         },
       ],

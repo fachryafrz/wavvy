@@ -73,7 +73,7 @@ export default function LeftContent({
         <SliderPlaylist
           id={`recentlyPlayed`}
           title={
-            <Link href={`/history`} className={`hocus:underline`}>
+            <Link href={`/me/player/recently-played`} className={`hocus:underline`}>
               Recently Played
             </Link>
           }
