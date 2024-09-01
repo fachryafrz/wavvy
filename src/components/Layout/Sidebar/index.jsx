@@ -23,7 +23,7 @@ export default function Sidebar({ children, authorizationURL, client_id }) {
 
   return (
     <div className={`flex h-dvh flex-col justify-between`}>
-      <div className="drawer lg:drawer-open">
+      <div className="drawer flex-grow lg:drawer-open">
         <input id="sidebar" type="checkbox" className="drawer-toggle" />
         <div
           className={`drawer-content max-h-[calc(100dvh-80px)] overflow-y-auto sm:max-h-[calc(100dvh-72px)]`}
