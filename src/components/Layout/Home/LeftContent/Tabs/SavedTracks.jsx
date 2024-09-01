@@ -75,12 +75,12 @@ export default function TabSavedTracks() {
 
       {!isLoading && data?.items.length > showLimit && (
         <div className={`mt-4 flex justify-center`}>
-          <button
-            onClick={handleShowMore}
+          <Link
+            href={`/me/tracks`}
             className={`btn btn-ghost btn-sm w-full text-primary`}
           >
             Show more
-          </button>
+          </Link>
         </div>
       )}
     </div>

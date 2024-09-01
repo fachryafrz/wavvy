@@ -1,6 +1,6 @@
-import Profile from "@/components/User/Profile";
 import { spotify_access_token } from "@/lib/constants";
 import { cookies } from "next/headers";
+import React from "react";
 
 export default function page() {
   const cookiesStore = cookies();
@@ -13,9 +13,5 @@ export default function page() {
     Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
   };
 
-  return (
-    <div>
-      <Profile />
-    </div>
-  );
+  return <div>Podcasts</div>;
 }

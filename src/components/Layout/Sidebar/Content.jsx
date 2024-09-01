@@ -27,11 +27,11 @@ export default function SidebarContent() {
           href: "/",
           icon: <BarcodeOutline />,
         },
-        {
-          title: "Playlists",
-          href: "/playlists",
-          icon: <MusicalNoteOutline />,
-        },
+        // {
+        //   title: "Playlists",
+        //   href: "/playlists",
+        //   icon: <MusicalNoteOutline />,
+        // },
         {
           title: "Podcasts",
           href: "/podcasts",
@@ -43,15 +43,15 @@ export default function SidebarContent() {
       section: "Your Music",
       links: [
         {
-          title: "Favorites",
-          href: "/favorites",
+          title: "Saved Tracks",
+          href: "/me/tracks",
           icon: <HeartOutline />,
         },
-        {
-          title: "Listen Later",
-          href: "/listen-later",
-          icon: <TimeOutline />,
-        },
+        // {
+        //   title: "Listen Later",
+        //   href: "/listen-later",
+        //   icon: <TimeOutline />,
+        // },
         {
           title: "History",
           href: "/history",
@@ -80,7 +80,7 @@ export default function SidebarContent() {
 
       const playlistsObject = {
         section: "Your Playlists",
-        links: data.items.slice(0, 5).map((playlist) => ({
+        links: data.items.map((playlist) => ({
           title: playlist.name,
           href: `/playlist/${playlist.id}`,
           image: playlist.images[0].url,
