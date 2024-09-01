@@ -2,12 +2,36 @@
 
 import { userStore } from "@/zustand/user";
 import HomeTabs from "./Tabs";
-import RecentlyPlayed from "./RecentlyPlayed";
 import SliderPlaylist from "../../../Slider/Playlist";
 import Link from "next/link";
+import FavoriteArtists from "../../FavoriteArtists";
+import { useEffect, useState } from "react";
+import { checkToken } from "@/helper/checkToken";
+import axios from "axios";
 
-export default function LeftContent({ categories, categoriesPlaylists }) {
+export default function LeftContent({
+  categories,
+  categoriesPlaylists,
+  favoriteArtists,
+}) {
   const { user } = userStore();
+
+  const [recentlyPlayedData, setRecentlyPlayedData] = useState();
+  const [recentlyPlayedIsLoading, setRecentlyPlayedIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchRecentlyPlayed = async () => {
+      setRecentlyPlayedIsLoading(true);
+      const { data } = await axios.get(`/api/me/player/recently-played`);
+      setRecentlyPlayedIsLoading(false);
+
+      setRecentlyPlayedData(data);
+    };
+
+    checkToken(fetchRecentlyPlayed);
+  }, [user]);
 
   return (
     <div className={`flex flex-col gap-4 @container`}>
@@ -35,12 +59,23 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
       })}
 
       {/* Playlists, Artists, Albums, Streams */}
-      <section>
-        <HomeTabs />
+      <section className={`grid gap-4 @2xl:grid-cols-3`}>
+        <div className={`@container @2xl:col-span-2`}>
+          <HomeTabs />
+        </div>
+
+        <div className={``}>
+          <FavoriteArtists data={favoriteArtists} />
+        </div>
       </section>
 
       <section>
-        <RecentlyPlayed />
+        <SliderPlaylist
+          id={`recentlyPlayed`}
+          title={`Recently Played`}
+          data={recentlyPlayedData}
+          isLoading={recentlyPlayedIsLoading}
+        />
       </section>
 
       {categories.items?.slice(1, categories.length).map((category, i) => {

@@ -1,5 +1,4 @@
 import LeftContent from "@/components/Layout/Home/LeftContent";
-import RightContent from "@/components/Layout/Home/RightContent";
 import { spotify_access_token } from "@/lib/constants";
 import axios from "axios";
 import { cookies } from "next/headers";
@@ -57,23 +56,23 @@ export default async function Home() {
   return (
     <div className={`flex flex-col gap-4 lg:grid lg:grid-cols-12`}>
       {/* Left Content */}
-      <div className={`lg:col-span-8 lg:row-start-1 xl:col-span-9`}>
+      <div className={`col-span-full lg:row-start-1`}>
         <LeftContent
           categories={categories}
           categoriesPlaylists={categoriesPlaylists}
+          favoriteArtists={favoriteArtists}
         />
       </div>
 
       {/* Right Content */}
-      <div
+      {/* <div
         className={`flex bg-base-100 lg:col-span-4 lg:col-start-9 xl:col-span-3 xl:col-start-10`}
       >
         <RightContent
           newReleases={newReleases}
           savedTracks={savedTracks}
-          favoriteArtists={favoriteArtists}
         />
-      </div>
+      </div> */}
     </div>
   );
 }

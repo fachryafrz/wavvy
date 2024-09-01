@@ -21,11 +21,14 @@ export default function Slider({
   ...props
 }) {
   const breakpoints = {
-    640: {
+    480: {
       slidesPerGroup: 3,
     },
-    768: {
+    704: {
       slidesPerGroup: 4,
+    },
+    1312: {
+      slidesPerGroup: 5,
     },
   };
 

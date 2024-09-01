@@ -3,26 +3,39 @@ import React, { useState } from "react";
 import TabPlaylists from "./Playlists";
 import TabArtists from "./Artists";
 import TabTracks from "./Tracks";
+import TabNewReleases from "./NewReleases";
+import TabSavedTracks from "./SavedTracks";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import "swiper/css";
 
 export default function HomeTabs() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [tabParam, setTabParam] = useState("tracks");
+  const [tabParam, setTabParam] = useState("top-tracks");
 
   // const tabParam = searchParams.get("tab") || "tracks";
   const tabs = [
     {
       title: "Your Top Tracks",
-      tab: "tracks",
+      tab: "top-tracks",
     },
     {
       title: "Your Top Artists",
-      tab: "artists",
+      tab: "top-artists",
     },
     {
       title: "Popular Playlists",
-      tab: "playlists",
+      tab: "popular-playlists",
+    },
+    {
+      title: "New Releases",
+      tab: "new-releases",
+    },
+    {
+      title: "Saved Tracks",
+      tab: "saved-tracks",
     },
   ];
 
@@ -31,9 +44,9 @@ export default function HomeTabs() {
   };
 
   return (
-    <div className={`mt-4 flex flex-col gap-2 sm:gap-4`}>
+    <div className={`flex flex-col`}>
       {/* Tabs */}
-      <div
+      {/* <div
         className={`relative flex items-center gap-6 before:absolute before:-top-4 before:left-0 before:h-0.5 before:w-full before:bg-neutral`}
       >
         {tabs.map((tab, index) => {
@@ -49,15 +62,35 @@ export default function HomeTabs() {
             </button>
           );
         })}
+      </div> */}
+
+      <div className="relative flex w-full items-center before:absolute before:top-0.5 before:left-0 before:h-0.5 before:w-full before:bg-neutral">
+        <Swiper slidesPerView={`auto`} spaceBetween={24} className={`!py-4 !mx-0`}>
+          {tabs.map((tab, index) => {
+            const isActive = tab.tab.includes(tabParam);
+
+            return (
+              <SwiperSlide key={tab.href} className={`!max-w-fit`}>
+                <button
+                  key={tab.href}
+                  onClick={() => handleTabChange(tab)}
+                  className={`nav-link relative !bg-transparent text-sm font-medium hocus:bg-transparent hocus:opacity-50 ${isActive ? "active-top" : ""}`}
+                >
+                  <h2>{tab.title}</h2>
+                </button>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
       </div>
 
       {/* List */}
       <div className={`-mx-1`}>
-        {tabParam === "tracks" && <TabTracks />}
-
-        {tabParam === "artists" && <TabArtists />}
-
-        {tabParam === "playlists" && <TabPlaylists />}
+        {tabParam === "top-tracks" && <TabTracks />}
+        {tabParam === "top-artists" && <TabArtists />}
+        {tabParam === "popular-playlists" && <TabPlaylists />}
+        {tabParam === "new-releases" && <TabNewReleases />}
+        {tabParam === "saved-tracks" && <TabSavedTracks />}
       </div>
     </div>
   );

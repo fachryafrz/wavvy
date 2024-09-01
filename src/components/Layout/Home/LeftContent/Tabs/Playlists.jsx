@@ -37,7 +37,7 @@ export default function TabPlaylists() {
       {isLoading && (
         <div className={`flex flex-col`}>
           {[...Array(showLimit)].map((_, i) => (
-            <LoadingCard key={i} responsive={true} info={false} />
+            <LoadingCard key={i} info={false} />
           ))}
         </div>
       )}

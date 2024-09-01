@@ -3,10 +3,10 @@ import LoadingCard from "@/components/Loading/Card";
 import { checkToken } from "@/helper/checkToken";
 import { userStore } from "@/zustand/user";
 import axios from "axios";
-import numeral from "numeral";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 
-export default function TabArtists() {
+export default function TabNewReleases() {
   const { user } = userStore();
 
   const [data, setData] = useState();
@@ -22,15 +22,15 @@ export default function TabArtists() {
   useEffect(() => {
     if (!user) return;
 
-    const fetchCurrentUserFollowedArtists = async () => {
+    const fetch = async () => {
       setIsLoading(true);
-      const { data } = await axios.get(`/api/me/top/artists`);
+      const { data } = await axios.get(`/api/browse/new-releases`);
       setIsLoading(false);
 
-      setData(data);
+      setData(data.albums);
     };
 
-    checkToken(fetchCurrentUserFollowedArtists);
+    checkToken(fetch);
   }, [user]);
 
   return (
@@ -45,18 +45,21 @@ export default function TabArtists() {
 
       {!isLoading &&
         data?.items.length > 0 &&
-        data.items.slice(0, 5).map((artist, i) => {
-          const image = artist.images[0].url;
-          const followers = numeral(artist.followers.total).format(`0a`);
+        data.items.slice(0, showLimit).map((item, i) => {
+          const [image] = item.images;
+          const releaseDate = moment(item.release_date).format("MMMM DD, YYYY");
 
           return (
             <CardLong
-              key={artist.id}
-              item={artist}
-              image={image}
-              link={`/artist/${artist.id}`}
-              secondInfo={artist.genres.slice(0, 2).join(", ")}
-              thirdInfo={`${followers} folllowers`}
+              key={item.id}
+              item={item}
+              image={image.url}
+              link={`/album/${item.id}`}
+              smallInfo={
+                <span className={`capitalize`}>{item.album_type}</span>
+              }
+              thirdInfo={releaseDate}
+              secondInfo={item.artists.map((artist) => artist.name).join(`, `)}
             />
           );
         })}

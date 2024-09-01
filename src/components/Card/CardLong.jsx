@@ -5,13 +5,22 @@ import TrackCard from "../Track/Card";
 import Link from "next/link";
 import numeral from "numeral";
 
-export default function CardLong({ item, link, image, secondInfo, thirdInfo, smallInfo }) {
+export default function CardLong({
+  item,
+  link,
+  image,
+  secondInfo,
+  thirdInfo,
+  smallInfo,
+}) {
   return (
     <div
-      className={`grid grid-cols-6 @lg:grid-cols-12 items-center gap-2 @container hocus:rounded-lg hocus:bg-neutral`}
+      className={`grid grid-cols-6 items-center gap-2 @lg:grid-cols-12 hocus:rounded-lg hocus:bg-neutral`}
     >
       {/* Image, Title */}
-      <div className={`col-span-5`}>
+      <div
+        className={`col-span-5 ${secondInfo && thirdInfo ? `@lg:col-span-5` : secondInfo || thirdInfo ? `@lg:col-span-8` : `@lg:col-span-11`}`}
+      >
         <TrackCard
           name={
             <Link href={link} className={`hocus:underline`}>
@@ -26,7 +35,7 @@ export default function CardLong({ item, link, image, secondInfo, thirdInfo, sma
       {/* Second Info */}
       {secondInfo && (
         <div className={`col-span-3 hidden justify-start @lg:flex`}>
-          <span className={`line-clamp-1 text-xs font-medium capitalize`}>
+          <span className={`line-clamp-1 text-xs font-medium`}>
             {secondInfo}
           </span>
         </div>
@@ -34,9 +43,7 @@ export default function CardLong({ item, link, image, secondInfo, thirdInfo, sma
 
       {/* Third Info */}
       {thirdInfo && (
-        <div
-          className={`col-span-3 hidden justify-center @lg:flex @lg:col-span-3`}
-        >
+        <div className={`col-span-3 hidden justify-center @lg:flex`}>
           <span className={`line-clamp-1 text-xs font-medium`}>
             {thirdInfo}
           </span>
@@ -44,7 +51,9 @@ export default function CardLong({ item, link, image, secondInfo, thirdInfo, sma
       )}
 
       {/* Play, Options */}
-      <div className={`col-span-1 col-start-6 @lg:col-start-12 flex justify-end pr-1`}>
+      <div
+        className={`col-span-1 col-start-6 flex justify-end pr-1 @lg:col-start-12`}
+      >
         <button className={`btn btn-square btn-ghost btn-sm`}>
           <Play color={`#ffffff`} width={`20px`} height={`20px`} />
         </button>

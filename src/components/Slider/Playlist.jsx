@@ -5,25 +5,22 @@ import Slider from "@/components/Slider";
 import Link from "next/link";
 import { SwiperSlide } from "swiper/react";
 
-export default function SliderPlaylist({ id, title, data }) {
+export default function SliderPlaylist({
+  id,
+  title,
+  data,
+  isLoading,
+  isLoadingClassName = `!max-w-[calc(100%/2)] @md:!max-w-[calc(100%/3)] @2xl:!max-w-[calc(100%/4)] @5xl:!max-w-[calc(100%/5)]`,
+}) {
   return (
     <Slider
       id={`slider-${id}`}
       title={title}
-      breakpoints={{
-        480: {
-          slidesPerGroup: 3,
-        },
-        704: {
-          slidesPerGroup: 4,
-        },
-        1312: {
-          slidesPerGroup: 5,
-        },
-      }}
+      isLoading={isLoading}
+      isLoadingClassName={isLoadingClassName}
     >
-      {data.items.map((item, i) => {
-        const [image] = item.images;
+      {data?.items.map((item, i) => {
+        const [image] = item.images ?? item.track.album.images;
 
         return (
           <SwiperSlide
@@ -31,10 +28,10 @@ export default function SliderPlaylist({ id, title, data }) {
             className={`!max-w-[calc(100%/2)] @md:!max-w-[calc(100%/3)] @2xl:!max-w-[calc(100%/4)] @5xl:!max-w-[calc(100%/5)]`}
           >
             <Link
-              href={`/playlist/${item.id}`}
+              href={`/${item.type ?? item.track.type}/${item.id ?? item.track.id}`}
               className={`block rounded-xl p-2 hocus:bg-neutral`}
             >
-              <CardVertical name={item.name} image={image.url} />
+              <CardVertical name={item.name ?? item.track.name} image={image.url} />
             </Link>
           </SwiperSlide>
         );

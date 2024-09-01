@@ -3,10 +3,11 @@ import LoadingCard from "@/components/Loading/Card";
 import { checkToken } from "@/helper/checkToken";
 import { userStore } from "@/zustand/user";
 import axios from "axios";
-import numeral from "numeral";
+import moment from "moment";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-export default function TabArtists() {
+export default function TabSavedTracks() {
   const { user } = userStore();
 
   const [data, setData] = useState();
@@ -22,15 +23,15 @@ export default function TabArtists() {
   useEffect(() => {
     if (!user) return;
 
-    const fetchCurrentUserFollowedArtists = async () => {
+    const fetch = async () => {
       setIsLoading(true);
-      const { data } = await axios.get(`/api/me/top/artists`);
+      const { data } = await axios.get(`/api/me/tracks`);
       setIsLoading(false);
 
       setData(data);
     };
 
-    checkToken(fetchCurrentUserFollowedArtists);
+    checkToken(fetch);
   }, [user]);
 
   return (
@@ -45,18 +46,29 @@ export default function TabArtists() {
 
       {!isLoading &&
         data?.items.length > 0 &&
-        data.items.slice(0, 5).map((artist, i) => {
-          const image = artist.images[0].url;
-          const followers = numeral(artist.followers.total).format(`0a`);
+        data.items.slice(0, showLimit).map((item, i) => {
+          const [image] = item.track.album.images;
+          const releaseDate = moment(item.release_date).format("MMMM DD, YYYY");
+          const runtime = `${moment(item.track.duration_ms).format("m")}m ${moment(item.track.duration_ms).format("ss")}s`;
 
           return (
             <CardLong
-              key={artist.id}
-              item={artist}
-              image={image}
-              link={`/artist/${artist.id}`}
-              secondInfo={artist.genres.slice(0, 2).join(", ")}
-              thirdInfo={`${followers} folllowers`}
+              key={item.track.id}
+              item={item.track}
+              image={image.url}
+              link={`/track/${item.track.id}`}
+              smallInfo={item.track.artists
+                .map((artist) => artist.name)
+                .join(", ")}
+              secondInfo={
+                <Link
+                  href={`/album/${item.track.album.id}`}
+                  className={`hocus:underline`}
+                >
+                  {item.track.album.name}
+                </Link>
+              }
+              thirdInfo={runtime}
             />
           );
         })}
