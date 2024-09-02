@@ -1,5 +1,6 @@
 import { spotify_access_token } from "@/lib/constants";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import React from "react";
 
 export default function page() {

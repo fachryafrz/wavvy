@@ -1,3 +1,4 @@
+import { usePlayback } from "@/zustand/playback";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import {
@@ -10,14 +11,18 @@ import {
   VolumeOff,
 } from "react-ionicons";
 
-export default function PlaybackOptions({ track, isLoading }) {
-  const [volumeState, setVolumeState] = useState(
-    track?.device?.volume_percent ?? 100,
-  );
-  const [shuffleState, setShuffleState] = useState(
-    track?.shuffle_state ?? false,
-  );
-  const [repeatState, setRepeatState] = useState(track?.repeat_state ?? "off");
+export default function PlaybackOptions({ isLoading }) {
+  const { playback, setPlayback } = usePlayback();
+
+  const [volumeState, setVolumeState] = useState(100);
+  const [shuffleState, setShuffleState] = useState(false);
+  const [repeatState, setRepeatState] = useState("off");
+
+  useEffect(() => {
+    setVolumeState(playback ? playback.device.volume_percent : 100);
+    setShuffleState(playback ? playback.shuffle_state : false);
+    setRepeatState(playback ? playback.repeat_state : "off");
+  }, [playback]);
 
   const handleAlert = () => {
     document.getElementById("premiumAlert").showModal();
@@ -29,89 +34,81 @@ export default function PlaybackOptions({ track, isLoading }) {
     { state: "track" },
   ];
 
-  const handleVolumeChange = (volume_percent) => {
-    setVolumeState(volume_percent);
+  // Set Volume
+  const handleSetVolume = async (volume_percent) => {
+    try {
+      await axios.put(
+        `/api/me/player/volume`,
+        {},
+        {
+          params: {
+            volume_percent: volume_percent,
+            device_id: playback?.device.id,
+          },
+        },
+      );
+
+      setVolumeState(volume_percent);
+
+      await fetchCurrentUserPlaybackState({ setPlayback });
+    } catch (error) {
+      if (error.status === 403) {
+        handleAlert();
+        setVolumeState(volumeState);
+      }
+    }
   };
-  const handleShuffleStateChange = () => {
-    setShuffleState(!shuffleState);
+
+  // Toggle Shuffle Mode
+  const handleToggleShuffleMode = async (shuffle_state) => {
+    try {
+      await axios.put(
+        `/api/me/player/shuffle`,
+        {},
+        { params: { state: shuffle_state, device_id: playback?.device.id } },
+      );
+
+      setShuffleState(shuffle_state);
+
+      await fetchCurrentUserPlaybackState({ setPlayback });
+    } catch (error) {
+      if (error.status === 403) {
+        handleAlert();
+        setShuffleState(shuffleState);
+      }
+    }
   };
-  const handleRepeatStateChange = () => {
+
+  // Change Repeat State
+  const handleRepeatStateChange = (repeat_state) => {
     const currentIndex = availableRepeatStates.findIndex(
-      (state) => state.state === repeatState,
+      (state) => state.state === repeat_state,
     );
 
     if (currentIndex === availableRepeatStates.length - 1) {
-      setRepeatState(availableRepeatStates[0].state);
+      handleSetRepeatMode(availableRepeatStates[0].state);
     } else {
-      setRepeatState(availableRepeatStates[currentIndex + 1].state);
+      handleSetRepeatMode(availableRepeatStates[currentIndex + 1].state);
     }
   };
+  const handleSetRepeatMode = async (repeat_state) => {
+    try {
+      await axios.put(
+        `/api/me/player/repeat`,
+        {},
+        { params: { state: repeat_state, device_id: playback?.device.id } },
+      );
 
-  useEffect(() => {
-    const handleSetVolume = async () => {
-      try {
-        await axios.put(
-          `/api/me/player/volume`,
-          {},
-          {
-            params: {
-              volume_percent: volumeState,
-              device_id: "b9b1c1e1e0c1b1a1",
-            },
-          },
-        );
-      } catch (error) {
-        if (error.status === 403) {
-          handleAlert();
-          setVolumeState(100);
-        }
+      setRepeatState(repeat_state);
+
+      await fetchCurrentUserPlaybackState({ setPlayback });
+    } catch (error) {
+      if (error.status === 403) {
+        handleAlert();
+        setRepeatState(repeatState);
       }
-    };
-
-    if (track?.device?.volume_percent) {
-      handleSetVolume();
     }
-  }, [track?.device?.volume_percent, volumeState]);
-  useEffect(() => {
-    const handleToggleShuffleMode = async () => {
-      try {
-        await axios.put(
-          `/api/me/player/shuffle`,
-          {},
-          { params: { state: shuffleState, device_id: "b9b1c1e1e0c1b1a1" } },
-        );
-      } catch (error) {
-        if (error.status === 403) {
-          handleAlert();
-          setShuffleState(false);
-        }
-      }
-    };
-
-    if (track?.repeat_state) {
-      handleToggleShuffleMode();
-    }
-  }, [track?.repeat_state, shuffleState]);
-  useEffect(() => {
-    const handleSetRepeatMode = async () => {
-      try {
-        await axios.put(
-          `/api/me/player/repeat`,
-          {},
-          { params: { state: repeatState, device_id: "b9b1c1e1e0c1b1a1" } },
-        );
-      } catch (error) {
-        if (error.status === 403) {
-          handleAlert();
-          setRepeatState("off");
-        }
-      }
-    };
-
-    if (track?.shuffle_state) {
-      handleSetRepeatMode();
-    }
-  }, [track?.shuffle_state, repeatState]);
+  };
 
   return (
     <div className={`flex flex-wrap items-center justify-end lg:flex-nowrap`}>
@@ -119,7 +116,7 @@ export default function PlaybackOptions({ track, isLoading }) {
       <div className={`mr-4 hidden items-center lg:flex`}>
         <button
           onClick={() =>
-            volumeState === 0 ? handleVolumeChange(100) : handleVolumeChange(0)
+            volumeState === 0 ? handleSetVolume(100) : handleSetVolume(0)
           }
           className={`btn btn-square btn-ghost no-animation btn-sm !bg-transparent`}
         >
@@ -147,7 +144,7 @@ export default function PlaybackOptions({ track, isLoading }) {
 
       {/* Shuffle */}
       <button
-        onClick={handleShuffleStateChange}
+        onClick={() => handleToggleShuffleMode(!shuffleState)}
         className={`btn btn-square btn-ghost no-animation btn-sm !bg-transparent`}
       >
         <Shuffle
@@ -159,7 +156,7 @@ export default function PlaybackOptions({ track, isLoading }) {
 
       {/* Repeat */}
       <button
-        onClick={handleRepeatStateChange}
+        onClick={() => handleRepeatStateChange(repeatState)}
         className={`btn btn-square btn-ghost no-animation btn-sm relative !bg-transparent`}
       >
         <Repeat

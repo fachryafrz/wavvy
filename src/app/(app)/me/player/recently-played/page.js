@@ -3,6 +3,7 @@ import { spotify_access_token } from "@/lib/constants";
 import axios from "axios";
 import { cookies } from "next/headers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import React from "react";
 
 export default async function page({ params }) {
@@ -39,7 +40,13 @@ export default async function page({ params }) {
                 href={`/${item.track.type}/${item.track.id}`}
                 className={`block rounded-xl p-2 hocus:bg-neutral`}
               >
-                <CardVertical name={item.track.name} image={image.url} />
+                <CardVertical
+                  name={item.track.name}
+                  image={image.url}
+                  info={item.track.artists
+                    .map((artist) => artist.name)
+                    .join(", ")}
+                />
               </Link>
             </li>
           );

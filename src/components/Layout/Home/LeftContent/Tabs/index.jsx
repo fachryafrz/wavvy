@@ -8,6 +8,8 @@ import TabSavedTracks from "./SavedTracks";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import "swiper/css";
+import "swiper/css/free-mode";
+import { FreeMode } from "swiper/modules";
 
 export default function HomeTabs() {
   const router = useRouter();
@@ -64,8 +66,14 @@ export default function HomeTabs() {
         })}
       </div> */}
 
-      <div className="relative flex w-full items-center before:absolute before:top-0.5 before:left-0 before:h-0.5 before:w-full before:bg-neutral">
-        <Swiper slidesPerView={`auto`} spaceBetween={24} className={`!py-4 !mx-0`}>
+      <div className="relative flex w-full items-center before:absolute before:left-0 before:top-0.5 before:h-0.5 before:w-full before:bg-neutral">
+        <Swiper
+          modules={[FreeMode]}
+          freeMode={true}
+          slidesPerView={`auto`}
+          spaceBetween={24}
+          className={`!mx-0 !py-4`}
+        >
           {tabs.map((tab, index) => {
             const isActive = tab.tab.includes(tabParam);
 

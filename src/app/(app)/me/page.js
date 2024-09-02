@@ -1,6 +1,7 @@
 import Profile from "@/components/User/Profile";
 import { spotify_access_token } from "@/lib/constants";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default function page() {
   const cookiesStore = cookies();

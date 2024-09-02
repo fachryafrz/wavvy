@@ -7,18 +7,26 @@ import {
   PlaySkipForward,
 } from "react-ionicons";
 import axios from "axios";
+import { usePlayback } from "@/zustand/playback";
+import { fetchCurrentUserPlaybackState } from "@/helper/fetch";
 
-export default function Playback({ track, isLoading }) {
-  const [currentProgress, setCurrentProgress] = useState(
-    track ? track.progress_ms : 0,
-  );
+export default function Playback({ isLoading }) {
+  const { playback, setPlayback } = usePlayback();
+
+  const [currentProgress, setCurrentProgress] = useState(0);
+  const [durationMs, setDurationMs] = useState(0);
+
+  useEffect(() => {
+    setCurrentProgress(playback ? playback.progress_ms : 0);
+    setDurationMs(playback ? playback.item.duration_ms : 0);
+  }, [playback]);
 
   useEffect(() => {
     let interval;
 
-    // if (track?.is_playing) {
+    // if (playback?.is_playing) {
     //   interval = setInterval(() => {
-    //     if (track?.progress_ms !== undefined) {
+    //     if (playback?.progress_ms !== undefined) {
     //       setCurrentProgress((prevProgress) => prevProgress + 1000);
     //     }
     //   }, 1000);
@@ -27,7 +35,7 @@ export default function Playback({ track, isLoading }) {
     return () => {
       clearInterval(interval);
     };
-  }, [track?.is_playing, track?.progress_ms]);
+  }, [playback?.is_playing, playback?.progress_ms]);
 
   const convertProgress = (progress) => {
     const minutes = moment(progress).format("m");
@@ -45,8 +53,10 @@ export default function Playback({ track, isLoading }) {
       await axios.post(
         `/api/me/player/previous`,
         {},
-        { params: { device_id: "b9b1c1e1e0c1b1a1" } },
+        { params: { device_id: playback?.device?.id } },
       );
+
+      await fetchCurrentUserPlaybackState({ setPlayback });
     } catch (error) {
       if (error.status === 403) {
         handleAlert();
@@ -59,8 +69,10 @@ export default function Playback({ track, isLoading }) {
       await axios.post(
         `/api/me/player/next`,
         {},
-        { params: { device_id: "b9b1c1e1e0c1b1a1" } },
+        { params: { device_id: playback?.device?.id } },
       );
+
+      await fetchCurrentUserPlaybackState({ setPlayback });
     } catch (error) {
       if (error.status === 403) {
         handleAlert();
@@ -81,6 +93,24 @@ export default function Playback({ track, isLoading }) {
         // },
         position_ms: 0,
       });
+
+      await fetchCurrentUserPlaybackState({ setPlayback });
+    } catch (error) {
+      if (error.status === 403) {
+        handleAlert();
+      }
+    }
+  };
+
+  const handlePausePlayback = async () => {
+    try {
+      await axios.put(
+        `/api/me/player/pause`,
+        {},
+        { params: { device_id: playback?.device?.id } },
+      );
+
+      await fetchCurrentUserPlaybackState({ setPlayback });
     } catch (error) {
       if (error.status === 403) {
         handleAlert();
@@ -97,7 +127,10 @@ export default function Playback({ track, isLoading }) {
       <div className={`flex items-center justify-center`}>
         {/* Previous */}
         <button
-          onClick={handlePrevious}
+          onClick={
+            playback?.actions?.disallows?.skipping_prev ? null : handlePrevious
+          }
+          disabled={playback?.actions?.disallows?.skipping_prev}
           className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
         >
           <PlaySkipBack color={"#ffffff"} width={`20px`} height={`20px`} />
@@ -105,10 +138,14 @@ export default function Playback({ track, isLoading }) {
 
         {/* Play/Pause */}
         <button
-          onClick={handleStartResumePlayback}
+          onClick={
+            playback?.actions?.disallows?.pausing
+              ? handleStartResumePlayback
+              : handlePausePlayback
+          }
           className={`btn btn-square btn-ghost !bg-transparent`}
         >
-          {track?.is_playing ? (
+          {playback?.is_playing ? (
             <PauseCircle color={"#ffffff"} width={`40px`} height={`40px`} />
           ) : (
             <PlayCircle color={"#ffffff"} width={`40px`} height={`40px`} />
@@ -133,14 +170,14 @@ export default function Playback({ track, isLoading }) {
           <div
             className={`h-full rounded-full bg-primary`}
             style={{
-              width: `${calculateProgressPercentage(currentProgress, track?.item?.duration_ms || 1)}%`,
+              width: `${calculateProgressPercentage(currentProgress, durationMs || 1)}%`,
             }}
           ></div>
         </div>
 
         {/* Minutes */}
         <span className={`text-xs font-medium text-neutral-500`}>
-          {`${convertProgress(currentProgress)}/${convertProgress(track?.item?.duration_ms || 0)}`}
+          {`${convertProgress(currentProgress)}/${convertProgress(durationMs || 0)}`}
         </span>
       </div>
     </div>

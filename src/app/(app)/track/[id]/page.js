@@ -1,6 +1,7 @@
 import { spotify_access_token } from "@/lib/constants";
 import axios from "axios";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import React from "react";
 
 export default async function page({ params }) {
