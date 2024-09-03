@@ -78,16 +78,18 @@ export default function SidebarContent() {
 
       setIsLoading(false);
 
-      const playlistsObject = {
-        section: "Your Playlists",
-        links: data.items.map((playlist) => ({
-          title: playlist.name,
-          href: `/playlist/${playlist.id}`,
-          image: playlist.images[0].url,
-        })),
-      };
+      if (data.items.length > 0) {
+        const playlistsObject = {
+          section: "Your Playlists",
+          links: data.items.map((playlist) => ({
+            title: playlist.name,
+            href: `/playlist/${playlist.id}`,
+            image: playlist.images[0].url,
+          })),
+        };
 
-      setSidebar((sidebar) => [...sidebar, playlistsObject]);
+        setSidebar((sidebar) => [...sidebar, playlistsObject]);
+      }
     };
 
     const isAlreadyInSidebar = sidebar.some(
