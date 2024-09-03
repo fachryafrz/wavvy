@@ -6,8 +6,8 @@ import SliderPlaylist from "../../../Slider/Playlist";
 import Link from "next/link";
 import FavoriteArtists from "../../FavoriteArtists";
 import { useEffect, useState } from "react";
-import { checkToken } from "@/helper/checkToken";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function LeftContent({
   categories,
@@ -15,6 +15,7 @@ export default function LeftContent({
   favoriteArtists,
 }) {
   const { user } = userStore();
+  const router = useRouter();
 
   const [recentlyPlayedData, setRecentlyPlayedData] = useState();
   const [recentlyPlayedIsLoading, setRecentlyPlayedIsLoading] = useState(false);
@@ -23,14 +24,18 @@ export default function LeftContent({
     if (!user) return;
 
     const fetchRecentlyPlayed = async () => {
-      setRecentlyPlayedIsLoading(true);
-      const { data } = await axios.get(`/api/me/player/recently-played`);
-      setRecentlyPlayedIsLoading(false);
+      try {
+        setRecentlyPlayedIsLoading(true);
+        const { data } = await axios.get(`/api/me/player/recently-played`);
+        setRecentlyPlayedIsLoading(false);
 
-      setRecentlyPlayedData(data);
+        setRecentlyPlayedData(data);
+      } catch ({ response }) {
+        if (response.status === 401) router.push("/login");
+      }
     };
 
-    checkToken(fetchRecentlyPlayed);
+    fetchRecentlyPlayed();
   }, [user]);
 
   return (
@@ -73,7 +78,10 @@ export default function LeftContent({
         <SliderPlaylist
           id={`recentlyPlayed`}
           title={
-            <Link href={`/me/player/recently-played`} className={`hocus:underline`}>
+            <Link
+              href={`/me/player/recently-played`}
+              className={`hocus:underline`}
+            >
               Recently Played
             </Link>
           }

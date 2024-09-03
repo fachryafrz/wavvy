@@ -1,13 +1,14 @@
 import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
-import { checkToken } from "@/helper/checkToken";
 import { userStore } from "@/zustand/user";
 import axios from "axios";
 import moment from "moment";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function TabNewReleases() {
   const { user } = userStore();
+  const router = useRouter();
 
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -22,15 +23,19 @@ export default function TabNewReleases() {
   useEffect(() => {
     if (!user) return;
 
-    const fetch = async () => {
-      setIsLoading(true);
-      const { data } = await axios.get(`/api/browse/new-releases`);
-      setIsLoading(false);
+    const fetchNewReleases = async () => {
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get(`/api/browse/new-releases`);
+        setIsLoading(false);
 
-      setData(data.albums);
+        setData(data.albums);
+      } catch ({ response }) {
+        if (response.status === 401) router.push("/login");
+      }
     };
 
-    checkToken(fetch);
+    fetchNewReleases();
   }, [user]);
 
   return (

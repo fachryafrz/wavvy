@@ -38,8 +38,6 @@ export default function Player() {
     setTrackImage(
       playback?.item?.album.images.find((image) => image.width === 64),
     );
-
-    console.log(playback);
   }, [playback]);
 
   return (

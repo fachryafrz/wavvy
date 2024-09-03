@@ -1,14 +1,15 @@
 import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
-import { checkToken } from "@/helper/checkToken";
 import { userStore } from "@/zustand/user";
 import axios from "axios";
 import moment from "moment";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function TabSavedTracks() {
   const { user } = userStore();
+  const router = useRouter();
 
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -23,15 +24,19 @@ export default function TabSavedTracks() {
   useEffect(() => {
     if (!user) return;
 
-    const fetch = async () => {
-      setIsLoading(true);
-      const { data } = await axios.get(`/api/me/tracks`);
-      setIsLoading(false);
+    const fetchSavedTracks = async () => {
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get(`/api/me/tracks`);
+        setIsLoading(false);
 
-      setData(data);
+        setData(data);
+      } catch ({ response }) {
+        if (response.status === 401) router.push("/login ");
+      }
     };
 
-    checkToken(fetch);
+    fetchSavedTracks();
   }, [user]);
 
   return (

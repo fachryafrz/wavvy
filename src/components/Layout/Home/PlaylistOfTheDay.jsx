@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import { checkToken } from "@/helper/checkToken";
 import axios from "axios";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -22,7 +21,7 @@ export default function PlaylistOfTheDay() {
       setImage(firstData.images.find((image) => image.width === 300));
     };
 
-    checkToken(fetchNewReleases);
+    // checkToken(fetchNewReleases);
   }, []);
 
   return (

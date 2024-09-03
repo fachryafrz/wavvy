@@ -1,16 +1,17 @@
 import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
-import { checkToken } from "@/helper/checkToken";
 import { userStore } from "@/zustand/user";
 import axios from "axios";
 import moment from "moment";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import numeral from "numeral";
 import React, { useEffect, useState } from "react";
 import { ChevronDown } from "react-ionicons";
 
 export default function TabTracks() {
   const { user } = userStore();
+  const router = useRouter();
 
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -26,14 +27,18 @@ export default function TabTracks() {
     if (!user) return;
 
     const fetchCurrentUserFollowedArtists = async () => {
-      setIsLoading(true);
-      const { data } = await axios.get(`/api/me/top/tracks`);
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get(`/api/me/top/tracks`);
+        setIsLoading(false);
 
-      setData(data);
+        setData(data);
+      } catch ({ response }) {
+        if (response.status === 401) router.push("/login");
+      }
     };
 
-    checkToken(fetchCurrentUserFollowedArtists);
+    fetchCurrentUserFollowedArtists();
   }, [user]);
 
   return (

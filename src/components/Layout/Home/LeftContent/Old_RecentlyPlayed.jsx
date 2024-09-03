@@ -6,7 +6,6 @@ import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import { useEffect, useState } from "react";
-import { checkToken } from "@/helper/checkToken";
 import axios from "axios";
 import { userStore } from "@/zustand/user";
 import Link from "next/link";
@@ -31,7 +30,7 @@ export default function RecentlyPlayed() {
       setData(data);
     };
 
-    checkToken(fetchRecentlyPlayed);
+    // checkToken(fetchRecentlyPlayed);
   }, [user]);
 
   return (
