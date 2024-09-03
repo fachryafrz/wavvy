@@ -83,7 +83,7 @@ export default function SidebarContent() {
           section: "Your Playlists",
           links: data.items.map((playlist) => ({
             title: playlist.name,
-            href: `/playlist/${playlist.id}`,
+            href: `/${playlist.type}/${playlist.id}`,
             image: playlist.images[0].url,
           })),
         };

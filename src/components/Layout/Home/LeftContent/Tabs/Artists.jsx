@@ -59,8 +59,12 @@ export default function TabArtists() {
               key={artist.id}
               item={artist}
               image={image}
-              link={`/artist/${artist.id}`}
-              secondInfo={artist.genres.slice(0, 2).join(", ")}
+              link={`/${artist.type}/${artist.id}`}
+              secondInfo={
+                <span className={`capitalize`}>
+                  {artist.genres.slice(0, 2).join(", ")}
+                </span>
+              }
               thirdInfo={`${followers} folllowers`}
             />
           );

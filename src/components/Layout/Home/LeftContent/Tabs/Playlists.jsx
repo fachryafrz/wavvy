@@ -57,7 +57,7 @@ export default function TabPlaylists() {
               key={playlist.id}
               item={playlist}
               image={image}
-              link={`/playlist/${playlist.id}`}
+              link={`/${playlist.type}/${playlist.id}`}
             />
           );
         })}

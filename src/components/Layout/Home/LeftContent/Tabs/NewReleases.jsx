@@ -59,12 +59,12 @@ export default function TabNewReleases() {
               key={item.id}
               item={item}
               image={image.url}
-              link={`/album/${item.id}`}
+              link={`/${item.type}/${item.id}`}
               smallInfo={
                 <span className={`capitalize`}>{item.album_type}</span>
               }
-              thirdInfo={releaseDate}
               secondInfo={item.artists.map((artist) => artist.name).join(`, `)}
+              thirdInfo={releaseDate}
             />
           );
         })}

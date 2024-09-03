@@ -62,11 +62,11 @@ export default function TabTracks() {
               key={track.id}
               item={track}
               image={image}
-              link={`/track/${track.id}`}
+              link={`/${track.type}/${track.id}`}
               smallInfo={track.artists.map((artist) => artist.name).join(", ")}
               secondInfo={
                 <Link
-                  href={`/album/${track.album.id}`}
+                  href={`/${track.album.type}/${track.album.id}`}
                   className={`hocus:underline`}
                 >
                   {track.album.name}

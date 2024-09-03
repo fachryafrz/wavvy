@@ -61,13 +61,13 @@ export default function TabSavedTracks() {
               key={item.track.id}
               item={item.track}
               image={image.url}
-              link={`/track/${item.track.id}`}
+              link={`/${item.track.type}/${item.track.id}`}
               smallInfo={item.track.artists
                 .map((artist) => artist.name)
                 .join(", ")}
               secondInfo={
                 <Link
-                  href={`/album/${item.track.album.id}`}
+                  href={`/${item.track.album.type}/${item.track.album.id}`}
                   className={`hocus:underline`}
                 >
                   {item.track.album.name}
