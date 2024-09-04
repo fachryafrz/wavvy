@@ -1,5 +1,6 @@
 import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
+import { useAuth } from "@/hooks/auth";
 import { userStore } from "@/zustand/user";
 import axios from "axios";
 import moment from "moment";
@@ -8,6 +9,7 @@ import React, { useEffect, useState } from "react";
 
 export default function TabNewReleases() {
   const { user } = userStore();
+  const { mutate } = useAuth();
   const router = useRouter();
 
   const [data, setData] = useState();
@@ -31,7 +33,10 @@ export default function TabNewReleases() {
 
         setData(data.albums);
       } catch ({ response }) {
-        if (response.status === 401) router.push("/login");
+        if (response.status === 401) {
+          mutate(null);
+          router.push("/login");
+        }
       }
     };
 

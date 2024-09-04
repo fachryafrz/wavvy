@@ -1,5 +1,7 @@
+import { useAuth } from "@/hooks/auth";
 import { usePlayback } from "@/zustand/playback";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   Repeat,
@@ -12,6 +14,8 @@ import {
 } from "react-ionicons";
 
 export default function PlaybackOptions({ isLoading }) {
+  const router = useRouter();
+  const { mutate } = useAuth();
   const { playback, setPlayback } = usePlayback();
 
   const [volumeState, setVolumeState] = useState(100);
@@ -52,6 +56,11 @@ export default function PlaybackOptions({ isLoading }) {
 
       await fetchCurrentUserPlaybackState({ setPlayback });
     } catch (error) {
+      if (error.status === 401) {
+        mutate(null);
+        router.push("/login");
+      }
+
       if (error.status === 403) {
         handleAlert();
         setVolumeState(volumeState);
@@ -72,6 +81,11 @@ export default function PlaybackOptions({ isLoading }) {
 
       await fetchCurrentUserPlaybackState({ setPlayback });
     } catch (error) {
+      if (error.status === 401) {
+        mutate(null);
+        router.push("/login");
+      }
+
       if (error.status === 403) {
         handleAlert();
         setShuffleState(shuffleState);
@@ -103,6 +117,11 @@ export default function PlaybackOptions({ isLoading }) {
 
       await fetchCurrentUserPlaybackState({ setPlayback });
     } catch (error) {
+      if (error.status === 401) {
+        mutate(null);
+        router.push("/login");
+      }
+
       if (error.status === 403) {
         handleAlert();
         setRepeatState(repeatState);

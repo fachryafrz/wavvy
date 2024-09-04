@@ -4,13 +4,13 @@ import axios from "axios";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-export async function GET(request) {
+export async function GET() {
   const cookiesStore = cookies();
 
   try {
     if (cookiesStore.has(spotify_access_token)) {
       const { data } = await axios.get(
-        `${process.env.API_URL}/me/player/currently-playing`,
+        `${process.env.API_URL}/me/player/queue`,
         {
           headers: {
             Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,

@@ -1,5 +1,6 @@
 import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
+import { useAuth } from "@/hooks/auth";
 import { userStore } from "@/zustand/user";
 import axios from "axios";
 import moment from "moment";
@@ -11,6 +12,7 @@ import { ChevronDown } from "react-ionicons";
 
 export default function TabTracks() {
   const { user } = userStore();
+  const { mutate } = useAuth();
   const router = useRouter();
 
   const [data, setData] = useState();
@@ -24,8 +26,6 @@ export default function TabTracks() {
   };
 
   useEffect(() => {
-    if (!user) return;
-
     const fetchCurrentUserFollowedArtists = async () => {
       try {
         setIsLoading(true);
@@ -34,12 +34,15 @@ export default function TabTracks() {
 
         setData(data);
       } catch ({ response }) {
-        if (response.status === 401) router.push("/login");
+        if (response.status === 401) {
+          mutate(null);
+          router.push("/login");
+        }
       }
     };
 
     fetchCurrentUserFollowedArtists();
-  }, [user]);
+  }, []);
 
   return (
     <div>

@@ -28,6 +28,8 @@ export async function POST(request) {
       );
 
       return NextResponse.json(data, { status: 200 });
+    } else {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
   } catch (error) {
     return NextResponse.json(error, { status: error.status });

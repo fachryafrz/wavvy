@@ -57,5 +57,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     user,
     login,
     logout,
+    mutate,
   };
 };

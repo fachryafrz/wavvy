@@ -1,5 +1,6 @@
 import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
+import { useAuth } from "@/hooks/auth";
 import { userStore } from "@/zustand/user";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -8,6 +9,7 @@ import React, { useEffect, useState } from "react";
 
 export default function TabArtists() {
   const { user } = userStore();
+  const { mutate } = useAuth();
   const router = useRouter();
 
   const [data, setData] = useState();
@@ -31,7 +33,10 @@ export default function TabArtists() {
 
         setData(data);
       } catch ({ response }) {
-        if (response.status === 401) router.push("/login");
+        if (response.status === 401) {
+          mutate(null);
+          router.push("/login");
+        }
       }
     };
 

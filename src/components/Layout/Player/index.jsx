@@ -11,10 +11,17 @@ import LoadingCard from "@/components/Loading/Card";
 import PlaybackOptions from "./Options";
 import { usePlayback } from "@/zustand/playback";
 import { fetchCurrentUserPlaybackState } from "@/helper/fetch";
+import { useRouter } from "next/navigation";
+import { useQueue } from "@/zustand/queue";
+import { useAuth } from "@/hooks/auth";
 
 export default function Player() {
   const { user } = userStore();
+  const { mutate } = useAuth();
   const { playback, setPlayback } = usePlayback();
+  const { queue, setQueue } = useQueue();
+
+  const router = useRouter();
 
   const [artists, setArtists] = useState();
   const [trackImage, setTrackImage] = useState();
@@ -26,11 +33,38 @@ export default function Player() {
       setArtists(null);
       setTrackImage(null);
       setIsLoading(false);
-
       return;
     }
 
-    fetchCurrentUserPlaybackState({ setPlayback, setIsLoading });
+    const fetchCurrentUserPlaybackState = async () => {
+      setIsLoading(true);
+      const { data } = await axios.get(`/api/me/player`);
+      setIsLoading(false);
+
+      if (typeof data === "object") {
+        setPlayback(data);
+      } else {
+        fetchQueue();
+      }
+    };
+
+    const fetchQueue = async () => {
+      try {
+        const { data } = await axios.get("/api/me/player/queue");
+
+        setPlayback(data.currently_playing);
+        setQueue(data.queue);
+      } catch ({ response }) {
+        setPlayback(null);
+        setQueue([]);
+        if (response.status === 401) {
+          mutate(null);
+          router.push("/login");
+        }
+      }
+    };
+
+    fetchCurrentUserPlaybackState();
   }, [user]);
 
   useEffect(() => {

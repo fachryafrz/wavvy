@@ -12,20 +12,23 @@ export async function GET(request) {
   const cookiesStore = cookies();
 
   try {
-    if (cookiesStore.has(spotify_access_token)) {
-      const { data } = await axios.get(`${process.env.API_URL}/me/player`, {
+    const { data, status } = await axios.get(
+      `${process.env.API_URL}/me/player`,
+      {
         headers: {
           Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
         },
-      });
+      },
+    );
 
-      return NextResponse.json(data, { status: 200 });
-    } else if (cookiesStore.has(spotify_refresh_token)) {
-      const { data } = await axios.post(`/api/refresh-token`);
-
-      return NextResponse.json(data, { status: 200 });
-    }
+    return NextResponse.json(data, { status: status });
   } catch (error) {
+    if (!error.status) {
+      return NextResponse.json("Playback not available or active", {
+        status: 200, // Original status was 204 but somehow it keeps returning 500 or 200
+      });
+    }
+
     return NextResponse.json(error, { status: error.status });
   }
 }

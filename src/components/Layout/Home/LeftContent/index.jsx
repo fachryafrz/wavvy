@@ -8,6 +8,7 @@ import FavoriteArtists from "../../FavoriteArtists";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/auth";
 
 export default function LeftContent({
   categories,
@@ -15,6 +16,7 @@ export default function LeftContent({
   favoriteArtists,
 }) {
   const { user } = userStore();
+  const { mutate } = useAuth();
   const router = useRouter();
 
   const [recentlyPlayedData, setRecentlyPlayedData] = useState();
@@ -31,7 +33,10 @@ export default function LeftContent({
 
         setRecentlyPlayedData(data);
       } catch ({ response }) {
-        if (response.status === 401) router.push("/login");
+        if (response.status === 401) {
+          mutate(null);
+          router.push("/login");
+        }
       }
     };
 
