@@ -1,51 +1,29 @@
 import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
-import { useAuth } from "@/hooks/auth";
-import { userStore } from "@/zustand/user";
-import axios from "axios";
+import { useFetch } from "@/helper/fetch";
 import moment from "moment";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function TabNewReleases() {
-  const { user } = userStore();
-  const { mutate } = useAuth();
-  const router = useRouter();
+  const { data, error, loading, execute } = useFetch({
+    endpoint: `/api/browse/new-releases`,
+  });
 
-  const [data, setData] = useState();
-  const [isLoading, setIsLoading] = useState(true);
   const [showLimit, setShowLimit] = useState(5);
   const [showMore, setShowMore] = useState(false);
 
   const handleShowMore = () => {
     setShowMore(!showMore);
-    setShowLimit(showMore ? 5 : data.items.length);
+    setShowLimit(showMore ? 5 : data.albums.items.length);
   };
 
   useEffect(() => {
-    if (!user) return;
-
-    const fetchNewReleases = async () => {
-      try {
-        setIsLoading(true);
-        const { data } = await axios.get(`/api/browse/new-releases`);
-        setIsLoading(false);
-
-        setData(data.albums);
-      } catch ({ response }) {
-        if (response.status === 401) {
-          mutate(null);
-          router.push("/login");
-        }
-      }
-    };
-
-    fetchNewReleases();
-  }, [user]);
+    execute();
+  }, []);
 
   return (
     <div>
-      {isLoading && (
+      {loading && (
         <div className={`flex flex-col`}>
           {[...Array(showLimit)].map((_, i) => (
             <LoadingCard key={i} info={false} />
@@ -53,9 +31,9 @@ export default function TabNewReleases() {
         </div>
       )}
 
-      {!isLoading &&
-        data?.items.length > 0 &&
-        data.items.slice(0, showLimit).map((item, i) => {
+      {!loading &&
+        data?.albums.items.length > 0 &&
+        data.albums.items.slice(0, showLimit).map((item, i) => {
           const [image] = item.images;
           const releaseDate = moment(item.release_date).format("MMMM DD, YYYY");
 
@@ -74,7 +52,7 @@ export default function TabNewReleases() {
           );
         })}
 
-      {!isLoading && data?.items.length > showLimit && (
+      {!loading && data?.albums.items.length > showLimit && (
         <div className={`mt-4 flex justify-center`}>
           <button
             onClick={handleShowMore}

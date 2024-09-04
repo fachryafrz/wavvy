@@ -11,7 +11,7 @@ export async function GET(request, context) {
 
   try {
     if (cookiesStore.has(spotify_access_token)) {
-      const { data } = await axios.get(
+      const { data, status } = await axios.get(
         `${process.env.API_URL}/me/top/${type}`,
         {
           headers: {
@@ -20,7 +20,7 @@ export async function GET(request, context) {
         },
       );
 
-      return NextResponse.json(data, { status: 200 });
+      return NextResponse.json(data, { status: status });
     } else {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }

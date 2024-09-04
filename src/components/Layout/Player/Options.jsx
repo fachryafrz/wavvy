@@ -1,3 +1,4 @@
+import { useFetch } from "@/helper/fetch";
 import { useAuth } from "@/hooks/auth";
 import { usePlayback } from "@/zustand/playback";
 import axios from "axios";
@@ -18,6 +19,14 @@ export default function PlaybackOptions({ isLoading }) {
   const { mutate } = useAuth();
   const { playback, setPlayback } = usePlayback();
 
+  const {
+    data: playbackData,
+    error: playbackError,
+    execute: fetchPlayback,
+  } = useFetch({
+    endpoint: "/api/me/player",
+  });
+
   const [volumeState, setVolumeState] = useState(100);
   const [shuffleState, setShuffleState] = useState(false);
   const [repeatState, setRepeatState] = useState("off");
@@ -30,6 +39,17 @@ export default function PlaybackOptions({ isLoading }) {
 
   const handleAlert = () => {
     document.getElementById("premiumAlert").showModal();
+  };
+
+  const handleError = (error) => {
+    if (error.status === 401) {
+      mutate(null);
+      router.push("/login");
+    }
+
+    if (error.status === 403) {
+      handleAlert();
+    }
   };
 
   const availableRepeatStates = [
@@ -54,17 +74,10 @@ export default function PlaybackOptions({ isLoading }) {
 
       setVolumeState(volume_percent);
 
-      await fetchCurrentUserPlaybackState({ setPlayback });
+      fetchPlayback();
     } catch (error) {
-      if (error.status === 401) {
-        mutate(null);
-        router.push("/login");
-      }
-
-      if (error.status === 403) {
-        handleAlert();
-        setVolumeState(volumeState);
-      }
+      handleError(error);
+      setVolumeState(volumeState);
     }
   };
 
@@ -79,17 +92,10 @@ export default function PlaybackOptions({ isLoading }) {
 
       setShuffleState(shuffle_state);
 
-      await fetchCurrentUserPlaybackState({ setPlayback });
+      fetchPlayback();
     } catch (error) {
-      if (error.status === 401) {
-        mutate(null);
-        router.push("/login");
-      }
-
-      if (error.status === 403) {
-        handleAlert();
-        setShuffleState(shuffleState);
-      }
+      handleError(error);
+      setShuffleState(shuffleState);
     }
   };
 
@@ -115,17 +121,10 @@ export default function PlaybackOptions({ isLoading }) {
 
       setRepeatState(repeat_state);
 
-      await fetchCurrentUserPlaybackState({ setPlayback });
+      fetchPlayback();
     } catch (error) {
-      if (error.status === 401) {
-        mutate(null);
-        router.push("/login");
-      }
-
-      if (error.status === 403) {
-        handleAlert();
-        setRepeatState(repeatState);
-      }
+      handleError(error);
+      setRepeatState(repeatState);
     }
   };
 

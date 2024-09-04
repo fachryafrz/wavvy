@@ -8,7 +8,7 @@ import {
 } from "react-ionicons";
 import axios from "axios";
 import { usePlayback } from "@/zustand/playback";
-import { fetchCurrentUserPlaybackState } from "@/helper/fetch";
+import { useFetch } from "@/helper/fetch";
 
 export default function Playback({ isLoading }) {
   const { playback, setPlayback } = usePlayback();
@@ -48,79 +48,39 @@ export default function Playback({ isLoading }) {
     return (progress / duration) * 100;
   };
 
-  const handlePrevious = async () => {
-    try {
-      await axios.post(
-        `/api/me/player/previous`,
-        {},
-        { params: { device_id: playback?.device?.id } },
-      );
+  const { execute: handlePrevious } = useFetch({
+    endpoint: "/api/me/player/previous",
+    method: "POST",
+    params: { device_id: playback?.device?.id },
+  });
 
-      await fetchCurrentUserPlaybackState({ setPlayback });
-    } catch (error) {
-      if (error.status === 403) {
-        handleAlert();
-      }
-    }
-  };
+  const { execute: handleNext } = useFetch({
+    endpoint: "/api/me/player/next",
+    method: "POST",
+    params: { device_id: playback?.device?.id },
+  });
 
-  const handleNext = async () => {
-    try {
-      await axios.post(
-        `/api/me/player/next`,
-        {},
-        { params: { device_id: playback?.device?.id } },
-      );
+  const { execute: handleStartResumePlayback } = useFetch({
+    endpoint: "/api/me/player/play",
+    method: "PUT",
+    body: {
+      context_uri: `spotify:album:2u4Yp2ADTKYPwFSBFL4ffa`,
+      // uris: [
+      //   "spotify:track:0z8hI3OPS8ADPWtoCjjLl6",
+      //   "spotify:track:1301WleyT98MSxVHPZCA6M",
+      // ],
+      // offset: {
+      //   position: 5,
+      // },
+      position_ms: 0,
+    },
+  });
 
-      await fetchCurrentUserPlaybackState({ setPlayback });
-    } catch (error) {
-      if (error.status === 403) {
-        handleAlert();
-      }
-    }
-  };
-
-  const handleStartResumePlayback = async () => {
-    try {
-      await axios.put(`/api/me/player/play`, {
-        context_uri: `spotify:album:2u4Yp2ADTKYPwFSBFL4ffa`,
-        // uris: [
-        //   "spotify:track:0z8hI3OPS8ADPWtoCjjLl6",
-        //   "spotify:track:1301WleyT98MSxVHPZCA6M",
-        // ],
-        // offset: {
-        //   position: 5,
-        // },
-        position_ms: 0,
-      });
-
-      await fetchCurrentUserPlaybackState({ setPlayback });
-    } catch (error) {
-      if (error.status === 403) {
-        handleAlert();
-      }
-    }
-  };
-
-  const handlePausePlayback = async () => {
-    try {
-      await axios.put(
-        `/api/me/player/pause`,
-        {},
-        { params: { device_id: playback?.device?.id } },
-      );
-
-      await fetchCurrentUserPlaybackState({ setPlayback });
-    } catch (error) {
-      if (error.status === 403) {
-        handleAlert();
-      }
-    }
-  };
-
-  const handleAlert = () => {
-    document.getElementById("premiumAlert").showModal();
-  };
+  const { execute: handlePausePlayback } = useFetch({
+    endpoint: "/api/me/player/pause",
+    method: "PUT",
+    params: { device_id: playback?.device?.id },
+  });
 
   return (
     <div className={`flex flex-col items-center justify-center sm:flex-row`}>

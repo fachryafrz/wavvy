@@ -1,47 +1,23 @@
 "use client";
 
-import { userStore } from "@/zustand/user";
 import HomeTabs from "./Tabs";
 import SliderPlaylist from "../../../Slider/Playlist";
 import Link from "next/link";
 import FavoriteArtists from "../../FavoriteArtists";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/hooks/auth";
+import { useFetch } from "@/helper/fetch";
 
 export default function LeftContent({
   categories,
   categoriesPlaylists,
   favoriteArtists,
 }) {
-  const { user } = userStore();
-  const { mutate } = useAuth();
-  const router = useRouter();
-
-  const [recentlyPlayedData, setRecentlyPlayedData] = useState();
-  const [recentlyPlayedIsLoading, setRecentlyPlayedIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (!user) return;
-
-    const fetchRecentlyPlayed = async () => {
-      try {
-        setRecentlyPlayedIsLoading(true);
-        const { data } = await axios.get(`/api/me/player/recently-played`);
-        setRecentlyPlayedIsLoading(false);
-
-        setRecentlyPlayedData(data);
-      } catch ({ response }) {
-        if (response.status === 401) {
-          mutate(null);
-          router.push("/login");
-        }
-      }
-    };
-
-    fetchRecentlyPlayed();
-  }, [user]);
+  const {
+    data: recentlyPlayedData,
+    error,
+    loading: recentlyPlayedIsLoading,
+  } = useFetch({
+    endpoint: `/api/me/player/recently-played`,
+  });
 
   return (
     <div className={`flex flex-col gap-4 @container`}>

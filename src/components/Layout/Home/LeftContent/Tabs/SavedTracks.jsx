@@ -1,18 +1,15 @@
 import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
-import { userStore } from "@/zustand/user";
-import axios from "axios";
+import { useFetch } from "@/helper/fetch";
 import moment from "moment";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function TabSavedTracks() {
-  const { user } = userStore();
-  const router = useRouter();
+  const { data, error, loading, execute } = useFetch({
+    endpoint: `/api/me/tracks`,
+  });
 
-  const [data, setData] = useState();
-  const [isLoading, setIsLoading] = useState(true);
   const [showLimit, setShowLimit] = useState(5);
   const [showMore, setShowMore] = useState(false);
 
@@ -22,26 +19,12 @@ export default function TabSavedTracks() {
   };
 
   useEffect(() => {
-    if (!user) return;
-
-    const fetchSavedTracks = async () => {
-      try {
-        setIsLoading(true);
-        const { data } = await axios.get(`/api/me/tracks`);
-        setIsLoading(false);
-
-        setData(data);
-      } catch ({ response }) {
-        if (response.status === 401) router.push("/login ");
-      }
-    };
-
-    fetchSavedTracks();
-  }, [user]);
+    execute();
+  }, []);
 
   return (
     <div>
-      {isLoading && (
+      {loading && (
         <div className={`flex flex-col`}>
           {[...Array(showLimit)].map((_, i) => (
             <LoadingCard key={i} info={false} />
@@ -49,7 +32,7 @@ export default function TabSavedTracks() {
         </div>
       )}
 
-      {!isLoading &&
+      {!loading &&
         data?.items.length > 0 &&
         data.items.slice(0, showLimit).map((item, i) => {
           const [image] = item.track.album.images;
@@ -78,7 +61,7 @@ export default function TabSavedTracks() {
           );
         })}
 
-      {!isLoading && data?.items.length > showLimit && (
+      {!loading && data?.items.length > showLimit && (
         <div className={`mt-4 flex justify-center`}>
           <Link
             href={`/me/tracks`}

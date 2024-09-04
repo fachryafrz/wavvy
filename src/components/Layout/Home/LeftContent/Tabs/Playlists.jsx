@@ -1,50 +1,28 @@
 import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
-import { useAuth } from "@/hooks/auth";
-import { userStore } from "@/zustand/user";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useFetch } from "@/helper/fetch";
+import { useEffect, useState } from "react";
 
 export default function TabPlaylists() {
-  const { user } = userStore();
-  const { mutate } = useAuth();
-  const router = useRouter();
+  const { data, error, loading, execute } = useFetch({
+    endpoint: `/api/browse/featured-playlists`,
+  });
 
-  const [data, setData] = useState();
-  const [isLoading, setIsLoading] = useState(true);
   const [showLimit, setShowLimit] = useState(5);
   const [showMore, setShowMore] = useState(false);
 
   const handleShowMore = () => {
     setShowMore(!showMore);
-    setShowLimit(showMore ? 5 : data.items.length);
+    setShowLimit(showMore ? 5 : data.playlists.items.length);
   };
 
   useEffect(() => {
-    if (!user) return;
-
-    const fetchFeaturedPlaylists = async () => {
-      try {
-        setIsLoading(true);
-        const { data } = await axios.get(`/api/browse/featured-playlists`);
-        setIsLoading(false);
-
-        setData(data.playlists);
-      } catch ({ response }) {
-        if (response.status === 401) {
-          mutate(null);
-          router.push("/login");
-        }
-      }
-    };
-
-    fetchFeaturedPlaylists();
-  }, [user]);
+    execute();
+  }, []);
 
   return (
     <div>
-      {isLoading && (
+      {loading && (
         <div className={`flex flex-col`}>
           {[...Array(showLimit)].map((_, i) => (
             <LoadingCard key={i} info={false} />
@@ -52,9 +30,9 @@ export default function TabPlaylists() {
         </div>
       )}
 
-      {!isLoading &&
-        data?.items.length > 0 &&
-        data.items.slice(0, 5).map((playlist, i) => {
+      {!loading &&
+        data?.playlists.items.length > 0 &&
+        data.playlists.items.slice(0, 5).map((playlist, i) => {
           const image = playlist.images[0].url;
 
           return (
@@ -67,7 +45,7 @@ export default function TabPlaylists() {
           );
         })}
 
-      {!isLoading && data?.items.length > showLimit && (
+      {!loading && data?.playlists.items.length > showLimit && (
         <div className={`mt-4 flex justify-center`}>
           <button
             onClick={handleShowMore}

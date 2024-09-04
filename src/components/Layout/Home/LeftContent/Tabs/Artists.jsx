@@ -1,19 +1,14 @@
 import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
-import { useAuth } from "@/hooks/auth";
-import { userStore } from "@/zustand/user";
-import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useFetch } from "@/helper/fetch";
 import numeral from "numeral";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function TabArtists() {
-  const { user } = userStore();
-  const { mutate } = useAuth();
-  const router = useRouter();
+  const { data, error, loading, execute } = useFetch({
+    endpoint: `/api/me/top/artists`,
+  });
 
-  const [data, setData] = useState();
-  const [isLoading, setIsLoading] = useState(true);
   const [showLimit, setShowLimit] = useState(5);
   const [showMore, setShowMore] = useState(false);
 
@@ -23,29 +18,12 @@ export default function TabArtists() {
   };
 
   useEffect(() => {
-    if (!user) return;
-
-    const fetchCurrentUserFollowedArtists = async () => {
-      try {
-        setIsLoading(true);
-        const { data } = await axios.get(`/api/me/top/artists`);
-        setIsLoading(false);
-
-        setData(data);
-      } catch ({ response }) {
-        if (response.status === 401) {
-          mutate(null);
-          router.push("/login");
-        }
-      }
-    };
-
-    fetchCurrentUserFollowedArtists();
-  }, [user]);
+    execute();
+  }, []);
 
   return (
     <div>
-      {isLoading && (
+      {loading && (
         <div className={`flex flex-col`}>
           {[...Array(showLimit)].map((_, i) => (
             <LoadingCard key={i} info={false} />
@@ -53,7 +31,7 @@ export default function TabArtists() {
         </div>
       )}
 
-      {!isLoading &&
+      {!loading &&
         data?.items.length > 0 &&
         data.items.slice(0, 5).map((artist, i) => {
           const image = artist.images[0].url;
@@ -75,7 +53,7 @@ export default function TabArtists() {
           );
         })}
 
-      {!isLoading && data?.items.length > showLimit && (
+      {!loading && data?.items.length > showLimit && (
         <div className={`mt-4 flex justify-center`}>
           <button
             onClick={handleShowMore}
