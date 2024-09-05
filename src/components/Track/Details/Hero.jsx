@@ -71,7 +71,7 @@ export default function TrackDetailsHero({ track, artists }) {
 
           {/* Artist */}
           <div className={`text-white`}>
-            <div className={`flex items-center flex-wrap gap-4`}>
+            <div className={`flex flex-wrap items-center gap-4`}>
               {artists.map((artist) => {
                 const [image] = artist.images;
 
@@ -102,8 +102,10 @@ export default function TrackDetailsHero({ track, artists }) {
         </div>
 
         {/* CTA */}
-        <div className={`flex items-center gap-4`}>
-          <button className={`btn btn-primary w-[150px] rounded-full`}>
+        <div className={`flex w-full items-center gap-4`}>
+          <button
+            className={`btn btn-primary flex-grow rounded-full md:max-w-[150px]`}
+          >
             Listen Now
           </button>
 
