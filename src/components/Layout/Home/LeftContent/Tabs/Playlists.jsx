@@ -4,7 +4,7 @@ import { useFetch } from "@/helper/fetch";
 import { useEffect, useState } from "react";
 
 export default function TabPlaylists() {
-  const { data, error, loading, execute } = useFetch({
+  const { data, error, loading } = useFetch({
     endpoint: `/api/browse/featured-playlists`,
   });
 
@@ -15,10 +15,6 @@ export default function TabPlaylists() {
     setShowMore(!showMore);
     setShowLimit(showMore ? 5 : data.playlists.items.length);
   };
-
-  useEffect(() => {
-    execute();
-  }, []);
 
   return (
     <div>

@@ -49,18 +49,21 @@ export default function Playback({ isLoading }) {
   };
 
   const { execute: handlePrevious } = useFetch({
+    immediate: false,
     endpoint: "/api/me/player/previous",
     method: "POST",
     params: { device_id: playback?.device?.id },
   });
 
   const { execute: handleNext } = useFetch({
+    immediate: false,
     endpoint: "/api/me/player/next",
     method: "POST",
     params: { device_id: playback?.device?.id },
   });
 
   const { execute: handleStartResumePlayback } = useFetch({
+    immediate: false,
     endpoint: "/api/me/player/play",
     method: "PUT",
     body: {
@@ -77,6 +80,7 @@ export default function Playback({ isLoading }) {
   });
 
   const { execute: handlePausePlayback } = useFetch({
+    immediate: false,
     endpoint: "/api/me/player/pause",
     method: "PUT",
     params: { device_id: playback?.device?.id },

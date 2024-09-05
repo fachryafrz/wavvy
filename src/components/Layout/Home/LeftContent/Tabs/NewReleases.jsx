@@ -5,7 +5,7 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 
 export default function TabNewReleases() {
-  const { data, error, loading, execute } = useFetch({
+  const { data, error, loading } = useFetch({
     endpoint: `/api/browse/new-releases`,
   });
 
@@ -16,10 +16,6 @@ export default function TabNewReleases() {
     setShowMore(!showMore);
     setShowLimit(showMore ? 5 : data.albums.items.length);
   };
-
-  useEffect(() => {
-    execute();
-  }, []);
 
   return (
     <div>

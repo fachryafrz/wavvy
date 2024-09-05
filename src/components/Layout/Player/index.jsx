@@ -29,6 +29,7 @@ export default function Player() {
     execute: fetchPlayback,
   } = useFetch({
     endpoint: "/api/me/player",
+    immediate: false,
   });
 
   const {
@@ -37,6 +38,7 @@ export default function Player() {
     execute: fetchQueue,
   } = useFetch({
     endpoint: "/api/me/player/queue",
+    immediate: false,
   });
 
   useEffect(() => {

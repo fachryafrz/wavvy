@@ -3,7 +3,13 @@ import axios from "axios";
 import { useAuth } from "@/hooks/auth";
 import { useRouter } from "next/navigation";
 
-export const useFetch = ({ endpoint, params, method = "GET", ...props }) => {
+export const useFetch = ({
+  endpoint,
+  params,
+  method = "GET",
+  immediate = true,
+  ...props
+}) => {
   const { mutate } = useAuth();
   const router = useRouter();
 
@@ -36,6 +42,12 @@ export const useFetch = ({ endpoint, params, method = "GET", ...props }) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (immediate) {
+      execute();
+    }
+  }, []);
 
   return { data, error, loading, execute };
 };

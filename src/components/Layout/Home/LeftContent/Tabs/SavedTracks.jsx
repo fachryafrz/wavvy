@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function TabSavedTracks() {
-  const { data, error, loading, execute } = useFetch({
+  const { data, error, loading } = useFetch({
     endpoint: `/api/me/tracks`,
   });
 
@@ -17,10 +17,6 @@ export default function TabSavedTracks() {
     setShowMore(!showMore);
     setShowLimit(showMore ? 5 : data.items.length);
   };
-
-  useEffect(() => {
-    execute();
-  }, []);
 
   return (
     <div>

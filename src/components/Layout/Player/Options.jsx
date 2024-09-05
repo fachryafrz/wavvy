@@ -25,6 +25,7 @@ export default function PlaybackOptions({ isLoading }) {
     execute: fetchPlayback,
   } = useFetch({
     endpoint: "/api/me/player",
+    immediate: false,
   });
 
   const [volumeState, setVolumeState] = useState(100);
