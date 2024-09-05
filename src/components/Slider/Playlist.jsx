@@ -14,13 +14,14 @@ export default function SliderPlaylist({
 }) {
   return (
     <Slider
-      id={`slider-${id}`}
+      id={id}
       title={title}
       isLoading={isLoading}
       isLoadingClassName={isLoadingClassName}
     >
-      {data?.items.map((item, i) => {
-        const [image] = item.images ?? item.track.album.images;
+      {data?.map((item, i) => {
+        const [image] =
+          item.images ?? item.album?.images ?? item.track?.album?.images;
 
         return (
           <SwiperSlide
@@ -31,7 +32,11 @@ export default function SliderPlaylist({
               href={`/${item.type ?? item.track.type}/${item.id ?? item.track.id}`}
               className={`block rounded-xl p-2 hocus:bg-neutral`}
             >
-              <CardVertical name={item.name ?? item.track.name} image={image.url} />
+              <CardVertical
+                name={item.name ?? item.track.name}
+                image={image.url}
+                type={item.type ?? item.track.type}
+              />
             </Link>
           </SwiperSlide>
         );

@@ -26,7 +26,7 @@ export default function LeftContent({
         return (
           <section key={category.id}>
             <SliderPlaylist
-              id={category.id}
+              id={`slider-${category.id}`}
               title={
                 <Link
                   href={`/section/${category.id}`}
@@ -37,7 +37,7 @@ export default function LeftContent({
               }
               data={
                 categoriesPlaylists.find((cp) => cp.message === category.name)
-                  .playlists
+                  .playlists.items
               }
             />
           </section>
@@ -57,7 +57,7 @@ export default function LeftContent({
 
       <section>
         <SliderPlaylist
-          id={`recentlyPlayed`}
+          id={`recently-played`}
           title={
             <Link
               href={`/me/player/recently-played`}
@@ -66,7 +66,7 @@ export default function LeftContent({
               Recently Played
             </Link>
           }
-          data={recentlyPlayedData}
+          data={recentlyPlayedData?.items}
           isLoading={recentlyPlayedIsLoading}
         />
       </section>
@@ -75,7 +75,7 @@ export default function LeftContent({
         return (
           <section key={category.id}>
             <SliderPlaylist
-              id={category.id}
+              id={`slider-${category.id}`}
               title={
                 <Link
                   href={`/section/${category.id}`}
@@ -86,7 +86,7 @@ export default function LeftContent({
               }
               data={
                 categoriesPlaylists.find((cp) => cp.message === category.name)
-                  .playlists
+                  .playlists.items
               }
             />
           </section>

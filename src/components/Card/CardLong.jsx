@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { EllipsisVertical, Play } from "react-ionicons";
@@ -12,6 +14,7 @@ export default function CardLong({
   secondInfo,
   thirdInfo,
   smallInfo,
+  cta = true,
 }) {
   return (
     <div
@@ -51,16 +54,22 @@ export default function CardLong({
       )}
 
       {/* Play, Options */}
-      <div
-        className={`col-span-1 col-start-6 flex justify-end pr-1 @lg:col-start-12`}
-      >
-        <button className={`btn btn-square btn-ghost btn-sm`}>
-          <Play color={`#ffffff`} width={`20px`} height={`20px`} />
-        </button>
-        <button className={`btn btn-square btn-ghost btn-sm`}>
-          <EllipsisVertical color={`#ffffff`} width={`20px`} height={`20px`} />
-        </button>
-      </div>
+      {cta && (
+        <div
+          className={`col-span-1 col-start-6 flex justify-end pr-1 @lg:col-start-12`}
+        >
+          <button className={`btn btn-square btn-ghost btn-sm`}>
+            <Play color={`#ffffff`} width={`20px`} height={`20px`} />
+          </button>
+          <button className={`btn btn-square btn-ghost btn-sm`}>
+            <EllipsisVertical
+              color={`#ffffff`}
+              width={`20px`}
+              height={`20px`}
+            />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
