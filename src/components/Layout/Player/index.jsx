@@ -70,6 +70,7 @@ export default function Player() {
 
   return (
     <div
+      id="player"
       className={`grid w-full grid-cols-6 items-center gap-2 sm:gap-4 md:grid-cols-12`}
     >
       {/* Track Info (Image, Title, Artist) */}
@@ -78,7 +79,7 @@ export default function Player() {
 
         {!loading && (
           <TrackCard
-            name={playback?.item?.name ?? "Nothing playing"}
+            name={playback?.item.name ?? "Nothing playing"}
             image={trackImage?.url ?? "/maskable/maskable_icon_x192.png"}
             responsive={true}
             info={artists}

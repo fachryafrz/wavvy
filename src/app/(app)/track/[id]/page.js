@@ -1,3 +1,4 @@
+import TrackDetails from "@/components/Track/Details";
 import { spotify_access_token } from "@/lib/constants";
 import axios from "axios";
 import { cookies } from "next/headers";
@@ -22,7 +23,7 @@ export default async function page({ params }) {
 
   return (
     <div>
-      <div>{data.name}</div>
+      <TrackDetails track={data} />
     </div>
   );
 }
