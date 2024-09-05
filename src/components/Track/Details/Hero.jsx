@@ -10,26 +10,32 @@ export default function TrackDetailsHero({ track, artists }) {
   const [image] = album.images;
 
   const [fontSize, setFontSize] = useState(`2xl:text-8xl`);
+  const [translateY, setTranslateY] = useState(`2xl:translate-y-6`);
 
   useEffect(() => {
     const { name } = track;
 
     if (name.length > 50) {
       setFontSize(`2xl:text-4xl`);
+      setTranslateY(`2xl:translate-y-4`);
     } else if (name.length > 40) {
       setFontSize(`2xl:text-5xl`);
+      setTranslateY(`2xl:translate-y-5`);
     } else if (name.length > 30) {
       setFontSize(`2xl:text-6xl`);
+      setTranslateY(`2xl:translate-y-6`);
     } else if (name.length > 20) {
       setFontSize(`2xl:text-7xl`);
+      setTranslateY(`2xl:translate-y-7`);
     } else {
       setFontSize(`2xl:text-8xl`);
+      setTranslateY(`2xl:translate-y-8`);
     }
   }, [track]);
 
   return (
     <div
-      className={`relative -mx-4 mb-4 flex flex-col-reverse items-center justify-between gap-4 overflow-clip md:mx-0 md:flex-row`}
+      className={`relative -mx-4 mb-4 flex flex-col-reverse items-center justify-between gap-4 overflow-clip px-4 md:mx-0 md:flex-row md:p-0`}
     >
       <div
         className={`flex w-full flex-grow flex-col items-center gap-6 text-center md:items-start md:text-start`}
@@ -41,7 +47,7 @@ export default function TrackDetailsHero({ track, artists }) {
           {/* Type */}
           <span
             data-before-content={`Song`}
-            className={`before-content translate-y-8 font-medium capitalize`}
+            className={`before-content hidden translate-y-4 font-medium capitalize md:block ${translateY}`}
           />
 
           {/* Title */}
@@ -65,7 +71,7 @@ export default function TrackDetailsHero({ track, artists }) {
 
           {/* Artist */}
           <div className={`text-white`}>
-            <div className={`flex items-center gap-4`}>
+            <div className={`flex items-center flex-wrap gap-4`}>
               {artists.map((artist) => {
                 const [image] = artist.images;
 

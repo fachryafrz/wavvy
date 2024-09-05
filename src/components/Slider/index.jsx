@@ -28,10 +28,10 @@ export default function Slider({
 
   return (
     <div className={`flex w-full max-w-full flex-col`}>
-      <header className={`flex items-center justify-between`}>
+      <header className={`flex items-end justify-between`}>
         <h2 className={`text-xl font-medium`}>{title}</h2>
 
-        <div>
+        <div className={`flex flex-nowrap`}>
           <button
             id={`${id}_prev`}
             className={`btn btn-square btn-ghost btn-sm bg-transparent`}
