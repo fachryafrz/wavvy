@@ -9,7 +9,10 @@ import PremiumAlert from "@/components/Modals/PremiumAlert";
 export const revalidate = 3600;
 
 export const metadata = {
-  title: process.env.NEXT_PUBLIC_APP_NAME,
+  title: {
+    template: `%s - ${process.env.NEXT_PUBLIC_APP_NAME}`,
+    default: process.env.NEXT_PUBLIC_APP_NAME,
+  },
   description: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
 };
 

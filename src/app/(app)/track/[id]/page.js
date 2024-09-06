@@ -10,6 +10,23 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
 
+export async function generateMetadata({ params }) {
+  const { id } = params;
+  const cookiesStore = cookies();
+  const headers = {
+    Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
+  };
+
+  const { data: track } = await axios.get(
+    `${process.env.API_URL}/tracks/${id}`,
+    { headers: headers },
+  );
+
+  return {
+    title: `${track.name} by ${track.artists[0].name}`,
+  }
+}
+
 export default async function page({ params }) {
   const { id } = params;
   const cookiesStore = cookies();
@@ -97,11 +114,11 @@ export default async function page({ params }) {
               Popular Albums by {primaryArtist.name}
             </h2>
           </header>
-  
+
           <ul>
             {albums.items.slice(0, 5).map((album, i) => {
               const [image] = album.images;
-  
+
               return (
                 <li key={album.id}>
                   <CardLong
@@ -109,7 +126,9 @@ export default async function page({ params }) {
                     image={image.url}
                     link={`/${album.type}/${album.id}`}
                     cta={false}
-                    thirdInfo={moment(album.release_date).format("MMMM DD, YYYY")}
+                    thirdInfo={moment(album.release_date).format(
+                      "MMMM DD, YYYY",
+                    )}
                     secondInfo={`${album.total_tracks} Songs`}
                   />
                 </li>

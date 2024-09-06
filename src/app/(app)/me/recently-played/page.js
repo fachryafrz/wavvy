@@ -6,6 +6,12 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
 
+export async function generateMetadata() {
+  return {
+    title: `Recently Played`,
+  };
+}
+
 export default async function page({ params }) {
   const cookiesStore = cookies();
 

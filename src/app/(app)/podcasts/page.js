@@ -3,6 +3,12 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";
 
+export async function generateMetadata() {
+  return {
+    title: `Podcasts`,
+  };
+}
+
 export default function page() {
   const cookiesStore = cookies();
 

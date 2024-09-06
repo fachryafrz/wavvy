@@ -1,11 +1,7 @@
 "use client";
 
-import { userStore } from "@/zustand/user";
-import axios from "axios";
-import { useEffect } from "react";
 
-export default function Profile() {
-  const { user } = userStore();
+export default function Profile({ user }) {
 
-  return <div>{user?.display_name}</div>;
+  return <div>{user.display_name}</div>;
 }

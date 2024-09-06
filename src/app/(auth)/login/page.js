@@ -2,6 +2,12 @@ import LoginBanner from "@/components/Layout/LoginBanner";
 import { spotify_access_token, spotify_refresh_token } from "@/lib/constants";
 import { cookies } from "next/headers";
 
+export async function generateMetadata() {
+  return {
+    title: `Login`,
+  };
+}
+
 export default function page() {
   const authorizationURL = process.env.AUTHORIZATION_URL;
   const client_id = process.env.CLIENT_ID;

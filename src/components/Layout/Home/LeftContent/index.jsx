@@ -60,7 +60,7 @@ export default function LeftContent({
           id={`recently-played`}
           title={
             <Link
-              href={`/me/player/recently-played`}
+              href={`/me/recently-played`}
               className={`hocus:underline`}
             >
               Recently Played
