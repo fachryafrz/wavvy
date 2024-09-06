@@ -4,11 +4,13 @@ import React from "react";
 export default function TrackCard({ image, name, info, responsive = false }) {
   return (
     <article className={`flex items-center gap-2 p-1`}>
-      <figure
-        className={`aspect-square min-w-12 max-w-12 overflow-hidden rounded-lg`}
-      >
-        <img src={image} alt={name} loading="lazy" draggable="false" />
-      </figure>
+      {image && (
+        <figure
+          className={`aspect-square min-w-12 max-w-12 overflow-hidden rounded-lg`}
+        >
+          <img src={image} alt={name} loading="lazy" draggable="false" />
+        </figure>
+      )}
 
       <div
         className={`w-full flex-col ${responsive ? `hidden sm:flex` : `flex`}`}

@@ -11,17 +11,17 @@ export default function Logout() {
   const { user } = userStore();
   const { logout } = useAuth();
 
-  const profilePicture = user.images.find((image) => image.width === 300);
+  const profilePicture = user.images.find((image) => image.width === 300).url;
 
   return (
     <div>
       <div className="dropdown dropdown-end dropdown-hover">
         <div tabIndex={0} role="button" className="">
           <figure
-            className={`flex w-10 overflow-hidden rounded-full border-2 border-base-100 outline outline-2 outline-primary`}
+            className={`flex aspect-square w-10 overflow-hidden rounded-full border-2 border-base-100 outline outline-2 outline-primary`}
           >
             <img
-              src={profilePicture.url}
+              src={profilePicture}
               alt={user.display_name}
               loading="lazy"
               draggable="false"

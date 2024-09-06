@@ -1,7 +1,6 @@
 import CardLong from "@/components/Card/CardLong";
+import DetailsHero from "@/components/Layout/Details/Hero";
 import SliderPlaylist from "@/components/Slider/Playlist";
-import TrackDetails from "@/components/Track/Details";
-import TrackDetailsHero from "@/components/Track/Details/Hero";
 import { spotify_access_token } from "@/lib/constants";
 import axios from "axios";
 import moment from "moment";
@@ -24,7 +23,7 @@ export async function generateMetadata({ params }) {
 
   return {
     title: `${track.name} by ${track.artists[0].name}`,
-  }
+  };
 }
 
 export default async function page({ params }) {
@@ -43,7 +42,8 @@ export default async function page({ params }) {
     `${process.env.API_URL}/tracks/${id}`,
     { headers: headers },
   );
-
+  const { album } = track;
+  const [image] = album.images;
   const [primaryArtist] = track.artists;
 
   const artistsDetails = [];
@@ -83,7 +83,25 @@ export default async function page({ params }) {
     <div className={`flex flex-col gap-4`}>
       {/* Hero */}
       <section>
-        <TrackDetailsHero track={track} artists={artistsDetails} />
+        <DetailsHero
+          item={track}
+          artists={artistsDetails}
+          image={image.url}
+          title={track.name}
+          type={`Song`}
+          secondInfo={
+            <>
+              <span className={`text-neutral-500`}>Album: </span>
+
+              <Link
+                href={`/${album.type}/${album.id}`}
+                className={`flex w-fit font-medium text-white hocus:underline`}
+              >
+                {album.name}
+              </Link>
+            </>
+          }
+        />
       </section>
 
       {/* Other Details */}
@@ -98,14 +116,6 @@ export default async function page({ params }) {
           </section>
         );
       })}
-
-      {/* <section>
-        <SliderPlaylist
-          id={`popular-albums-${primaryArtist.id}`}
-          title={`Popular Albums by ${primaryArtist.name}`}
-          data={albums.items}
-        />
-      </section> */}
 
       <section>
         <div className={`flex flex-col gap-2 @container`}>

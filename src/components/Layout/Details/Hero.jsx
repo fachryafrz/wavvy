@@ -5,15 +5,19 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { HeartOutline } from "react-ionicons";
 
-export default function TrackDetailsHero({ track, artists }) {
-  const { album } = track;
-  const [image] = album.images;
-
+export default function DetailsHero({
+  item,
+  artists,
+  type,
+  image,
+  title,
+  secondInfo,
+}) {
   const [fontSize, setFontSize] = useState(`2xl:text-8xl`);
   const [translateY, setTranslateY] = useState(`2xl:translate-y-6`);
 
   useEffect(() => {
-    const { name } = track;
+    const { name } = item;
 
     if (name.length > 50) {
       setFontSize(`2xl:text-4xl`);
@@ -31,7 +35,7 @@ export default function TrackDetailsHero({ track, artists }) {
       setFontSize(`2xl:text-8xl`);
       setTranslateY(`2xl:translate-y-8`);
     }
-  }, [track]);
+  }, [item]);
 
   return (
     <div
@@ -46,7 +50,7 @@ export default function TrackDetailsHero({ track, artists }) {
         >
           {/* Type */}
           <span
-            data-before-content={`Song`}
+            data-before-content={type}
             className={`before-content hidden translate-y-4 font-medium capitalize md:block ${translateY}`}
           />
 
@@ -54,51 +58,44 @@ export default function TrackDetailsHero({ track, artists }) {
           <h1
             className={`line-clamp-2 text-pretty text-2xl font-bold !leading-snug drop-shadow-lg @sm:text-4xl @2xl:text-5xl ${fontSize}`}
           >
-            {track.name}
+            {title}
           </h1>
 
           {/* Album */}
-          <div className={`flex gap-1`}>
-            <span className={`font-thin`}>Album: </span>
-
-            <Link
-              href={`/${album.type}/${album.id}`}
-              className={`flex w-fit font-medium text-white hocus:underline`}
-            >
-              {album.name}
-            </Link>
-          </div>
+          {secondInfo && <div className={`flex gap-1`}>{secondInfo}</div>}
 
           {/* Artist */}
-          <div className={`text-white`}>
-            <div className={`flex flex-wrap items-center gap-4`}>
-              {artists.map((artist) => {
-                const [image] = artist.images;
+          {artists && (
+            <div className={`text-white`}>
+              <div className={`flex flex-wrap items-center gap-4`}>
+                {artists.map((artist) => {
+                  const [image] = artist.images;
 
-                return (
-                  <div key={artist.id} className={`flex items-center gap-2`}>
-                    <figure
-                      className={`aspect-square w-[40px] overflow-hidden rounded-full`}
-                    >
-                      <img
-                        src={image.url}
-                        alt={artist.name}
-                        loading="lazy"
-                        draggable="false"
-                      />
-                    </figure>
+                  return (
+                    <div key={artist.id} className={`flex items-center gap-2`}>
+                      <figure
+                        className={`aspect-square w-[40px] overflow-hidden rounded-full`}
+                      >
+                        <img
+                          src={image.url}
+                          alt={artist.name}
+                          loading="lazy"
+                          draggable="false"
+                        />
+                      </figure>
 
-                    <Link
-                      href={`/${artist.type}/${artist.id}`}
-                      className={`font-medium hocus:underline`}
-                    >
-                      {artist.name}
-                    </Link>
-                  </div>
-                );
-              })}
+                      <Link
+                        href={`/${artist.type}/${artist.id}`}
+                        className={`font-medium hocus:underline`}
+                      >
+                        {artist.name}
+                      </Link>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* CTA */}
@@ -120,19 +117,14 @@ export default function TrackDetailsHero({ track, artists }) {
       <figure
         className={`max-w-[200px] overflow-hidden rounded-xl shadow-xl sm:max-w-[300px]`}
       >
-        <img
-          src={image.url}
-          alt={track.name}
-          loading="lazy"
-          draggable="false"
-        />
+        <img src={image} alt={item.name} loading="lazy" draggable="false" />
       </figure>
 
       <div className={`absolute inset-0 -z-10`}>
         <figure
           className={`h-full w-full opacity-50`}
           // style={{
-          //   backgroundImage: `url(${image.url})`,
+          //   backgroundImage: `url(${image})`,
           //   backgroundSize: `cover`,
           //   backgroundPosition: `center`,
           //   filter: `blur(25px)`,
