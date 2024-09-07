@@ -5,11 +5,20 @@ import { useAuth } from "@/hooks/auth";
 import { userStore } from "@/zustand/user";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ExitOutline, PersonCircle } from "react-ionicons";
 
 export default function Logout() {
   const { user } = userStore();
-  const { logout } = useAuth();
+  const { mutate } = useAuth();
+  const router = useRouter();
+
+  const logout = async () => {
+    await axios.delete(`/api/auth/logout`).then(() => {
+      mutate(null);
+      router.refresh();
+    });
+  };
 
   const profilePicture = user.images.find((image) => image.width === 300).url;
 

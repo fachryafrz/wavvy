@@ -41,17 +41,19 @@ export async function POST(request) {
 
         return NextResponse.json(data, { status: 200 });
       } else {
-        const { data } = await axios.post(
-          process.env.ACCESS_TOKEN_URL,
-          { grant_type: "client_credentials" },
-          { headers: headers },
-        );
+        // const { data } = await axios.post(
+        //   process.env.ACCESS_TOKEN_URL,
+        //   { grant_type: "client_credentials" },
+        //   { headers: headers },
+        // );
 
-        cookiesStore.set(spotify_access_token, data.access_token, {
-          maxAge: data.expires_in,
-        });
+        // cookiesStore.set(spotify_access_token, data.access_token, {
+        //   maxAge: data.expires_in,
+        // });
 
-        return NextResponse.json(data, { status: 200 });
+        // return NextResponse.json(data, { status: 200 });
+
+        return NextResponse.json("No access token", { status: 200 });
       }
     }
 

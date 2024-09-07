@@ -11,9 +11,7 @@ export async function DELETE(request) {
       cookiesStore.delete(spotify_refresh_token);
 
       return NextResponse.json(
-        {
-          message: "Logged out successfully",
-        },
+        { message: "Logged out successfully" },
         { status: 200 },
       );
     }
