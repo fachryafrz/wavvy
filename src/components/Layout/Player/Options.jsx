@@ -45,7 +45,7 @@ export default function PlaybackOptions({ isLoading }) {
   const handleError = (error) => {
     if (error.status === 401) {
       mutate(null);
-      router.push("/login");
+      router.refresh();
     }
 
     if (error.status === 403) {

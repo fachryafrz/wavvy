@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import PlaylistCardSmall from "@/components/Playlist/CardSmall";
+import { useFetch } from "@/helper/fetch";
 import { userStore } from "@/zustand/user";
 import axios from "axios";
 import Link from "next/link";
@@ -60,7 +61,10 @@ export default function SidebarContent() {
       ],
     },
   ]);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const { data, error, loading } = useFetch({
+    endpoint: "/api/me/playlists",
+  });
 
   useEffect(() => {
     if (!user) {
@@ -71,14 +75,12 @@ export default function SidebarContent() {
       return;
     }
 
-    const fetchCurrentUserPlaylists = async () => {
-      setIsLoading(true);
+    const isAlreadyInSidebar = sidebar.some(
+      (section) => section.section === "Your Playlists",
+    );
 
-      const { data } = await axios.get(`/api/me/playlists`);
-
-      setIsLoading(false);
-
-      if (data.items.length > 0) {
+    if (!isAlreadyInSidebar) {
+      if (data?.items.length > 0) {
         const playlistsObject = {
           section: "Your Playlists",
           links: data.items.map((playlist) => ({
@@ -90,17 +92,8 @@ export default function SidebarContent() {
 
         setSidebar((sidebar) => [...sidebar, playlistsObject]);
       }
-    };
-
-    const isAlreadyInSidebar = sidebar.some(
-      (section) => section.section === "Your Playlists",
-    );
-
-    if (!isAlreadyInSidebar) {
-      fetchCurrentUserPlaylists();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, data]);
 
   return (
     <>
@@ -154,7 +147,7 @@ export default function SidebarContent() {
           );
         })}
 
-        {isLoading && (
+        {loading && (
           <div className={`flex items-center justify-center`}>
             <span className={`loading loading-spinner`} />
           </div>

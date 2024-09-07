@@ -1,6 +1,5 @@
 "use client";
 
-import { useAuth } from "@/hooks/auth";
 import { spotify_show_dialog } from "@/lib/constants";
 import { generateRandomString } from "@/lib/randomString";
 import axios from "axios";
@@ -9,8 +8,6 @@ import { useEffect, useMemo, useState } from "react";
 import { PersonCircle } from "react-ionicons";
 
 export default function Login({ authorizationURL, client_id }) {
-  const { login } = useAuth();
-
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

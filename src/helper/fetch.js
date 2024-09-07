@@ -10,7 +10,7 @@ export const useFetch = ({
   immediate = true,
   ...props
 }) => {
-  const { mutate } = useAuth();
+  const { mutate, user } = useAuth();
   const router = useRouter();
 
   const [data, setData] = useState(null);
@@ -33,7 +33,7 @@ export const useFetch = ({
       console.error(error, error.response?.status);
       if (error.response?.status === 401) {
         mutate(null);
-        router.push("/login");
+        router.refresh();
       }
       if (error.response?.status === 403) {
         document.getElementById("premiumAlert").showModal();
@@ -44,10 +44,15 @@ export const useFetch = ({
   };
 
   useEffect(() => {
+    if (!user) {
+      setLoading(true);
+      return;
+    }
+
     if (immediate) {
       execute();
     }
-  }, []);
+  }, [user]);
 
   return { data, error, loading, execute };
 };

@@ -1,7 +1,6 @@
 import "./globals.css";
 import { Suspense } from "react";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
-import AccessToken from "@/components/Auth/AccessToken";
 import { CookiesProvider } from "next-client-cookies/server";
 import LoginAlert from "@/components/Modals/LoginAlert";
 import PremiumAlert from "@/components/Modals/PremiumAlert";
@@ -21,7 +20,6 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <Suspense>
         <GoogleAnalytics />
-        <AccessToken />
       </Suspense>
 
       <body className={``}>
