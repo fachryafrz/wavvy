@@ -77,7 +77,7 @@ export default function DetailsHero({
                         className={`aspect-square w-[40px] overflow-hidden rounded-full`}
                       >
                         <img
-                          src={image.url}
+                          src={image?.url ?? "/maskable/maskable_icon_x192.png"}
                           alt={artist.name}
                           loading="lazy"
                           draggable="false"
