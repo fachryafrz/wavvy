@@ -32,7 +32,7 @@ export default function TabTracks() {
         data?.items.length > 0 &&
         data.items.slice(0, showLimit).map((track, i) => {
           const image = track.album.images[0].url;
-          const runtime = `${moment(track.duration_ms).format("m")}m ${moment(track.duration_ms).format("ss")}s`;
+          const runtime = `${moment(track.duration_ms).format("m:ss")}`;
 
           return (
             <CardLong
@@ -40,7 +40,20 @@ export default function TabTracks() {
               item={track}
               image={image}
               link={`/${track.type}/${track.id}`}
-              smallInfo={track.artists.map((artist) => artist.name).join(", ")}
+              smallInfo={track.artists.map((artist) => {
+                return (
+                  <>
+                    <Link
+                      href={`/${artist.type}/${artist.id}`}
+                      className={`hocus:underline`}
+                    >
+                      {artist.name}
+                    </Link>
+
+                    <span className={`last:hidden`}>, </span>
+                  </>
+                );
+              })}
               secondInfo={
                 <Link
                   href={`/${track.album.type}/${track.album.id}`}

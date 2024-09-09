@@ -44,7 +44,7 @@ export default function SidebarContent() {
       section: "Your Music",
       links: [
         {
-          title: "Saved Tracks",
+          title: "Saved Songs",
           href: "/me/tracks",
           icon: <HeartOutline />,
         },

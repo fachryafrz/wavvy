@@ -50,8 +50,10 @@ export default function LeftContent({
           <HomeTabs />
         </div>
 
-        <div className={``}>
-          <FavoriteArtists data={favoriteArtists} />
+        <div>
+          <div className={`sticky top-16`}>
+            <FavoriteArtists data={favoriteArtists} />
+          </div>
         </div>
       </section>
 
@@ -59,10 +61,7 @@ export default function LeftContent({
         <SliderPlaylist
           id={`recently-played`}
           title={
-            <Link
-              href={`/me/recently-played`}
-              className={`hocus:underline`}
-            >
+            <Link href={`/me/recently-played`} className={`hocus:underline`}>
               Recently Played
             </Link>
           }

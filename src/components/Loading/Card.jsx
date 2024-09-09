@@ -4,7 +4,7 @@ export default function LoadingCard({ responsive = false, info = true }) {
   return (
     <div className={`flex items-center gap-2 p-1`}>
       <span
-        className={`block aspect-square min-w-12 max-w-12 animate-pulse overflow-hidden rounded-lg bg-neutral-400 bg-opacity-50`}
+        className={`block aspect-square w-full max-w-14 animate-pulse overflow-hidden rounded-lg bg-neutral-400 bg-opacity-50`}
       ></span>
 
       <div

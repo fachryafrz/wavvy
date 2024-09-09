@@ -1,6 +1,6 @@
 import "../globals.css";
 import Sidebar from "@/components/Layout/Sidebar";
 
-export default function RootLayout({ children }) {
+export default function AppLayout({ children }) {
   return <Sidebar>{children}</Sidebar>;
 }

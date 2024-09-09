@@ -1,6 +1,7 @@
 "use client";
 
 import CardLong from "@/components/Card/CardLong";
+import { isPlural } from "@/lib/isPlural";
 import moment from "moment";
 import { DiscOutline } from "react-ionicons";
 
@@ -13,7 +14,9 @@ export default function AlbumDetailsTracks({ album, disc }) {
         <DiscOutline color={`#ffffff`} width={`20px`} height={`20px`} />
 
         <h2 className={`text-xl font-medium`}>
-          {discNumber ? `Tracks` : `Disc ${disc}`}
+          {discNumber
+            ? isPlural(album.tracks.items, `Song`, `Songs`)
+            : `Disc ${disc}`}
         </h2>
       </header>
 
@@ -24,7 +27,9 @@ export default function AlbumDetailsTracks({ album, disc }) {
           return (
             item.disc_number === disc && (
               <li key={item.id} className={`flex items-center gap-4`}>
-                <span className={`flex w-5 justify-center`}>{item.track_number}</span>
+                <span className={`flex w-5 justify-center`}>
+                  {item.track_number}
+                </span>
 
                 <div className={`-mx-1 flex-grow @container`}>
                   <CardLong

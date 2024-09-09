@@ -2,6 +2,7 @@ import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
 import { useFetch } from "@/helper/fetch";
 import moment from "moment";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function TabNewReleases() {
@@ -42,7 +43,20 @@ export default function TabNewReleases() {
               smallInfo={
                 <span className={`capitalize`}>{item.album_type}</span>
               }
-              secondInfo={item.artists.map((artist) => artist.name).join(`, `)}
+              secondInfo={item.artists.map((artist) => {
+                return (
+                  <>
+                    <Link
+                      href={`/${artist.type}/${artist.id}`}
+                      className={`hocus:underline`}
+                    >
+                      {artist.name}
+                    </Link>
+
+                    <span className={`last:hidden`}>, </span>
+                  </>
+                );
+              })}
               thirdInfo={releaseDate}
             />
           );

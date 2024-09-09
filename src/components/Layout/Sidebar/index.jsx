@@ -23,11 +23,13 @@ export default function Sidebar({ children, authorizationURL, client_id }) {
   useEffect(() => {
     const player = document.getElementById("player");
 
-    setPlayerHeight(player.parentElement.clientHeight);
+    const handleClientHeight = () => {
+      setPlayerHeight(player?.parentElement.clientHeight);
+    };
 
-    window.addEventListener("resize", () => {
-      setPlayerHeight(player.parentElement.clientHeight);
-    });
+    handleClientHeight();
+
+    window.addEventListener("resize", handleClientHeight);
   }, []);
 
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { userStore } from "@/zustand/user";
-import SavedTracks from "../SavedTracks";
+import SavedTracks from "../Old_SavedTracks";
 import NewReleases from "../Old_NewReleases";
 
 export default function RightContent({

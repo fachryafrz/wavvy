@@ -140,7 +140,7 @@ export default function Playback({ isLoading }) {
         </div>
 
         {/* Minutes */}
-        <span className={`text-xs font-medium text-neutral-500`}>
+        <span className={`text-sm font-medium text-neutral-500`}>
           {`${convertProgress(currentProgress)}/${convertProgress(durationMs || 0)}`}
         </span>
       </div>

@@ -28,7 +28,7 @@ export default function TabPlaylists() {
 
       {!loading &&
         data?.playlists.items.length > 0 &&
-        data.playlists.items.slice(0, 5).map((playlist, i) => {
+        data.playlists.items.slice(0, showLimit).map((playlist, i) => {
           const image = playlist.images[0].url;
 
           return (

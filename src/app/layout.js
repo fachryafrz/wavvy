@@ -13,6 +13,7 @@ export const metadata = {
     default: process.env.NEXT_PUBLIC_APP_NAME,
   },
   description: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
+  manifest: "/manifest.webmanifest",
 };
 
 export default function RootLayout({ children }) {

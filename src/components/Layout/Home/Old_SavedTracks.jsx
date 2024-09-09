@@ -33,7 +33,7 @@ export default function SavedTracks({ data }) {
     <div className={`flex flex-col gap-2`}>
       {/* Header */}
       <div className={`flex items-center justify-between`}>
-        <h2 className={`section-title`}>Saved Tracks</h2>
+        <h2 className={`section-title`}>Saved Songs</h2>
 
         <Link href={`/`} className={`text-xs font-medium text-primary`}>
           See all

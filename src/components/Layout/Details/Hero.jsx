@@ -13,8 +13,8 @@ export default function DetailsHero({
   title,
   secondInfo,
 }) {
-  const [fontSize, setFontSize] = useState(`2xl:text-8xl`);
-  const [translateY, setTranslateY] = useState(`2xl:translate-y-6`);
+  const [fontSize, setFontSize] = useState(`2xl:text-7xl`);
+  const [translateY, setTranslateY] = useState(`2xl:translate-y-7`);
 
   useEffect(() => {
     const { name } = item;
@@ -31,9 +31,6 @@ export default function DetailsHero({
     } else if (name.length > 20) {
       setFontSize(`2xl:text-7xl`);
       setTranslateY(`2xl:translate-y-7`);
-    } else {
-      setFontSize(`2xl:text-8xl`);
-      setTranslateY(`2xl:translate-y-8`);
     }
   }, [item]);
 
@@ -115,7 +112,7 @@ export default function DetailsHero({
       </div>
 
       <figure
-        className={`max-w-[200px] overflow-hidden rounded-xl shadow-xl sm:max-w-[300px]`}
+        className={`w-full max-w-[200px] overflow-hidden rounded-xl shadow-xl sm:max-w-[300px]`}
       >
         <img src={image} alt={item.name} loading="lazy" draggable="false" />
       </figure>

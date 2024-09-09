@@ -33,7 +33,7 @@ export default function TabSavedTracks() {
         data.items.slice(0, showLimit).map((item, i) => {
           const [image] = item.track.album.images;
           const releaseDate = moment(item.release_date).format("MMMM DD, YYYY");
-          const runtime = `${moment(item.track.duration_ms).format("m")}m ${moment(item.track.duration_ms).format("ss")}s`;
+          const runtime = `${moment(item.track.duration_ms).format("m:ss")}`;
 
           return (
             <CardLong
@@ -41,9 +41,20 @@ export default function TabSavedTracks() {
               item={item.track}
               image={image.url}
               link={`/${item.track.type}/${item.track.id}`}
-              smallInfo={item.track.artists
-                .map((artist) => artist.name)
-                .join(", ")}
+              smallInfo={item.track.artists.map((artist) => {
+                return (
+                  <>
+                    <Link
+                      href={`/${artist.type}/${artist.id}`}
+                      className={`hocus:underline`}
+                    >
+                      {artist.name}
+                    </Link>
+
+                    <span className={`last:hidden`}>, </span>
+                  </>
+                );
+              })}
               secondInfo={
                 <Link
                   href={`/${item.track.album.type}/${item.track.album.id}`}

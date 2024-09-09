@@ -20,7 +20,7 @@ export default function HomeTabs() {
   // const tabParam = searchParams.get("tab") || "tracks";
   const tabs = [
     {
-      title: "Your Top Tracks",
+      title: "Your Top Songs",
       tab: "top-tracks",
     },
     {
@@ -36,13 +36,13 @@ export default function HomeTabs() {
       tab: "new-releases",
     },
     {
-      title: "Saved Tracks",
+      title: "Saved Songs",
       tab: "saved-tracks",
     },
   ];
 
   const handleTabChange = (tab) => {
-    setTabParam(tab.tab);
+    setTabParam(tab);
   };
 
   return (
@@ -81,7 +81,7 @@ export default function HomeTabs() {
               <SwiperSlide key={tab.href} className={`!max-w-fit`}>
                 <button
                   key={tab.href}
-                  onClick={() => handleTabChange(tab)}
+                  onClick={() => handleTabChange(tab.tab)}
                   className={`nav-link relative !bg-transparent text-sm font-medium hocus:bg-transparent hocus:opacity-50 ${isActive ? "active-top" : ""}`}
                 >
                   <h2>{tab.title}</h2>

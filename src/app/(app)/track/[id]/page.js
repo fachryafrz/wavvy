@@ -106,7 +106,7 @@ export default async function page({ params }) {
           <section key={artist.id}>
             <SliderPlaylist
               id={`top-tracks-${artist.id}`}
-              title={`Top Tracks by ${artist.name}`}
+              title={`Top Songs by ${artist.name}`}
               data={artistsTopTracks[i].tracks}
             />
           </section>
@@ -149,7 +149,7 @@ export default async function page({ params }) {
           <section key={artist.id}>
             <SliderPlaylist
               id={`top-tracks-${artist.id}`}
-              title={`Top Tracks by ${artist.name}`}
+              title={`Top Songs by ${artist.name}`}
               data={artistsTopTracks[i + 1].tracks}
             />
           </section>

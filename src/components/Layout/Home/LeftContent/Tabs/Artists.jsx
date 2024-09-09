@@ -29,7 +29,7 @@ export default function TabArtists() {
 
       {!loading &&
         data?.items.length > 0 &&
-        data.items.slice(0, 5).map((artist, i) => {
+        data.items.slice(0, showLimit).map((artist, i) => {
           const image = artist.images[0].url;
           const followers = numeral(artist.followers.total).format(`0a`);
 

@@ -38,18 +38,32 @@ export default async function page({ params }) {
 
           return (
             <li key={item.id}>
-              <Link
-                href={`/${item.track.type}/${item.track.id}`}
-                className={`block rounded-xl p-2 hocus:bg-neutral`}
-              >
+              <div className={`block rounded-xl p-2 hocus:bg-neutral`}>
                 <CardVertical
-                  name={item.track.name}
+                  name={
+                    <Link href={`/${item.track.type}/${item.track.id}`}>
+                      {item.track.name}
+                    </Link>
+                  }
+                  link={`/${item.track.type}/${item.track.id}`}
                   image={image.url}
-                  info={item.track.artists
-                    .map((artist) => artist.name)
-                    .join(", ")}
+                  info={item.track.artists.map((artist) => {
+                    return (
+                      <>
+                        <Link
+                          key={artist.id}
+                          href={`/${artist.type}/${artist.id}`}
+                          className={`hocus:underline`}
+                        >
+                          {artist.name}
+                        </Link>
+
+                        <span className={`last:hidden`}>, </span>
+                      </>
+                    );
+                  })}
                 />
-              </Link>
+              </div>
             </li>
           );
         })}
