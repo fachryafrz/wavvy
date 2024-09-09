@@ -64,12 +64,18 @@ export default async function page({ params }) {
                 </Link>
               </div>
 
-              <div>
-                <span>
-                  {isPlural(playlist.followers.total, `Follower`, `Followers`)}:{" "}
-                  {numeral(playlist.followers.total).format(`0,0`)}
-                </span>
-              </div>
+              {playlist.followers.total > 0 && (
+                <div>
+                  <span>
+                    {isPlural(
+                      playlist.followers.total,
+                      `Follower`,
+                      `Followers`,
+                    )}
+                    : {numeral(playlist.followers.total).format(`0,0`)}
+                  </span>
+                </div>
+              )}
             </div>
           }
         />
