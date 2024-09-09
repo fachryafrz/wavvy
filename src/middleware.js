@@ -82,7 +82,9 @@ export default async function middleware(request) {
     if (!accessToken) {
       const response = NextResponse.redirect(new URL("/login", request.url));
 
-      response.cookies.set(ryth_redirect, pathname);
+      if (pathname !== "/manifest.webmanifest") {
+        response.cookies.set(ryth_redirect, pathname);
+      }
 
       return response;
     }
