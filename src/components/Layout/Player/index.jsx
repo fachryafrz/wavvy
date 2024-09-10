@@ -14,12 +14,12 @@ import { useRouter } from "next/navigation";
 import { useQueue } from "@/zustand/queue";
 import { useAuth } from "@/hooks/auth";
 import { useFetch } from "@/helper/fetch";
+import Link from "next/link";
 
 export default function Player() {
   const { playback, setPlayback } = usePlayback();
   const { queue, setQueue } = useQueue();
 
-  const [artists, setArtists] = useState();
   const [trackImage, setTrackImage] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -61,7 +61,6 @@ export default function Player() {
   }, [queueData]);
 
   useEffect(() => {
-    setArtists(playback?.item?.artists.map((artist) => artist.name).join(", "));
     setTrackImage(
       playback?.item?.album.images.find((image) => image.width === 64),
     );
@@ -79,10 +78,34 @@ export default function Player() {
 
         {!loading && (
           <TrackCard
-            name={playback?.item.name ?? "Nothing playing"}
+            name={
+              playback?.item.name ? (
+                <Link
+                  href={`/${playback.item.type}/${playback.item.id}`}
+                  className={`hocus:underline`}
+                >
+                  {playback.item.name}
+                </Link>
+              ) : (
+                "Nothing Playing"
+              )
+            }
             image={trackImage?.url ?? "/maskable/maskable_icon_x192.png"}
             responsive={true}
-            info={artists}
+            info={playback?.item?.artists.map((artist) => {
+              return (
+                <>
+                  <Link
+                    href={`/${artist.type}/${artist.id}`}
+                    className={`hocus:underline`}
+                  >
+                    {artist.name}
+                  </Link>
+
+                  <span className={`last:hidden`}>, </span>
+                </>
+              );
+            })}
           />
         )}
       </div>

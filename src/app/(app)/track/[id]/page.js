@@ -100,19 +100,20 @@ export default async function page({ params }) {
         />
       </section>
 
-      {/* Other Details */}
+      {/* Top Tracks */}
       {track.artists.slice(0, 1).map((artist, i) => {
         return (
           <section key={artist.id}>
             <SliderPlaylist
               id={`top-tracks-${artist.id}`}
               title={`Top Songs by ${artist.name}`}
-              data={artistsTopTracks[i].tracks}
+              data={artistsTopTracks[i].tracks.filter((item) => item.id !== id)}
             />
           </section>
         );
       })}
 
+      {/* Popular Albums */}
       <section>
         <div className={`flex flex-col gap-2 @container`}>
           <header>
@@ -144,13 +145,16 @@ export default async function page({ params }) {
         </div>
       </section>
 
+      {/* Other Artists */}
       {track.artists.slice(1).map((artist, i) => {
         return (
           <section key={artist.id}>
             <SliderPlaylist
               id={`top-tracks-${artist.id}`}
               title={`Top Songs by ${artist.name}`}
-              data={artistsTopTracks[i + 1].tracks}
+              data={artistsTopTracks[i + 1].tracks.filter(
+                (item) => item.id !== id,
+              )}
             />
           </section>
         );

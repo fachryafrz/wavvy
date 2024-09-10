@@ -8,14 +8,16 @@ export async function GET() {
   const cookiesStore = cookies();
 
   try {
-    const { data } = await axios.get(`${process.env.API_URL}/me/player/queue`, {
+    const { data, status } = await axios.get(`${process.env.API_URL}/me/player/queue`, {
       headers: {
         Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
       },
     });
 
-    return NextResponse.json(data, { status: 200 });
-  } catch (error) {
-    return NextResponse.json(error, { status: error.status });
+    return NextResponse.json(data, { status });
+  } catch ({ response }) {
+    const { data, status } = response;
+
+    return NextResponse.json(data, { status });
   }
 }

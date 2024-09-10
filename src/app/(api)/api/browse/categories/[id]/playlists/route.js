@@ -9,7 +9,7 @@ export async function GET(request, context) {
   const cookiesStore = cookies();
 
   try {
-    const { data } = await axios.get(
+    const { data, status } = await axios.get(
       `${process.env.API_URL}/browse/categories/${id}/playlists`,
       {
         headers: {
@@ -18,8 +18,10 @@ export async function GET(request, context) {
       },
     );
 
-    return NextResponse.json(data, { status: 200 });
-  } catch (error) {
-    return NextResponse.json(error, { status: error.status });
+    return NextResponse.json(data, { status });
+  } catch ({ response }) {
+    const { data, status } = response;
+
+    return NextResponse.json(data, { status });
   }
 }

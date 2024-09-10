@@ -15,7 +15,7 @@ export async function POST(request) {
   const cookiesStore = cookies();
 
   try {
-    const { data } = await axios.post(
+    const { data, status } = await axios.post(
       `${process.env.API_URL}/me/player/previous`,
       {},
       {
@@ -26,8 +26,10 @@ export async function POST(request) {
       },
     );
 
-    return NextResponse.json(data, { status: 200 });
-  } catch (error) {
-    return NextResponse.json(error, { status: error.status });
+    return NextResponse.json(data, { status });
+  } catch ({ response }) {
+    const { data, status } = response;
+
+    return NextResponse.json(data, { status });
   }
 }

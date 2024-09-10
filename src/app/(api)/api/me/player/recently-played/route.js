@@ -8,7 +8,7 @@ export async function GET(request) {
   const cookiesStore = cookies();
 
   try {
-    const { data } = await axios.get(
+    const { data, status } = await axios.get(
       `${process.env.API_URL}/me/player/recently-played`,
       {
         headers: {
@@ -17,8 +17,10 @@ export async function GET(request) {
       },
     );
 
-    return NextResponse.json(data, { status: 200 });
-  } catch (error) {
-    return NextResponse.json(error, { status: error.status });
+    return NextResponse.json(data, { status });
+  } catch ({ response }) {
+    const { data, status } = response;
+
+    return NextResponse.json(data, { status });
   }
 }

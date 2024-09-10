@@ -21,14 +21,16 @@ export async function GET(request) {
       },
     );
 
-    return NextResponse.json(data, { status: status });
-  } catch (error) {
-    if (!error.status) {
+    return NextResponse.json(data, { status });
+  } catch ({ response }) {
+    const { data, status } = response;
+
+    if (!status) {
       return NextResponse.json(null, {
         status: 200, // Original status was 204 but somehow it keeps returning 500 or 200
       });
     }
 
-    return NextResponse.json(error, { status: error.status });
+    return NextResponse.json(data, { status });
   }
 }

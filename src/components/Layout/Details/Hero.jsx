@@ -19,16 +19,16 @@ export default function DetailsHero({
   useEffect(() => {
     const { name } = item;
 
-    if (name.length > 50) {
+    if (name.length > 40) {
       setFontSize(`2xl:text-4xl`);
       setTranslateY(`2xl:translate-y-4`);
-    } else if (name.length > 40) {
+    } else if (name.length > 30) {
       setFontSize(`2xl:text-5xl`);
       setTranslateY(`2xl:translate-y-5`);
-    } else if (name.length > 30) {
+    } else if (name.length > 20) {
       setFontSize(`2xl:text-6xl`);
       setTranslateY(`2xl:translate-y-6`);
-    } else if (name.length > 20) {
+    } else if (name.length > 10) {
       setFontSize(`2xl:text-7xl`);
       setTranslateY(`2xl:translate-y-7`);
     }

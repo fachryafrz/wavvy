@@ -11,7 +11,7 @@ export async function GET(request) {
   const cookiesStore = cookies();
 
   try {
-    const { data } = await axios.get(`${process.env.API_URL}/me/following`, {
+    const { data, status } = await axios.get(`${process.env.API_URL}/me/following`, {
       headers: {
         Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
       },
@@ -20,8 +20,10 @@ export async function GET(request) {
       },
     });
 
-    return NextResponse.json(data, { status: 200 });
-  } catch (error) {
-    return NextResponse.json(error, { status: error.status });
+    return NextResponse.json(data, { status });
+  } catch ({ response }) {
+    const { data, status } = response;
+
+    return NextResponse.json(data, { status });
   }
 }
