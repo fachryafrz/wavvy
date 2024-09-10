@@ -12,6 +12,8 @@ export default function SliderPlaylist({
   isLoading,
   isLoadingClassName = `!max-w-[calc(100%/2)] @md:!max-w-[calc(100%/3)] @2xl:!max-w-[calc(100%/4)] @5xl:!max-w-[calc(100%/5)]`,
 }) {
+  console.log(data)
+  
   return (
     <Slider
       id={id}

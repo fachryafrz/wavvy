@@ -67,12 +67,12 @@ export default async function page({ params }) {
               {playlist.followers.total > 0 && (
                 <div>
                   <span>
+                    {numeral(playlist.followers.total).format(`0,0`)}{" "}
                     {isPlural(
                       playlist.followers.total,
-                      `Follower`,
-                      `Followers`,
+                      `follower`,
+                      `followers`,
                     )}
-                    : {numeral(playlist.followers.total).format(`0,0`)}
                   </span>
                 </div>
               )}

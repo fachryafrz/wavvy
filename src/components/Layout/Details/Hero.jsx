@@ -16,6 +16,8 @@ export default function DetailsHero({
   const [fontSize, setFontSize] = useState(`2xl:text-7xl`);
   const [translateY, setTranslateY] = useState(`2xl:translate-y-7`);
 
+  console.log(item);
+
   useEffect(() => {
     const { name } = item;
 
@@ -36,24 +38,24 @@ export default function DetailsHero({
 
   return (
     <div
-      className={`relative -mx-4 mb-4 flex flex-col-reverse items-center justify-between gap-4 overflow-clip px-4 md:mx-0 md:flex-row md:p-0`}
+      className={`relative -mx-4 flex flex-col-reverse items-center justify-between gap-4 overflow-clip px-4 md:mx-0 md:flex-row md:rounded-3xl md:p-8`}
     >
       <div
         className={`flex w-full flex-grow flex-col items-center gap-6 text-center md:items-start md:text-start`}
       >
         {/* Details */}
         <div
-          className={`flex w-full flex-col gap-4 @container before:font-bold`}
+          className={`flex w-full flex-col gap-4 @container`}
         >
           {/* Type */}
           <span
             data-before-content={type}
-            className={`before-content hidden translate-y-4 font-medium capitalize md:block ${translateY}`}
+            className={`before-content hidden translate-y-4 font-medium capitalize text-white md:block ${translateY}`}
           />
 
           {/* Title */}
           <h1
-            className={`line-clamp-2 text-pretty text-2xl font-bold !leading-snug drop-shadow-lg @sm:text-4xl @2xl:text-5xl ${fontSize}`}
+            className={`line-clamp-2 text-pretty text-2xl font-bold !leading-snug text-white @sm:text-4xl @2xl:text-5xl ${fontSize}`}
           >
             {title}
           </h1>
@@ -112,20 +114,20 @@ export default function DetailsHero({
       </div>
 
       <figure
-        className={`w-full max-w-[200px] overflow-hidden rounded-xl shadow-xl sm:max-w-[300px]`}
+        className={`aspect-square w-full max-w-[200px] overflow-hidden rounded-xl shadow-xl sm:max-w-[300px]`}
       >
         <img src={image} alt={item.name} loading="lazy" draggable="false" />
       </figure>
 
       <div className={`absolute inset-0 -z-10`}>
         <figure
-          className={`h-full w-full opacity-50`}
-          // style={{
-          //   backgroundImage: `url(${image})`,
-          //   backgroundSize: `cover`,
-          //   backgroundPosition: `center`,
-          //   filter: `blur(25px)`,
-          // }}
+          className={`h-full w-full opacity-40`}
+          style={{
+            backgroundImage: `url(${image})`,
+            backgroundSize: `cover`,
+            backgroundPosition: `center`,
+            filter: `blur(30px)`,
+          }}
         ></figure>
       </div>
     </div>

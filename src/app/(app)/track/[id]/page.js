@@ -87,7 +87,7 @@ export default async function page({ params }) {
           type={`Song`}
           secondInfo={
             <>
-              <span className={`text-neutral-500`}>Album: </span>
+              <span>Album: </span>
 
               <Link
                 href={`/${album.type}/${album.id}`}
