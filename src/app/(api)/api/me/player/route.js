@@ -12,20 +12,16 @@ export async function GET(request) {
   const cookiesStore = cookies();
 
   try {
-    if (cookiesStore.has(spotify_access_token)) {
-      const { data, status } = await axios.get(
-        `${process.env.API_URL}/me/player`,
-        {
-          headers: {
-            Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
-          },
+    const { data, status } = await axios.get(
+      `${process.env.API_URL}/me/player`,
+      {
+        headers: {
+          Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
         },
-      );
+      },
+    );
 
-      return NextResponse.json(data, { status: status });
-    } else {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
+    return NextResponse.json(data, { status: status });
   } catch (error) {
     if (!error.status) {
       return NextResponse.json(null, {

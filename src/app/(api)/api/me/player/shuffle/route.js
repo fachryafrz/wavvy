@@ -15,22 +15,18 @@ export async function PUT(request) {
   const cookiesStore = cookies();
 
   try {
-    if (cookiesStore.has(spotify_access_token)) {
-      const { data } = await axios.put(
-        `${process.env.API_URL}/me/player/shuffle`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
-          },
-          params: { state, device_id },
+    const { data } = await axios.put(
+      `${process.env.API_URL}/me/player/shuffle`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
         },
-      );
+        params: { state, device_id },
+      },
+    );
 
-      return NextResponse.json(data, { status: 200 });
-    } else {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
+    return NextResponse.json(data, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: error.status });
   }

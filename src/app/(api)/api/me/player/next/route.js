@@ -15,22 +15,18 @@ export async function POST(request) {
   const cookiesStore = cookies();
 
   try {
-    if (cookiesStore.has(spotify_access_token)) {
-      const { data } = await axios.post(
-        `${process.env.API_URL}/me/player/next`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
-          },
-          params: { device_id },
+    const { data } = await axios.post(
+      `${process.env.API_URL}/me/player/next`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
         },
-      );
+        params: { device_id },
+      },
+    );
 
-      return NextResponse.json(data, { status: 200 });
-    } else {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    }
+    return NextResponse.json(data, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: error.status });
   }

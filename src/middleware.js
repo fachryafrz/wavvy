@@ -15,6 +15,7 @@ export default async function middleware(request) {
   };
 
   const isLoginPage = pathname.startsWith("/login");
+  const isApiRoute = pathname.startsWith("/api");
 
   const cookiesStore = request.cookies;
   const accessToken = cookiesStore.has(spotify_access_token);
@@ -78,19 +79,21 @@ export default async function middleware(request) {
     }
   }
 
-  if (!isLoginPage) {
-    if (!accessToken) {
-      const response = NextResponse.redirect(new URL("/login", request.url));
+  if (!isLoginPage && !accessToken && !isApiRoute) {
+    const response = NextResponse.redirect(new URL("/login", request.url));
 
-      if (pathname !== "/manifest.webmanifest") {
-        response.cookies.set(ryth_redirect, pathname);
-      }
-
-      return response;
+    if (pathname !== "/manifest.webmanifest") {
+      response.cookies.set(ryth_redirect, pathname);
     }
+
+    return response;
+  }
+
+  if (isApiRoute && !accessToken) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };

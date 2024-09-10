@@ -6,15 +6,13 @@ export async function DELETE(request) {
   const cookiesStore = cookies();
 
   try {
-    if (cookiesStore.has(spotify_access_token)) {
-      cookiesStore.delete(spotify_access_token);
-      cookiesStore.delete(spotify_refresh_token);
+    cookiesStore.delete(spotify_access_token);
+    cookiesStore.delete(spotify_refresh_token);
 
-      return NextResponse.json(
-        { message: "Logged out successfully" },
-        { status: 200 },
-      );
-    }
+    return NextResponse.json(
+      { message: "Logged out successfully" },
+      { status: 200 },
+    );
   } catch (error) {
     return NextResponse.json(error, { status: error.status });
   }
