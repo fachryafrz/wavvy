@@ -27,7 +27,7 @@ export default async function page({ params }) {
   return (
     <div className={`@container`}>
       <header>
-        <h2 className={`text-xl font-medium`}>Saved Tracks</h2>
+        <h2 className={`text-xl font-medium`}>Saved Songs</h2>
       </header>
 
       <ul
