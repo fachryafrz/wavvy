@@ -57,7 +57,7 @@ export default function TabNewReleases() {
                   </>
                 );
               })}
-              thirdInfo={releaseDate}
+              thirdInfo={<div className={`mx-auto w-fit`}>{releaseDate}</div>}
             />
           );
         })}

@@ -2,6 +2,7 @@ import CardLong from "@/components/Card/CardLong";
 import DetailsHero from "@/components/Layout/Details/Hero";
 import SliderPlaylist from "@/components/Slider/Playlist";
 import { spotify_access_token } from "@/lib/constants";
+import { isPlural } from "@/lib/isPlural";
 import axios from "axios";
 import moment from "moment";
 import { cookies } from "next/headers";
@@ -75,8 +76,6 @@ export default async function page({ params }) {
     { headers: headers },
   );
 
-  console.log(primaryArtist);
-
   return (
     <div className={`flex flex-col gap-4`}>
       {/* Hero */}
@@ -118,12 +117,22 @@ export default async function page({ params }) {
       {/* Popular Albums */}
       {primaryArtist.name && (
         <section>
-          <div className={`flex flex-col gap-2 @container`}>
-            <header>
-              <h2 className={`text-xl font-medium`}>
-                Popular Albums by {primaryArtist.name}
-              </h2>
+          <div className={`flex flex-col @container`}>
+            <header className={`@container`}>
+              <CardLong
+                name={
+                  <h2 className={`text-xl font-medium`}>
+                    Popular Albums by {primaryArtist.name}
+                  </h2>
+                }
+                secondInfo={`Song Count`}
+                thirdInfo={`Release Date`}
+                cta={false}
+                hover={false}
+              />
             </header>
+
+            <span className={`divider my-0`}></span>
 
             <ul>
               {albums.items.slice(0, 5).map((album, i) => {
@@ -139,7 +148,7 @@ export default async function page({ params }) {
                       thirdInfo={moment(album.release_date).format(
                         "MMMM DD, YYYY",
                       )}
-                      secondInfo={`${album.total_tracks} Songs`}
+                      secondInfo={`${album.total_tracks} ${isPlural(album.total_tracks, `Song`, `Songs`)}`}
                     />
                   </li>
                 );

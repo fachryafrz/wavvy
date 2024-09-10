@@ -63,7 +63,7 @@ export default function TabSavedTracks() {
                   {item.track.album.name}
                 </Link>
               }
-              thirdInfo={runtime}
+              thirdInfo={<div className={`mx-auto w-fit`}>{runtime}</div>}
             />
           );
         })}

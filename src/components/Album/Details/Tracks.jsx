@@ -14,11 +14,21 @@ export default function AlbumDetailsTracks({ album, disc }) {
       <header className={`flex items-center gap-4`}>
         <DiscOutline color={`#ffffff`} width={`20px`} height={`20px`} />
 
-        <h2 className={`text-xl font-medium`}>
-          {discNumber
-            ? isPlural(album.tracks.items.length, `Song`, `Songs`)
-            : `Disc ${disc}`}
-        </h2>
+        <div className={`w-full @container`}>
+          <CardLong
+            name={
+              <h2 className={`text-xl font-medium`}>
+                {discNumber
+                  ? isPlural(album.tracks.items.length, `Song`, `Songs`)
+                  : `Disc ${disc}`}
+              </h2>
+            }
+            secondInfo={<div className={`mx-auto w-fit`}>Duration</div>}
+            thirdInfo={` `}
+            cta={false}
+            hover={false}
+          />
+        </div>
       </header>
 
       <span className={`divider my-0`}></span>
@@ -36,7 +46,12 @@ export default function AlbumDetailsTracks({ album, disc }) {
                   <CardLong
                     item={item}
                     link={`/${item.type}/${item.id}`}
-                    secondInfo={moment(item.duration_ms).format("m:ss")}
+                    secondInfo={
+                      <div className={`mx-auto w-fit`}>
+                        {moment(item.duration_ms).format("m:ss")}
+                      </div>
+                    }
+                    thirdInfo={` `}
                     smallInfo={item.artists.map((artist) => {
                       return (
                         <>

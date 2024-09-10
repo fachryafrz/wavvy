@@ -16,8 +16,6 @@ export default function DetailsHero({
   const [fontSize, setFontSize] = useState(`2xl:text-7xl`);
   const [translateY, setTranslateY] = useState(`2xl:translate-y-7`);
 
-  console.log(item);
-
   useEffect(() => {
     const { name } = item;
 
@@ -44,9 +42,7 @@ export default function DetailsHero({
         className={`flex w-full flex-grow flex-col items-center gap-6 text-center md:items-start md:text-start`}
       >
         {/* Details */}
-        <div
-          className={`flex w-full flex-col gap-4 @container`}
-        >
+        <div className={`flex w-full flex-col gap-4 @container`}>
           {/* Type */}
           <span
             data-before-content={type}

@@ -116,7 +116,11 @@ export default async function page({ params }) {
                           {item.album.name}
                         </Link>
                       }
-                      thirdInfo={moment(item.duration_ms).format("m:ss")}
+                      thirdInfo={
+                        <div className={`mx-auto w-fit`}>
+                          {moment(item.duration_ms).format("m:ss")}
+                        </div>
+                      }
                       smallInfo={item.artists.map((artist) => {
                         return (
                           <>

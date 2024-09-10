@@ -11,24 +11,28 @@ export default function CardLong({
   item,
   link,
   image,
+  name,
   secondInfo,
   thirdInfo,
   smallInfo,
   cta = true,
+  hover = true,
 }) {
   return (
     <div
-      className={`grid grid-cols-6 items-center gap-2 @lg:grid-cols-12 hocus:rounded-lg hocus:bg-neutral`}
+      className={`grid grid-cols-6 items-center gap-2 @lg:grid-cols-12 ${hover ? `hocus:rounded-lg hocus:bg-neutral` : ``}`}
     >
       {/* Image, Title */}
       <div
-        className={`col-span-4 ${secondInfo && thirdInfo ? `@lg:col-span-5` : secondInfo || thirdInfo ? `@lg:col-span-8` : `@lg:col-span-11`}`}
+        className={`col-span-4 ${secondInfo && thirdInfo ? `@lg:col-span-5` : secondInfo || thirdInfo ? `@lg:col-span-8` : cta ? `@lg:col-span-10` : `@lg:col-span-12`}`}
       >
         <TrackCard
           name={
-            <Link href={link} className={`hocus:underline`}>
-              {item.name}
-            </Link>
+            name ?? (
+              <Link href={link} className={`${hover ? `hocus:underline` : ``}`}>
+                {item.name}
+              </Link>
+            )
           }
           image={image}
           info={smallInfo}
@@ -37,8 +41,10 @@ export default function CardLong({
 
       {/* Second Info */}
       {secondInfo && (
-        <div className={`col-span-3 hidden justify-start @lg:flex`}>
-          <span className={`line-clamp-1 text-sm font-medium`}>
+        <div
+          className={`col-span-2 hidden justify-center @lg:col-span-3 @lg:flex`}
+        >
+          <span className={`line-clamp-1 w-full text-sm font-medium`}>
             {secondInfo}
           </span>
         </div>
@@ -46,8 +52,8 @@ export default function CardLong({
 
       {/* Third Info */}
       {thirdInfo && (
-        <div className={`col-span-3 hidden justify-center @lg:flex`}>
-          <span className={`line-clamp-1 text-sm font-medium`}>
+        <div className={`col-span-2 hidden justify-center @lg:flex`}>
+          <span className={`line-clamp-1 w-full text-sm font-medium`}>
             {thirdInfo}
           </span>
         </div>
@@ -56,7 +62,7 @@ export default function CardLong({
       {/* Play, Options */}
       {cta && (
         <div
-          className={`col-span-2 col-start-6 flex justify-end pr-1 @lg:col-start-12`}
+          className={`col-span-2 col-start-5 flex justify-end pr-1 @lg:col-start-12`}
         >
           <button className={`btn btn-square btn-ghost btn-sm`}>
             <Play color={`#ffffff`} width={`20px`} height={`20px`} />

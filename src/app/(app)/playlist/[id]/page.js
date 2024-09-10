@@ -87,7 +87,19 @@ export default async function page({ params }) {
           <header className={`flex items-center gap-4`}>
             <span className={`w-5 text-center`}>#</span>
 
-            <h2 className={`text-xl font-medium`}>Songs</h2>
+            <div className={`flex-grow @container`}>
+              <CardLong
+                name={
+                  <h2 className={`text-xl font-medium`}>
+                    {isPlural(playlist.tracks.items.length, `Song`, `Songs`)}
+                  </h2>
+                }
+                secondInfo={<div className={`mx-auto w-fit`}>Duration</div>}
+                thirdInfo={` `}
+                cta={false}
+                hover={false}
+              />
+            </div>
           </header>
 
           <span className={`divider my-0`}></span>
@@ -103,7 +115,12 @@ export default async function page({ params }) {
                       item={item.track}
                       image={item.track.album.images[0]?.url}
                       link={`/${item.track.type}/${item.track.id}`}
-                      secondInfo={moment(item.track.duration_ms).format("m:ss")}
+                      secondInfo={
+                        <div className={`mx-auto w-fit`}>
+                          {moment(item.track.duration_ms).format("m:ss")}
+                        </div>
+                      }
+                      thirdInfo={` `}
                       smallInfo={item.track.artists.map((artist) => {
                         return (
                           <>
