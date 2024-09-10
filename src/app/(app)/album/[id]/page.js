@@ -94,13 +94,15 @@ export default async function page({ params }) {
       </section>
 
       {/* More Albums from Primary Artist */}
-      <section>
-        <SliderPlaylist
-          id={`more-albums-${primaryArtist.id}`}
-          title={`More by ${primaryArtist.name}`}
-          data={moreAlbums.items.filter((item) => item.id !== album.id)}
-        />
-      </section>
+      {moreAlbums.items.length > 0 && (
+        <section>
+          <SliderPlaylist
+            id={`more-albums-${primaryArtist.id}`}
+            title={`More by ${primaryArtist.name}`}
+            data={moreAlbums.items.filter((item) => item.id !== album.id)}
+          />
+        </section>
+      )}
     </div>
   );
 }

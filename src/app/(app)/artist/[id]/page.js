@@ -108,7 +108,15 @@ export default async function page({ params }) {
                       item={item}
                       image={item.album.images[0].url}
                       link={`/${item.type}/${item.id}`}
-                      secondInfo={moment(item.duration_ms).format("m:ss")}
+                      secondInfo={
+                        <Link
+                          href={`/${item.album.type}/${item.album.id}`}
+                          className={`hocus:underline`}
+                        >
+                          {item.album.name}
+                        </Link>
+                      }
+                      thirdInfo={moment(item.duration_ms).format("m:ss")}
                       smallInfo={item.artists.map((artist) => {
                         return (
                           <>
@@ -134,22 +142,26 @@ export default async function page({ params }) {
       </section>
 
       {/* Albums */}
-      <section>
-        <SliderPlaylist
-          id={`album-${id}`}
-          title={`Albums`}
-          data={albums.items}
-        />
-      </section>
+      {albums.items.length > 0 && (
+        <section>
+          <SliderPlaylist
+            id={`album-${id}`}
+            title={`Albums`}
+            data={albums.items}
+          />
+        </section>
+      )}
 
       {/* Other Artists */}
-      <section>
-        <SliderPlaylist
-          id={`related-artists`}
-          title={`Fans also like`}
-          data={relatedArtists.artists}
-        />
-      </section>
+      {relatedArtists.artists.length > 0 && (
+        <section>
+          <SliderPlaylist
+            id={`related-artists`}
+            title={`Fans also like`}
+            data={relatedArtists.artists}
+          />
+        </section>
+      )}
 
       {/* Appears On */}
       {appearsOn.items.length > 0 && (
