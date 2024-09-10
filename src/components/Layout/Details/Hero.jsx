@@ -38,7 +38,7 @@ export default function DetailsHero({
 
   return (
     <div
-      className={`relative -mx-4 flex flex-col-reverse items-center justify-between gap-4 overflow-clip px-4 md:mx-0 md:flex-row md:rounded-3xl md:p-8`}
+      className={`relative -mx-4 flex flex-col-reverse items-center justify-between gap-4 overflow-clip p-4 md:mx-0 md:flex-row md:rounded-3xl md:p-8`}
     >
       <div
         className={`flex w-full flex-grow flex-col items-center gap-6 text-center md:items-start md:text-start`}
