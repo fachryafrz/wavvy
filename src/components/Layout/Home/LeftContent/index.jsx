@@ -37,7 +37,7 @@ export default function LeftContent({
               }
               data={
                 categoriesPlaylists.find((cp) => cp.message === category.name)
-                  .playlists.items
+                  .playlists.items.slice(4)
               }
             />
           </section>

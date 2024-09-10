@@ -101,7 +101,7 @@ export default async function page({ params }) {
                   <div className={`-mx-1 flex-grow @container`}>
                     <CardLong
                       item={item.track}
-                      image={item.track.album.images[0].url}
+                      image={item.track.album.images[0]?.url}
                       link={`/${item.track.type}/${item.track.id}`}
                       secondInfo={moment(item.track.duration_ms).format("m:ss")}
                       smallInfo={item.track.artists.map((artist) => {
