@@ -44,7 +44,9 @@ export default function TabArtists() {
                   {artist.genres.slice(0, 2).join(", ")}
                 </span>
               }
-              thirdInfo={`${followers} folllowers`}
+              thirdInfo={
+                <div className={`mx-auto w-fit`}>{followers} folllowers</div>
+              }
             />
           );
         })}
