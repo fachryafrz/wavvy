@@ -62,7 +62,7 @@ export default function TabTracks() {
                   {track.album.name}
                 </Link>
               }
-              thirdInfo={<div className={`mx-auto w-fit`}>runtime</div>}
+              thirdInfo={<div className={`mx-auto w-fit`}>{runtime}</div>}
             />
           );
         })}
