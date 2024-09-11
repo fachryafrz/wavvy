@@ -125,8 +125,10 @@ export default async function page({ params }) {
                     Popular Albums by {primaryArtist.name}
                   </h2>
                 }
-                secondInfo={`Song Count`}
-                thirdInfo={`Release Date`}
+                secondInfo={<div className={`mx-auto w-fit`}>`Song Count`</div>}
+                thirdInfo={
+                  <div className={`mx-auto w-fit`}>`Release Date`</div>
+                }
                 cta={false}
                 hover={false}
               />
@@ -145,10 +147,17 @@ export default async function page({ params }) {
                       image={image.url}
                       link={`/${album.type}/${album.id}`}
                       cta={false}
-                      thirdInfo={moment(album.release_date).format(
-                        "MMMM DD, YYYY",
-                      )}
-                      secondInfo={`${album.total_tracks} ${isPlural(album.total_tracks, `Song`, `Songs`)}`}
+                      thirdInfo={
+                        <div className={`mx-auto w-fit`}>
+                          {moment(album.release_date).format("MMMM DD, YYYY")}
+                        </div>
+                      }
+                      secondInfo={
+                        <div className={`mx-auto w-fit`}>
+                          {album.total_tracks}{" "}
+                          {isPlural(album.total_tracks, `Song`, `Songs`)}
+                        </div>
+                      }
                     />
                   </li>
                 );

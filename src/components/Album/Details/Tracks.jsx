@@ -14,7 +14,7 @@ export default function AlbumDetailsTracks({ album, disc }) {
       <header className={`flex items-center gap-4`}>
         <DiscOutline color={`#ffffff`} width={`20px`} height={`20px`} />
 
-        <div className={`w-full @container`}>
+        <div className={`flex-grow @container`}>
           <CardLong
             name={
               <h2 className={`text-xl font-medium`}>
@@ -42,7 +42,7 @@ export default function AlbumDetailsTracks({ album, disc }) {
                   {item.track_number}
                 </span>
 
-                <div className={`-mx-1 flex-grow @container`}>
+                <div className={`flex-grow @container`}>
                   <CardLong
                     item={item}
                     link={`/${item.type}/${item.id}`}

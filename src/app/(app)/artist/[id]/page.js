@@ -101,8 +101,6 @@ export default async function page({ params }) {
             {topTracks.tracks.slice(0, 5).map((item, j) => {
               return (
                 <li key={item.id} className={`flex items-center gap-4`}>
-                  <span className={`flex w-5 justify-center`}>{j + 1}</span>
-
                   <div className={`-mx-1 flex-grow @container`}>
                     <CardLong
                       item={item}
