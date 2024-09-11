@@ -125,9 +125,9 @@ export default async function page({ params }) {
                     Popular Albums by {primaryArtist.name}
                   </h2>
                 }
-                secondInfo={<div className={`mx-auto w-fit`}>`Song Count`</div>}
+                secondInfo={<div className={`mx-auto w-fit`}>Song Count</div>}
                 thirdInfo={
-                  <div className={`mx-auto w-fit`}>`Release Date`</div>
+                  <div className={`mx-auto w-fit`}>Release Date</div>
                 }
                 cta={false}
                 hover={false}

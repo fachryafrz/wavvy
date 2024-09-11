@@ -91,8 +91,14 @@ export default async function page({ params }) {
       {/* Popular Tracks */}
       <section>
         <div>
-          <header className={`flex items-center gap-4`}>
-            <h2 className={`text-xl font-medium`}>Popular</h2>
+          <header className={`@container`}>
+            <CardLong
+              name={<h2 className={`text-xl font-medium`}>Popular</h2>}
+              secondInfo={`Album`}
+              thirdInfo={<div className={`mx-auto w-fit`}>Duration</div>}
+              cta={false}
+              hover={false}
+            />
           </header>
 
           <span className={`divider my-0`}></span>

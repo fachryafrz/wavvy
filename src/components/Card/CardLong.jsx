@@ -52,7 +52,9 @@ export default function CardLong({
 
       {/* Third Info */}
       {thirdInfo && (
-        <div className={`col-span-2 hidden justify-center @lg:flex`}>
+        <div
+          className={`col-span-2 hidden justify-center @lg:flex`}
+        >
           <span className={`line-clamp-1 w-full text-sm font-medium`}>
             {thirdInfo}
           </span>
