@@ -73,7 +73,7 @@ export default async function page({ params }) {
           secondInfo={
             <span className={`mx-auto md:mx-0`}>
               {album.total_tracks}{" "}
-              {isPlural(album.total_tracks.length, `Song`, `Songs`)} &bull;{" "}
+              {isPlural(album.total_tracks, `Song`, `Songs`)} &bull;{" "}
               {moment(album.release_date).format("MMM DD, YYYY")}
             </span>
           }
