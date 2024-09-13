@@ -1,7 +1,7 @@
 import {
-  spotify_access_token,
-  spotify_authorization,
-  spotify_refresh_token,
+  SPOTIFY_ACCESS_TOKEN,
+  SPOTIFY_AUTHORIZATION,
+  SPOTIFY_REFRESH_TOKEN,
 } from "@/lib/constants";
 import { generateRandomString } from "@/lib/randomString";
 import axios from "axios";
@@ -20,7 +20,7 @@ export async function PUT(request) {
       {},
       {
         headers: {
-          Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
+          Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
         },
         params: { state, device_id },
       },

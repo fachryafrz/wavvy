@@ -1,6 +1,5 @@
 "use client";
 
-import { spotify_show_dialog } from "@/lib/constants";
 import { generateRandomString } from "@/lib/randomString";
 import axios from "axios";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";

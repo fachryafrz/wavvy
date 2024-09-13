@@ -1,5 +1,5 @@
 import CardVertical from "@/components/Card/CardVertical";
-import { spotify_access_token } from "@/lib/constants";
+import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
 import axios from "axios";
 import { cookies } from "next/headers";
 import Link from "next/link";
@@ -16,7 +16,7 @@ export default async function page({ params }) {
   const cookiesStore = cookies();
 
   const headers = {
-    Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
+    Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
   };
 
   const { data: savedTracks } = await axios.get(

@@ -1,7 +1,7 @@
 import AlbumDetailsTracks from "@/components/Album/Details/Tracks";
 import DetailsHero from "@/components/Layout/Details/Hero";
 import SliderPlaylist from "@/components/Slider/Playlist";
-import { spotify_access_token } from "@/lib/constants";
+import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
 import { isPlural } from "@/lib/isPlural";
 import axios from "axios";
 import moment from "moment";
@@ -13,7 +13,7 @@ export async function generateMetadata({ params }) {
   const { id } = params;
   const cookiesStore = cookies();
   const headers = {
-    Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
+    Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
   };
 
   const { data } = await axios.get(`${process.env.API_URL}/albums/${id}`, {
@@ -30,7 +30,7 @@ export default async function page({ params }) {
   const cookiesStore = cookies();
 
   const headers = {
-    Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
+    Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
   };
 
   const { data: album } = await axios.get(

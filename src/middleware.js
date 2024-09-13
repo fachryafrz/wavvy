@@ -1,7 +1,7 @@
 import {
-  ryth_redirect,
-  spotify_access_token,
-  spotify_refresh_token,
+  RYTH_REDIRECT,
+  SPOTIFY_ACCESS_TOKEN,
+  SPOTIFY_REFRESH_TOKEN,
 } from "./lib/constants";
 import { NextResponse } from "next/server";
 
@@ -18,9 +18,9 @@ export default async function middleware(request) {
   const isApiRoute = pathname.startsWith("/api");
 
   const cookiesStore = request.cookies;
-  const accessToken = cookiesStore.has(spotify_access_token);
-  const refreshToken = cookiesStore.has(spotify_refresh_token);
-  const redirect = cookiesStore.get(ryth_redirect)?.value || "/";
+  const accessToken = cookiesStore.has(SPOTIFY_ACCESS_TOKEN);
+  const refreshToken = cookiesStore.has(SPOTIFY_REFRESH_TOKEN);
+  const redirect = cookiesStore.get(RYTH_REDIRECT)?.value || "/";
 
   if (isLoginPage) {
     const code = searchParams.get("code");
@@ -44,20 +44,20 @@ export default async function middleware(request) {
 
       const response = NextResponse.redirect(new URL(redirect, request.url));
 
-      response.cookies.set(spotify_access_token, data.access_token, {
+      response.cookies.set(SPOTIFY_ACCESS_TOKEN, data.access_token, {
         maxAge: data.expires_in,
       });
-      response.cookies.set(spotify_refresh_token, data.refresh_token, {
+      response.cookies.set(SPOTIFY_REFRESH_TOKEN, data.refresh_token, {
         maxAge: 60 * 60 * 24 * 30,
       });
-      response.cookies.delete(ryth_redirect);
+      response.cookies.delete(RYTH_REDIRECT);
 
       return response;
     } else if (accessToken) {
       return NextResponse.redirect(new URL("/", request.url));
     } else if (refreshToken) {
       const params = new URLSearchParams({
-        refresh_token: cookiesStore.get(spotify_refresh_token).value,
+        refresh_token: cookiesStore.get(SPOTIFY_REFRESH_TOKEN).value,
         grant_type: "refresh_token",
         client_id: process.env.CLIENT_ID,
       });
@@ -69,11 +69,11 @@ export default async function middleware(request) {
 
       const response = NextResponse.redirect(new URL(redirect, request.url));
 
-      response.cookies.set(spotify_access_token, data.access_token, {
+      response.cookies.set(SPOTIFY_ACCESS_TOKEN, data.access_token, {
         maxAge: data.expires_in,
       });
-      response.cookies.delete(spotify_refresh_token);
-      response.cookies.delete(ryth_redirect);
+      response.cookies.delete(SPOTIFY_REFRESH_TOKEN);
+      response.cookies.delete(RYTH_REDIRECT);
 
       return response;
     }
@@ -83,7 +83,7 @@ export default async function middleware(request) {
     const response = NextResponse.redirect(new URL("/login", request.url));
 
     if (pathname !== "/manifest.webmanifest") {
-      response.cookies.set(ryth_redirect, pathname);
+      response.cookies.set(RYTH_REDIRECT, pathname);
     }
 
     return response;

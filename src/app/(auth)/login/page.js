@@ -1,5 +1,5 @@
 import LoginBanner from "@/components/Layout/LoginBanner";
-import { spotify_access_token, spotify_refresh_token } from "@/lib/constants";
+import { SPOTIFY_ACCESS_TOKEN, SPOTIFY_REFRESH_TOKEN } from "@/lib/constants";
 import { cookies } from "next/headers";
 
 export async function generateMetadata() {
@@ -16,8 +16,8 @@ export default function page() {
 
   return (
     <div className={`flex h-svh flex-col items-center justify-center`}>
-      {!cookiesStore.has(spotify_access_token) &&
-      cookiesStore.has(spotify_refresh_token) ? (
+      {!cookiesStore.has(SPOTIFY_ACCESS_TOKEN) &&
+      cookiesStore.has(SPOTIFY_REFRESH_TOKEN) ? (
         <figure className={`animate-spin`}>
           <svg
             id="logo-70"

@@ -1,4 +1,4 @@
-import { spotify_access_token, spotify_authorization } from "@/lib/constants";
+import { SPOTIFY_ACCESS_TOKEN, SPOTIFY_AUTHORIZATION } from "@/lib/constants";
 import { generateRandomString } from "@/lib/randomString";
 import axios from "axios";
 import { cookies } from "next/headers";
@@ -14,7 +14,7 @@ export async function GET(request, context) {
       `${process.env.API_URL}/me/top/${type}`,
       {
         headers: {
-          Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
+          Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
         },
       },
     );

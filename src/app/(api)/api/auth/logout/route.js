@@ -1,4 +1,4 @@
-import { spotify_access_token, spotify_refresh_token } from "@/lib/constants";
+import { SPOTIFY_ACCESS_TOKEN, SPOTIFY_REFRESH_TOKEN } from "@/lib/constants";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -6,8 +6,8 @@ export async function DELETE(request) {
   const cookiesStore = cookies();
 
   try {
-    cookiesStore.delete(spotify_access_token);
-    cookiesStore.delete(spotify_refresh_token);
+    cookiesStore.delete(SPOTIFY_ACCESS_TOKEN);
+    cookiesStore.delete(SPOTIFY_REFRESH_TOKEN);
 
     return NextResponse.json(
       { message: "Logged out successfully" },

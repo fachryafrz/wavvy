@@ -1,5 +1,5 @@
 import Profile from "@/components/User/Profile";
-import { spotify_access_token } from "@/lib/constants";
+import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 export async function generateMetadata() {
   const cookiesStore = cookies();
   const headers = {
-    Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
+    Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
   };
 
   const { data: user } = await axios.get(`${process.env.API_URL}/me`, {
@@ -23,7 +23,7 @@ export default async function page() {
   const cookiesStore = cookies();
 
   const headers = {
-    Authorization: `Bearer ${cookiesStore.get(spotify_access_token).value}`,
+    Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
   };
 
   const { data: user } = await axios.get(`${process.env.API_URL}/me`, {
