@@ -6,9 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function TabSavedTracks() {
-  const { data, error, loading } = useFetch({
-    endpoint: `/api/me/tracks`,
-  });
+  const { data, error, loading } = useFetch(`/api/me/tracks`);
 
   const [showLimit, setShowLimit] = useState(5);
   const [showMore, setShowMore] = useState(false);

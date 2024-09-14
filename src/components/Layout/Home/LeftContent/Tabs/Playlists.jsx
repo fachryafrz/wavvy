@@ -4,9 +4,7 @@ import { useFetch } from "@/helper/fetch";
 import { useEffect, useState } from "react";
 
 export default function TabPlaylists() {
-  const { data, error, loading } = useFetch({
-    endpoint: `/api/browse/featured-playlists`,
-  });
+  const { data, error, loading } = useFetch(`/api/browse/featured-playlists`);
 
   const [showLimit, setShowLimit] = useState(5);
   const [showMore, setShowMore] = useState(false);

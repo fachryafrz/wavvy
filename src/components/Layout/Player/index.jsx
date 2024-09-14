@@ -27,23 +27,13 @@ export default function Player() {
     data: playbackData,
     error: playbackError,
     execute: fetchPlayback,
-  } = useFetch({
-    endpoint: "/api/me/player",
-    immediate: false,
-  });
+  } = useFetch(`/api/me/player`);
 
   const {
     data: queueData,
     error: queueError,
     execute: fetchQueue,
-  } = useFetch({
-    endpoint: "/api/me/player/queue",
-    immediate: false,
-  });
-
-  useEffect(() => {
-    fetchPlayback();
-  }, []);
+  } = useFetch(`/api/me/player/queue`, { immediate: false });
 
   useEffect(() => {
     if (playbackData) {

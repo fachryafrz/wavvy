@@ -119,19 +119,21 @@ export default async function page({ params }) {
         <section>
           <div className={`flex flex-col @container`}>
             <header className={`@container`}>
-              <CardLong
-                name={
-                  <h2 className={`text-xl font-medium`}>
-                    Popular Albums by {primaryArtist.name}
-                  </h2>
-                }
-                secondInfo={<div className={`mx-auto w-fit`}>Song Count</div>}
-                thirdInfo={
-                  <div className={`mx-auto w-fit`}>Release Date</div>
-                }
-                cta={false}
-                hover={false}
-              />
+              <div className={`-mx-1`}>
+                <CardLong
+                  name={
+                    <h2 className={`text-xl font-medium`}>
+                      Popular Albums by {primaryArtist.name}
+                    </h2>
+                  }
+                  secondInfo={<div className={`mx-auto w-fit`}>Song Count</div>}
+                  thirdInfo={
+                    <div className={`mx-auto w-fit`}>Release Date</div>
+                  }
+                  cta={false}
+                  hover={false}
+                />
+              </div>
             </header>
 
             <span className={`divider my-0`}></span>
@@ -142,23 +144,25 @@ export default async function page({ params }) {
 
                 return (
                   <li key={album.id}>
-                    <CardLong
-                      item={album}
-                      image={image.url}
-                      link={`/${album.type}/${album.id}`}
-                      cta={false}
-                      thirdInfo={
-                        <div className={`mx-auto w-fit`}>
-                          {moment(album.release_date).format("MMMM DD, YYYY")}
-                        </div>
-                      }
-                      secondInfo={
-                        <div className={`mx-auto w-fit`}>
-                          {album.total_tracks}{" "}
-                          {isPlural(album.total_tracks, `Song`, `Songs`)}
-                        </div>
-                      }
-                    />
+                    <div className={`-mx-1`}>
+                      <CardLong
+                        item={album}
+                        image={image.url}
+                        link={`/${album.type}/${album.id}`}
+                        cta={false}
+                        thirdInfo={
+                          <div className={`mx-auto w-fit`}>
+                            {moment(album.release_date).format("MMMM DD, YYYY")}
+                          </div>
+                        }
+                        secondInfo={
+                          <div className={`mx-auto w-fit`}>
+                            {album.total_tracks}{" "}
+                            {isPlural(album.total_tracks, `Song`, `Songs`)}
+                          </div>
+                        }
+                      />
+                    </div>
                   </li>
                 );
               })}

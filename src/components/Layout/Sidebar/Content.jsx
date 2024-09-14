@@ -62,9 +62,7 @@ export default function SidebarContent() {
     },
   ]);
 
-  const { data, error, loading } = useFetch({
-    endpoint: "/api/me/playlists",
-  });
+  const { data, error, loading } = useFetch(`/api/me/playlists`);
 
   useEffect(() => {
     if (!user) {

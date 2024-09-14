@@ -23,10 +23,7 @@ export default function PlaybackOptions({ isLoading }) {
     data: playbackData,
     error: playbackError,
     execute: fetchPlayback,
-  } = useFetch({
-    endpoint: "/api/me/player",
-    immediate: false,
-  });
+  } = useFetch(`/api/me/player`, { immediate: false });
 
   const [volumeState, setVolumeState] = useState(100);
   const [shuffleState, setShuffleState] = useState(false);

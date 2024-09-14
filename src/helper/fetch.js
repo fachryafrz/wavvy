@@ -3,13 +3,7 @@ import axios from "axios";
 import { useAuth } from "@/hooks/auth";
 import { useRouter } from "next/navigation";
 
-export const useFetch = ({
-  endpoint,
-  params,
-  method = "GET",
-  immediate = true,
-  ...props
-}) => {
+export const useFetch = (endpoint, options = {}) => {
   const { mutate, user } = useAuth();
   const router = useRouter();
 
@@ -21,11 +15,11 @@ export const useFetch = ({
     setLoading(true);
     try {
       const response = await axios.request({
-        method: method,
+        method: options.method || "GET",
         baseURL: process.env.NEXT_PUBLIC_APP_URL,
         url: endpoint,
-        params: params,
-        data: props.body || {},
+        params: options.params,
+        data: options.body || {},
       });
       setData(response.data);
     } catch (error) {
@@ -49,7 +43,7 @@ export const useFetch = ({
       return;
     }
 
-    if (immediate) {
+    if (options.immediate !== false) {
       execute();
     }
   }, [user]);

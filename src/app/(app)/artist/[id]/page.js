@@ -92,13 +92,15 @@ export default async function page({ params }) {
       <section>
         <div>
           <header className={`@container`}>
-            <CardLong
-              name={<h2 className={`text-xl font-medium`}>Popular</h2>}
-              secondInfo={`Album`}
-              thirdInfo={<div className={`mx-auto w-fit`}>Duration</div>}
-              cta={false}
-              hover={false}
-            />
+            <div className={`-mx-1`}>
+              <CardLong
+                name={<h2 className={`text-xl font-medium`}>Popular</h2>}
+                secondInfo={`Album`}
+                thirdInfo={<div className={`mx-auto w-fit`}>Duration</div>}
+                cta={false}
+                hover={false}
+              />
+            </div>
           </header>
 
           <span className={`divider my-0`}></span>

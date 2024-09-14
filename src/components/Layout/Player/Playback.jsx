@@ -48,41 +48,40 @@ export default function Playback({ isLoading }) {
     return (progress / duration) * 100;
   };
 
-  const { execute: handlePrevious } = useFetch({
-    immediate: false,
-    endpoint: "/api/me/player/previous",
+  const { execute: handlePrevious } = useFetch(`/api/me/player/previous`, {
     method: "POST",
+    immediate: false,
     params: { device_id: playback?.device?.id },
   });
 
-  const { execute: handleNext } = useFetch({
-    immediate: false,
-    endpoint: "/api/me/player/next",
+  const { execute: handleNext } = useFetch(`/api/me/player/next`, {
     method: "POST",
+    immediate: false,
     params: { device_id: playback?.device?.id },
   });
 
-  const { execute: handleStartResumePlayback } = useFetch({
-    immediate: false,
-    endpoint: "/api/me/player/play",
-    method: "PUT",
-    body: {
-      context_uri: `spotify:album:2u4Yp2ADTKYPwFSBFL4ffa`,
-      // uris: [
-      //   "spotify:track:0z8hI3OPS8ADPWtoCjjLl6",
-      //   "spotify:track:1301WleyT98MSxVHPZCA6M",
-      // ],
-      // offset: {
-      //   position: 5,
-      // },
-      position_ms: 0,
+  const { execute: handleStartResumePlayback } = useFetch(
+    `/api/me/player/play`,
+    {
+      method: "PUT",
+      immediate: false,
+      body: {
+        context_uri: `spotify:album:2u4Yp2ADTKYPwFSBFL4ffa`,
+        // uris: [
+        //   "spotify:track:0z8hI3OPS8ADPWtoCjjLl6",
+        //   "spotify:track:1301WleyT98MSxVHPZCA6M",
+        // ],
+        // offset: {
+        //   position: 5,
+        // },
+        position_ms: 0,
+      },
     },
-  });
+  );
 
-  const { execute: handlePausePlayback } = useFetch({
-    immediate: false,
-    endpoint: "/api/me/player/pause",
+  const { execute: handlePausePlayback } = useFetch(`/api/me/player/pause`, {
     method: "PUT",
+    immediate: false,
     params: { device_id: playback?.device?.id },
   });
 

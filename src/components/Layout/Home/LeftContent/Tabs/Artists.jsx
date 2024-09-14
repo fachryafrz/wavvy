@@ -5,9 +5,7 @@ import numeral from "numeral";
 import { useEffect, useState } from "react";
 
 export default function TabArtists() {
-  const { data, error, loading } = useFetch({
-    endpoint: `/api/me/top/artists`,
-  });
+  const { data, error, loading } = useFetch(`/api/me/top/artists`);
 
   const [showLimit, setShowLimit] = useState(5);
   const [showMore, setShowMore] = useState(false);

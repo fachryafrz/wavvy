@@ -6,9 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function TabNewReleases() {
-  const { data, error, loading } = useFetch({
-    endpoint: `/api/browse/new-releases`,
-  });
+  const { data, error, loading } = useFetch(`/api/browse/new-releases`);
 
   const [showLimit, setShowLimit] = useState(5);
   const [showMore, setShowMore] = useState(false);

@@ -15,9 +15,7 @@ export default function LeftContent({
     data: recentlyPlayedData,
     error,
     loading: recentlyPlayedIsLoading,
-  } = useFetch({
-    endpoint: `/api/me/player/recently-played`,
-  });
+  } = useFetch(`/api/me/player/recently-played`);
 
   return (
     <div className={`flex flex-col gap-4 @container`}>
