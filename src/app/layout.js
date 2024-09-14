@@ -5,7 +5,7 @@ import { CookiesProvider } from "next-client-cookies/server";
 import LoginAlert from "@/components/Modals/LoginAlert";
 import PremiumAlert from "@/components/Modals/PremiumAlert";
 
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 export const metadata = {
   title: {
