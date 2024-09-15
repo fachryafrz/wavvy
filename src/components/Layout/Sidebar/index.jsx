@@ -31,8 +31,9 @@ export default function Sidebar({ children, authorizationURL, client_id }) {
           }}
         >
           {/* Page content here */}
-          <div className={`flex h-full flex-col`}>
+          <div className={`flex min-h-full flex-col`}>
             <header
+              id="header"
               className={`sticky top-0 z-50 bg-base-100 bg-opacity-90 pl-16 backdrop-blur lg:pl-0`}
             >
               <Navbar
