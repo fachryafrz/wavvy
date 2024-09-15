@@ -4,7 +4,8 @@ import HomeTabs from "./Tabs";
 import SliderPlaylist from "../../../Slider/Playlist";
 import Link from "next/link";
 import FavoriteArtists from "../../FavoriteArtists";
-import { useFetch } from "@/helper/fetch";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export default function LeftContent({
   categories,
@@ -14,8 +15,13 @@ export default function LeftContent({
   const {
     data: recentlyPlayedData,
     error,
-    loading: recentlyPlayedIsLoading,
-  } = useFetch(`/api/me/player/recently-played`);
+    isLoading: recentlyPlayedIsLoading,
+  } = useQuery({
+    queryKey: `/api/me/player/recently-played`,
+    queryFn: async ({ queryKey }) => {
+      return await axios.get(queryKey).then(({ data }) => data);
+    },
+  });
 
   return (
     <div className={`flex flex-col gap-4 @container`}>
@@ -33,10 +39,9 @@ export default function LeftContent({
                   {category.name}
                 </Link>
               }
-              data={
-                categoriesPlaylists.find((cp) => cp.message === category.name)
-                  .playlists.items.slice(4)
-              }
+              data={categoriesPlaylists
+                .find((cp) => cp.message === category.name)
+                .playlists.items.slice(4)}
             />
           </section>
         );

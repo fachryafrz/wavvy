@@ -1,12 +1,22 @@
 import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
-import { useFetch } from "@/helper/fetch";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import moment from "moment";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function TabTracks() {
-  const { data, error, loading } = useFetch(`/api/me/top/tracks`);
+  const {
+    data,
+    error,
+    isLoading: loading,
+  } = useQuery({
+    queryKey: `/api/me/top/tracks`,
+    queryFn: async ({ queryKey }) => {
+      return await axios.get(queryKey).then(({ data }) => data);
+    },
+  });
 
   const [showLimit, setShowLimit] = useState(5);
   const [showMore, setShowMore] = useState(false);

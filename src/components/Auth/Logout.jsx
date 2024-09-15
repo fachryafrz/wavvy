@@ -2,20 +2,20 @@
 "use client";
 
 import { useAuth } from "@/hooks/auth";
-import { userStore } from "@/zustand/user";
+import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ExitOutline, PersonCircle } from "react-ionicons";
 
 export default function Logout() {
-  const { user } = userStore();
-  const { mutate } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const logout = async () => {
     await axios.delete(`/api/auth/logout`).then(() => {
-      mutate(null);
+      queryClient.resetQueries({ queryKey: `/api/me` });
       router.refresh();
     });
   };

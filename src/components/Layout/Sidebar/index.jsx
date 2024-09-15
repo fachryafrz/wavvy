@@ -4,21 +4,9 @@ import Player from "../Player";
 import Navbar from "../Navbar";
 import React, { useEffect, useState } from "react";
 import SidebarContent from "./Content";
-import { userStore } from "@/zustand/user";
-import { useAuth } from "@/hooks/auth";
 
 export default function Sidebar({ children, authorizationURL, client_id }) {
-  const { user } = useAuth();
-  const { setUser } = userStore();
-
   const [playerHeight, setPlayerHeight] = useState(0);
-
-  useEffect(() => {
-    if (!user) setUser(null);
-
-    setUser(user);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
 
   useEffect(() => {
     const player = document.getElementById("player");
@@ -43,7 +31,7 @@ export default function Sidebar({ children, authorizationURL, client_id }) {
           }}
         >
           {/* Page content here */}
-          <div className={`flex flex-col`}>
+          <div className={`flex h-full flex-col`}>
             <header
               className={`sticky top-0 z-50 bg-base-100 bg-opacity-90 pl-16 backdrop-blur lg:pl-0`}
             >
@@ -54,7 +42,7 @@ export default function Sidebar({ children, authorizationURL, client_id }) {
             </header>
 
             {/* Center */}
-            <main className={`p-4 pt-2`}>{children}</main>
+            <main className={`flex-grow p-4 pt-2`}>{children}</main>
           </div>
         </div>
 

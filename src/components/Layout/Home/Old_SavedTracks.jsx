@@ -7,7 +7,6 @@ import LoadingCard from "../../Loading/Card";
 import moment from "moment";
 import TrackCard from "../../Track/Card";
 import { EllipsisVertical, Heart } from "react-ionicons";
-import { userStore } from "@/zustand/user";
 
 export default function SavedTracks({ data }) {
   const showLimit = 5;

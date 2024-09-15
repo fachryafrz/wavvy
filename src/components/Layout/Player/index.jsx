@@ -2,7 +2,6 @@
 
 /* eslint-disable @next/next/no-img-element */
 
-import { userStore } from "@/zustand/user";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import TrackCard from "../../Track/Card";
@@ -10,11 +9,9 @@ import Playback from "./Playback";
 import LoadingCard from "@/components/Loading/Card";
 import PlaybackOptions from "./Options";
 import { usePlayback } from "@/zustand/playback";
-import { useRouter } from "next/navigation";
 import { useQueue } from "@/zustand/queue";
-import { useAuth } from "@/hooks/auth";
-import { useFetch } from "@/helper/fetch";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Player() {
   const { playback, setPlayback } = usePlayback();
@@ -26,14 +23,25 @@ export default function Player() {
   const {
     data: playbackData,
     error: playbackError,
-    execute: fetchPlayback,
-  } = useFetch(`/api/me/player`);
+    refetch: fetchPlayback,
+  } = useQuery({
+    queryKey: `/api/me/player`,
+    queryFn: async ({ queryKey }) => {
+      return await axios.get(queryKey).then(({ data }) => data);
+    },
+  });
 
   const {
     data: queueData,
     error: queueError,
-    execute: fetchQueue,
-  } = useFetch(`/api/me/player/queue`, { immediate: false });
+    refetch: fetchQueue,
+  } = useQuery({
+    queryKey: `/api/me/player/queue`,
+    queryFn: async ({ queryKey }) => {
+      return await axios.get(queryKey).then(({ data }) => data);
+    },
+    enabled: false,
+  });
 
   useEffect(() => {
     if (playbackData) {

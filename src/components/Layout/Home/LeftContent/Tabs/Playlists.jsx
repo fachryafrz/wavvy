@@ -1,10 +1,20 @@
 import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
-import { useFetch } from "@/helper/fetch";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useState } from "react";
 
 export default function TabPlaylists() {
-  const { data, error, loading } = useFetch(`/api/browse/featured-playlists`);
+  const {
+    data,
+    error,
+    isLoading: loading,
+  } = useQuery({
+    queryKey: `/api/browse/featured-playlists`,
+    queryFn: async ({ queryKey }) => {
+      return await axios.get(queryKey).then(({ data }) => data);
+    },
+  });
 
   const [showLimit, setShowLimit] = useState(5);
   const [showMore, setShowMore] = useState(false);
