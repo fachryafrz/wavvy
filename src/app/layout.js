@@ -4,6 +4,7 @@ import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { CookiesProvider } from "next-client-cookies/server";
 import LoginAlert from "@/components/Modals/LoginAlert";
 import PremiumAlert from "@/components/Modals/PremiumAlert";
+import TanStackQuery from "@/providers/TanStackQuery";
 
 export const revalidate = 86400;
 
@@ -23,13 +24,15 @@ export default function RootLayout({ children }) {
         <GoogleAnalytics />
       </Suspense>
 
-      <body className={``}>
+      <body>
         <CookiesProvider>
-          {children}
+          <TanStackQuery>
+            {children}
 
-          {/* Modals */}
-          <PremiumAlert />
-          <LoginAlert />
+            {/* Modals */}
+            <PremiumAlert />
+            <LoginAlert />
+          </TanStackQuery>
         </CookiesProvider>
       </body>
     </html>

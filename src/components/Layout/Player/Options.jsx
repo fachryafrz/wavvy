@@ -1,6 +1,7 @@
-import { useFetch } from "@/helper/fetch";
+import { useHandleError } from "@/hooks/error";
 import { useAuth } from "@/hooks/auth";
 import { usePlayback } from "@/zustand/playback";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -18,12 +19,23 @@ export default function PlaybackOptions({ isLoading }) {
   const router = useRouter();
   const { mutate } = useAuth();
   const { playback, setPlayback } = usePlayback();
+  const queryClient = useQueryClient();
+  const { handleError } = useHandleError();
 
   const {
     data: playbackData,
     error: playbackError,
-    execute: fetchPlayback,
-  } = useFetch(`/api/me/player`, { immediate: false });
+    refetch: fetchPlayback,
+  } = useQuery({
+    queryKey: `/api/me/player`,
+    queryFn: async ({ queryKey }) => {
+      return await axios
+        .get(queryKey)
+        .then(({ data }) => data)
+        .catch(handleError);
+    },
+    enabled: false,
+  });
 
   const [volumeState, setVolumeState] = useState(100);
   const [shuffleState, setShuffleState] = useState(false);
@@ -34,21 +46,6 @@ export default function PlaybackOptions({ isLoading }) {
     setShuffleState(playback ? playback.shuffle_state : false);
     setRepeatState(playback ? playback.repeat_state : "off");
   }, [playback]);
-
-  const handleAlert = () => {
-    document.getElementById("premiumAlert").showModal();
-  };
-
-  const handleError = (error) => {
-    if (error.status === 401) {
-      mutate(null);
-      router.refresh();
-    }
-
-    if (error.status === 403) {
-      handleAlert();
-    }
-  };
 
   const availableRepeatStates = [
     { state: "off" },

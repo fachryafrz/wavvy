@@ -3,18 +3,16 @@
 import "swiper/css";
 import "swiper/css/navigation";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { SwiperSlide } from "swiper/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { userStore } from "@/zustand/user";
 import Link from "next/link";
 import CardVertical from "@/components/Card/CardVertical";
-import { ChevronBack, ChevronForward } from "react-ionicons";
 import Slider from "@/components/Slider";
+import { useAuth } from "@/hooks/auth";
 
 export default function RecentlyPlayed() {
-  const { user } = userStore();
+  const { user } = useAuth();
 
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);

@@ -1,14 +1,11 @@
 "use client";
 
-import { userStore } from "@/zustand/user";
 import SavedTracks from "../Old_SavedTracks";
 import NewReleases from "../Old_NewReleases";
+import { useAuth } from "@/hooks/auth";
 
-export default function RightContent({
-  newReleases,
-  savedTracks,
-}) {
-  const { user } = userStore();
+export default function RightContent({ newReleases, savedTracks }) {
+  const { user } = useAuth();
 
   if (user) {
     return (

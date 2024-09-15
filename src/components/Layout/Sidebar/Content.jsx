@@ -1,23 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
 import PlaylistCardSmall from "@/components/Playlist/CardSmall";
-import { useFetch } from "@/helper/fetch";
-import { userStore } from "@/zustand/user";
+import { useAuth } from "@/hooks/auth";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import {
   BarcodeOutline,
   CalendarOutline,
   HeartOutline,
   MicOutline,
-  MusicalNoteOutline,
-  StatsChart,
-  TimeOutline,
 } from "react-ionicons";
 
 export default function SidebarContent() {
-  const { user } = userStore();
+  const { user } = useAuth();
 
   const [sidebar, setSidebar] = useState([
     {
@@ -62,7 +58,16 @@ export default function SidebarContent() {
     },
   ]);
 
-  const { data, error, loading } = useFetch(`/api/me/playlists`);
+  const {
+    data,
+    error,
+    isLoading: loading,
+  } = useQuery({
+    queryKey: `/api/me/playlists`,
+    queryFn: async ({ queryKey }) => {
+      return await axios.get(queryKey).then(({ data }) => data);
+    },
+  });
 
   useEffect(() => {
     if (!user) {

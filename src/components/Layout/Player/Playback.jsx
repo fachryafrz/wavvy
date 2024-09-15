@@ -8,9 +8,15 @@ import {
 } from "react-ionicons";
 import axios from "axios";
 import { usePlayback } from "@/zustand/playback";
-import { useFetch } from "@/helper/fetch";
+import { useHandleError } from "@/hooks/error";
+import { useQuery } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/auth";
 
 export default function Playback({ isLoading }) {
+  const router = useRouter();
+
+  const { mutate } = useAuth();
   const { playback, setPlayback } = usePlayback();
 
   const [currentProgress, setCurrentProgress] = useState(0);
@@ -48,41 +54,64 @@ export default function Playback({ isLoading }) {
     return (progress / duration) * 100;
   };
 
-  const { execute: handlePrevious } = useFetch(`/api/me/player/previous`, {
-    method: "POST",
-    immediate: false,
-    params: { device_id: playback?.device?.id },
-  });
-
-  const { execute: handleNext } = useFetch(`/api/me/player/next`, {
-    method: "POST",
-    immediate: false,
-    params: { device_id: playback?.device?.id },
-  });
-
-  const { execute: handleStartResumePlayback } = useFetch(
-    `/api/me/player/play`,
-    {
-      method: "PUT",
-      immediate: false,
-      body: {
-        context_uri: `spotify:album:2u4Yp2ADTKYPwFSBFL4ffa`,
-        // uris: [
-        //   "spotify:track:0z8hI3OPS8ADPWtoCjjLl6",
-        //   "spotify:track:1301WleyT98MSxVHPZCA6M",
-        // ],
-        // offset: {
-        //   position: 5,
-        // },
-        position_ms: 0,
-      },
+  const { refetch: handlePrevious } = useQuery({
+    queryKey: `/api/me/player/previous`,
+    queryFn: async ({ queryKey }) => {
+      return await axios
+        .post(queryKey, {}, { params: { device_id: playback?.device?.id } })
+        .then(({ data }) => data)
+        .catch(handleError);
     },
-  );
+    enabled: false,
+  });
 
-  const { execute: handlePausePlayback } = useFetch(`/api/me/player/pause`, {
-    method: "PUT",
-    immediate: false,
-    params: { device_id: playback?.device?.id },
+  const { refetch: handleNext } = useQuery({
+    queryKey: `/api/me/player/next`,
+    queryFn: async ({ queryKey }) => {
+      return await axios
+        .post(queryKey, {}, { params: { device_id: playback?.device?.id } })
+        .then(({ data }) => data)
+        .catch(handleError);
+    },
+    enabled: false,
+  });
+
+  const { refetch: handleStartResumePlayback } = useQuery({
+    queryKey: `/api/me/player/play`,
+    queryFn: async ({ queryKey }) => {
+      return await axios
+        .put(
+          queryKey,
+          {
+            context_uri: `spotify:album:2u4Yp2ADTKYPwFSBFL4ffa`,
+            // uris: [
+            //   "spotify:track:0z8hI3OPS8ADPWtoCjjLl6",
+            //   "spotify:track:1301WleyT98MSxVHPZCA6M",
+            // ],
+            // offset: {
+            //   position: 5,
+            // },
+            position_ms: 0,
+          },
+          { params: { device_id: playback?.device?.id } },
+        )
+        .then(({ data }) => data)
+        .catch(handleError);
+    },
+    enabled: false,
+  });
+
+  const { handleError } = useHandleError();
+
+  const { refetch: handlePausePlayback } = useQuery({
+    queryKey: `/api/me/player/pause`,
+    queryFn: async ({ queryKey }) => {
+      return await axios
+        .put(queryKey, {}, { params: { device_id: playback?.device?.id } })
+        .then(({ data }) => data)
+        .catch(handleError);
+    },
+    enabled: false,
   });
 
   return (
