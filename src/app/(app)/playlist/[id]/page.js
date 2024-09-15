@@ -110,7 +110,7 @@ export default async function page({ params }) {
                 <li key={item.id} className={`flex items-center gap-4`}>
                   <span className={`flex w-5 justify-center`}>{j + 1}</span>
 
-                  <div className={`-mx-1 flex-grow @container`}>
+                  <div className={`flex-grow @container`}>
                     <CardLong
                       item={item.track}
                       image={item.track.album.images[0]?.url}
