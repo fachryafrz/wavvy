@@ -16,6 +16,7 @@ import {
 } from "react-ionicons";
 
 export default function PlaybackOptions({ isLoading }) {
+  const { user } = useAuth();
   const router = useRouter();
   const { mutate } = useAuth();
   const { playback, setPlayback } = usePlayback();
@@ -131,6 +132,7 @@ export default function PlaybackOptions({ isLoading }) {
           onClick={() =>
             volumeState === 0 ? handleSetVolume(100) : handleSetVolume(0)
           }
+          disabled={!user}
           className={`btn btn-square btn-ghost no-animation btn-sm !bg-transparent`}
         >
           {/* Volume Icon */}
@@ -158,6 +160,7 @@ export default function PlaybackOptions({ isLoading }) {
       {/* Shuffle */}
       <button
         onClick={() => handleToggleShuffleMode(!shuffleState)}
+        disabled={!user}
         className={`btn btn-square btn-ghost no-animation btn-sm !bg-transparent`}
       >
         <Shuffle
@@ -170,6 +173,7 @@ export default function PlaybackOptions({ isLoading }) {
       {/* Repeat */}
       <button
         onClick={() => handleRepeatStateChange(repeatState)}
+        disabled={!user}
         className={`btn btn-square btn-ghost no-animation btn-sm relative !bg-transparent`}
       >
         <Repeat

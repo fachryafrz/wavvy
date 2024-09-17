@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/auth";
 
 export default function Playback({ isLoading }) {
+  const { user } = useAuth();
   const router = useRouter();
 
   const { mutate } = useAuth();
@@ -122,7 +123,7 @@ export default function Playback({ isLoading }) {
           onClick={
             playback?.actions?.disallows?.skipping_prev ? null : handlePrevious
           }
-          disabled={playback?.actions?.disallows?.skipping_prev}
+          disabled={!user ? true : playback?.actions?.disallows?.skipping_prev}
           className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
         >
           <PlaySkipBack color={"#ffffff"} width={`20px`} height={`20px`} />
@@ -135,6 +136,7 @@ export default function Playback({ isLoading }) {
               ? handleStartResumePlayback
               : handlePausePlayback
           }
+          disabled={!user}
           className={`btn btn-square btn-ghost !bg-transparent`}
         >
           {playback?.is_playing ? (
@@ -147,6 +149,7 @@ export default function Playback({ isLoading }) {
         {/* Next */}
         <button
           onClick={handleNext}
+          disabled={!user}
           className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
         >
           <PlaySkipForward color={"#ffffff"} width={`20px`} height={`20px`} />
