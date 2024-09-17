@@ -45,8 +45,8 @@ export async function generateMetadata({ params }) {
   const [primaryArtist] = album.artists;
 
   return {
-    title: `${album.name} Album by ${primaryArtist.name}`,
-    description: `Album by ${primaryArtist.name}. ${album.total_tracks} ${isPlural(album.total_tracks, `Song`, `Songs`)}. ${moment(album.release_date).format(`MMM DD, YYYY`)}`,
+    title: `${album.name} album by ${primaryArtist.name}`,
+    description: `album by ${primaryArtist.name}. ${album.total_tracks} ${isPlural(album.total_tracks, `Song`, `Songs`)}. ${moment(album.release_date).format(`MMM DD, YYYY`)}`,
     openGraph: {
       title: `${album.name} - ${process.env.NEXT_PUBLIC_APP_NAME}`,
       images: [image?.url ?? "/maskable/maskable_icon_x192.png"],
