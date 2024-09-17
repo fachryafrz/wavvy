@@ -98,7 +98,7 @@ export default async function page({ params }) {
           title={playlist.name}
           type={`Playlist`}
           secondInfo={
-            <div className={`flex flex-col`}>
+            <div className={`flex flex-col items-start`}>
               <div>
                 <span>By: </span>
 
