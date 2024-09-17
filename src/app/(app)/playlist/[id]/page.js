@@ -13,16 +13,41 @@ import React from "react";
 export async function generateMetadata({ params }) {
   const { id } = params;
   const cookiesStore = cookies();
+  let access_token;
+
   const headers = {
-    Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
+    Authorization: `Basic ${Buffer.from(
+      `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`,
+    ).toString("base64")}`,
+    "Content-Type": "application/x-www-form-urlencoded",
   };
 
-  const { data } = await axios.get(`${process.env.API_URL}/playlists/${id}`, {
-    headers: headers,
-  });
+  if (cookiesStore.has(SPOTIFY_ACCESS_TOKEN)) {
+    access_token = cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value;
+  } else {
+    const { data } = await axios.post(
+      process.env.ACCESS_TOKEN_URL,
+      { grant_type: "client_credentials" },
+      { headers: headers },
+    );
+
+    access_token = data.access_token;
+  }
+
+  const { data: playlist } = await axios.get(
+    `${process.env.API_URL}/playlists/${id}`,
+    { headers: { Authorization: `Bearer ${access_token}` } },
+  );
+  const [image] = playlist.images;
 
   return {
-    title: `${data.name}`,
+    title: playlist.name,
+    description: playlist.description,
+    openGraph: {
+      title: playlist.name,
+      description: playlist.description,
+      images: [image?.url ?? "/maskable/maskable_icon_x192.png"],
+    },
   };
 }
 
@@ -36,9 +61,7 @@ export default async function page({ params }) {
 
   const { data: playlist } = await axios.get(
     `${process.env.API_URL}/playlists/${id}`,
-    {
-      headers: headers,
-    },
+    { headers: headers },
   );
   const [image] = playlist.images;
 
