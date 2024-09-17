@@ -24,7 +24,7 @@ export default function CardLong({
     >
       {/* Image, Title */}
       <div
-        className={`col-span-4 ${secondInfo && thirdInfo ? `@lg:col-span-5` : secondInfo || thirdInfo ? `@lg:col-span-8` : cta ? `@lg:col-span-10` : `@lg:col-span-12`}`}
+        className={`col-span-4 ${secondInfo && thirdInfo ? `@lg:col-span-5` : secondInfo || thirdInfo ? `@lg:col-span-8` : ``} ${cta ? `@lg:col-span-10` : `col-span-6 @lg:col-span-12`}`}
       >
         <TrackCard
           name={

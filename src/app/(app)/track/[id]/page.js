@@ -175,7 +175,7 @@ export default async function page({ params }) {
                       Popular Albums by {primaryArtist.name}
                     </h2>
                   }
-                  secondInfo={<div className={`mx-auto w-fit`}>Song Count</div>}
+                  // secondInfo={<div className={`mx-auto w-fit`}>Song Count</div>}
                   thirdInfo={
                     <div className={`mx-auto w-fit`}>Release Date</div>
                   }
@@ -204,8 +204,14 @@ export default async function page({ params }) {
                             {moment(album.release_date).format("MMMM DD, YYYY")}
                           </div>
                         }
-                        secondInfo={
-                          <div className={`mx-auto w-fit`}>
+                        // secondInfo={
+                        //   <div className={`mx-auto w-fit`}>
+                        //     {album.total_tracks}{" "}
+                        //     {isPlural(album.total_tracks, `Song`, `Songs`)}
+                        //   </div>
+                        // }
+                        smallInfo={
+                          <div className={``}>
                             {album.total_tracks}{" "}
                             {isPlural(album.total_tracks, `Song`, `Songs`)}
                           </div>
