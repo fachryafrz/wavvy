@@ -47,7 +47,7 @@ export default function TabSavedTracks() {
             <CardLong
               key={item.track.id}
               item={item.track}
-              image={image.url}
+              image={image?.url ?? "/maskable/maskable_icon_x192.png"}
               link={`/${item.track.type}/${item.track.id}`}
               smallInfo={item.track.artists.map((artist) => {
                 return (

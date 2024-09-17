@@ -74,7 +74,7 @@ export default async function page({ params }) {
       <section>
         <DetailsHero
           item={artist}
-          image={image.url}
+          image={image?.url ?? "/maskable/maskable_icon_x192.png"}
           title={artist.name}
           type={`Artist`}
           secondInfo={

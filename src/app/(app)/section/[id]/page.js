@@ -54,7 +54,7 @@ export default async function page({ params }) {
                 href={`/playlist/${item.id}`}
                 className={`block rounded-xl p-2 hocus:bg-neutral`}
               >
-                <CardVertical name={item.name} image={image.url} />
+                <CardVertical name={item.name} image={image?.url ?? "/maskable/maskable_icon_x192.png"} />
               </Link>
             </li>
           );

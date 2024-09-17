@@ -34,7 +34,7 @@ export default function SliderPlaylist({
             >
               <CardVertical
                 name={item.name ?? item.track.name}
-                image={image.url}
+                image={image?.url ?? "/maskable/maskable_icon_x192.png"}
                 type={item.type ?? item.track.type}
               />
             </Link>

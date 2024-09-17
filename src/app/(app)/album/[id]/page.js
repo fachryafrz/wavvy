@@ -67,7 +67,7 @@ export default async function page({ params }) {
         <DetailsHero
           item={album}
           artists={artistsDetails}
-          image={image.url}
+          image={image?.url ?? "/maskable/maskable_icon_x192.png"}
           title={album.name}
           type={`Album`}
           secondInfo={

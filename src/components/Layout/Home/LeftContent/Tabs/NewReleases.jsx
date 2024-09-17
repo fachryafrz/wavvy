@@ -46,7 +46,7 @@ export default function TabNewReleases() {
             <CardLong
               key={item.id}
               item={item}
-              image={image.url}
+              image={image?.url ?? "/maskable/maskable_icon_x192.png"}
               link={`/${item.type}/${item.id}`}
               smallInfo={
                 <span className={`capitalize`}>{item.album_type}</span>

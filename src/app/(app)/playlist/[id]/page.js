@@ -48,7 +48,7 @@ export default async function page({ params }) {
       <section>
         <DetailsHero
           item={playlist}
-          image={image.url}
+          image={image?.url ?? "/maskable/maskable_icon_x192.png"}
           title={playlist.name}
           type={`Playlist`}
           secondInfo={

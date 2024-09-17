@@ -83,7 +83,7 @@ export default async function page({ params }) {
         <DetailsHero
           item={track}
           artists={artistsDetails}
-          image={image.url}
+          image={image?.url ?? "/maskable/maskable_icon_x192.png"}
           title={track.name}
           type={`Song`}
           secondInfo={
@@ -147,7 +147,7 @@ export default async function page({ params }) {
                     <div className={`-mx-1`}>
                       <CardLong
                         item={album}
-                        image={image.url}
+                        image={image?.url ?? "/maskable/maskable_icon_x192.png"}
                         link={`/${album.type}/${album.id}`}
                         cta={false}
                         thirdInfo={

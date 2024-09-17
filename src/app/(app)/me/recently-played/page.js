@@ -47,7 +47,7 @@ export default async function page({ params }) {
                     </Link>
                   }
                   link={`/${item.track.type}/${item.track.id}`}
-                  image={image.url}
+                  image={image?.url ?? "/maskable/maskable_icon_x192.png"}
                   info={item.track.artists.map((artist) => {
                     return (
                       <>
