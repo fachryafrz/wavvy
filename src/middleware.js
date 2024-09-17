@@ -87,7 +87,7 @@ export default async function middleware(request) {
       body: params.toString(),
     }).then((res) => res.json());
 
-    const response = NextResponse.redirect(new URL(redirect, request.url));
+    const response = NextResponse.next();
 
     response.cookies.set(SPOTIFY_ACCESS_TOKEN, data.access_token, {
       maxAge: data.expires_in,
