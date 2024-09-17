@@ -48,7 +48,7 @@ export async function generateMetadata({ params }) {
 
   return {
     title: `${track.name} by ${primaryArtist.name}`,
-    description: `${track.name} by ${primaryArtist.name}. Released on ${moment(album.release_date).format("YYYY")}`,
+    description: `${track.name} by ${primaryArtist.name}. ${moment(album.release_date).format("YYYY")}`,
     openGraph: {
       title: `${track.name} - ${process.env.NEXT_PUBLIC_APP_NAME}`,
       images: [image?.url ?? "/maskable/maskable_icon_x192.png"],
