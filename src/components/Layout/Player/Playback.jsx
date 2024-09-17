@@ -24,7 +24,7 @@ export default function Playback({ isLoading }) {
 
   useEffect(() => {
     setCurrentProgress(playback ? playback.progress_ms : 0);
-    setDurationMs(playback ? playback.item.duration_ms : 0);
+    setDurationMs(playback ? playback.item?.duration_ms : 0);
   }, [playback]);
 
   useEffect(() => {

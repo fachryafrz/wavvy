@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import PlaylistCardSmall from "@/components/Playlist/CardSmall";
-import { useAuth } from "@/hooks/auth";
+import { userStore } from "@/zustand/user";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
@@ -13,7 +13,7 @@ import {
 } from "react-ionicons";
 
 export default function SidebarContent() {
-  const { user } = useAuth();
+  const { user } = userStore();
 
   const [sidebar, setSidebar] = useState([
     {
@@ -36,7 +36,23 @@ export default function SidebarContent() {
         },
       ],
     },
-    {
+  ]);
+
+  const {
+    data,
+    error,
+    isLoading: loading,
+    refetch: fetchPlaylist,
+  } = useQuery({
+    queryKey: `/api/me/playlists`,
+    queryFn: async ({ queryKey }) => {
+      return await axios.get(queryKey).then(({ data }) => data);
+    },
+    enabled: false,
+  });
+
+  useEffect(() => {
+    const yourMusicObject = {
       section: "Your Music",
       links: [
         {
@@ -44,59 +60,63 @@ export default function SidebarContent() {
           href: "/me/tracks",
           icon: <HeartOutline />,
         },
-        // {
-        //   title: "Listen Later",
-        //   href: "/listen-later",
-        //   icon: <TimeOutline />,
-        // },
         {
           title: "History",
           href: "/me/recently-played",
           icon: <CalendarOutline />,
         },
       ],
-    },
-  ]);
+    };
 
-  const {
-    data,
-    error,
-    isLoading: loading,
-  } = useQuery({
-    queryKey: `/api/me/playlists`,
-    queryFn: async ({ queryKey }) => {
-      return await axios.get(queryKey).then(({ data }) => data);
-    },
-  });
+    const addPlaylistsToSidebar = () => {
+      setSidebar((currentSidebar) => {
+        const sections = ["Your Playlists", "Your Music"];
+        const isAlreadyInSidebar = currentSidebar.some((section) =>
+          sections.includes(section.section),
+        );
+
+        if (!isAlreadyInSidebar) {
+          // Cek apakah data ada dan itemnya lebih dari 0
+          if (data?.items && data.items.length > 0) {
+            const playlistsObject = {
+              section: "Your Playlists",
+              links: data.items.map((playlist) => ({
+                title: playlist.name,
+                href: `/${playlist.type}/${playlist.id}`,
+                image: playlist.images[0]?.url,
+              })),
+            };
+
+            return [...currentSidebar, yourMusicObject, playlistsObject];
+          } else {
+            // Jika tidak ada playlist, hanya tambahkan Your Music
+            return [...currentSidebar, yourMusicObject];
+          }
+        }
+
+        return currentSidebar;
+      });
+    };
+
+    if (data) {
+      addPlaylistsToSidebar(); // Panggil hanya jika data sudah siap
+    }
+  }, [data]);
 
   useEffect(() => {
     if (!user) {
       setSidebar((sidebar) =>
         sidebar.filter((section) => section.section !== "Your Playlists"),
       );
+      setSidebar((sidebar) =>
+        sidebar.filter((section) => section.section !== "Your Music"),
+      );
 
       return;
     }
 
-    const isAlreadyInSidebar = sidebar.some(
-      (section) => section.section === "Your Playlists",
-    );
-
-    if (!isAlreadyInSidebar) {
-      if (data?.items.length > 0) {
-        const playlistsObject = {
-          section: "Your Playlists",
-          links: data.items.map((playlist) => ({
-            title: playlist.name,
-            href: `/${playlist.type}/${playlist.id}`,
-            image: playlist.images[0].url,
-          })),
-        };
-
-        setSidebar((sidebar) => [...sidebar, playlistsObject]);
-      }
-    }
-  }, [user, data]);
+    fetchPlaylist();
+  }, [user]);
 
   return (
     <>

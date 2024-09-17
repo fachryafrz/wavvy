@@ -3,28 +3,25 @@
 import Link from "next/link";
 import { ChevronForward } from "react-ionicons";
 import ArtistCard from "../Artist/Card";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import LoadingCard from "../Loading/Card";
 
-export default function FavoriteArtists({ data }) {
+export default function FavoriteArtists() {
   const showLimit = 5;
 
-  // const { user } = userStore();
-  // const [data, setData] = useState([]);
-  // const [isLoading, setIsLoading] = useState(true);
-
-  // useEffect(() => {
-  //   if (!user) return;
-
-  //   const fetchSavedTracks = async () => {
-  //     const { data } = await axios.get(`/api/me/following`, {
-  //       params: { type: "artist" },
-  //     });
-
-  //     setIsLoading(false);
-  //     setData(data.artists.items.slice(0, showLimit));
-  //   };
-
-  //   checkToken(fetchSavedTracks);
-  // }, [user]);
+  const {
+    data,
+    error,
+    isLoading: loading,
+  } = useQuery({
+    queryKey: `/api/me/following`,
+    queryFn: async ({ queryKey }) => {
+      return await axios
+        .get(queryKey, { params: { type: `artist` } })
+        .then(({ data }) => data);
+    },
+  });
 
   return (
     <div className={`flex flex-col gap-2`}>
@@ -37,16 +34,16 @@ export default function FavoriteArtists({ data }) {
         </Link>
       </div>
 
-      {/* {isLoading && (
+      {loading && (
         <div className={`-mx-1 flex flex-col`}>
           {[...Array(showLimit)].map((_, i) => (
             <LoadingCard key={i} />
           ))}
         </div>
-      )} */}
+      )}
 
       {/* Cards */}
-      {data.artists.items.length > 0 && (
+      {data?.artists.items.length > 0 && (
         <ul className={`-mx-1 flex flex-col`}>
           {data.artists.items.slice(0, showLimit).map((item, i) => {
             return (

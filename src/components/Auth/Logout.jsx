@@ -2,25 +2,14 @@
 "use client";
 
 import { useAuth } from "@/hooks/auth";
-import { useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { userStore } from "@/zustand/user";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { ExitOutline, PersonCircle } from "react-ionicons";
 
-export default function Logout() {
-  const { user } = useAuth();
-  const router = useRouter();
-  const queryClient = useQueryClient();
+export default function Logout({ user }) {
+  const { logout } = useAuth();
 
-  const logout = async () => {
-    await axios.delete(`/api/auth/logout`).then(() => {
-      queryClient.resetQueries({ queryKey: `/api/me` });
-      router.refresh();
-    });
-  };
-
-  const profilePicture = user.images.find((image) => image.width === 300).url;
+  const profilePicture = user.images?.find((image) => image.width === 300).url;
 
   return (
     <div>

@@ -77,12 +77,12 @@ export default function Player() {
         {!loading && (
           <TrackCard
             name={
-              playback?.item.name ? (
+              playback?.item?.name ? (
                 <Link
-                  href={`/${playback.item.type}/${playback.item.id}`}
+                  href={`/${playback.item?.type}/${playback.item?.id}`}
                   className={`hocus:underline`}
                 >
-                  {playback.item.name}
+                  {playback.item?.name}
                 </Link>
               ) : (
                 "Nothing Playing"

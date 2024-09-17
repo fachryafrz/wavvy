@@ -9,10 +9,10 @@ import axios from "axios";
 import Link from "next/link";
 import CardVertical from "@/components/Card/CardVertical";
 import Slider from "@/components/Slider";
-import { useAuth } from "@/hooks/auth";
+import { userStore } from "@/zustand/user";
 
 export default function RecentlyPlayed() {
-  const { user } = useAuth();
+  const { user } = userStore();
 
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);

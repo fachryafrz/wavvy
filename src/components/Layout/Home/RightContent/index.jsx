@@ -2,10 +2,10 @@
 
 import SavedTracks from "../Old_SavedTracks";
 import NewReleases from "../Old_NewReleases";
-import { useAuth } from "@/hooks/auth";
+import { userStore } from "@/zustand/user";
 
 export default function RightContent({ newReleases, savedTracks }) {
-  const { user } = useAuth();
+  const { user } = userStore();
 
   if (user) {
     return (

@@ -43,13 +43,15 @@ export default function Login({ authorizationURL, client_id }) {
     // "soa-create-partner",
   ].join(" ");
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     current.set("client_id", client_id);
     current.set("response_type", "code");
-    current.set("redirect_uri", `${window.location.origin}/login`);
+    current.set("redirect_uri", `${window.location.origin}`);
     current.set("scope", scope);
     current.set("state", state);
     current.set("show_dialog", true);
+
+    await axios.get(`/api/redirect`, { params: { path: pathname } });
 
     router.push(`${authorizationURL}?${current.toString()}`);
   };
@@ -60,7 +62,7 @@ export default function Login({ authorizationURL, client_id }) {
       onClick={handleLogin}
       className={`btn btn-primary max-w-fit rounded-full`}
     >
-      Start Listening
+      Login
     </button>
   );
 }

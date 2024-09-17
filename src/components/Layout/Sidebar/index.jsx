@@ -4,9 +4,21 @@ import Player from "../Player";
 import Navbar from "../Navbar";
 import React, { useEffect, useState } from "react";
 import SidebarContent from "./Content";
+import { useAuth } from "@/hooks/auth";
+import { userStore } from "@/zustand/user";
 
 export default function Sidebar({ children, authorizationURL, client_id }) {
+  const { user } = useAuth();
+  const { setUser } = userStore();
+
   const [playerHeight, setPlayerHeight] = useState(0);
+
+  useEffect(() => {
+    // NOTE: user dari useAuth dimasukkan ke userStore agar tidak terjadi hydration error
+    if (user) setUser(user);
+    else setUser(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   useEffect(() => {
     const player = document.getElementById("player");

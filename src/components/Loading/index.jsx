@@ -22,9 +22,10 @@ export default function Loading() {
 
   return (
     <div
-      className={`-m-4 grid place-content-center`}
+      className={`grid place-content-center`}
       style={{
-        height: `calc(100dvh - ${playerHeight}px - ${headerHeight}px)`,
+        width: `calc(100%)`,
+        height: `calc(100dvh - ${playerHeight}px - ${headerHeight}px - 1.5rem)`,
       }}
     >
       <figure className={`animate-spin`}>

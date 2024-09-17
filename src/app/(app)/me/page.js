@@ -10,9 +10,11 @@ export async function generateMetadata() {
     Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
   };
 
-  const { data: user } = await axios.get(`${process.env.API_URL}/me`, {
-    headers: headers,
-  });
+  const { data: user } = await axios
+    .get(`${process.env.API_URL}/me`, {
+      headers: headers,
+    })
+    .catch((error) => redirect("/"));
 
   return {
     title: `${user.display_name}`,

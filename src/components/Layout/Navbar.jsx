@@ -3,6 +3,7 @@
 import Logout from "../Auth/Logout";
 import SearchBar from "./SearchBar";
 import { Menu } from "react-ionicons";
+import Login from "../Auth/Login";
 import { useAuth } from "@/hooks/auth";
 
 export default function Navbar({ authorizationURL, client_id }) {
@@ -19,7 +20,11 @@ export default function Navbar({ authorizationURL, client_id }) {
 
       <SearchBar />
 
-      {user && <Logout />}
+      {!user ? (
+        <Login authorizationURL={authorizationURL} client_id={client_id} />
+      ) : (
+        <Logout user={user} />
+      )}
     </nav>
   );
 }

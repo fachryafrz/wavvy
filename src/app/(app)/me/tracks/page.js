@@ -19,10 +19,9 @@ export default async function page({ params }) {
     Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
   };
 
-  const { data: savedTracks } = await axios.get(
-    `${process.env.API_URL}/me/tracks`,
-    { headers: headers },
-  );
+  const { data: savedTracks } = await axios
+    .get(`${process.env.API_URL}/me/tracks`, { headers: headers })
+    .catch((error) => redirect("/"));
 
   return (
     <div className={`@container`}>

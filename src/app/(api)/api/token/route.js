@@ -6,7 +6,7 @@ import {
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-export async function DELETE(request) {
+export async function GET(request) {
   const cookiesStore = cookies();
   const headers = {
     Authorization: `Basic ${Buffer.from(
@@ -16,8 +16,12 @@ export async function DELETE(request) {
   };
 
   try {
-    cookiesStore.delete(SPOTIFY_ACCESS_TOKEN);
-    cookiesStore.delete(SPOTIFY_REFRESH_TOKEN);
+    if (cookiesStore.has(SPOTIFY_ACCESS_TOKEN)) {
+      return NextResponse.json(
+        { access_token: cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value },
+        { status: 200 },
+      );
+    }
 
     const params = new URLSearchParams({
       grant_type: "client_credentials",
@@ -33,10 +37,7 @@ export async function DELETE(request) {
     });
     cookiesStore.delete(RYTH_REDIRECT);
 
-    return NextResponse.json(
-      { message: "Logged out successfully" },
-      { status: 200 },
-    );
+    return NextResponse.json(data, { status: 200 });
   } catch (error) {
     return NextResponse.json(error, { status: error.status });
   }
