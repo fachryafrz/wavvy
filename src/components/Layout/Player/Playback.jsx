@@ -115,15 +115,24 @@ export default function Playback({ isLoading }) {
     enabled: false,
   });
 
+  // Login Alert
+  const handleLoginAlert = () => {
+    document.getElementById(`loginAlert`).showModal();
+  };
+
   return (
     <div className={`flex flex-col items-center justify-center sm:flex-row`}>
       <div className={`flex items-center justify-center`}>
         {/* Previous */}
         <button
           onClick={
-            playback?.actions?.disallows?.skipping_prev ? null : handlePrevious
+            !user
+              ? handleLoginAlert
+              : playback?.actions?.disallows?.skipping_prev
+                ? null
+                : handlePrevious
           }
-          disabled={!user ? true : playback?.actions?.disallows?.skipping_prev}
+          disabled={playback?.actions?.disallows?.skipping_prev}
           className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
         >
           <PlaySkipBack color={"#ffffff"} width={`20px`} height={`20px`} />
@@ -132,11 +141,12 @@ export default function Playback({ isLoading }) {
         {/* Play/Pause */}
         <button
           onClick={
-            playback?.actions?.disallows?.pausing
-              ? handleStartResumePlayback
-              : handlePausePlayback
+            !user
+              ? handleLoginAlert
+              : playback?.actions?.disallows?.pausing
+                ? handleStartResumePlayback
+                : handlePausePlayback
           }
-          disabled={!user}
           className={`btn btn-square btn-ghost !bg-transparent`}
         >
           {playback?.is_playing ? (
@@ -148,8 +158,7 @@ export default function Playback({ isLoading }) {
 
         {/* Next */}
         <button
-          onClick={handleNext}
-          disabled={!user}
+          onClick={!user ? handleLoginAlert : handleNext}
           className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
         >
           <PlaySkipForward color={"#ffffff"} width={`20px`} height={`20px`} />

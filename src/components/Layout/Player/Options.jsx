@@ -124,15 +124,23 @@ export default function PlaybackOptions({ isLoading }) {
     }
   };
 
+  // Login Alert
+  const handleLoginAlert = () => {
+    document.getElementById(`loginAlert`).showModal();
+  };
+
   return (
     <div className={`flex flex-wrap items-center justify-end lg:flex-nowrap`}>
       {/* Volume */}
       <div className={`mr-4 hidden items-center lg:flex`}>
         <button
           onClick={() =>
-            volumeState === 0 ? handleSetVolume(100) : handleSetVolume(0)
+            !user
+              ? handleLoginAlert()
+              : volumeState === 0
+                ? handleSetVolume(100)
+                : handleSetVolume(0)
           }
-          disabled={!user}
           className={`btn btn-square btn-ghost no-animation btn-sm !bg-transparent`}
         >
           {/* Volume Icon */}
@@ -159,8 +167,9 @@ export default function PlaybackOptions({ isLoading }) {
 
       {/* Shuffle */}
       <button
-        onClick={() => handleToggleShuffleMode(!shuffleState)}
-        disabled={!user}
+        onClick={() =>
+          !user ? handleLoginAlert() : handleToggleShuffleMode(!shuffleState)
+        }
         className={`btn btn-square btn-ghost no-animation btn-sm !bg-transparent`}
       >
         <Shuffle
@@ -172,8 +181,9 @@ export default function PlaybackOptions({ isLoading }) {
 
       {/* Repeat */}
       <button
-        onClick={() => handleRepeatStateChange(repeatState)}
-        disabled={!user}
+        onClick={() =>
+          !user ? handleLoginAlert() : handleRepeatStateChange(repeatState)
+        }
         className={`btn btn-square btn-ghost no-animation btn-sm relative !bg-transparent`}
       >
         <Repeat
