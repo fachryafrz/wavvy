@@ -13,31 +13,80 @@ import React from "react";
 export async function generateMetadata({ params }) {
   const { id } = params;
   const cookiesStore = cookies();
+  let access_token;
+
   const headers = {
-    Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
+    Authorization: `Basic ${Buffer.from(
+      `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`,
+    ).toString("base64")}`,
+    "Content-Type": "application/x-www-form-urlencoded",
+  };
+
+  if (cookiesStore.has(SPOTIFY_ACCESS_TOKEN)) {
+    access_token = cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value;
+  } else {
+    const { data } = await axios.post(
+      process.env.ACCESS_TOKEN_URL,
+      { grant_type: "client_credentials" },
+      { headers: headers },
+    );
+
+    access_token = data.access_token;
+  }
+
+  const headersAuth = {
+    Authorization: `Bearer ${access_token}`,
   };
 
   const { data: track } = await axios.get(
     `${process.env.API_URL}/tracks/${id}`,
-    { headers: headers },
+    { headers: headersAuth },
   );
+  const { album } = track;
+  const [image] = album.images;
+  const [primaryArtist] = track.artists;
 
   return {
-    title: `${track.name} by ${track.artists[0].name}`,
+    title: `${track.name} by ${primaryArtist.name}`,
+    description: `${track.name} by ${primaryArtist.name}. Released on ${moment(album.release_date).format("YYYY")}`,
+    openGraph: {
+      title: `${track.name} - ${process.env.NEXT_PUBLIC_APP_NAME}`,
+      images: [image?.url ?? "/maskable/maskable_icon_x192.png"],
+    },
   };
 }
 
 export default async function page({ params }) {
   const { id } = params;
   const cookiesStore = cookies();
+  let access_token;
 
   const headers = {
-    Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
+    Authorization: `Basic ${Buffer.from(
+      `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`,
+    ).toString("base64")}`,
+    "Content-Type": "application/x-www-form-urlencoded",
+  };
+
+  if (cookiesStore.has(SPOTIFY_ACCESS_TOKEN)) {
+    access_token = cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value;
+  } else {
+    const { data } = await axios.post(
+      process.env.ACCESS_TOKEN_URL,
+      { grant_type: "client_credentials" },
+      { headers: headers },
+    );
+
+    access_token = data.access_token;
+  }
+
+  const headersAuth = {
+    Authorization: `Bearer ${access_token}`,
   };
 
   const { data: track } = await axios.get(
     `${process.env.API_URL}/tracks/${id}`,
-    { headers: headers },
+    { headers: headersAuth },
   );
   const { album } = track;
   const [image] = album.images;
@@ -51,13 +100,13 @@ export default async function page({ params }) {
     const { data: topTracks } = await axios.get(
       `${process.env.API_URL}/artists/${id}/top-tracks
       `,
-      { headers: headers },
+      { headers: headersAuth },
     );
 
     const { data: artist } = await axios.get(
       `${process.env.API_URL}/artists/${id}
       `,
-      { headers: headers },
+      { headers: headersAuth },
     );
 
     artistsDetails.push(artist);
@@ -67,13 +116,13 @@ export default async function page({ params }) {
   const { data: albums } = await axios.get(
     `${process.env.API_URL}/artists/${primaryArtist.id}/albums
   `,
-    { headers: headers },
+    { headers: headersAuth },
   );
 
   const { data: relatedArtists } = await axios.get(
     `${process.env.API_URL}/artists/${primaryArtist.id}/related-artists
   `,
-    { headers: headers },
+    { headers: headersAuth },
   );
 
   return (

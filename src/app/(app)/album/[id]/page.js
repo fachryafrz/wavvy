@@ -12,39 +12,89 @@ import React from "react";
 export async function generateMetadata({ params }) {
   const { id } = params;
   const cookiesStore = cookies();
+  let access_token;
+
   const headers = {
-    Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
+    Authorization: `Basic ${Buffer.from(
+      `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`,
+    ).toString("base64")}`,
+    "Content-Type": "application/x-www-form-urlencoded",
   };
 
-  const { data } = await axios.get(`${process.env.API_URL}/albums/${id}`, {
-    headers: headers,
-  });
+  if (cookiesStore.has(SPOTIFY_ACCESS_TOKEN)) {
+    access_token = cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value;
+  } else {
+    const { data } = await axios.post(
+      process.env.ACCESS_TOKEN_URL,
+      { grant_type: "client_credentials" },
+      { headers: headers },
+    );
+
+    access_token = data.access_token;
+  }
+
+  const headersAuth = {
+    Authorization: `Bearer ${access_token}`,
+  };
+
+  const { data: album } = await axios.get(
+    `${process.env.API_URL}/albums/${id}`,
+    { headers: headersAuth },
+  );
+  const [image] = album.images;
+  const [primaryArtist] = album.artists;
 
   return {
-    title: `${data.name} Album by ${data.artists[0].name}`,
+    title: `${album.name} Album by ${primaryArtist.name}`,
+    description: `Album by ${primaryArtist.name}. ${album.total_tracks} ${isPlural(album.total_tracks, `Song`, `Songs`)}. ${moment(album.release_date).format(`MMM DD, YYYY`)}`,
+    openGraph: {
+      title: `${album.name} - ${process.env.NEXT_PUBLIC_APP_NAME}`,
+      images: [image?.url ?? "/maskable/maskable_icon_x192.png"],
+    },
   };
 }
 
 export default async function page({ params }) {
   const { id } = params;
   const cookiesStore = cookies();
+  let access_token;
 
   const headers = {
-    Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
+    Authorization: `Basic ${Buffer.from(
+      `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`,
+    ).toString("base64")}`,
+    "Content-Type": "application/x-www-form-urlencoded",
+  };
+
+  if (cookiesStore.has(SPOTIFY_ACCESS_TOKEN)) {
+    access_token = cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value;
+  } else {
+    const { data } = await axios.post(
+      process.env.ACCESS_TOKEN_URL,
+      { grant_type: "client_credentials" },
+      { headers: headers },
+    );
+
+    access_token = data.access_token;
+  }
+
+  const headersAuth = {
+    Authorization: `Bearer ${access_token}`,
   };
 
   const { data: album } = await axios.get(
     `${process.env.API_URL}/albums/${id}`,
-    { headers: headers },
+    { headers: headersAuth },
   );
   const [image] = album.images;
+
   const artistsDetails = [];
   for (const item of album.artists) {
     const { id } = item;
 
     const { data: artist } = await axios.get(
       `${process.env.API_URL}/artists/${id}`,
-      { headers: headers },
+      { headers: headersAuth },
     );
 
     artistsDetails.push(artist);
@@ -57,7 +107,7 @@ export default async function page({ params }) {
   const { data: moreAlbums } = await axios.get(
     `${process.env.API_URL}/artists/${primaryArtist.id}/albums
   `,
-    { headers: headers },
+    { headers: headersAuth },
   );
 
   return (

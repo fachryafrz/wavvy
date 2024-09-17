@@ -14,6 +14,10 @@ export const metadata = {
     default: process.env.NEXT_PUBLIC_APP_NAME,
   },
   description: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
+  openGraph: {
+    title: process.env.NEXT_PUBLIC_APP_NAME,
+    images: ["/maskable/maskable_icon_x192.png"],
+  },
   manifest: "/manifest.webmanifest",
 };
 

@@ -34,9 +34,13 @@ export async function generateMetadata({ params }) {
     access_token = data.access_token;
   }
 
+  const headersAuth = {
+    Authorization: `Bearer ${access_token}`,
+  };
+
   const { data: playlist } = await axios.get(
     `${process.env.API_URL}/playlists/${id}`,
-    { headers: { Authorization: `Bearer ${access_token}` } },
+    { headers: headersAuth },
   );
   const [image] = playlist.images;
 
@@ -44,8 +48,7 @@ export async function generateMetadata({ params }) {
     title: playlist.name,
     description: playlist.description,
     openGraph: {
-      title: playlist.name,
-      description: playlist.description,
+      title: `${playlist.name} - ${process.env.NEXT_PUBLIC_APP_NAME}`,
       images: [image?.url ?? "/maskable/maskable_icon_x192.png"],
     },
   };
@@ -75,9 +78,13 @@ export default async function page({ params }) {
     access_token = data.access_token;
   }
 
+  const headersAuth = {
+    Authorization: `Bearer ${access_token}`,
+  };
+
   const { data: playlist } = await axios.get(
     `${process.env.API_URL}/playlists/${id}`,
-    { headers: { Authorization: `Bearer ${access_token}` } },
+    { headers: headersAuth },
   );
   const [image] = playlist.images;
 

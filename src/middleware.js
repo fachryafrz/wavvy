@@ -87,6 +87,7 @@ export default async function middleware(request) {
       body: params.toString(),
     }).then((res) => res.json());
 
+    // NOTE: Kalau jadi NextResponse.redirect(); SEO tidak jalan
     const response = NextResponse.next();
 
     response.cookies.set(SPOTIFY_ACCESS_TOKEN, data.access_token, {
