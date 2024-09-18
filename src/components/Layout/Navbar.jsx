@@ -15,7 +15,7 @@ export default function Navbar({ authorizationURL, client_id }) {
         htmlFor="sidebar"
         className="btn btn-square btn-primary drawer-button fixed left-4 top-2 rounded-full lg:hidden"
       >
-        <Menu />
+        <Menu color={`#ffffff`} />
       </label>
 
       <SearchBar />
