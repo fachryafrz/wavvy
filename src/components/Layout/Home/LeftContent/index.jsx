@@ -79,7 +79,7 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
         </section>
       )}
 
-      {categories.items?.slice(1, categories.length).map((category, i) => {
+      {categories.items?.slice(1).map((category, i) => {
         return (
           <section key={category.id}>
             <SliderPlaylist

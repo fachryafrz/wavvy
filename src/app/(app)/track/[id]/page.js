@@ -188,7 +188,7 @@ export default async function page({ params }) {
             <span className={`divider my-0`}></span>
 
             <ul>
-              {albums.items.slice(0, 5).map((album, i) => {
+              {albums.items.map((album, i) => {
                 const [image] = album.images;
 
                 return (

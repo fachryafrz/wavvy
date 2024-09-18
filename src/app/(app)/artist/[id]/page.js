@@ -154,7 +154,7 @@ export default async function page({ params }) {
           <span className={`divider my-0`}></span>
 
           <ul>
-            {topTracks.tracks.slice(0, 5).map((item, j) => {
+            {topTracks.tracks.map((item, j) => {
               return (
                 <li key={item.id} className={`flex items-center gap-4`}>
                   <div className={`-mx-1 flex-grow @container`}>
