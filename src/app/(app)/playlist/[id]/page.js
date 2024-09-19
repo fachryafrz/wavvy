@@ -2,46 +2,16 @@ import CardLong from "@/components/Card/CardLong";
 import DetailsHero from "@/components/Layout/Details/Hero";
 import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
 import { isPlural } from "@/lib/isPlural";
-import axios from "axios";
+import { fetchData } from "@/server/actions";
 import moment from "moment";
-import { cookies } from "next/headers";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import numeral from "numeral";
 import React from "react";
 
 export async function generateMetadata({ params }) {
   const { id } = params;
-  const cookiesStore = cookies();
-  let access_token;
 
-  const headers = {
-    Authorization: `Basic ${Buffer.from(
-      `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`,
-    ).toString("base64")}`,
-    "Content-Type": "application/x-www-form-urlencoded",
-  };
-
-  if (cookiesStore.has(SPOTIFY_ACCESS_TOKEN)) {
-    access_token = cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value;
-  } else {
-    const { data } = await axios.post(
-      process.env.ACCESS_TOKEN_URL,
-      { grant_type: "client_credentials" },
-      { headers: headers },
-    );
-
-    access_token = data.access_token;
-  }
-
-  const headersAuth = {
-    Authorization: `Bearer ${access_token}`,
-  };
-
-  const { data: playlist } = await axios.get(
-    `${process.env.API_URL}/playlists/${id}`,
-    { headers: headersAuth },
-  );
+  const { data: playlist } = await fetchData(`/playlists/${id}`);
   const [image] = playlist.images;
 
   return {
@@ -56,36 +26,8 @@ export async function generateMetadata({ params }) {
 
 export default async function page({ params }) {
   const { id } = params;
-  const cookiesStore = cookies();
-  let access_token;
 
-  const headers = {
-    Authorization: `Basic ${Buffer.from(
-      `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`,
-    ).toString("base64")}`,
-    "Content-Type": "application/x-www-form-urlencoded",
-  };
-
-  if (cookiesStore.has(SPOTIFY_ACCESS_TOKEN)) {
-    access_token = cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value;
-  } else {
-    const { data } = await axios.post(
-      process.env.ACCESS_TOKEN_URL,
-      { grant_type: "client_credentials" },
-      { headers: headers },
-    );
-
-    access_token = data.access_token;
-  }
-
-  const headersAuth = {
-    Authorization: `Bearer ${access_token}`,
-  };
-
-  const { data: playlist } = await axios.get(
-    `${process.env.API_URL}/playlists/${id}`,
-    { headers: headersAuth },
-  );
+  const { data: playlist } = await fetchData(`/playlists/${id}`);
   const [image] = playlist.images;
 
   return (

@@ -11,7 +11,7 @@ export default function Sidebar({ children, authorizationURL, client_id }) {
   const { user } = useAuth();
   const { setUser } = userStore();
 
-  const [playerHeight, setPlayerHeight] = useState(0);
+  const [playerHeight, setPlayerHeight] = useState(84);
 
   useEffect(() => {
     // NOTE: user dari useAuth dimasukkan ke userStore agar tidak terjadi hydration error

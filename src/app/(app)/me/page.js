@@ -1,20 +1,10 @@
 import Profile from "@/components/User/Profile";
 import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
-import axios from "axios";
-import { cookies } from "next/headers";
+import { fetchData } from "@/server/actions";
 import { redirect } from "next/navigation";
 
 export async function generateMetadata() {
-  const cookiesStore = cookies();
-  const headers = {
-    Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
-  };
-
-  const { data: user } = await axios
-    .get(`${process.env.API_URL}/me`, {
-      headers: headers,
-    })
-    .catch((error) => redirect("/"));
+  const { data: user } = await fetchData(`/me`);
 
   return {
     title: `${user.display_name}`,
@@ -22,15 +12,7 @@ export async function generateMetadata() {
 }
 
 export default async function page() {
-  const cookiesStore = cookies();
-
-  const headers = {
-    Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
-  };
-
-  const { data: user } = await axios.get(`${process.env.API_URL}/me`, {
-    headers: headers,
-  });
+  const { data: user } = await fetchData(`/me`).catch((error) => redirect("/"));
 
   return (
     <div>

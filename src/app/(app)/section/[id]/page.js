@@ -1,22 +1,13 @@
 import CardVertical from "@/components/Card/CardVertical";
 import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
-import axios from "axios";
-import { cookies } from "next/headers";
+import { fetchData } from "@/server/actions";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import React from "react";
 
 export async function generateMetadata({ params }) {
   const { id } = params;
-  const cookiesStore = cookies();
-  const headers = {
-    Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
-  };
 
-  const { data } = await axios.get(
-    `${process.env.API_URL}/browse/categories/${id}/playlists`,
-    { headers: headers },
-  );
+  const { data } = await fetchData(`/browse/categories/${id}/playlists`);
 
   return {
     title: `${data.message}`,
@@ -25,16 +16,8 @@ export async function generateMetadata({ params }) {
 
 export default async function page({ params }) {
   const { id } = params;
-  const cookiesStore = cookies();
 
-  const headers = {
-    Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
-  };
-
-  const { data } = await axios.get(
-    `${process.env.API_URL}/browse/categories/${id}/playlists`,
-    { headers: headers },
-  );
+  const { data } = await fetchData(`/browse/categories/${id}/playlists`);
 
   return (
     <div className={`@container`}>
@@ -54,7 +37,10 @@ export default async function page({ params }) {
                 href={`/playlist/${item.id}`}
                 className={`block rounded-xl p-2 hocus:bg-neutral`}
               >
-                <CardVertical name={item.name} image={image?.url ?? "/maskable/maskable_icon_x192.png"} />
+                <CardVertical
+                  name={item.name}
+                  image={image?.url ?? "/maskable/maskable_icon_x192.png"}
+                />
               </Link>
             </li>
           );

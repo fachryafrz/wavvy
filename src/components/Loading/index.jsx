@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 
 export default function Loading() {
-  const [headerHeight, setHeaderHeight] = useState(0);
-  const [playerHeight, setPlayerHeight] = useState(0);
+  const [headerHeight, setHeaderHeight] = useState(64);
+  const [playerHeight, setPlayerHeight] = useState(84);
 
   useEffect(() => {
     const header = document.getElementById("header");

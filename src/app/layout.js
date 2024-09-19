@@ -6,8 +6,6 @@ import LoginAlert from "@/components/Modals/LoginAlert";
 import PremiumAlert from "@/components/Modals/PremiumAlert";
 import TanStackQuery from "@/providers/TanStackQuery";
 
-export const revalidate = 86400;
-
 export const metadata = {
   title: {
     template: `%s - ${process.env.NEXT_PUBLIC_APP_NAME}`,

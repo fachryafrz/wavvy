@@ -1,7 +1,6 @@
 import CardVertical from "@/components/Card/CardVertical";
 import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
-import axios from "axios";
-import { cookies } from "next/headers";
+import { fetchData } from "@/server/actions";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -13,15 +12,9 @@ export async function generateMetadata() {
 }
 
 export default async function page({ params }) {
-  const cookiesStore = cookies();
-
-  const headers = {
-    Authorization: `Bearer ${cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value}`,
-  };
-
-  const { data: savedTracks } = await axios
-    .get(`${process.env.API_URL}/me/tracks`, { headers: headers })
-    .catch((error) => redirect("/"));
+  const { data: savedTracks } = await fetchData(`/me/tracks`).catch((error) =>
+    redirect("/"),
+  );
 
   return (
     <div className={`@container`}>

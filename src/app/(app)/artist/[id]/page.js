@@ -3,46 +3,16 @@ import DetailsHero from "@/components/Layout/Details/Hero";
 import SliderPlaylist from "@/components/Slider/Playlist";
 import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
 import { isPlural } from "@/lib/isPlural";
-import axios from "axios";
+import { fetchData } from "@/server/actions";
 import moment from "moment";
-import { cookies } from "next/headers";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import numeral from "numeral";
 import React from "react";
 
 export async function generateMetadata({ params }) {
   const { id } = params;
-  const cookiesStore = cookies();
-  let access_token;
 
-  const headers = {
-    Authorization: `Basic ${Buffer.from(
-      `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`,
-    ).toString("base64")}`,
-    "Content-Type": "application/x-www-form-urlencoded",
-  };
-
-  if (cookiesStore.has(SPOTIFY_ACCESS_TOKEN)) {
-    access_token = cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value;
-  } else {
-    const { data } = await axios.post(
-      process.env.ACCESS_TOKEN_URL,
-      { grant_type: "client_credentials" },
-      { headers: headers },
-    );
-
-    access_token = data.access_token;
-  }
-
-  const headersAuth = {
-    Authorization: `Bearer ${access_token}`,
-  };
-
-  const { data: artist } = await axios.get(
-    `${process.env.API_URL}/artists/${id}`,
-    { headers: headersAuth },
-  );
+  const { data: artist } = await fetchData(`/artists/${id}`);
   const [image] = artist.images;
 
   return {
@@ -57,63 +27,23 @@ export async function generateMetadata({ params }) {
 
 export default async function page({ params }) {
   const { id } = params;
-  const cookiesStore = cookies();
-  let access_token;
 
-  const headers = {
-    Authorization: `Basic ${Buffer.from(
-      `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`,
-    ).toString("base64")}`,
-    "Content-Type": "application/x-www-form-urlencoded",
-  };
-
-  if (cookiesStore.has(SPOTIFY_ACCESS_TOKEN)) {
-    access_token = cookiesStore.get(SPOTIFY_ACCESS_TOKEN).value;
-  } else {
-    const { data } = await axios.post(
-      process.env.ACCESS_TOKEN_URL,
-      { grant_type: "client_credentials" },
-      { headers: headers },
-    );
-
-    access_token = data.access_token;
-  }
-
-  const headersAuth = {
-    Authorization: `Bearer ${access_token}`,
-  };
-
-  const { data: artist } = await axios.get(
-    `${process.env.API_URL}/artists/${id}`,
-    { headers: headersAuth },
-  );
+  const { data: artist } = await fetchData(`/artists/${id}`);
   const [image] = artist.images;
 
-  const { data: topTracks } = await axios.get(
-    `${process.env.API_URL}/artists/${id}/top-tracks`,
-    { headers: headersAuth },
-  );
+  const { data: topTracks } = await fetchData(`/artists/${id}/top-tracks`);
 
   const includeGroups = "single,album,appears_on,compilation";
-  const { data: albums } = await axios.get(
-    `${process.env.API_URL}/artists/${id}/albums`,
-    {
-      headers: headersAuth,
-      params: { include_groups: "album" },
-    },
-  );
+  const { data: albums } = await fetchData(`/artists/${id}/albums`, {
+    params: { include_groups: "album" },
+  });
 
-  const { data: appearsOn } = await axios.get(
-    `${process.env.API_URL}/artists/${id}/albums`,
-    {
-      headers: headersAuth,
-      params: { include_groups: "appears_on" },
-    },
-  );
+  const { data: appearsOn } = await fetchData(`/artists/${id}/albums`, {
+    params: { include_groups: "appears_on" },
+  });
 
-  const { data: relatedArtists } = await axios.get(
-    `${process.env.API_URL}/artists/${id}/related-artists`,
-    { headers: headersAuth },
+  const { data: relatedArtists } = await fetchData(
+    `/artists/${id}/related-artists`,
   );
 
   return (
