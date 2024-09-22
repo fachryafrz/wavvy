@@ -25,8 +25,11 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
   return (
     <div className={`flex flex-col gap-4 @container`}>
       {/* Categories */}
-      {user &&
-        categories.items?.slice(0, 1).map((category, i) => {
+      {categories.items?.slice(0, 1).map((category, i) => {
+        if (
+          categoriesPlaylists.find((cp) => cp.message === category.name)
+            .playlists.items.length
+        ) {
           return (
             <section key={category.id}>
               <SliderPlaylist
@@ -47,7 +50,8 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
               />
             </section>
           );
-        })}
+        }
+      })}
 
       {/* Playlists, Artists, Albums, Streams */}
       {user && (
@@ -80,25 +84,30 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
       )}
 
       {categories.items?.slice(1).map((category, i) => {
-        return (
-          <section key={category.id}>
-            <SliderPlaylist
-              id={`slider-${category.id}`}
-              title={
-                <Link
-                  href={`/section/${category.id}`}
-                  className={`hocus:underline`}
-                >
-                  {category.name}
-                </Link>
-              }
-              data={
-                categoriesPlaylists.find((cp) => cp.message === category.name)
-                  .playlists.items
-              }
-            />
-          </section>
-        );
+        if (
+          categoriesPlaylists.find((cp) => cp.message === category.name)
+            .playlists.items.length
+        ) {
+          return (
+            <section key={category.id}>
+              <SliderPlaylist
+                id={`slider-${category.id}`}
+                title={
+                  <Link
+                    href={`/section/${category.id}`}
+                    className={`hocus:underline`}
+                  >
+                    {category.name}
+                  </Link>
+                }
+                data={
+                  categoriesPlaylists.find((cp) => cp.message === category.name)
+                    .playlists.items
+                }
+              />
+            </section>
+          );
+        }
       })}
     </div>
   );
