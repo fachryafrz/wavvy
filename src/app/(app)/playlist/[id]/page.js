@@ -94,40 +94,42 @@ export default async function page({ params }) {
 
           <ul>
             {playlist.tracks.items.map((item, j) => {
-              return (
-                <li key={item.id} className={`flex items-center gap-4`}>
-                  <span className={`flex w-5 justify-center`}>{j + 1}</span>
+              if (item.track) {
+                return (
+                  <li key={item.id} className={`flex items-center gap-4`}>
+                    <span className={`flex w-5 justify-center`}>{j + 1}</span>
 
-                  <div className={`flex-grow @container`}>
-                    <CardLong
-                      item={item.track}
-                      image={item.track.album.images[0]?.url}
-                      link={`/${item.track.type}/${item.track.id}`}
-                      secondInfo={
-                        <div className={`mx-auto w-fit`}>
-                          {moment(item.track.duration_ms).format("m:ss")}
-                        </div>
-                      }
-                      thirdInfo={` `}
-                      smallInfo={item.track.artists.map((artist) => {
-                        return (
-                          <>
-                            <Link
-                              key={artist.id}
-                              href={`/${artist.type}/${artist.id}`}
-                              className={`hocus:underline`}
-                            >
-                              {artist.name}
-                            </Link>
+                    <div className={`flex-grow @container`}>
+                      <CardLong
+                        item={item.track}
+                        image={item.track.album.images[0]?.url}
+                        link={`/${item.track.type}/${item.track.id}`}
+                        secondInfo={
+                          <div className={`mx-auto w-fit`}>
+                            {moment(item.track.duration_ms).format("m:ss")}
+                          </div>
+                        }
+                        thirdInfo={` `}
+                        smallInfo={item.track.artists.map((artist) => {
+                          return (
+                            <>
+                              <Link
+                                key={artist.id}
+                                href={`/${artist.type}/${artist.id}`}
+                                className={`hocus:underline`}
+                              >
+                                {artist.name}
+                              </Link>
 
-                            <span className={`last:hidden`}>, </span>
-                          </>
-                        );
-                      })}
-                    />
-                  </div>
-                </li>
-              );
+                              <span className={`last:hidden`}>, </span>
+                            </>
+                          );
+                        })}
+                      />
+                    </div>
+                  </li>
+                );
+              }
             })}
           </ul>
         </div>
