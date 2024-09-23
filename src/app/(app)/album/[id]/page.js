@@ -55,7 +55,7 @@ export default async function page({ params }) {
           artists={artistsDetails}
           image={image?.url ?? "/maskable/maskable_icon_x192.png"}
           title={album.name}
-          type={`Album (${album.album_type})`}
+          type={`Album ${album.album_type !== "album" ? `(${album.album_type})` : ``}`}
           secondInfo={
             <span className={`mx-auto md:mx-0`}>
               {album.total_tracks}{" "}
