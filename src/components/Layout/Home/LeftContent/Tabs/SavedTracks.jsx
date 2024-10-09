@@ -36,8 +36,7 @@ export default function TabSavedTracks() {
         </div>
       )}
 
-      {!loading &&
-        data?.items.length > 0 &&
+      {!loading && data?.items.length > 0 ? (
         data.items.slice(0, showLimit).map((item, i) => {
           const [image] = item.track.album.images;
           const releaseDate = moment(item.release_date).format("MMMM DD, YYYY");
@@ -54,6 +53,7 @@ export default function TabSavedTracks() {
                   <>
                     <Link
                       href={`/${artist.type}/${artist.id}`}
+                      prefetch={true}
                       className={`hocus:underline`}
                     >
                       {artist.name}
@@ -66,6 +66,7 @@ export default function TabSavedTracks() {
               secondInfo={
                 <Link
                   href={`/${item.track.album.type}/${item.track.album.id}`}
+                  prefetch={true}
                   className={`hocus:underline`}
                 >
                   {item.track.album.name}
@@ -74,12 +75,20 @@ export default function TabSavedTracks() {
               thirdInfo={<div className={`mx-auto w-fit`}>{runtime}</div>}
             />
           );
-        })}
+        })
+      ) : (
+        <span
+          className={`text mx-auto block w-fit text-sm font-medium text-neutral-500`}
+        >
+          No data.
+        </span>
+      )}
 
       {!loading && data?.items.length > showLimit && (
         <div className={`mt-4 flex justify-center`}>
           <Link
             href={`/me/tracks`}
+            prefetch={true}
             className={`btn btn-ghost btn-sm w-full text-primary`}
           >
             Show more

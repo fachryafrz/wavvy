@@ -35,7 +35,7 @@ export default function TabPlaylists() {
       )}
 
       {!loading &&
-        data?.playlists.items.length > 0 &&
+        data?.playlists.items.length > 0 ?
         data.playlists.items.slice(0, showLimit).map((playlist, i) => {
           const image = playlist.images[0].url;
 
@@ -47,7 +47,13 @@ export default function TabPlaylists() {
               link={`/${playlist.type}/${playlist.id}`}
             />
           );
-        })}
+        }) : (
+        <span
+          className={`text mx-auto block w-fit text-sm font-medium text-neutral-500`}
+        >
+          No data.
+        </span>
+      )}
 
       {!loading && data?.playlists.items.length > showLimit && (
         <div className={`mt-4 flex justify-center`}>

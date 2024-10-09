@@ -95,6 +95,7 @@ export default async function page({ params }) {
                       secondInfo={
                         <Link
                           href={`/${item.album.type}/${item.album.id}`}
+                          prefetch={true}
                           className={`hocus:underline`}
                         >
                           {item.album.name}
@@ -111,6 +112,7 @@ export default async function page({ params }) {
                             <Link
                               key={artist.id}
                               href={`/${artist.type}/${artist.id}`}
+                              prefetch={true}
                               className={`hocus:underline`}
                             >
                               {artist.name}

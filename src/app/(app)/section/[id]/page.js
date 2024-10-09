@@ -35,6 +35,7 @@ export default async function page({ params }) {
             <li key={item.id}>
               <Link
                 href={`/playlist/${item.id}`}
+                prefetch={true}
                 className={`block rounded-xl p-2 hocus:bg-neutral`}
               >
                 <CardVertical

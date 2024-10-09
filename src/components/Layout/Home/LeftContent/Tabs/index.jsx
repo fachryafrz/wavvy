@@ -1,5 +1,5 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TabPlaylists from "./Playlists";
 import TabArtists from "./Artists";
 import TabTracks from "./Tracks";
@@ -10,6 +10,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import { FreeMode } from "swiper/modules";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function HomeTabs() {
   const router = useRouter();
@@ -40,10 +41,6 @@ export default function HomeTabs() {
       tab: "saved-tracks",
     },
   ];
-
-  const handleTabChange = (tab) => {
-    setTabParam(tab);
-  };
 
   return (
     <div className={`flex flex-col`}>
@@ -81,7 +78,7 @@ export default function HomeTabs() {
               <SwiperSlide key={tab.href} className={`!max-w-fit`}>
                 <button
                   key={tab.href}
-                  onClick={() => handleTabChange(tab.tab)}
+                  onClick={() => setTabParam(tab.tab)}
                   className={`nav-link relative !bg-transparent text-sm font-medium hocus:bg-transparent hocus:opacity-50 ${isActive ? "active-top" : ""}`}
                 >
                   <h2>{tab.title}</h2>

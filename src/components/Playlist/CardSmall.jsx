@@ -11,6 +11,7 @@ export default function PlaylistCardSmall({ link }) {
   return (
     <Link
       href={link.href}
+      prefetch={true}
       className={`nav-link relative !bg-transparent font-medium hocus:bg-transparent hocus:opacity-50 ${isActive ? "active-left" : ""}`}
     >
       {link.icon && React.cloneElement(link.icon, { color: iconColor })}

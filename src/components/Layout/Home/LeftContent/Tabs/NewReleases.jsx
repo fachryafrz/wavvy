@@ -36,8 +36,7 @@ export default function TabNewReleases() {
         </div>
       )}
 
-      {!loading &&
-        data?.albums.items.length > 0 &&
+      {!loading && data?.albums.items.length > 0 ? (
         data.albums.items.slice(0, showLimit).map((item, i) => {
           const [image] = item.images;
           const releaseDate = moment(item.release_date).format("MMMM DD, YYYY");
@@ -56,6 +55,7 @@ export default function TabNewReleases() {
                   <>
                     <Link
                       href={`/${artist.type}/${artist.id}`}
+                      prefetch={true}
                       className={`hocus:underline`}
                     >
                       {artist.name}
@@ -68,7 +68,14 @@ export default function TabNewReleases() {
               thirdInfo={<div className={`mx-auto w-fit`}>{releaseDate}</div>}
             />
           );
-        })}
+        })
+      ) : (
+        <span
+          className={`text mx-auto block w-fit text-sm font-medium text-neutral-500`}
+        >
+          No data.
+        </span>
+      )}
 
       {!loading && data?.albums.items.length > showLimit && (
         <div className={`mt-4 flex justify-center`}>

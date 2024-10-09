@@ -33,7 +33,10 @@ export default async function page({ params }) {
               <div className={`block rounded-xl p-2 hocus:bg-neutral`}>
                 <CardVertical
                   name={
-                    <Link href={`/${item.track.type}/${item.track.id}`}>
+                    <Link
+                      href={`/${item.track.type}/${item.track.id}`}
+                      prefetch={true}
+                    >
                       {item.track.name}
                     </Link>
                   }
@@ -45,6 +48,7 @@ export default async function page({ params }) {
                         <Link
                           key={artist.id}
                           href={`/${artist.type}/${artist.id}`}
+                          prefetch={true}
                           className={`hocus:underline`}
                         >
                           {artist.name}

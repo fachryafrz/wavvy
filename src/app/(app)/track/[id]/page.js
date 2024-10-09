@@ -71,6 +71,7 @@ export default async function page({ params }) {
 
               <Link
                 href={`/${album.type}/${album.id}`}
+                prefetch={true}
                 className={`flex w-fit font-medium text-white hocus:underline`}
               >
                 {album.name}

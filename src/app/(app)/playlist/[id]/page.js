@@ -46,6 +46,7 @@ export default async function page({ params }) {
 
                 <Link
                   href={`/user/${playlist.owner.id}`}
+                  prefetch={true}
                   className={`font-medium hocus:underline`}
                 >
                   {playlist.owner.display_name}
@@ -116,6 +117,7 @@ export default async function page({ params }) {
                               <Link
                                 key={artist.id}
                                 href={`/${artist.type}/${artist.id}`}
+                                prefetch={true}
                                 className={`hocus:underline`}
                               >
                                 {artist.name}
