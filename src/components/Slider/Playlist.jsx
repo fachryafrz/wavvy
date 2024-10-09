@@ -30,7 +30,6 @@ export default function SliderPlaylist({
           >
             <Link
               href={`/${item.type ?? item.track.type}/${item.id ?? item.track.id}`}
-              prefetch={true}
               className={`block rounded-xl p-2 hocus:bg-neutral`}
             >
               <CardVertical

@@ -81,7 +81,6 @@ export default function DetailsHero({
 
                       <Link
                         href={`/${artist.type}/${artist.id}`}
-                        prefetch={true}
                         className={`font-medium hocus:underline`}
                       >
                         {artist.name}

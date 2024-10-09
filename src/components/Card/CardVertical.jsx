@@ -9,7 +9,7 @@ export default function CardVertical({ name, link, image, info, type }) {
         className={`aspect-square overflow-hidden ${type === `artist` ? `rounded-full` : `rounded-lg`}`}
       >
         {link ? (
-          <Link href={link} prefetch={true}>
+          <Link href={link}>
             <img src={image} alt={name} loading="lazy" draggable="false" />
           </Link>
         ) : (

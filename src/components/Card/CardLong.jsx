@@ -29,11 +29,7 @@ export default function CardLong({
         <TrackCard
           name={
             name ?? (
-              <Link
-                href={link}
-                prefetch={true}
-                className={`${hover ? `hocus:underline` : ``}`}
-              >
+              <Link href={link} className={`${hover ? `hocus:underline` : ``}`}>
                 {item.name}
               </Link>
             )

@@ -80,7 +80,6 @@ export default function Player() {
               playback?.item?.name ? (
                 <Link
                   href={`/${playback.item?.type}/${playback.item?.id}`}
-                  prefetch={true}
                   className={`hocus:underline`}
                 >
                   {playback.item?.name}
@@ -96,7 +95,6 @@ export default function Player() {
                 <>
                   <Link
                     href={`/${artist.type}/${artist.id}`}
-                    prefetch={true}
                     className={`hocus:underline`}
                   >
                     {artist.name}

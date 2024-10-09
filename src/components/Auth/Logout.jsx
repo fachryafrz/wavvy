@@ -31,7 +31,7 @@ export default function Logout({ user }) {
           className="menu dropdown-content z-[1] w-52 rounded-box bg-base-200 p-2 shadow"
         >
           <li>
-            <Link href={`/me`} prefetch={true} className={`font-medium`}>
+            <Link href={`/me`} className={`font-medium`}>
               <PersonCircle color={"#ffffff"} height="24px" width="24px" />
 
               <span className={`line-clamp-1`}>{user.display_name}</span>
