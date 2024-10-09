@@ -36,8 +36,7 @@ export default function TabTracks() {
         </div>
       )}
 
-      {!loading &&
-        data?.items.length > 0 &&
+      {!loading && data?.items.length > 0 ? (
         data.items.slice(0, showLimit).map((track, i) => {
           const image = track.album.images[0].url;
           const runtime = `${moment(track.duration_ms).format("m:ss")}`;
@@ -73,7 +72,14 @@ export default function TabTracks() {
               thirdInfo={<div className={`mx-auto w-fit`}>{runtime}</div>}
             />
           );
-        })}
+        })
+      ) : (
+        <span
+          className={`text mx-auto block w-fit text-sm font-medium text-neutral-500`}
+        >
+          No data.
+        </span>
+      )}
 
       {!loading && data?.items.length > showLimit && (
         <div className={`mt-4 flex justify-center`}>

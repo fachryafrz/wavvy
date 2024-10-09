@@ -35,8 +35,7 @@ export default function TabArtists() {
         </div>
       )}
 
-      {!loading &&
-        data?.items.length > 0 &&
+      {!loading && data?.items.length > 0 ? (
         data.items.slice(0, showLimit).map((artist, i) => {
           const image = artist.images[0].url;
           const followers = numeral(artist.followers.total).format(`0a`);
@@ -57,7 +56,14 @@ export default function TabArtists() {
               }
             />
           );
-        })}
+        })
+      ) : (
+        <span
+          className={`text mx-auto block w-fit text-sm font-medium text-neutral-500`}
+        >
+          No data.
+        </span>
+      )}
 
       {!loading && data?.items.length > showLimit && (
         <div className={`mt-4 flex justify-center`}>
