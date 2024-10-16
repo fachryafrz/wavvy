@@ -36,7 +36,8 @@ export default function TabNewReleases() {
         </div>
       )}
 
-      {!loading && data?.albums.items.length > 0 ? (
+      {!loading &&
+        data?.albums.items.length > 0 &&
         data.albums.items.slice(0, showLimit).map((item, i) => {
           const [image] = item.images;
           const releaseDate = moment(item.release_date).format("MMMM DD, YYYY");
@@ -67,12 +68,13 @@ export default function TabNewReleases() {
               thirdInfo={<div className={`mx-auto w-fit`}>{releaseDate}</div>}
             />
           );
-        })
-      ) : (
+        })}
+
+      {!loading && data?.albums.items.length === 0 && (
         <span
           className={`text mx-auto block w-fit text-sm font-medium text-neutral-500`}
         >
-          No data.
+          No new releases available.
         </span>
       )}
 

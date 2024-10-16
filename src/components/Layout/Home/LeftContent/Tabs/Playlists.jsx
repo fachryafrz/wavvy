@@ -34,7 +34,8 @@ export default function TabPlaylists() {
         </div>
       )}
 
-      {!loading && data?.playlists.items.length > 0 ? (
+      {!loading &&
+        data?.playlists.items.length > 0 &&
         data.playlists.items.slice(0, showLimit).map((playlist, i) => {
           const image = playlist.images[0].url;
 
@@ -46,12 +47,13 @@ export default function TabPlaylists() {
               link={`/${playlist.type}/${playlist.id}`}
             />
           );
-        })
-      ) : (
+        })}
+
+      {!loading && data?.playlists.items.length === 0 && (
         <span
           className={`text mx-auto block w-fit text-sm font-medium text-neutral-500`}
         >
-          No data.
+          No playlists available.
         </span>
       )}
 

@@ -35,7 +35,8 @@ export default function TabArtists() {
         </div>
       )}
 
-      {!loading && data?.items.length > 0 ? (
+      {!loading &&
+        data?.items.length > 0 &&
         data.items.slice(0, showLimit).map((artist, i) => {
           const image = artist.images[0].url;
           const followers = numeral(artist.followers.total).format(`0a`);
@@ -56,12 +57,13 @@ export default function TabArtists() {
               }
             />
           );
-        })
-      ) : (
+        })}
+
+      {!loading && data?.items.length === 0 && (
         <span
           className={`text mx-auto block w-fit text-sm font-medium text-neutral-500`}
         >
-          No data.
+          You haven&apos;t listened to any artists yet
         </span>
       )}
 
