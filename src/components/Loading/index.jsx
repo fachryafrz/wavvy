@@ -28,7 +28,7 @@ export default function Loading() {
         height: `calc(100dvh - ${playerHeight}px - ${headerHeight}px - 1.5rem)`,
       }}
     >
-      <figure className={`animate-spin`}>
+      <figure className={`animate-ping`}>
         <svg
           id="logo-70"
           width="60"
