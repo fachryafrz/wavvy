@@ -67,67 +67,69 @@ export default async function page({ params }) {
       </section>
 
       {/* Popular Tracks */}
-      <section>
-        <div>
-          <header className={`@container`}>
-            <div className={`-mx-1`}>
-              <CardLong
-                name={<h2 className={`text-xl font-medium`}>Popular</h2>}
-                secondInfo={`Album`}
-                thirdInfo={<div className={`mx-auto w-fit`}>Duration</div>}
-                cta={false}
-                hover={false}
-              />
-            </div>
-          </header>
+      {topTracks.tracks.length > 0 && (
+        <section>
+          <div>
+            <header className={`@container`}>
+              <div className={`-mx-1`}>
+                <CardLong
+                  name={<h2 className={`text-xl font-medium`}>Popular</h2>}
+                  secondInfo={`Album`}
+                  thirdInfo={<div className={`mx-auto w-fit`}>Duration</div>}
+                  cta={false}
+                  hover={false}
+                />
+              </div>
+            </header>
 
-          <span className={`divider my-0`}></span>
+            <span className={`divider my-0`}></span>
 
-          <ul>
-            {topTracks.tracks.map((item, j) => {
-              return (
-                <li key={item.id} className={`flex items-center gap-4`}>
-                  <div className={`-mx-1 flex-grow @container`}>
-                    <CardLong
-                      item={item}
-                      image={item.album.images[0].url}
-                      link={`/${item.type}/${item.id}`}
-                      secondInfo={
-                        <Link
-                          href={`/${item.album.type}/${item.album.id}`}
-                          className={`hocus:underline`}
-                        >
-                          {item.album.name}
-                        </Link>
-                      }
-                      thirdInfo={
-                        <div className={`mx-auto w-fit`}>
-                          {moment(item.duration_ms).format("m:ss")}
-                        </div>
-                      }
-                      smallInfo={item.artists.map((artist) => {
-                        return (
-                          <>
-                            <Link
-                              key={artist.id}
-                              href={`/${artist.type}/${artist.id}`}
-                              className={`hocus:underline`}
-                            >
-                              {artist.name}
-                            </Link>
+            <ul>
+              {topTracks.tracks.map((item, j) => {
+                return (
+                  <li key={item.id} className={`flex items-center gap-4`}>
+                    <div className={`-mx-1 flex-grow @container`}>
+                      <CardLong
+                        item={item}
+                        image={item.album.images[0].url}
+                        link={`/${item.type}/${item.id}`}
+                        secondInfo={
+                          <Link
+                            href={`/${item.album.type}/${item.album.id}`}
+                            className={`hocus:underline`}
+                          >
+                            {item.album.name}
+                          </Link>
+                        }
+                        thirdInfo={
+                          <div className={`mx-auto w-fit`}>
+                            {moment(item.duration_ms).format("m:ss")}
+                          </div>
+                        }
+                        smallInfo={item.artists.map((artist) => {
+                          return (
+                            <>
+                              <Link
+                                key={artist.id}
+                                href={`/${artist.type}/${artist.id}`}
+                                className={`hocus:underline`}
+                              >
+                                {artist.name}
+                              </Link>
 
-                            <span className={`last:hidden`}>, </span>
-                          </>
-                        );
-                      })}
-                    />
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </section>
+                              <span className={`last:hidden`}>, </span>
+                            </>
+                          );
+                        })}
+                      />
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </section>
+      )}
 
       {/* Albums */}
       {albums.items.length > 0 && (

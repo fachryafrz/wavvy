@@ -11,6 +11,7 @@ import {
   HeartOutline,
   MicOutline,
 } from "react-ionicons";
+import LoginBanner from "../LoginBanner";
 
 export default function SidebarContent() {
   const { user } = userStore();
@@ -29,11 +30,11 @@ export default function SidebarContent() {
         //   href: "/playlists",
         //   icon: <MusicalNoteOutline />,
         // },
-        {
-          title: "Podcasts",
-          href: "/podcasts",
-          icon: <MicOutline />,
-        },
+        // {
+        //   title: "Podcasts",
+        //   href: "/podcasts",
+        //   icon: <MicOutline />,
+        // },
       ],
     },
   ]);
@@ -175,6 +176,8 @@ export default function SidebarContent() {
             <span className={`loading loading-spinner`} />
           </div>
         )}
+
+        {!user && <LoginBanner />}
       </div>
     </>
   );

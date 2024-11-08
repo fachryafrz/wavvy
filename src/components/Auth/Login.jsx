@@ -51,7 +51,9 @@ export default function Login({ authorizationURL, client_id }) {
     current.set("state", state);
     current.set("show_dialog", true);
 
-    await axios.get(`/api/redirect`, { params: { path: pathname } });
+    await axios.get(`/api/redirect`, {
+      params: { path: `${pathname}?${searchParams.toString()}` },
+    });
 
     router.push(`${authorizationURL}?${current.toString()}`);
   };

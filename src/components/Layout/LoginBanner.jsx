@@ -1,9 +1,10 @@
 "use client";
 
-import { Suspense } from "react";
-import Login from "../Auth/Login";
-
 export default function LoginBanner({ authorizationURL, client_id }) {
+  const handleLogin = () => {
+    document.getElementById("login").click();
+  };
+
   return (
     <div
       className={`rounded-xl bg-gradient-to-tl from-[#3E2532] via-[#24202B] via-60% to-[#24202B] p-6 @container`}
@@ -22,9 +23,13 @@ export default function LoginBanner({ authorizationURL, client_id }) {
           </p>
         </div>
 
-        <Suspense>
-          <Login authorizationURL={authorizationURL} client_id={client_id} />
-        </Suspense>
+        <button
+          type="button"
+          onClick={handleLogin}
+          className={`btn btn-primary max-w-fit rounded-full`}
+        >
+          Start Listening
+        </button>
       </div>
 
       {/* Image of Ryth when Logged In (Coming Soon) */}
