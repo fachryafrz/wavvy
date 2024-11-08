@@ -1,7 +1,10 @@
 import Search from "@/components/Search";
 
 export async function generateMetadata({ params }) {
-  const { query } = params;
+  const { query: rawQuery } = params;
+
+  const query = decodeURIComponent(rawQuery).replace(/\+/g, " ");
+
   return {
     title: `Search "${query}"`,
     description: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
