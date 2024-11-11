@@ -8,30 +8,31 @@ export default function SearchBar() {
   const searchParams = useSearchParams();
   const searchRef = useRef();
 
+  const [origin, page, query, type] = pathname.split("/");
+
   const [input, setInput] = useState("");
 
   const handleSearch = (e) => {
     e.preventDefault();
 
-    const nativeSearchParams = new URLSearchParams();
+    if (!input) return;
 
-    if (input) {
-      const trimmed = input.trim();
+    const trimmed = input.trim();
 
-      nativeSearchParams.set("q", trimmed);
+    if (type) {
+      router.push(`/search/${trimmed}/${type}`);
+    } else {
       router.push(`/search/${trimmed}`);
-
-      searchRef.current.blur();
     }
+
+    searchRef.current.blur();
   };
 
   useEffect(() => {
-    const [origin, page, query] = pathname.split("/");
-
     if (page === "search" && query) {
       setInput(decodeURIComponent(query).replace(/\+/g, " "));
     }
-  }, [pathname]);
+  }, [page, query]);
 
   return (
     <form
