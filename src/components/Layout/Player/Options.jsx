@@ -14,38 +14,36 @@ import {
   VolumeMute,
   VolumeOff,
 } from "react-ionicons";
+import {
+  usePlaybackState,
+  usePlayerDevice,
+  useSpotifyPlayer,
+} from "react-spotify-web-playback-sdk";
+import { fetchData } from "@/server/actions";
 
-export default function PlaybackOptions({ isLoading }) {
+export default function PlaybackOptions({ track }) {
   const { user } = useAuth();
   const router = useRouter();
   const { mutate } = useAuth();
-  const { playback, setPlayback } = usePlayback();
+  // const { playback, setPlayback } = usePlayback();
   const queryClient = useQueryClient();
   const { handleError } = useHandleError();
 
-  const {
-    data: playbackData,
-    error: playbackError,
-    refetch: fetchPlayback,
-  } = useQuery({
-    queryKey: `/api/me/player`,
-    queryFn: async ({ queryKey }) => {
-      return await axios
-        .get(queryKey)
-        .then(({ data }) => data)
-        .catch(handleError);
-    },
-    enabled: false,
-  });
+  const device = usePlayerDevice();
+  const player = useSpotifyPlayer();
+  const playback = usePlaybackState();
 
-  const [volumeState, setVolumeState] = useState(100);
+
+  // const [volumeState, setVolumeState] = useState(100);
   const [shuffleState, setShuffleState] = useState(false);
-  const [repeatState, setRepeatState] = useState("off");
+  const [repeatState, setRepeatState] = useState(0);
 
   useEffect(() => {
-    setVolumeState(playback ? playback.device.volume_percent : 100);
-    setShuffleState(playback ? playback.shuffle_state : false);
-    setRepeatState(playback ? playback.repeat_state : "off");
+    if (playback) {
+      // setVolumeState(playback ? playback.device.volume_percent : 100);
+      setShuffleState(playback.shuffle);
+      setRepeatState(playback.repeat_mode);
+    }
   }, [playback]);
 
   const availableRepeatStates = [
@@ -55,72 +53,62 @@ export default function PlaybackOptions({ isLoading }) {
   ];
 
   // Set Volume
-  const handleSetVolume = async (volume_percent) => {
-    try {
-      await axios.put(
-        `/api/me/player/volume`,
-        {},
-        {
-          params: {
-            volume_percent: volume_percent,
-            device_id: playback?.device.id,
-          },
-        },
-      );
+  // const handleSetVolume = async (volume_percent) => {
+  //   try {
+  //     await axios.put(
+  //       `/api/me/player/volume`,
+  //       {},
+  //       {
+  //         params: {
+  //           volume_percent: volume_percent,
+  //           device_id: playback?.device.id,
+  //         },
+  //       },
+  //     );
 
-      setVolumeState(volume_percent);
+  //     setVolumeState(volume_percent);
 
-      fetchPlayback();
-    } catch (error) {
-      handleError(error);
-      setVolumeState(volumeState);
-    }
-  };
+  //     fetchPlayback();
+  //   } catch (error) {
+  //     handleError(error);
+  //     setVolumeState(volumeState);
+  //   }
+  // };
 
   // Toggle Shuffle Mode
   const handleToggleShuffleMode = async (shuffle_state) => {
-    try {
-      await axios.put(
-        `/api/me/player/shuffle`,
-        {},
-        { params: { state: shuffle_state, device_id: playback?.device.id } },
-      );
+    console.log(shuffle_state);
 
-      setShuffleState(shuffle_state);
+    await fetchData(`/me/player/shuffle`, {
+      method: "PUT",
+      params: { state: shuffle_state, device_id: device.id },
+    });
 
-      fetchPlayback();
-    } catch (error) {
-      handleError(error);
-      setShuffleState(shuffleState);
-    }
+    setShuffleState(shuffle_state);
   };
 
   // Change Repeat State
-  const handleRepeatStateChange = (repeat_state) => {
-    const currentIndex = availableRepeatStates.findIndex(
-      (state) => state.state === repeat_state,
-    );
-
-    if (currentIndex === availableRepeatStates.length - 1) {
-      handleSetRepeatMode(availableRepeatStates[0].state);
-    } else {
-      handleSetRepeatMode(availableRepeatStates[currentIndex + 1].state);
-    }
+  const handleRepeatStateChange = async () => {
+    const nextState = (repeatState + 1) % 3; // Perubahan mode: 0 -> 1 -> 2 -> 0
+    await handleSetRepeatMode(nextState);
   };
-  const handleSetRepeatMode = async (repeat_state) => {
+  const handleSetRepeatMode = async (state) => {
+    const repeatModes = ["off", "context", "track"]; // Mapping integer ke string untuk API
+    const selectedState = repeatModes[state];
+
     try {
-      await axios.put(
-        `/api/me/player/repeat`,
-        {},
-        { params: { state: repeat_state, device_id: playback?.device.id } },
-      );
+      const response = await fetchData(`/me/player/repeat`, {
+        method: "PUT",
+        params: { state: selectedState, device_id: device.id },
+      });
 
-      setRepeatState(repeat_state);
-
-      fetchPlayback();
+      if (response.ok) {
+        setRepeatState(state); // Perbarui state hanya jika API berhasil
+      } else {
+        console.error("Failed to set repeat mode");
+      }
     } catch (error) {
-      handleError(error);
-      setRepeatState(repeatState);
+      console.error("Error setting repeat mode:", error);
     }
   };
 
@@ -133,7 +121,7 @@ export default function PlaybackOptions({ isLoading }) {
     <div className={`flex flex-wrap items-center justify-end lg:flex-nowrap`}>
       {/* Volume */}
       <div className={`mr-4 hidden items-center lg:flex`}>
-        <button
+        {/* <button
           onClick={() =>
             !user
               ? handleLoginAlert()
@@ -143,7 +131,7 @@ export default function PlaybackOptions({ isLoading }) {
           }
           className={`btn btn-square btn-ghost no-animation btn-sm !bg-transparent`}
         >
-          {/* Volume Icon */}
+          Volume Icon
           {volumeState >= 75 ? (
             <VolumeHigh color={"#ffffff"} width={`20px`} height={`20px`} />
           ) : volumeState < 75 && volumeState >= 50 ? (
@@ -155,21 +143,24 @@ export default function PlaybackOptions({ isLoading }) {
           ) : (
             <VolumeMute color={"#ffffff"} width={`20px`} height={`20px`} />
           )}
-        </button>
+        </button> */}
 
-        <div className={`h-1 w-24 rounded-full bg-neutral-600`}>
+        {/* <div className={`h-1 w-24 rounded-full bg-neutral-600`}>
           <div
             className={`h-full w-1/4 rounded-full bg-primary`}
             style={{ width: `${volumeState}%` }}
           ></div>
-        </div>
+        </div> */}
       </div>
 
       {/* Shuffle */}
       <button
-        onClick={() =>
-          !user ? handleLoginAlert() : handleToggleShuffleMode(!shuffleState)
+        onClick={async () =>
+          !user
+            ? handleLoginAlert()
+            : await handleToggleShuffleMode(!shuffleState)
         }
+        disabled={!playback}
         className={`btn btn-square btn-ghost no-animation btn-sm !bg-transparent`}
       >
         <Shuffle
@@ -181,18 +172,19 @@ export default function PlaybackOptions({ isLoading }) {
 
       {/* Repeat */}
       <button
-        onClick={() =>
-          !user ? handleLoginAlert() : handleRepeatStateChange(repeatState)
+        onClick={async () =>
+          !user ? handleLoginAlert() : await handleRepeatStateChange()
         }
+        disabled={!playback}
         className={`btn btn-square btn-ghost no-animation btn-sm relative !bg-transparent`}
       >
         <Repeat
-          color={repeatState !== "off" ? "#ff6337" : "#ffffff"}
+          color={repeatState !== 0 ? "#ff6337" : "#ffffff"}
           width={`20px`}
           height={`20px`}
         />
 
-        {repeatState === "track" && (
+        {repeatState === 2 && (
           <span
             className={`absolute -top-2 left-1/2 block aspect-square w-4 -translate-x-1/2 rounded-full text-xs font-medium text-primary`}
           >

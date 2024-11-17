@@ -14,7 +14,7 @@ export const useAuth = () => {
     queryFn: async ({ queryKey }) => {
       return await axios.get(queryKey).then(({ data }) => data);
     },
-    refetchInterval: 1000 * 5,
+    refetchInterval: 1000 * 60 * 5,
   });
   const userData = queryClient.getQueryData(`/api/me`);
 

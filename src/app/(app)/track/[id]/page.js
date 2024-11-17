@@ -128,7 +128,7 @@ export default async function page({ params }) {
                         item={album}
                         image={image?.url ?? "/maskable/maskable_icon_x192.png"}
                         link={`/${album.type}/${album.id}`}
-                        cta={false}
+                        // cta={false}
                         thirdInfo={
                           <div className={`mx-auto w-fit`}>
                             {moment(album.release_date).format("MMMM DD, YYYY")}

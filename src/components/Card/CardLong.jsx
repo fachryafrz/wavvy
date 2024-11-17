@@ -6,6 +6,12 @@ import { EllipsisVertical, Play } from "react-ionicons";
 import TrackCard from "../Track/Card";
 import Link from "next/link";
 import numeral from "numeral";
+import {
+  usePlaybackState,
+  usePlayerDevice,
+  useSpotifyPlayer,
+} from "react-spotify-web-playback-sdk";
+import { fetchData } from "@/server/actions";
 
 export default function CardLong({
   item,
@@ -18,6 +24,25 @@ export default function CardLong({
   cta = true,
   hover = true,
 }) {
+  const device = usePlayerDevice();
+  const player = useSpotifyPlayer();
+  const playback = usePlaybackState();
+
+  const playSong = async () => {
+    if (device === null) return;
+
+    await fetchData(`/me/player/play`, {
+      params: {
+        device_id: device.device_id,
+      },
+      method: "PUT",
+      data: JSON.stringify(
+        item.type === "album" || item.type === "playlist"
+          ? { context_uri: item.uri }
+          : { uris: [item.uri] },
+      ),
+    });
+  };
   return (
     <div
       className={`grid grid-cols-6 items-center gap-2 @lg:grid-cols-12 ${hover ? `hocus:rounded-lg hocus:bg-neutral` : ``}`}
@@ -60,20 +85,23 @@ export default function CardLong({
       )}
 
       {/* Play, Options */}
-      {cta && (
+      {cta && item.type !== "artist" && (
         <div
           className={`col-span-2 col-start-5 flex justify-end pr-1 @lg:col-start-12`}
         >
-          <button className={`btn btn-square btn-ghost btn-sm`}>
+          <button
+            onClick={playSong}
+            className={`btn btn-square btn-ghost btn-sm`}
+          >
             <Play color={`#ffffff`} width={`20px`} height={`20px`} />
           </button>
-          <button className={`btn btn-square btn-ghost btn-sm`}>
+          {/* <button className={`btn btn-square btn-ghost btn-sm`}>
             <EllipsisVertical
               color={`#ffffff`}
               width={`20px`}
               height={`20px`}
             />
-          </button>
+          </button> */}
         </div>
       )}
     </div>

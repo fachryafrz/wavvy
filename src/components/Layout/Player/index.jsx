@@ -12,58 +12,29 @@ import { usePlayback } from "@/zustand/playback";
 import { useQueue } from "@/zustand/queue";
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
+import {
+  usePlaybackState,
+  usePlayerDevice,
+  useSpotifyPlayer,
+  useWebPlaybackSDKReady,
+} from "react-spotify-web-playback-sdk";
+import { fetchData } from "@/server/actions";
+import { useAuth } from "@/hooks/auth";
 
 export default function Player() {
-  const { playback, setPlayback } = usePlayback();
-  const { queue, setQueue } = useQueue();
+  // Hooks
+  const { user } = useAuth();
+  const webPlaybackSDKReady = useWebPlaybackSDKReady();
+  const device = usePlayerDevice();
+  const player = useSpotifyPlayer();
+  const playback = usePlaybackState();
 
-  const [trackImage, setTrackImage] = useState();
-  const [loading, setLoading] = useState(true);
-
-  const {
-    data: playbackData,
-    error: playbackError,
-    refetch: fetchPlayback,
-  } = useQuery({
-    queryKey: `/api/me/player`,
+  const { data: recentlyPlayed } = useQuery({
+    queryKey: `/me/player/recently-played`,
     queryFn: async ({ queryKey }) => {
-      return await axios.get(queryKey).then(({ data }) => data);
+      return await fetchData(queryKey).then(({ data }) => data.items[0].track);
     },
   });
-
-  const {
-    data: queueData,
-    error: queueError,
-    refetch: fetchQueue,
-  } = useQuery({
-    queryKey: `/api/me/player/queue`,
-    queryFn: async ({ queryKey }) => {
-      return await axios.get(queryKey).then(({ data }) => data);
-    },
-    enabled: false,
-  });
-
-  useEffect(() => {
-    if (playbackData) {
-      setPlayback(playbackData);
-    } else {
-      // fetchQueue();
-    }
-  }, [playbackData]);
-
-  useEffect(() => {
-    if (queueData) {
-      setPlayback(queueData.currently_playing);
-      setQueue(queueData.queue);
-    }
-  }, [queueData]);
-
-  useEffect(() => {
-    setTrackImage(
-      playback?.item?.album.images.find((image) => image.width === 64),
-    );
-    setLoading(false);
-  }, [playback]);
 
   return (
     <div
@@ -71,53 +42,85 @@ export default function Player() {
       className={`grid w-full grid-cols-6 items-center gap-2 sm:gap-4 md:grid-cols-12`}
     >
       {/* Track Info (Image, Title, Artist) */}
-      <div className={`col-span-1 sm:col-span-2`}>
-        {loading && <LoadingCard responsive={true} />}
+      <div className={`col-span-1 sm:col-span-2 md:col-span-4 lg:col-span-3`}>
+        {!webPlaybackSDKReady && <LoadingCard responsive={true} />}
 
-        {!loading && (
+        {webPlaybackSDKReady && (
           <TrackCard
             name={
-              playback?.item?.name ? (
+              !user ? (
+                "Nothing Playing"
+              ) : (
                 <Link
-                  href={`/${playback.item?.type}/${playback.item?.id}`}
+                  href={`/${playback?.track_window?.current_track?.type ?? "track"}/${playback?.track_window?.current_track?.id ?? recentlyPlayed?.id}`}
                   className={`hocus:underline`}
                 >
-                  {playback.item?.name}
+                  {playback?.track_window?.current_track?.name ??
+                    recentlyPlayed?.name}
                 </Link>
-              ) : (
-                "Nothing Playing"
               )
             }
-            image={trackImage?.url ?? "/maskable/maskable_icon_x192.png"}
+            image={
+              !user
+                ? "/maskable/maskable_icon_x192.png"
+                : (playback?.track_window?.current_track?.album.images[0].url ??
+                  recentlyPlayed?.album.images[0].url)
+            }
             responsive={true}
-            info={playback?.item?.artists.map((artist) => {
-              return (
-                <>
-                  <Link
-                    href={`/${artist.type}/${artist.id}`}
-                    className={`hocus:underline`}
-                  >
-                    {artist.name}
-                  </Link>
+            info={
+              !user
+                ? null
+                : (playback?.track_window?.current_track?.artists.map(
+                    (artist) => {
+                      const [app, type, id] = artist.uri.split(":");
 
-                  <span className={`last:hidden`}>, </span>
-                </>
-              );
-            })}
+                      return (
+                        <>
+                          <Link
+                            href={`/artist/${id}`}
+                            className={`hocus:underline`}
+                          >
+                            {artist.name}
+                          </Link>
+
+                          <span className={`last:hidden`}>, </span>
+                        </>
+                      );
+                    },
+                  ) ??
+                  recentlyPlayed?.artists.map((artist) => {
+                    const [app, type, id] = artist.uri.split(":");
+
+                    return (
+                      <>
+                        <Link
+                          href={`/artist/${id}`}
+                          className={`hocus:underline`}
+                        >
+                          {artist.name}
+                        </Link>
+
+                        <span className={`last:hidden`}>, </span>
+                      </>
+                    );
+                  }))
+            }
           />
         )}
       </div>
 
       {/* Playback (Play, Pause, Next, Previous, Runtime) */}
-      <div
-        className={`col-span-4 sm:col-span-3 md:col-span-8 lg:col-span-7 xl:col-span-8`}
-      >
-        <Playback track={playback} loading={loading} />
+      <div className={`col-span-4 sm:col-span-3 md:col-span-6`}>
+        <Playback
+          track={playback?.track_window?.current_track ?? recentlyPlayed}
+        />
       </div>
 
       {/* Options (Volume, Shuffle, Repeat) */}
-      <div className={`md:col-span-2 lg:col-span-3 xl:col-span-2`}>
-        <PlaybackOptions track={playback} loading={loading} />
+      <div className={`md:col-span-2 lg:col-span-3`}>
+        <PlaybackOptions
+          track={playback?.track_window?.current_track ?? recentlyPlayed}
+        />
       </div>
     </div>
   );

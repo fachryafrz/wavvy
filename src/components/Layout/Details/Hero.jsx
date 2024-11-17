@@ -1,9 +1,15 @@
 "use client";
 
+import { fetchData } from "@/server/actions";
 import Link from "next/link";
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from "react";
 import { HeartOutline } from "react-ionicons";
+import {
+  usePlaybackState,
+  usePlayerDevice,
+  useSpotifyPlayer,
+} from "react-spotify-web-playback-sdk";
 
 export default function DetailsHero({
   item,
@@ -13,8 +19,27 @@ export default function DetailsHero({
   title,
   secondInfo,
 }) {
+  const device = usePlayerDevice();
+  const player = useSpotifyPlayer();
+  const playback = usePlaybackState();
+
   const [fontSize, setFontSize] = useState(`2xl:text-7xl`);
   const [translateY, setTranslateY] = useState(`2xl:translate-y-7`);
+
+  const playSong = async () => {
+    if (device === null) return;
+
+    await fetchData(`/me/player/play`, {
+      params: {
+        device_id: device.device_id,
+      },
+      method: "PUT",
+      data: JSON.stringify({
+        context_uri: item.type === "album" ? item.uri : null,
+        uris: item.type === "track" ? [item.uri] : null,
+      }),
+    });
+  };
 
   useEffect(() => {
     const { name } = item;
@@ -95,11 +120,21 @@ export default function DetailsHero({
 
         {/* CTA */}
         <div className={`flex w-full items-center gap-4`}>
-          <button
-            className={`btn btn-primary flex-grow rounded-full md:max-w-[150px]`}
-          >
-            Listen Now
-          </button>
+          {item.type !== "artist" && (
+            <button
+              onClick={playSong}
+              disabled={
+                playback?.track_window?.current_track?.id === item.id &&
+                !playback?.paused
+              }
+              className={`btn btn-primary flex-grow rounded-full md:max-w-[150px]`}
+            >
+              {playback?.track_window?.current_track?.id === item.id &&
+              !playback?.paused
+                ? "Playing"
+                : "Listen Now"}
+            </button>
+          )}
 
           <button
             className={`btn btn-square btn-outline btn-primary flex items-center justify-center rounded-full`}

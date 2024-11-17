@@ -23,6 +23,7 @@
     "react-dom": "^18.3.1",
     "react-ga4": "^2.1.0",
     "react-ionicons": "^4.2.1",
+    "react-spotify-web-playback-sdk": "^3.0.2",
     "swiper": "^11.1.10",
     "swr": "^2.2.5",
     "zustand": "^4.5.5"
