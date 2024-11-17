@@ -111,10 +111,6 @@ export default function Playback({ track }) {
     document.getElementById(`loginAlert`).showModal();
   };
 
-  useEffect(() => {
-    console.log(playback);
-  }, [playback]);
-
   return (
     <div className={`flex flex-col items-center justify-center sm:flex-row`}>
       <div className={`flex items-center justify-center`}>
