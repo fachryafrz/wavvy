@@ -42,7 +42,7 @@ export default function Player() {
       className={`grid w-full grid-cols-6 items-center gap-2 sm:gap-4 md:grid-cols-12`}
     >
       {/* Track Info (Image, Title, Artist) */}
-      <div className={`col-span-1 sm:col-span-2 md:col-span-4 lg:col-span-3`}>
+      <div className={`col-span-3 sm:col-span-2 md:col-span-4 lg:col-span-3`}>
         {!webPlaybackSDKReady && <LoadingCard responsive={true} />}
 
         {webPlaybackSDKReady && (
@@ -68,7 +68,6 @@ export default function Player() {
                 : (playback?.track_window?.current_track?.album.images[0].url ??
                   recentlyPlayed?.album.images[0].url)
             }
-            responsive={true}
             info={
               !user
                 ? null
@@ -112,7 +111,7 @@ export default function Player() {
       </div>
 
       {/* Playback (Play, Pause, Next, Previous, Runtime) */}
-      <div className={`col-span-4 sm:col-span-3 md:col-span-6`}>
+      <div className={`col-span-2 sm:col-span-3 md:col-span-6`}>
         <Playback
           track={playback?.track_window?.current_track ?? recentlyPlayed}
         />

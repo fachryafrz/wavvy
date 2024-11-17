@@ -94,7 +94,7 @@ export default function Sidebar({
         </div>
 
         {/* Player */}
-        <div className={`flex items-center bg-neutral p-2`}>
+        <div className={`flex relative items-center bg-neutral p-2`}>
           <Player AUTH_TOKEN={AUTH_TOKEN} />
         </div>
       </div>

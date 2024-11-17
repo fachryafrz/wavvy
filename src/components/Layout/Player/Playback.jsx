@@ -10,6 +10,7 @@ import { useHandleError } from "@/hooks/error";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/auth";
 import {
+  useErrorState,
   usePlaybackState,
   usePlayerDevice,
   useSpotifyPlayer,
@@ -27,28 +28,7 @@ export default function Playback({ track }) {
   const device = usePlayerDevice();
   const player = useSpotifyPlayer();
   const playback = usePlaybackState();
-
-  const skipToPrevious = async () => {
-    if (device === null) return;
-
-    await fetchData(`/me/player/previous`, {
-      method: "POST",
-      params: {
-        device_id: device.device_id,
-      },
-    });
-  };
-
-  const skipToNext = async () => {
-    if (device === null) return;
-
-    await fetchData(`/me/player/next`, {
-      method: "POST",
-      params: {
-        device_id: device.device_id,
-      },
-    });
-  };
+  const error = useErrorState();
 
   const [currentProgress, setCurrentProgress] = useState(0);
   const [durationMs, setDurationMs] = useState(0);
@@ -103,9 +83,11 @@ export default function Playback({ track }) {
           onClick={async () =>
             !user
               ? handleLoginAlert()
-              : playback
-                ? await player.previousTrack()
-                : null
+              : error
+                ? document.getElementById("premiumAlert").showModal()
+                : playback
+                  ? await player.previousTrack()
+                  : null
           }
           className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
         >
@@ -117,11 +99,13 @@ export default function Playback({ track }) {
           onClick={async () =>
             !user
               ? handleLoginAlert()
-              : playback
-                ? playback.paused
-                  ? await player.resume()
-                  : await player.pause()
-                : playSong(device, "track", track.uri)
+              : error
+                ? document.getElementById("premiumAlert").showModal()
+                : playback
+                  ? playback.paused
+                    ? await player.resume()
+                    : await player.pause()
+                  : playSong(device, "track", track.uri)
           }
           className={`btn btn-square btn-ghost !bg-transparent`}
         >
@@ -137,9 +121,11 @@ export default function Playback({ track }) {
           onClick={async () =>
             !user
               ? handleLoginAlert()
-              : playback
-                ? await player.nextTrack()
-                : null
+              : error
+                ? document.getElementById("premiumAlert").showModal()
+                : playback
+                  ? await player.nextTrack()
+                  : null
           }
           className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
         >
@@ -151,7 +137,7 @@ export default function Playback({ track }) {
       <div className={`flex items-center gap-4 sm:ml-4 sm:w-full`}>
         {/* Progress Bar */}
         <div
-          className={`hidden h-1 w-full rounded-full bg-neutral-600 sm:block`}
+          className={`h-1 w-full rounded-full bg-neutral-600 absolute top-0 inset-x-0 lg:static`}
         >
           <div
             className={`h-full rounded-full bg-primary`}

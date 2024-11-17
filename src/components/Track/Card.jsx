@@ -15,16 +15,17 @@ export default function TrackCard({
       {image && (
         <>
           {type && id ? (
-            <Link href={`/${type}/${id}`}>
-              <figure
-                className={`aspect-square w-full max-w-14 overflow-hidden rounded-lg`}
-              >
+            <Link
+              href={`/${type}/${id}`}
+              className={`aspect-square max-w-14 flex-grow`}
+            >
+              <figure className={`overflow-hidden rounded-lg`}>
                 <img src={image} alt={name} loading="lazy" draggable="false" />
               </figure>
             </Link>
           ) : (
             <figure
-              className={`aspect-square w-full max-w-14 overflow-hidden rounded-lg`}
+              className={`aspect-square max-w-14 flex-grow overflow-hidden rounded-lg`}
             >
               <img src={image} alt={name} loading="lazy" draggable="false" />
             </figure>
