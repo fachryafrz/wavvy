@@ -45,6 +45,11 @@ export default function DetailsHero({
     }
   }, [item]);
 
+  const isPlaying =
+    (playback?.context?.uri === item.uri ||
+      playback?.track_window?.current_track?.id === item.id) &&
+    !playback?.paused;
+
   return (
     <div
       className={`relative -mx-4 flex flex-col-reverse items-center justify-between gap-4 overflow-clip p-4 md:mx-0 md:flex-row md:rounded-3xl md:p-8`}
@@ -109,24 +114,18 @@ export default function DetailsHero({
           {item.type !== "artist" && (
             <button
               onClick={() => playSong(device, item.type, item.uri)}
-              disabled={
-                playback?.track_window?.current_track?.id === item.id &&
-                !playback?.paused
-              }
+              disabled={isPlaying}
               className={`btn btn-primary flex-grow rounded-full md:max-w-[150px]`}
             >
-              {playback?.track_window?.current_track?.id === item.id &&
-              !playback?.paused
-                ? "Playing"
-                : "Listen Now"}
+              {isPlaying ? "Playing" : "Listen Now"}
             </button>
           )}
 
-          <button
+          {/* <button
             className={`btn btn-square btn-outline btn-primary flex items-center justify-center rounded-full`}
           >
             <HeartOutline color={`#ffffff`} />
-          </button>
+          </button> */}
         </div>
       </div>
 
