@@ -1,7 +1,8 @@
 import LeftContent from "@/components/Layout/Home/LeftContent";
 import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
 import { fetchData } from "@/server/actions";
-import React from "react";
+
+export const revalidate = 1800; // 30 minutes
 
 export default async function Home() {
   const {

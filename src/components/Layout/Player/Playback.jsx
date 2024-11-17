@@ -6,11 +6,8 @@ import {
   PlaySkipBack,
   PlaySkipForward,
 } from "react-ionicons";
-import axios from "axios";
-import { usePlayback } from "@/zustand/playback";
 import { useHandleError } from "@/hooks/error";
-import { useQuery } from "@tanstack/react-query";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/auth";
 import {
   usePlaybackState,
@@ -18,6 +15,7 @@ import {
   useSpotifyPlayer,
 } from "react-spotify-web-playback-sdk";
 import { fetchData } from "@/server/actions";
+import { playSong } from "@/lib/play-song";
 
 export default function Playback({ track }) {
   const { user } = useAuth();
@@ -38,20 +36,6 @@ export default function Playback({ track }) {
       params: {
         device_id: device.device_id,
       },
-    });
-  };
-
-  const playSong = async () => {
-    if (device === null) return;
-
-    await fetchData(`/me/player/play`, {
-      params: {
-        device_id: device.device_id,
-      },
-      method: "PUT",
-      data: JSON.stringify({
-        uris: [playback?.track_window.current_track.uri ?? track?.uri],
-      }),
     });
   };
 
@@ -137,7 +121,7 @@ export default function Playback({ track }) {
                 ? playback.paused
                   ? await player.resume()
                   : await player.pause()
-                : playSong()
+                : playSong(device, "track", track.uri)
           }
           className={`btn btn-square btn-ghost !bg-transparent`}
         >

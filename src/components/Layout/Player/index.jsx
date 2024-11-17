@@ -47,6 +47,8 @@ export default function Player() {
 
         {webPlaybackSDKReady && (
           <TrackCard
+            id={playback?.track_window?.current_track?.id ?? recentlyPlayed?.id}
+            type={playback?.track_window?.current_track?.type ?? "track"}
             name={
               !user ? (
                 "Nothing Playing"

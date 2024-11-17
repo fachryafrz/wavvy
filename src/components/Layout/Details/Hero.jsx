@@ -1,5 +1,6 @@
 "use client";
 
+import { playSong } from "@/lib/play-song";
 import { fetchData } from "@/server/actions";
 import Link from "next/link";
 /* eslint-disable @next/next/no-img-element */
@@ -25,21 +26,6 @@ export default function DetailsHero({
 
   const [fontSize, setFontSize] = useState(`2xl:text-7xl`);
   const [translateY, setTranslateY] = useState(`2xl:translate-y-7`);
-
-  const playSong = async () => {
-    if (device === null) return;
-
-    await fetchData(`/me/player/play`, {
-      params: {
-        device_id: device.device_id,
-      },
-      method: "PUT",
-      data: JSON.stringify({
-        context_uri: item.type === "album" ? item.uri : null,
-        uris: item.type === "track" ? [item.uri] : null,
-      }),
-    });
-  };
 
   useEffect(() => {
     const { name } = item;
@@ -122,7 +108,7 @@ export default function DetailsHero({
         <div className={`flex w-full items-center gap-4`}>
           {item.type !== "artist" && (
             <button
-              onClick={playSong}
+              onClick={() => playSong(device, item.type, item.uri)}
               disabled={
                 playback?.track_window?.current_track?.id === item.id &&
                 !playback?.paused

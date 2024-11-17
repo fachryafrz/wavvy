@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import {
   RYTH_REDIRECT,
   SPOTIFY_ACCESS_TOKEN,
@@ -26,6 +27,7 @@ export default async function middleware(request) {
   const error = searchParams.get("error");
 
   if (error) {
+    revalidatePath(redirect);
     return NextResponse.redirect(new URL(redirect, request.url));
   }
 
@@ -41,6 +43,7 @@ export default async function middleware(request) {
       body: params.toString(),
     }).then((res) => res.json());
 
+    revalidatePath(redirect);
     const response = NextResponse.redirect(new URL(redirect, request.url));
 
     response.cookies.set(SPOTIFY_ACCESS_TOKEN, data.access_token, {
@@ -66,6 +69,7 @@ export default async function middleware(request) {
       body: params.toString(),
     }).then((res) => res.json());
 
+    revalidatePath(redirect);
     const response = NextResponse.next();
 
     response.cookies.set(SPOTIFY_ACCESS_TOKEN, data.access_token, {
