@@ -6,6 +6,7 @@ import { Play } from "react-ionicons";
 import TrackCard from "../Track/Card";
 import Link from "next/link";
 import { playSong } from "@/lib/play-song";
+import { usePlayerDevice } from "react-spotify-web-playback-sdk";
 
 export default function CardLong({
   item,
@@ -18,6 +19,7 @@ export default function CardLong({
   cta = true,
   hover = true,
 }) {
+  const device = usePlayerDevice();
 
   return (
     <div
