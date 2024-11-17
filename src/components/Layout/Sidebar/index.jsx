@@ -43,7 +43,7 @@ export default function Sidebar({
 
   return (
     <WebPlaybackSDK
-      deviceName={process.env.NEXT_PUBLIC_APP_NAME}
+      initialDeviceName={process.env.NEXT_PUBLIC_APP_NAME}
       getOAuthToken={getOAuthToken}
       volume={0.5}
     >
