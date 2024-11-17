@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import {
   PauseCircle,
@@ -32,6 +32,11 @@ export default function Playback({ track }) {
 
   const [currentProgress, setCurrentProgress] = useState(0);
   const [durationMs, setDurationMs] = useState(0);
+
+  // Ref
+  const previousSongRef = useRef(null);
+  const playPauseRef = useRef(null);
+  const nextSongRef = useRef(null);
 
   useEffect(() => {
     setCurrentProgress(playback ? playback.position : 0);
@@ -75,11 +80,34 @@ export default function Playback({ track }) {
     document.getElementById(`loginAlert`).showModal();
   };
 
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      if (event.key === " " && document.activeElement.tagName !== "INPUT") {
+        event.preventDefault();
+        playPauseRef.current.click();
+      }
+
+      // NOTE: Shortcut for Previous and Next song (Currently not working)
+      // if (event.key === "Shift" && event.key === "n") {
+      //   nextSongRef.current.click();
+      // }
+
+      // if (event.key === "Shift" && event.key === "p") {
+      //   previousSongRef.current.click();
+      // }
+    };
+    document.addEventListener("keydown", handleKeyPress);
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
+
   return (
     <div className={`flex flex-col items-center justify-center sm:flex-row`}>
       <div className={`flex items-center justify-center`}>
         {/* Previous */}
         <button
+          ref={previousSongRef}
           onClick={async () =>
             !user
               ? handleLoginAlert()
@@ -96,6 +124,7 @@ export default function Playback({ track }) {
 
         {/* Play/Pause */}
         <button
+          ref={playPauseRef}
           onClick={async () =>
             !user
               ? handleLoginAlert()
@@ -118,6 +147,7 @@ export default function Playback({ track }) {
 
         {/* Next */}
         <button
+          ref={nextSongRef}
           onClick={async () =>
             !user
               ? handleLoginAlert()
@@ -137,7 +167,7 @@ export default function Playback({ track }) {
       <div className={`flex items-center gap-4 sm:ml-4 sm:w-full`}>
         {/* Progress Bar */}
         <div
-          className={`h-1 w-full rounded-full bg-neutral-600 absolute top-0 inset-x-0 lg:static`}
+          className={`absolute inset-x-0 top-0 h-1 w-full rounded-full bg-neutral-600 lg:static`}
         >
           <div
             className={`h-full rounded-full bg-primary`}

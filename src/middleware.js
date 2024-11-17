@@ -69,7 +69,7 @@ export default async function middleware(request) {
       body: params.toString(),
     }).then((res) => res.json());
 
-    revalidatePath(redirect);
+    // revalidatePath(redirect);
     const response = NextResponse.next();
 
     response.cookies.set(SPOTIFY_ACCESS_TOKEN, data.access_token, {

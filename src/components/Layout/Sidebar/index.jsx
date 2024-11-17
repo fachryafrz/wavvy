@@ -43,7 +43,7 @@ export default function Sidebar({
 
   return (
     <WebPlaybackSDK
-      deviceName="My awesome Spotify app"
+      deviceName={process.env.NEXT_PUBLIC_APP_NAME}
       getOAuthToken={getOAuthToken}
       volume={0.5}
     >
@@ -94,7 +94,7 @@ export default function Sidebar({
         </div>
 
         {/* Player */}
-        <div className={`flex relative items-center bg-neutral p-2`}>
+        <div className={`relative flex items-center bg-neutral p-2`}>
           <Player AUTH_TOKEN={AUTH_TOKEN} />
         </div>
       </div>

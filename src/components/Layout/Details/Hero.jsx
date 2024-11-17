@@ -73,7 +73,11 @@ export default function DetailsHero({
           </h1>
 
           {/* Album */}
-          {secondInfo && <div className={`flex gap-1`}>{secondInfo}</div>}
+          {secondInfo && (
+            <div className={`flex justify-center gap-1 md:justify-start`}>
+              {secondInfo}
+            </div>
+          )}
 
           {/* Artist */}
           {artists && (
