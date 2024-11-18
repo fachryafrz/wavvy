@@ -44,7 +44,6 @@ export default function Sidebar({
     <WebPlaybackSDK
       initialDeviceName={process.env.NEXT_PUBLIC_APP_NAME}
       getOAuthToken={getOAuthToken}
-      initialVolume={0.5}
     >
       <div className={`flex h-dvh flex-col justify-between`}>
         <div className="drawer flex-grow lg:drawer-open">
@@ -94,7 +93,7 @@ export default function Sidebar({
 
         {/* Player */}
         <div className={`relative flex items-center bg-neutral p-2`}>
-          <Player AUTH_TOKEN={AUTH_TOKEN} />
+          <Player />
         </div>
       </div>
     </WebPlaybackSDK>

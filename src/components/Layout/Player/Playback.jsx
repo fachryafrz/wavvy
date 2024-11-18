@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import {
   PauseCircle,
+  PlayBack,
   PlayCircle,
+  PlayForward,
   PlaySkipBack,
   PlaySkipForward,
 } from "react-ionicons";
@@ -35,7 +37,9 @@ export default function Playback({ track }) {
 
   // Ref
   const previousSongRef = useRef(null);
+  const playBackRef = useRef(null);
   const playPauseRef = useRef(null);
+  const playForwardRef = useRef(null);
   const nextSongRef = useRef(null);
 
   useEffect(() => {
@@ -103,82 +107,125 @@ export default function Playback({ track }) {
   }, []);
 
   return (
-    <div className={`flex flex-col items-center justify-center sm:flex-row`}>
-      <div className={`flex items-center justify-center`}>
-        {/* Previous */}
-        <button
-          ref={previousSongRef}
-          onClick={async () =>
-            !user
-              ? handleLoginAlert()
-              : error
+    <div
+      className={`flex flex-col items-end justify-center gap-1 sm:items-center`}
+    >
+      <div className={`flex items-end justify-between lg:w-full`}>
+        {/* Start Minutes */}
+        <span
+          className={`hidden min-w-10 text-xs font-medium text-neutral-500 lg:inline`}
+        >
+          {convertProgress(currentProgress)}
+        </span>
+
+        {/* Playback */}
+        <div className={`flex items-center justify-center`}>
+          {/* Previous */}
+          <button
+            ref={previousSongRef}
+            onClick={async () =>
+              !user
+                ? handleLoginAlert()
+                : error
+                  ? document.getElementById("premiumAlert").showModal()
+                  : playback
+                    ? await player.previousTrack()
+                    : null
+            }
+            className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
+          >
+            <PlaySkipBack color={"#ffffff"} width={`20px`} height={`20px`} />
+          </button>
+
+          {/* Play Back */}
+          <button
+            onClick={async () =>
+              !user
+                ? handleLoginAlert()
+                : error
+                  ? document.getElementById("premiumAlert").showModal()
+                  : playback
+                    ? await player.seek(currentProgress - 1e4)
+                    : null
+            }
+            className={`btn btn-square btn-ghost btn-sm hidden !bg-transparent sm:inline-flex`}
+          >
+            <PlayBack color={"#ffffff"} width={`20px`} height={`20px`} />
+          </button>
+
+          {/* Play/Pause */}
+          <button
+            ref={playPauseRef}
+            onClick={async () =>
+              error
                 ? document.getElementById("premiumAlert").showModal()
                 : playback
-                  ? await player.previousTrack()
-                  : null
-          }
-          className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
-        >
-          <PlaySkipBack color={"#ffffff"} width={`20px`} height={`20px`} />
-        </button>
+                  ? playback.paused
+                    ? await player.resume()
+                    : await player.pause()
+                  : playSong(user, device, "track", track.uri)
+            }
+            className={`btn btn-square btn-ghost !bg-transparent`}
+          >
+            {!playback || playback?.paused ? (
+              <PlayCircle color={"#ffffff"} width={`40px`} height={`40px`} />
+            ) : (
+              <PauseCircle color={"#ffffff"} width={`40px`} height={`40px`} />
+            )}
+          </button>
 
-        {/* Play/Pause */}
-        <button
-          ref={playPauseRef}
-          onClick={async () =>
-            error
-              ? document.getElementById("premiumAlert").showModal()
-              : playback
-                ? playback.paused
-                  ? await player.resume()
-                  : await player.pause()
-                : playSong(user, device, "track", track.uri)
-          }
-          className={`btn btn-square btn-ghost !bg-transparent`}
-        >
-          {!playback || playback?.paused ? (
-            <PlayCircle color={"#ffffff"} width={`40px`} height={`40px`} />
-          ) : (
-            <PauseCircle color={"#ffffff"} width={`40px`} height={`40px`} />
-          )}
-        </button>
+          {/* Play Forward */}
+          <button
+            onClick={async () =>
+              !user
+                ? handleLoginAlert()
+                : error
+                  ? document.getElementById("premiumAlert").showModal()
+                  : playback
+                    ? await player.seek(currentProgress + 1e4)
+                    : null
+            }
+            className={`btn btn-square btn-ghost btn-sm hidden !bg-transparent sm:inline-flex`}
+          >
+            <PlayForward color={"#ffffff"} width={`20px`} height={`20px`} />
+          </button>
 
-        {/* Next */}
-        <button
-          ref={nextSongRef}
-          onClick={async () =>
-            !user
-              ? handleLoginAlert()
-              : error
-                ? document.getElementById("premiumAlert").showModal()
-                : playback
-                  ? await player.nextTrack()
-                  : null
-          }
-          className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
-        >
-          <PlaySkipForward color={"#ffffff"} width={`20px`} height={`20px`} />
-        </button>
-      </div>
-
-      {/* Progress */}
-      <div className={`flex items-center gap-4 sm:ml-4 sm:w-full`}>
-        {/* Progress Bar */}
-        <div
-          className={`absolute inset-x-0 top-0 h-1 w-full rounded-full bg-neutral-600 lg:static`}
-        >
-          <div
-            className={`h-full rounded-full bg-primary`}
-            style={{
-              width: `${calculateProgressPercentage(currentProgress, durationMs || 1)}%`,
-            }}
-          ></div>
+          {/* Next */}
+          <button
+            ref={nextSongRef}
+            onClick={async () =>
+              !user
+                ? handleLoginAlert()
+                : error
+                  ? document.getElementById("premiumAlert").showModal()
+                  : playback
+                    ? await player.nextTrack()
+                    : null
+            }
+            className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
+          >
+            <PlaySkipForward color={"#ffffff"} width={`20px`} height={`20px`} />
+          </button>
         </div>
 
-        {/* Minutes */}
-        <span className={`text-sm font-medium text-neutral-500`}>
-          {`${convertProgress(currentProgress)}/${convertProgress(durationMs || 0)}`}
+        {/* End Minutes */}
+        <span
+          className={`hidden min-w-10 text-end text-xs font-medium text-neutral-500 lg:inline`}
+        >
+          {`-${convertProgress(durationMs - currentProgress || track?.duration_ms || 1)}`}
         </span>
+      </div>
+
+      {/* Progress Bar */}
+      <div
+        className={`absolute inset-x-0 top-0 h-1 w-full rounded-full bg-neutral-600 lg:static`}
+      >
+        <div
+          className={`h-full rounded-full bg-primary`}
+          style={{
+            width: `${calculateProgressPercentage(currentProgress, durationMs || 1)}%`,
+          }}
+        ></div>
       </div>
     </div>
   );

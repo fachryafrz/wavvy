@@ -23,6 +23,8 @@ import { useAuth } from "@/hooks/auth";
 import PlayerInfo from "./Info";
 
 export default function Player() {
+  const [volumeState, setVolumeState] = useState(100);
+
   // Hooks
   const playback = usePlaybackState();
 
@@ -33,29 +35,40 @@ export default function Player() {
     },
   });
 
+  useEffect(() => {
+    const getPlaybackState = async () => {
+      const { data } = await fetchData(`/me/player`);
+      setVolumeState(data.device?.volume_percent);
+    };
+
+    if (playback) getPlaybackState();
+  }, [playback]);
+
   return (
     <div
       id="player"
-      className={`grid w-full grid-cols-6 items-center gap-2 sm:gap-4 md:grid-cols-12`}
+      className={`grid w-full grid-cols-3 items-center gap-2 sm:gap-4`}
     >
       {/* Track Info (Image, Title, Artist) */}
-      <div className={`col-span-3 sm:col-span-2 md:col-span-4 lg:col-span-3`}>
+      <div className={`col-span-2 sm:col-span-1`}>
         <PlayerInfo
           track={playback?.track_window?.current_track ?? recentlyPlayed}
         />
       </div>
 
       {/* Playback (Play, Pause, Next, Previous, Runtime) */}
-      <div className={`col-span-2 sm:col-span-3 md:col-span-6`}>
+      <div className={``}>
         <Playback
           track={playback?.track_window?.current_track ?? recentlyPlayed}
         />
       </div>
 
       {/* Options (Volume, Shuffle, Repeat) */}
-      <div className={`md:col-span-2 lg:col-span-3`}>
+      <div className={`hidden sm:block`}>
         <PlaybackOptions
           track={playback?.track_window?.current_track ?? recentlyPlayed}
+          volumeState={volumeState}
+          setVolumeState={setVolumeState}
         />
       </div>
     </div>

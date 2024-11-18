@@ -4,7 +4,7 @@ import { usePlayback } from "@/zustand/playback";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Repeat,
   Shuffle,
@@ -18,10 +18,15 @@ import {
   usePlaybackState,
   usePlayerDevice,
   useSpotifyPlayer,
+  useWebPlaybackSDKReady,
 } from "react-spotify-web-playback-sdk";
 import { fetchData } from "@/server/actions";
 
-export default function PlaybackOptions({ track }) {
+export default function PlaybackOptions({
+  track,
+  volumeState,
+  setVolumeState,
+}) {
   const { user } = useAuth();
   const router = useRouter();
   const { mutate } = useAuth();
@@ -33,14 +38,14 @@ export default function PlaybackOptions({ track }) {
   const player = useSpotifyPlayer();
   const playback = usePlaybackState();
 
-
-  // const [volumeState, setVolumeState] = useState(100);
+  // State
+  const [volumeInputState, setVolumeInputState] = useState(volumeState);
   const [shuffleState, setShuffleState] = useState(false);
   const [repeatState, setRepeatState] = useState(0);
 
   useEffect(() => {
     if (playback) {
-      // setVolumeState(playback ? playback.device.volume_percent : 100);
+      // setVolumeState(playback ? device.volume_percent : 100);
       setShuffleState(playback.shuffle);
       setRepeatState(playback.repeat_mode);
     }
@@ -53,27 +58,19 @@ export default function PlaybackOptions({ track }) {
   ];
 
   // Set Volume
-  // const handleSetVolume = async (volume_percent) => {
-  //   try {
-  //     await axios.put(
-  //       `/api/me/player/volume`,
-  //       {},
-  //       {
-  //         params: {
-  //           volume_percent: volume_percent,
-  //           device_id: playback?.device.id,
-  //         },
-  //       },
-  //     );
+  const handleSetVolume = async (volume_percent) => {
+    if (!playback) return;
 
-  //     setVolumeState(volume_percent);
+    await fetchData(`/me/player/volume`, {
+      method: "PUT",
+      params: {
+        volume_percent: volume_percent,
+        device_id: device.id,
+      },
+    });
 
-  //     fetchPlayback();
-  //   } catch (error) {
-  //     handleError(error);
-  //     setVolumeState(volumeState);
-  //   }
-  // };
+    setVolumeState(volume_percent);
+  };
 
   // Toggle Shuffle Mode
   const handleToggleShuffleMode = async (shuffle_state) => {
@@ -117,11 +114,27 @@ export default function PlaybackOptions({ track }) {
     document.getElementById(`loginAlert`).showModal();
   };
 
+  const timer = useRef();
+  useEffect(() => {
+    const handleVolumeChange = () => {
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+      timer.current = window.setTimeout(async () => {
+        await handleSetVolume(volumeInputState);
+      }, 500);
+    };
+
+    handleVolumeChange();
+
+    return () => clearTimeout(timer.current);
+  }, [volumeInputState]);
+
   return (
-    <div className={`flex flex-wrap items-center justify-end lg:flex-nowrap`}>
+    <div className={`flex flex-nowrap items-center justify-end`}>
       {/* Volume */}
-      <div className={`mr-4 hidden items-center lg:flex`}>
-        {/* <button
+      <div className={`mr-4 flex items-center`}>
+        <button
           onClick={() =>
             !user
               ? handleLoginAlert()
@@ -131,26 +144,28 @@ export default function PlaybackOptions({ track }) {
           }
           className={`btn btn-square btn-ghost no-animation btn-sm !bg-transparent`}
         >
-          Volume Icon
-          {volumeState >= 75 ? (
+          {/* Volume Icon */}
+          {volumeInputState >= 75 ? (
             <VolumeHigh color={"#ffffff"} width={`20px`} height={`20px`} />
-          ) : volumeState < 75 && volumeState >= 50 ? (
+          ) : volumeInputState < 75 && volumeInputState >= 50 ? (
             <VolumeMedium color={"#ffffff"} width={`20px`} height={`20px`} />
-          ) : volumeState < 50 && volumeState >= 25 ? (
+          ) : volumeInputState < 50 && volumeInputState >= 25 ? (
             <VolumeLow color={"#ffffff"} width={`20px`} height={`20px`} />
-          ) : volumeState < 25 && volumeState > 0 ? (
+          ) : volumeInputState < 25 && volumeInputState > 0 ? (
             <VolumeOff color={"#ffffff"} width={`20px`} height={`20px`} />
           ) : (
             <VolumeMute color={"#ffffff"} width={`20px`} height={`20px`} />
           )}
-        </button> */}
+        </button>
 
-        {/* <div className={`h-1 w-24 rounded-full bg-neutral-600`}>
-          <div
-            className={`h-full w-1/4 rounded-full bg-primary`}
-            style={{ width: `${volumeState}%` }}
-          ></div>
-        </div> */}
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value={volumeInputState}
+          onChange={(e) => setVolumeInputState(Number(e.target.value))}
+          className={`range range-primary range-xs`}
+        />
       </div>
 
       {/* Shuffle */}
