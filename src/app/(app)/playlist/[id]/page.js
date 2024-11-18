@@ -96,7 +96,10 @@ export default async function page({ params }) {
             {playlist.tracks.items.map((item, j) => {
               if (item.track) {
                 return (
-                  <li key={item.id} className={`flex items-center gap-4`}>
+                  <li
+                    key={item.id}
+                    className={`flex items-center gap-4 hocus:rounded-lg hocus:bg-neutral`}
+                  >
                     <span className={`flex w-5 justify-center`}>{j + 1}</span>
 
                     <div className={`flex-grow @container`}>
