@@ -45,7 +45,7 @@ export default function Sidebar({
     <WebPlaybackSDK
       initialDeviceName={process.env.NEXT_PUBLIC_APP_NAME}
       getOAuthToken={getOAuthToken}
-      volume={0.5}
+      initialVolume={0.5}
     >
       <div className={`flex h-dvh flex-col justify-between`}>
         <div className="drawer flex-grow lg:drawer-open">

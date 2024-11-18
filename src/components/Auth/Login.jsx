@@ -49,7 +49,7 @@ export default function Login({ authorizationURL, client_id }) {
     current.set("redirect_uri", `${window.location.origin}`);
     current.set("scope", scope);
     current.set("state", state);
-    current.set("show_dialog", true);
+    current.set("show_dialog", false);
 
     await axios.get(`/api/redirect`, {
       params: { path: `${pathname}?${searchParams.toString()}` },

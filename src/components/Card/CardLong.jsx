@@ -6,7 +6,12 @@ import { Play } from "react-ionicons";
 import TrackCard from "../Track/Card";
 import Link from "next/link";
 import { playSong } from "@/lib/play-song";
-import { usePlayerDevice } from "react-spotify-web-playback-sdk";
+import {
+  usePlaybackState,
+  usePlayerDevice,
+} from "react-spotify-web-playback-sdk";
+import { useAuth } from "@/hooks/auth";
+import AudioWave from "../Animation/AudioWave";
 
 export default function CardLong({
   item,
@@ -19,7 +24,15 @@ export default function CardLong({
   cta = true,
   hover = true,
 }) {
+  const { user } = useAuth();
+
   const device = usePlayerDevice();
+  const playback = usePlaybackState();
+
+  const isPlaying =
+    (playback?.context?.uri === item?.uri ||
+      playback?.track_window?.current_track?.id === item?.id) &&
+    !playback?.paused;
 
   return (
     <div
@@ -67,12 +80,17 @@ export default function CardLong({
         <div
           className={`col-span-2 col-start-5 flex justify-end pr-1 @lg:col-start-12`}
         >
-          <button
-            onClick={() => playSong(device, item.type, item.uri)}
-            className={`btn btn-square btn-ghost btn-sm`}
-          >
-            <Play color={`#ffffff`} width={`20px`} height={`20px`} />
-          </button>
+          {isPlaying ? (
+            <AudioWave />
+          ) : (
+            <button
+              onClick={() => playSong(user, device, item.type, item.uri)}
+              className={`btn btn-square btn-ghost btn-sm`}
+            >
+              <Play color={`#ffffff`} width={`20px`} height={`20px`} />
+            </button>
+          )}
+
           {/* <button className={`btn btn-square btn-ghost btn-sm`}>
             <EllipsisVertical
               color={`#ffffff`}

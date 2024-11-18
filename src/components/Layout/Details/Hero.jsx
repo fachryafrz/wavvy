@@ -1,5 +1,7 @@
 "use client";
 
+import AudioWave from "@/components/Animation/AudioWave";
+import { useAuth } from "@/hooks/auth";
 import { playSong } from "@/lib/play-song";
 import { fetchData } from "@/server/actions";
 import Link from "next/link";
@@ -20,6 +22,8 @@ export default function DetailsHero({
   title,
   secondInfo,
 }) {
+  const { user } = useAuth();
+
   const device = usePlayerDevice();
   const player = useSpotifyPlayer();
   const playback = usePlaybackState();
@@ -46,8 +50,8 @@ export default function DetailsHero({
   }, [item]);
 
   const isPlaying =
-    (playback?.context?.uri === item.uri ||
-      playback?.track_window?.current_track?.id === item.id) &&
+    (playback?.context?.uri === item?.uri ||
+      playback?.track_window?.current_track?.id === item?.id) &&
     !playback?.paused;
 
   return (
@@ -82,7 +86,9 @@ export default function DetailsHero({
           {/* Artist */}
           {artists && (
             <div className={`text-white`}>
-              <div className={`flex flex-wrap items-center gap-4`}>
+              <div
+                className={`flex flex-wrap items-center justify-center gap-4 md:justify-start`}
+              >
                 {artists.map((artist) => {
                   const [image] = artist.images;
 
@@ -117,11 +123,11 @@ export default function DetailsHero({
         <div className={`flex w-full items-center gap-4`}>
           {item.type !== "artist" && (
             <button
-              onClick={() => playSong(device, item.type, item.uri)}
-              disabled={isPlaying}
-              className={`btn btn-primary flex-grow rounded-full md:max-w-[150px]`}
+              onClick={() => playSong(user, device, item.type, item.uri)}
+              className={`btn btn-primary flex-grow rounded-full disabled:cursor-not-allowed md:max-w-[150px]`}
             >
-              {isPlaying ? "Playing" : "Listen Now"}
+              {isPlaying && <AudioWave className={`[&_*]:!bg-white`} />}
+              <span>{isPlaying ? "Playing" : "Listen Now"}</span>
             </button>
           )}
 

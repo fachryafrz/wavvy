@@ -43,7 +43,7 @@ export default function Player() {
     >
       {/* Track Info (Image, Title, Artist) */}
       <div className={`col-span-3 sm:col-span-2 md:col-span-4 lg:col-span-3`}>
-        {!webPlaybackSDKReady && <LoadingCard responsive={true} />}
+        {!webPlaybackSDKReady && <LoadingCard />}
 
         {webPlaybackSDKReady && (
           <TrackCard

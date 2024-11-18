@@ -126,15 +126,13 @@ export default function Playback({ track }) {
         <button
           ref={playPauseRef}
           onClick={async () =>
-            !user
-              ? handleLoginAlert()
-              : error
-                ? document.getElementById("premiumAlert").showModal()
-                : playback
-                  ? playback.paused
-                    ? await player.resume()
-                    : await player.pause()
-                  : playSong(device, "track", track.uri)
+            error
+              ? document.getElementById("premiumAlert").showModal()
+              : playback
+                ? playback.paused
+                  ? await player.resume()
+                  : await player.pause()
+                : playSong(user, device, "track", track.uri)
           }
           className={`btn btn-square btn-ghost !bg-transparent`}
         >
