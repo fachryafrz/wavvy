@@ -6,7 +6,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import SidebarContent from "./Content";
 import { useAuth } from "@/hooks/auth";
 import { userStore } from "@/zustand/user";
-import SpotifyPlayer from "../Player/SpotifyPlayer";
 import { WebPlaybackSDK } from "react-spotify-web-playback-sdk";
 
 export default function Sidebar({

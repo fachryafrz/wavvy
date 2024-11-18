@@ -20,13 +20,10 @@ import {
 } from "react-spotify-web-playback-sdk";
 import { fetchData } from "@/server/actions";
 import { useAuth } from "@/hooks/auth";
+import PlayerInfo from "./Info";
 
 export default function Player() {
   // Hooks
-  const { user } = useAuth();
-  const webPlaybackSDKReady = useWebPlaybackSDKReady();
-  const device = usePlayerDevice();
-  const player = useSpotifyPlayer();
   const playback = usePlaybackState();
 
   const { data: recentlyPlayed } = useQuery({
@@ -43,71 +40,9 @@ export default function Player() {
     >
       {/* Track Info (Image, Title, Artist) */}
       <div className={`col-span-3 sm:col-span-2 md:col-span-4 lg:col-span-3`}>
-        {!webPlaybackSDKReady && <LoadingCard />}
-
-        {webPlaybackSDKReady && (
-          <TrackCard
-            id={playback?.track_window?.current_track?.id ?? recentlyPlayed?.id}
-            type={playback?.track_window?.current_track?.type ?? "track"}
-            name={
-              !user ? (
-                "Nothing Playing"
-              ) : (
-                <Link
-                  href={`/${playback?.track_window?.current_track?.type ?? "track"}/${playback?.track_window?.current_track?.id ?? recentlyPlayed?.id}`}
-                  className={`hocus:underline`}
-                >
-                  {playback?.track_window?.current_track?.name ??
-                    recentlyPlayed?.name}
-                </Link>
-              )
-            }
-            image={
-              !user
-                ? "/maskable/maskable_icon_x192.png"
-                : (playback?.track_window?.current_track?.album.images[0].url ??
-                  recentlyPlayed?.album.images[0].url)
-            }
-            info={
-              !user
-                ? null
-                : (playback?.track_window?.current_track?.artists.map(
-                    (artist) => {
-                      const [app, type, id] = artist.uri.split(":");
-
-                      return (
-                        <>
-                          <Link
-                            href={`/artist/${id}`}
-                            className={`hocus:underline`}
-                          >
-                            {artist.name}
-                          </Link>
-
-                          <span className={`last:hidden`}>, </span>
-                        </>
-                      );
-                    },
-                  ) ??
-                  recentlyPlayed?.artists.map((artist) => {
-                    const [app, type, id] = artist.uri.split(":");
-
-                    return (
-                      <>
-                        <Link
-                          href={`/artist/${id}`}
-                          className={`hocus:underline`}
-                        >
-                          {artist.name}
-                        </Link>
-
-                        <span className={`last:hidden`}>, </span>
-                      </>
-                    );
-                  }))
-            }
-          />
-        )}
+        <PlayerInfo
+          track={playback?.track_window?.current_track ?? recentlyPlayed}
+        />
       </div>
 
       {/* Playback (Play, Pause, Next, Previous, Runtime) */}

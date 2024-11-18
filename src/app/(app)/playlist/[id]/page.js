@@ -70,73 +70,75 @@ export default async function page({ params }) {
       </section>
 
       {/* Tracks */}
-      <section>
-        <div>
-          <header className={`flex items-center gap-4`}>
-            <span className={`w-5 text-center`}>#</span>
+      {playlist.tracks.items.length > 0 && (
+        <section>
+          <div>
+            <header className={`flex items-center gap-4`}>
+              <span className={`w-5 text-center`}>#</span>
 
-            <div className={`flex-grow @container`}>
-              <CardLong
-                name={
-                  <h2 className={`text-xl font-medium`}>
-                    {isPlural(playlist.tracks.items.length, `Song`, `Songs`)}
-                  </h2>
+              <div className={`flex-grow @container`}>
+                <CardLong
+                  name={
+                    <h2 className={`text-xl font-medium`}>
+                      {isPlural(playlist.tracks.items.length, `Song`, `Songs`)}
+                    </h2>
+                  }
+                  secondInfo={<div className={`mx-auto w-fit`}>Duration</div>}
+                  thirdInfo={` `}
+                  cta={false}
+                  hover={false}
+                />
+              </div>
+            </header>
+
+            <span className={`divider my-0`}></span>
+
+            <ul>
+              {playlist.tracks.items.map((item, j) => {
+                if (item.track) {
+                  return (
+                    <li
+                      key={item.id}
+                      className={`flex items-center gap-4 hocus:rounded-lg hocus:bg-neutral`}
+                    >
+                      <span className={`flex w-5 justify-center`}>{j + 1}</span>
+
+                      <div className={`flex-grow @container`}>
+                        <CardLong
+                          item={item.track}
+                          image={item.track.album.images[0]?.url}
+                          link={`/${item.track.type}/${item.track.id}`}
+                          secondInfo={
+                            <div className={`mx-auto w-fit`}>
+                              {moment(item.track.duration_ms).format("m:ss")}
+                            </div>
+                          }
+                          thirdInfo={` `}
+                          smallInfo={item.track.artists.map((artist) => {
+                            return (
+                              <>
+                                <Link
+                                  key={artist.id}
+                                  href={`/${artist.type}/${artist.id}`}
+                                  className={`hocus:underline`}
+                                >
+                                  {artist.name}
+                                </Link>
+
+                                <span className={`last:hidden`}>, </span>
+                              </>
+                            );
+                          })}
+                        />
+                      </div>
+                    </li>
+                  );
                 }
-                secondInfo={<div className={`mx-auto w-fit`}>Duration</div>}
-                thirdInfo={` `}
-                cta={false}
-                hover={false}
-              />
-            </div>
-          </header>
-
-          <span className={`divider my-0`}></span>
-
-          <ul>
-            {playlist.tracks.items.map((item, j) => {
-              if (item.track) {
-                return (
-                  <li
-                    key={item.id}
-                    className={`flex items-center gap-4 hocus:rounded-lg hocus:bg-neutral`}
-                  >
-                    <span className={`flex w-5 justify-center`}>{j + 1}</span>
-
-                    <div className={`flex-grow @container`}>
-                      <CardLong
-                        item={item.track}
-                        image={item.track.album.images[0]?.url}
-                        link={`/${item.track.type}/${item.track.id}`}
-                        secondInfo={
-                          <div className={`mx-auto w-fit`}>
-                            {moment(item.track.duration_ms).format("m:ss")}
-                          </div>
-                        }
-                        thirdInfo={` `}
-                        smallInfo={item.track.artists.map((artist) => {
-                          return (
-                            <>
-                              <Link
-                                key={artist.id}
-                                href={`/${artist.type}/${artist.id}`}
-                                className={`hocus:underline`}
-                              >
-                                {artist.name}
-                              </Link>
-
-                              <span className={`last:hidden`}>, </span>
-                            </>
-                          );
-                        })}
-                      />
-                    </div>
-                  </li>
-                );
-              }
-            })}
-          </ul>
-        </div>
-      </section>
+              })}
+            </ul>
+          </div>
+        </section>
+      )}
     </div>
   );
 }
