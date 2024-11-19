@@ -21,11 +21,13 @@ import {
   useWebPlaybackSDKReady,
 } from "react-spotify-web-playback-sdk";
 import { fetchData } from "@/server/actions";
+import { Slider } from "@mui/material";
 
 export default function PlaybackOptions({
   track,
   volumeState,
   setVolumeState,
+  isMobile,
 }) {
   const { user } = useAuth();
   const router = useRouter();
@@ -50,6 +52,12 @@ export default function PlaybackOptions({
       setRepeatState(playback.repeat_mode);
     }
   }, [playback]);
+
+  useEffect(() => {
+    if (isMobile) {
+      setVolumeState(100);
+    }
+  }, [isMobile]);
 
   const availableRepeatStates = [
     { state: "off" },
@@ -114,26 +122,28 @@ export default function PlaybackOptions({
     document.getElementById(`loginAlert`).showModal();
   };
 
-  const timer = useRef();
   useEffect(() => {
+    let timerId;
     const handleVolumeChange = () => {
-      if (timer.current) {
-        clearTimeout(timer.current);
+      if (timerId) {
+        clearTimeout(timerId);
       }
-      timer.current = window.setTimeout(async () => {
+      timerId = window.setTimeout(async () => {
         await handleSetVolume(volumeInputState);
       }, 500);
     };
 
     handleVolumeChange();
 
-    return () => clearTimeout(timer.current);
+    return () => clearTimeout(timerId);
   }, [volumeInputState]);
 
   return (
     <div className={`flex flex-nowrap items-center justify-end`}>
       {/* Volume */}
-      <div className={`mr-4 flex items-center`}>
+      <div
+        className={`mr-4 flex max-w-40 flex-grow items-center justify-end gap-2`}
+      >
         <button
           onClick={() =>
             !user
@@ -145,27 +155,69 @@ export default function PlaybackOptions({
           className={`btn btn-square btn-ghost no-animation btn-sm !bg-transparent`}
         >
           {/* Volume Icon */}
-          {volumeInputState >= 75 ? (
+          {volumeState >= 75 ? (
             <VolumeHigh color={"#ffffff"} width={`20px`} height={`20px`} />
-          ) : volumeInputState < 75 && volumeInputState >= 50 ? (
+          ) : volumeState < 75 && volumeState >= 50 ? (
             <VolumeMedium color={"#ffffff"} width={`20px`} height={`20px`} />
-          ) : volumeInputState < 50 && volumeInputState >= 25 ? (
+          ) : volumeState < 50 && volumeState >= 25 ? (
             <VolumeLow color={"#ffffff"} width={`20px`} height={`20px`} />
-          ) : volumeInputState < 25 && volumeInputState > 0 ? (
+          ) : volumeState < 25 && volumeState > 0 ? (
             <VolumeOff color={"#ffffff"} width={`20px`} height={`20px`} />
           ) : (
             <VolumeMute color={"#ffffff"} width={`20px`} height={`20px`} />
           )}
         </button>
 
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={volumeInputState}
-          onChange={(e) => setVolumeInputState(Number(e.target.value))}
-          className={`range range-primary range-xs`}
-        />
+        <div className={`flex flex-grow items-center`}>
+          <Slider
+            aria-label="volume"
+            size="small"
+            value={volumeState}
+            min={0}
+            step={1}
+            max={100}
+            onChange={(_, value) => setVolumeState(value)}
+            onChangeCommitted={(_, value) => setVolumeInputState(value)}
+            valueLabelDisplay="auto"
+            valueLabelFormat={(value) => `${value}%`}
+            className={`py-2`}
+            disabled={!playback}
+            sx={(t) => ({
+              color: "#ff6337",
+              "&:hover": {
+                "& .MuiSlider-thumb": {
+                  width: 16,
+                  height: 16,
+                },
+              },
+              "& .MuiSlider-track": {
+                border: "none",
+              },
+              "& .MuiSlider-thumb": {
+                transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
+                width: 0,
+                height: 0,
+                backgroundColor: "#ff6337",
+                "&::before": {
+                  boxShadow: "0 4px 8px rgba(0,0,0,0.4)",
+                },
+                "&:hover, &.Mui-focusVisible, &.Mui-active": {
+                  boxShadow: "none",
+                },
+                "&.Mui-disabled": {
+                  backgroundColor: "#fff",
+                },
+              },
+              "& .MuiSlider-rail": {
+                opacity: 1,
+                background: "#282828",
+              },
+              "& .MuiSlider-valueLabel": {
+                background: "#050505",
+              },
+            })}
+          />
+        </div>
       </div>
 
       {/* Shuffle */}

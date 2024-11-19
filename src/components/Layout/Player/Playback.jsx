@@ -19,8 +19,9 @@ import {
 } from "react-spotify-web-playback-sdk";
 import { fetchData } from "@/server/actions";
 import { playSong } from "@/lib/play-song";
+import Slider from "@mui/material/Slider";
 
-export default function Playback({ track }) {
+export default function Playback({ track, isMobile }) {
   const { user } = useAuth();
   const router = useRouter();
 
@@ -32,8 +33,10 @@ export default function Playback({ track }) {
   const playback = usePlaybackState();
   const error = useErrorState();
 
+  // State
   const [currentProgress, setCurrentProgress] = useState(0);
   const [durationMs, setDurationMs] = useState(0);
+  const [seekState, setSeekState] = useState(0);
 
   // Ref
   const previousSongRef = useRef(null);
@@ -41,6 +44,7 @@ export default function Playback({ track }) {
   const playPauseRef = useRef(null);
   const playForwardRef = useRef(null);
   const nextSongRef = useRef(null);
+  const endMinutes = durationMs - currentProgress || track?.duration_ms;
 
   useEffect(() => {
     setCurrentProgress(playback ? playback.position : 0);
@@ -106,10 +110,25 @@ export default function Playback({ track }) {
     };
   }, []);
 
+  useEffect(() => {
+    let timerId;
+    const handleSeekChange = () => {
+      if (timerId) {
+        clearTimeout(timerId);
+      }
+      timerId = window.setTimeout(async () => {
+        await player.seek(seekState);
+      }, 500);
+    };
+
+    if (seekState !== 0) {
+      handleSeekChange();
+    }
+
+    return () => clearTimeout(timerId);
+  }, [seekState]);
   return (
-    <div
-      className={`flex flex-col items-end justify-center gap-1 sm:items-center`}
-    >
+    <div className={`flex flex-col items-end justify-center sm:items-center`}>
       <div className={`flex items-end justify-between lg:w-full`}>
         {/* Start Minutes */}
         <span
@@ -163,7 +182,7 @@ export default function Playback({ track }) {
                   ? playback.paused
                     ? await player.resume()
                     : await player.pause()
-                  : playSong(user, device, "track", track.uri)
+                  : playSong(user, device, "track", track?.uri)
             }
             className={`btn btn-square btn-ghost !bg-transparent`}
           >
@@ -212,20 +231,58 @@ export default function Playback({ track }) {
         <span
           className={`hidden min-w-10 text-end text-xs font-medium text-neutral-500 lg:inline`}
         >
-          {`-${convertProgress(durationMs - currentProgress || track?.duration_ms || 1)}`}
+          {`-${convertProgress(endMinutes)}`}
         </span>
       </div>
 
       {/* Progress Bar */}
-      <div
-        className={`absolute inset-x-0 top-0 h-1 w-full rounded-full bg-neutral-600 lg:static`}
-      >
-        <div
-          className={`h-full rounded-full bg-primary`}
-          style={{
-            width: `${calculateProgressPercentage(currentProgress, durationMs || 1)}%`,
-          }}
-        ></div>
+      <div className={`absolute inset-x-0 -top-2 w-full lg:static`}>
+        <Slider
+          aria-label="time-indicator"
+          size="small"
+          value={currentProgress}
+          min={0}
+          step={1}
+          max={durationMs}
+          onChange={(_, value) => setCurrentProgress(value)}
+          onChangeCommitted={(_, value) => setSeekState(value)}
+          className={`py-2`}
+          valueLabelDisplay={isMobile ? "auto" : "off"}
+          valueLabelFormat={(value) => convertProgress(value)}
+          disabled={!playback}
+          sx={(t) => ({
+            color: "#ff6337",
+            height: 4,
+            "&:hover": {
+              "& .MuiSlider-thumb": {
+                width: 8,
+                height: 8,
+              },
+            },
+            "& .MuiSlider-thumb": {
+              width: 0,
+              height: 0,
+              transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
+              "&::before": {
+                boxShadow: "0 2px 12px 0 rgba(0,0,0,0.4)",
+              },
+              "&:hover, &.Mui-focusVisible": {
+                boxShadow: `0px 0px 0px 8px ${"#ff633729"}`,
+              },
+              "&.Mui-active": {
+                width: 20,
+                height: 20,
+              },
+            },
+            "& .MuiSlider-rail": {
+              opacity: 1,
+              background: "#282828",
+            },
+            "& .MuiSlider-valueLabel": {
+              background: "#161616",
+            },
+          })}
+        />
       </div>
     </div>
   );

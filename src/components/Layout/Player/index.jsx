@@ -23,7 +23,9 @@ import { useAuth } from "@/hooks/auth";
 import PlayerInfo from "./Info";
 
 export default function Player() {
+  // State
   const [volumeState, setVolumeState] = useState(100);
+  const [isMobile, setIsMobile] = useState(false);
 
   // Hooks
   const playback = usePlaybackState();
@@ -35,14 +37,41 @@ export default function Player() {
     },
   });
 
+  const { data: playbackState } = useQuery({
+    enabled: !playback,
+    queryKey: `/me/player`,
+    queryFn: async ({ queryKey }) => {
+      return await fetchData(queryKey).then(({ data }) => data);
+    },
+  });
+
   useEffect(() => {
-    const getPlaybackState = async () => {
-      const { data } = await fetchData(`/me/player`);
-      setVolumeState(data.device?.volume_percent);
+    if (playbackState) setVolumeState(playbackState.device?.volume_percent);
+  }, [playbackState]);
+
+  useEffect(() => {
+    const isMobileDevice = () => {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+      // Windows Phone must come first because its UA also contains "Android"
+      if (/windows phone/i.test(userAgent)) {
+        return true;
+      }
+
+      if (/android/i.test(userAgent)) {
+        return true;
+      }
+
+      // iOS detection from: http://stackoverflow.com/a/9039885/177710
+      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        return true;
+      }
+
+      return false;
     };
 
-    if (playback) getPlaybackState();
-  }, [playback]);
+    setIsMobile(isMobileDevice());
+  }, []);
 
   return (
     <div
@@ -60,6 +89,7 @@ export default function Player() {
       <div className={``}>
         <Playback
           track={playback?.track_window?.current_track ?? recentlyPlayed}
+          isMobile={isMobile}
         />
       </div>
 
@@ -69,6 +99,7 @@ export default function Player() {
           track={playback?.track_window?.current_track ?? recentlyPlayed}
           volumeState={volumeState}
           setVolumeState={setVolumeState}
+          isMobile={isMobile}
         />
       </div>
     </div>

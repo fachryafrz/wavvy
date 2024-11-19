@@ -3,6 +3,7 @@
 import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
 import axios from "axios";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const fetchData = async (url, options) => {
   const cookiesStore = cookies();
@@ -31,13 +32,17 @@ export const fetchData = async (url, options) => {
     Authorization: `Bearer ${access_token}`,
   };
 
-  const { data } = await axios.request({
-    method: "GET",
-    baseURL: process.env.API_URL,
-    url,
-    headers: headersAuth,
-    ...options,
-  });
+  try {
+    const { data } = await axios.request({
+      method: "GET",
+      baseURL: process.env.API_URL,
+      url,
+      headers: headersAuth,
+      ...options,
+    });
 
-  return { data };
+    return { data };
+  } catch (error) {
+    redirect("/");
+  }
 };
