@@ -6,6 +6,7 @@ import ArtistCard from "../Artist/Card";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import LoadingCard from "../Loading/Card";
+import { fetchData } from "@/server/actions";
 
 export default function FavoriteArtists() {
   const showLimit = 5;
@@ -15,10 +16,9 @@ export default function FavoriteArtists() {
     error,
     isLoading: loading,
   } = useQuery({
-    queryKey: `/api/me/following`,
+    queryKey: `/me/following`,
     queryFn: async ({ queryKey }) => {
-      return await axios
-        .get(queryKey, { params: { type: `artist` } })
+      return await fetchData(queryKey, { params: { type: `artist` } })
         .then(({ data }) => data);
     },
   });

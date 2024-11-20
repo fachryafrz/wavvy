@@ -12,6 +12,7 @@ import {
   MicOutline,
 } from "react-ionicons";
 import LoginBanner from "../LoginBanner";
+import { fetchData } from "@/server/actions";
 
 export default function SidebarContent() {
   const { user } = userStore();
@@ -45,9 +46,9 @@ export default function SidebarContent() {
     isLoading: loading,
     refetch: fetchPlaylist,
   } = useQuery({
-    queryKey: `/api/me/playlists`,
+    queryKey: `/me/playlists`,
     queryFn: async ({ queryKey }) => {
-      return await axios.get(queryKey).then(({ data }) => data);
+      return await fetchData(queryKey).then(({ data }) => data);
     },
     enabled: false,
   });

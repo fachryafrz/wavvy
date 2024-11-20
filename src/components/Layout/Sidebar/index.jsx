@@ -67,7 +67,7 @@ export default function Sidebar({
               </header>
 
               {/* Center */}
-              <main className={`flex-grow p-4 pt-2`}>{children}</main>
+              <main className={`flex-grow p-4 pt-0`}>{children}</main>
             </div>
           </div>
 

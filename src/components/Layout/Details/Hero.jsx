@@ -94,16 +94,22 @@ export default function DetailsHero({
 
                   return (
                     <div key={artist.id} className={`flex items-center gap-2`}>
-                      <figure
-                        className={`aspect-square w-[40px] overflow-hidden rounded-full`}
+                      <Link
+                        href={`/${artist.type}/${artist.id}`}
                       >
-                        <img
-                          src={image?.url ?? "/maskable/maskable_icon_x192.png"}
-                          alt={artist.name}
-                          loading="lazy"
-                          draggable="false"
-                        />
-                      </figure>
+                        <figure
+                          className={`aspect-square w-[40px] overflow-hidden rounded-full`}
+                        >
+                          <img
+                            src={
+                              image?.url ?? "/maskable/maskable_icon_x192.png"
+                            }
+                            alt={artist.name}
+                            loading="lazy"
+                            draggable="false"
+                          />
+                        </figure>
+                      </Link>
 
                       <Link
                         href={`/${artist.type}/${artist.id}`}

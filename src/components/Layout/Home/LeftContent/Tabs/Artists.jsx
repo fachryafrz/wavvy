@@ -1,5 +1,6 @@
 import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
+import { fetchData } from "@/server/actions";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import numeral from "numeral";
@@ -11,9 +12,9 @@ export default function TabArtists() {
     error,
     isLoading: loading,
   } = useQuery({
-    queryKey: `/api/me/top/artists`,
+    queryKey: `/me/top/artists`,
     queryFn: async ({ queryKey }) => {
-      return await axios.get(queryKey).then(({ data }) => data);
+      return await fetchData(queryKey).then(({ data }) => data);
     },
   });
 

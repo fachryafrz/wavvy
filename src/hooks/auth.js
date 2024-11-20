@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useHandleError } from "./error";
+import { fetchData } from "@/server/actions";
 
 export const useAuth = () => {
   const router = useRouter();
@@ -10,16 +11,16 @@ export const useAuth = () => {
   const queryClient = useQueryClient();
 
   const { data: user, error } = useQuery({
-    queryKey: `/api/me`,
+    queryKey: `/me`,
     queryFn: async ({ queryKey }) => {
-      return await axios.get(queryKey).then(({ data }) => data);
+      return await fetchData(queryKey).then(({ data }) => data);
     },
     refetchInterval: 1000 * 60 * 5,
   });
-  const userData = queryClient.getQueryData(`/api/me`);
+  const userData = queryClient.getQueryData(`/me`);
 
   const invalidate = () => {
-    queryClient.resetQueries({ queryKey: `/api/me` });
+    queryClient.resetQueries({ queryKey: `/me` });
     router.refresh();
   };
 
