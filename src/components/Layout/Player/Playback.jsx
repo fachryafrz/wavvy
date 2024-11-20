@@ -249,7 +249,7 @@ export default function Playback({ track, isMobile }) {
           valueLabelDisplay={isMobile ? "auto" : "off"}
           valueLabelFormat={(value) => convertProgress(value)}
           disabled={!playback}
-          className={`absolute inset-x-0 -top-2 lg:top-auto lg:relative`}
+          className={`!absolute !inset-x-0 !-top-2 lg:!top-auto lg:!relative`}
           sx={(t) => ({
             color: "#ff6337",
             height: 4,
