@@ -7,18 +7,20 @@ import FavoriteArtists from "../../FavoriteArtists";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { userStore } from "@/zustand/user";
+import { fetchData } from "@/server/actions";
+import { useAuth } from "@/hooks/auth";
 
 export default function LeftContent({ categories, categoriesPlaylists }) {
-  const { user } = userStore();
+  const { user } = useAuth();
 
   const {
     data: recentlyPlayedData,
     error,
     isLoading: recentlyPlayedIsLoading,
   } = useQuery({
-    queryKey: `/api/me/player/recently-played`,
+    queryKey: `/me/player/recently-played`,
     queryFn: async ({ queryKey }) => {
-      return await axios.get(queryKey).then(({ data }) => data);
+      return await fetchData(queryKey).then(({ data }) => data);
     },
   });
 

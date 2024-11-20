@@ -207,6 +207,10 @@ export default function PlaybackOptions({
                 "&.Mui-disabled": {
                   backgroundColor: "#fff",
                 },
+                "&.Mui-active": {
+                  width: 16,
+                  height: 16,
+                },
               },
               "& .MuiSlider-rail": {
                 opacity: 1,

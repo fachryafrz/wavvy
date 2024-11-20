@@ -236,7 +236,7 @@ export default function Playback({ track, isMobile }) {
       </div>
 
       {/* Progress Bar */}
-      <div className={`absolute inset-x-0 -top-2 w-full lg:static`}>
+      {/* <div className={`absolute inset-x-0 -top-2 w-full lg:static`}> */}
         <Slider
           aria-label="time-indicator"
           size="small"
@@ -246,13 +246,14 @@ export default function Playback({ track, isMobile }) {
           max={durationMs}
           onChange={(_, value) => setCurrentProgress(value)}
           onChangeCommitted={(_, value) => setSeekState(value)}
-          className={`py-2`}
           valueLabelDisplay={isMobile ? "auto" : "off"}
           valueLabelFormat={(value) => convertProgress(value)}
           disabled={!playback}
+          className={`absolute inset-x-0 -top-2 lg:top-auto lg:relative`}
           sx={(t) => ({
             color: "#ff6337",
             height: 4,
+            padding: "0.5rem 0",
             "&:hover": {
               "& .MuiSlider-thumb": {
                 width: 8,
@@ -273,6 +274,9 @@ export default function Playback({ track, isMobile }) {
                 width: 20,
                 height: 20,
               },
+              "&:after": {
+                display: "none",
+              }
             },
             "& .MuiSlider-rail": {
               opacity: 1,
@@ -283,7 +287,7 @@ export default function Playback({ track, isMobile }) {
             },
           })}
         />
-      </div>
+      {/* </div> */}
     </div>
   );
 }
