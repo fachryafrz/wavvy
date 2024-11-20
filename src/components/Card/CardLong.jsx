@@ -84,7 +84,7 @@ export default function CardLong({
             <AudioWave />
           ) : (
             <button
-              onClick={() => playSong(user, device, item.type, item.uri)}
+              onClick={() => playSong(user, device, item.uri)}
               className={`btn btn-square btn-ghost btn-sm`}
             >
               <Play color={`#ffffff`} width={`20px`} height={`20px`} />

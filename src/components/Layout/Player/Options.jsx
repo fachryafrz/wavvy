@@ -41,7 +41,6 @@ export default function PlaybackOptions({
   const playback = usePlaybackState();
 
   // State
-  const [volumeInputState, setVolumeInputState] = useState(volumeState);
   const [shuffleState, setShuffleState] = useState(false);
   const [repeatState, setRepeatState] = useState(0);
 
@@ -122,22 +121,6 @@ export default function PlaybackOptions({
     document.getElementById(`loginAlert`).showModal();
   };
 
-  useEffect(() => {
-    let timerId;
-    const handleVolumeChange = () => {
-      if (timerId) {
-        clearTimeout(timerId);
-      }
-      timerId = window.setTimeout(async () => {
-        await handleSetVolume(volumeInputState);
-      }, 500);
-    };
-
-    handleVolumeChange();
-
-    return () => clearTimeout(timerId);
-  }, [volumeInputState]);
-
   return (
     <div className={`flex flex-nowrap items-center justify-end`}>
       {/* Volume */}
@@ -177,13 +160,14 @@ export default function PlaybackOptions({
             step={1}
             max={100}
             onChange={(_, value) => setVolumeState(value)}
-            onChangeCommitted={(_, value) => setVolumeInputState(value)}
+            onChangeCommitted={async (_, value) => await handleSetVolume(value)}
             valueLabelDisplay="auto"
             valueLabelFormat={(value) => `${value}%`}
-            className={`py-2`}
+            className={`!py-2`}
             disabled={!playback}
             sx={(t) => ({
               color: "#ff6337",
+              height: 4,
               "&:hover": {
                 "& .MuiSlider-thumb": {
                   width: 16,

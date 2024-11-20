@@ -129,7 +129,7 @@ export default function DetailsHero({
         <div className={`flex w-full items-center gap-4`}>
           {item.type !== "artist" && (
             <button
-              onClick={() => playSong(user, device, item.type, item.uri)}
+              onClick={() => playSong(user, device, item.uri)}
               className={`btn btn-primary flex-grow rounded-full disabled:cursor-not-allowed md:max-w-[150px]`}
             >
               {isPlaying && <AudioWave className={`[&_*]:!bg-white`} />}

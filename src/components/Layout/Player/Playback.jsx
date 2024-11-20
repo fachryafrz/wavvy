@@ -36,7 +36,6 @@ export default function Playback({ track, isMobile }) {
   // State
   const [currentProgress, setCurrentProgress] = useState(0);
   const [durationMs, setDurationMs] = useState(0);
-  const [seekState, setSeekState] = useState(0);
 
   // Ref
   const previousSongRef = useRef(null);
@@ -110,23 +109,6 @@ export default function Playback({ track, isMobile }) {
     };
   }, []);
 
-  useEffect(() => {
-    let timerId;
-    const handleSeekChange = () => {
-      if (timerId) {
-        clearTimeout(timerId);
-      }
-      timerId = window.setTimeout(async () => {
-        await player.seek(seekState);
-      }, 500);
-    };
-
-    if (seekState !== 0) {
-      handleSeekChange();
-    }
-
-    return () => clearTimeout(timerId);
-  }, [seekState]);
   return (
     <div className={`flex flex-col items-end justify-center sm:items-center`}>
       <div className={`flex items-end justify-between lg:w-full`}>
@@ -182,7 +164,7 @@ export default function Playback({ track, isMobile }) {
                   ? playback.paused
                     ? await player.resume()
                     : await player.pause()
-                  : playSong(user, device, "track", track?.uri)
+                  : playSong(user, device, track?.uri)
             }
             className={`btn btn-square btn-ghost !bg-transparent`}
           >
@@ -237,55 +219,55 @@ export default function Playback({ track, isMobile }) {
 
       {/* Progress Bar */}
       {/* <div className={`absolute inset-x-0 -top-2 w-full lg:static`}> */}
-        <Slider
-          aria-label="time-indicator"
-          size="small"
-          value={currentProgress}
-          min={0}
-          step={1}
-          max={durationMs}
-          onChange={(_, value) => setCurrentProgress(value)}
-          onChangeCommitted={(_, value) => setSeekState(value)}
-          valueLabelDisplay={isMobile ? "auto" : "off"}
-          valueLabelFormat={(value) => convertProgress(value)}
-          disabled={!playback}
-          className={`!absolute !py-2 !inset-x-0 !-top-2 lg:!top-auto lg:!relative`}
-          sx={(t) => ({
-            color: "#ff6337",
-            height: 4,
-            "&:hover": {
-              "& .MuiSlider-thumb": {
-                width: 8,
-                height: 8,
-              },
-            },
+      <Slider
+        aria-label="time-indicator"
+        size="small"
+        value={currentProgress}
+        min={0}
+        step={1}
+        max={durationMs}
+        onChange={(_, value) => setCurrentProgress(value)}
+        onChangeCommitted={async (_, value) => await player.seek(value)}
+        valueLabelDisplay={isMobile ? "auto" : "off"}
+        valueLabelFormat={(value) => convertProgress(value)}
+        disabled={!playback}
+        className={`!absolute !inset-x-0 !-top-2 !py-2 lg:!relative lg:!top-auto`}
+        sx={(t) => ({
+          color: "#ff6337",
+          height: 4,
+          "&:hover": {
             "& .MuiSlider-thumb": {
-              width: 0,
-              height: 0,
-              transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
-              "&::before": {
-                boxShadow: "0 2px 12px 0 rgba(0,0,0,0.4)",
-              },
-              "&:hover, &.Mui-focusVisible": {
-                boxShadow: `0px 0px 0px 8px ${"#ff633729"}`,
-              },
-              "&.Mui-active": {
-                width: 20,
-                height: 20,
-              },
-              "&:after": {
-                display: "none",
-              }
+              width: 8,
+              height: 8,
             },
-            "& .MuiSlider-rail": {
-              opacity: 1,
-              background: "#282828",
+          },
+          "& .MuiSlider-thumb": {
+            width: 0,
+            height: 0,
+            transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
+            "&::before": {
+              boxShadow: "0 2px 12px 0 rgba(0,0,0,0.4)",
             },
-            "& .MuiSlider-valueLabel": {
-              background: "#161616",
+            "&:hover, &.Mui-focusVisible": {
+              boxShadow: `0px 0px 0px 8px ${"#ff633729"}`,
             },
-          })}
-        />
+            "&.Mui-active": {
+              width: 20,
+              height: 20,
+            },
+            "&:after": {
+              display: "none",
+            },
+          },
+          "& .MuiSlider-rail": {
+            opacity: 1,
+            background: "#282828",
+          },
+          "& .MuiSlider-valueLabel": {
+            background: "#161616",
+          },
+        })}
+      />
       {/* </div> */}
     </div>
   );

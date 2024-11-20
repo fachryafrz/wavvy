@@ -1,9 +1,18 @@
 import { fetchData } from "@/server/actions";
 
-export const playSong = async (user, device, type, uri) => {
+export const playSong = async (user, device, uri) => {
   if (!user) document.getElementById("loginAlert").showModal();
 
   const types = ["album", "playlist"];
+  const seedTypes = ["artist", "track", "genre"];
+
+  const [app, type, id] = uri.split(":");
+
+  const {
+    data: { tracks: queues },
+  } = await fetchData(`/recommendations`, {
+    params: { seed_tracks: id },
+  });
 
   await fetchData(`/me/player/play`, {
     params: {
@@ -11,7 +20,9 @@ export const playSong = async (user, device, type, uri) => {
     },
     method: "PUT",
     data: JSON.stringify(
-      types.includes(type) ? { context_uri: uri } : { uris: [uri] },
+      types.includes(type)
+        ? { context_uri: uri }
+        : { uris: [uri, ...queues.map(({ uri }) => uri)] },
     ),
   });
 };
