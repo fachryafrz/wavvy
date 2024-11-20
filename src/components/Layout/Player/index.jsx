@@ -28,6 +28,7 @@ export default function Player() {
   const [isMobile, setIsMobile] = useState(false);
 
   // Hooks
+  const player = useSpotifyPlayer();
   const playback = usePlaybackState();
 
   const { data: recentlyPlayed } = useQuery({
@@ -72,6 +73,52 @@ export default function Player() {
 
     setIsMobile(isMobileDevice());
   }, []);
+
+  useEffect(() => {
+    if (!playback) return;
+
+    const DEFAULT_SKIP_TIME = 1e4; // 10 seconds
+
+    const currentTrack = playback.track_window.current_track;
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: currentTrack.name,
+      artist: currentTrack.artists.map((artist) => artist.name).join(", "),
+      album: currentTrack.album.name,
+      artwork: [
+        {
+          src: currentTrack.album.images[0].url,
+          sizes: "640x640",
+          type: "image/jpeg",
+        },
+      ],
+    });
+
+    // Optional: Add Media Session Controls
+    navigator.mediaSession.setActionHandler("play", () => player.resume());
+    navigator.mediaSession.setActionHandler("pause", () => player.pause());
+    navigator.mediaSession.setActionHandler("nexttrack", () =>
+      player.nextTrack(),
+    );
+    navigator.mediaSession.setActionHandler("previoustrack", () =>
+      player.previousTrack(),
+    );
+    navigator.mediaSession.setActionHandler("seekbackward", (details) => {
+      const skipTime = details.seekOffset || DEFAULT_SKIP_TIME;
+      player.seek(playback.position - skipTime);
+    });
+    navigator.mediaSession.setActionHandler("seekforward", (details) => {
+      const skipTime = details.seekOffset || DEFAULT_SKIP_TIME;
+      player.seek(playback.position + skipTime);
+    });
+    navigator.mediaSession.setActionHandler("seekto", (details) => {
+      if (details.fastSeek) {
+        // Only use fast seek if supported.
+        player.seek(details.seekTime);
+        return;
+      }
+      player.seek(details.seekTime);
+    });
+  }, [playback]);
 
   return (
     <div
