@@ -110,14 +110,6 @@ export default function Player() {
       const skipTime = details.seekOffset || DEFAULT_SKIP_TIME;
       player.seek(playback.position + skipTime);
     });
-    // navigator.mediaSession.setActionHandler("seekto", (details) => {
-    //   if (details.fastSeek) {
-    //     // Only use fast seek if supported.
-    //     player.seek(details.seekTime);
-    //     return;
-    //   }
-    //   player.seek(details.seekTime);
-    // });
   }, [playback]);
 
   return (
