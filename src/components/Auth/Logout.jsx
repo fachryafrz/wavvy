@@ -5,9 +5,11 @@ import { useAuth } from "@/hooks/auth";
 import { userStore } from "@/zustand/user";
 import Link from "next/link";
 import { ExitOutline, PersonCircle } from "react-ionicons";
+import { useSpotifyPlayer } from "react-spotify-web-playback-sdk";
 
 export default function Logout({ user }) {
   const { logout } = useAuth();
+  const player = useSpotifyPlayer();
 
   const profilePicture = user.images?.find((image) => image.width === 300).url;
 
@@ -39,7 +41,10 @@ export default function Logout({ user }) {
           </li>
           <li>
             <button
-              onClick={logout}
+              onClick={() => {
+                player.disconnect();
+                logout();
+              }}
               className={`font-medium text-error active:!text-error hocus:!text-error`}
             >
               <ExitOutline color={"#b91c1c"} height="24px" width="24px" />

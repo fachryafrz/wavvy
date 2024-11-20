@@ -1,7 +1,10 @@
 import { fetchData } from "@/server/actions";
 
 export const playSong = async (user, device, uri) => {
-  if (!user) document.getElementById("loginAlert").showModal();
+  if (!user) {
+    document.getElementById("loginAlert").showModal();
+    return;
+  }
 
   const types = ["album", "playlist"];
   const seedTypes = ["artist", "track", "genre"];

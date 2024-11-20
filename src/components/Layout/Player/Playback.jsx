@@ -20,6 +20,7 @@ import {
 import { fetchData } from "@/server/actions";
 import { playSong } from "@/lib/play-song";
 import Slider from "@mui/material/Slider";
+import { useErrorAlert } from "@/zustand/error-alert";
 
 export default function Playback({ track, isMobile }) {
   const { user } = useAuth();
@@ -32,6 +33,7 @@ export default function Playback({ track, isMobile }) {
   const player = useSpotifyPlayer();
   const playback = usePlaybackState();
   const error = useErrorState();
+  const { setErrorAlert } = useErrorAlert();
 
   // State
   const [currentProgress, setCurrentProgress] = useState(0);
@@ -125,14 +127,13 @@ export default function Playback({ track, isMobile }) {
           <button
             ref={previousSongRef}
             onClick={async () =>
-              !user
-                ? handleLoginAlert()
-                : error
-                  ? document.getElementById("premiumAlert").showModal()
-                  : playback
-                    ? await player.previousTrack()
-                    : null
+              error
+                ? setErrorAlert(error)
+                : playback
+                  ? await player.previousTrack()
+                  : null
             }
+            disabled={!playback}
             className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
           >
             <PlaySkipBack color={"#ffffff"} width={`20px`} height={`20px`} />
@@ -141,14 +142,13 @@ export default function Playback({ track, isMobile }) {
           {/* Play Back */}
           <button
             onClick={async () =>
-              !user
-                ? handleLoginAlert()
-                : error
-                  ? document.getElementById("premiumAlert").showModal()
-                  : playback
-                    ? await player.seek(currentProgress - 1e4)
-                    : null
+              error
+                ? setErrorAlert(error)
+                : playback
+                  ? await player.seek(currentProgress - 1e4)
+                  : null
             }
+            disabled={!playback}
             className={`btn btn-square btn-ghost btn-sm hidden !bg-transparent sm:inline-flex`}
           >
             <PlayBack color={"#ffffff"} width={`20px`} height={`20px`} />
@@ -159,7 +159,7 @@ export default function Playback({ track, isMobile }) {
             ref={playPauseRef}
             onClick={async () =>
               error
-                ? document.getElementById("premiumAlert").showModal()
+                ? setErrorAlert(error)
                 : playback
                   ? playback.paused
                     ? await player.resume()
@@ -178,14 +178,13 @@ export default function Playback({ track, isMobile }) {
           {/* Play Forward */}
           <button
             onClick={async () =>
-              !user
-                ? handleLoginAlert()
-                : error
-                  ? document.getElementById("premiumAlert").showModal()
-                  : playback
-                    ? await player.seek(currentProgress + 1e4)
-                    : null
+              error
+                ? setErrorAlert(error)
+                : playback
+                  ? await player.seek(currentProgress + 1e4)
+                  : null
             }
+            disabled={!playback}
             className={`btn btn-square btn-ghost btn-sm hidden !bg-transparent sm:inline-flex`}
           >
             <PlayForward color={"#ffffff"} width={`20px`} height={`20px`} />
@@ -195,14 +194,13 @@ export default function Playback({ track, isMobile }) {
           <button
             ref={nextSongRef}
             onClick={async () =>
-              !user
-                ? handleLoginAlert()
-                : error
-                  ? document.getElementById("premiumAlert").showModal()
-                  : playback
-                    ? await player.nextTrack()
-                    : null
+              error
+                ? setErrorAlert(error)
+                : playback
+                  ? await player.nextTrack()
+                  : null
             }
+            disabled={!playback}
             className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
           >
             <PlaySkipForward color={"#ffffff"} width={`20px`} height={`20px`} />

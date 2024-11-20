@@ -1,4 +1,4 @@
-const { create } = require("zustand");
+import { create } from "zustand";
 
 export const usePlayback = create((set) => ({
   playback: null,

@@ -129,12 +129,9 @@ export default function PlaybackOptions({
       >
         <button
           onClick={() =>
-            !user
-              ? handleLoginAlert()
-              : volumeState === 0
-                ? handleSetVolume(100)
-                : handleSetVolume(0)
+            volumeState === 0 ? handleSetVolume(100) : handleSetVolume(0)
           }
+          disabled={!playback}
           className={`btn btn-square btn-ghost no-animation btn-sm !bg-transparent`}
         >
           {/* Volume Icon */}

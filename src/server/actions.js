@@ -32,7 +32,7 @@ export const fetchData = async (url, options) => {
     Authorization: `Bearer ${access_token}`,
   };
 
-  try {
+  // try {
     const { data } = await axios.request({
       method: "GET",
       baseURL: process.env.API_URL,
@@ -42,7 +42,7 @@ export const fetchData = async (url, options) => {
     });
 
     return { data };
-  } catch (error) {
-    redirect("/");
-  }
+  // } catch (error) {
+  //   redirect("/");
+  // }
 };

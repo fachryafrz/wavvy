@@ -1,15 +1,19 @@
-"use client"
+"use client";
 
+import { useErrorAlert } from "@/zustand/error-alert";
 import { useRouter } from "next/navigation";
 
 export default function PremiumAlert() {
   const router = useRouter();
+
+  const { setErrorAlert } = useErrorAlert();
 
   const handlePremium = () => {
     router.push("https://open.spotify.com/premium");
   };
 
   const handleClose = () => {
+    setErrorAlert(null);
     document.getElementById("premiumAlert").close();
   };
 

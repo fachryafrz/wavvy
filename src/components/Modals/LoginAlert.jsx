@@ -1,8 +1,13 @@
 "use client";
 
+import { useErrorAlert } from "@/zustand/error-alert";
 import LoginBanner from "../Layout/LoginBanner";
 
 export default function LoginAlert() {
+  const { setErrorAlert } = useErrorAlert();
+
+  const handleClose = () => setErrorAlert(null);
+
   return (
     <>
       {/* Open the modal using document.getElementById('ID').showModal() method */}
@@ -16,10 +21,10 @@ export default function LoginAlert() {
         id="loginAlert"
         className="modal backdrop:bg-black backdrop:bg-opacity-90 backdrop:backdrop-blur"
       >
-        <div className="modal-box p-0 max-w-lg">
+        <div className="modal-box max-w-lg p-0">
           <LoginBanner />
         </div>
-        <form method="dialog" className="modal-backdrop">
+        <form method="dialog" onSubmit={handleClose} className="modal-backdrop">
           <button>close</button>
         </form>
       </dialog>
