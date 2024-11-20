@@ -76,6 +76,7 @@ export default function PlaybackOptions({
       },
     });
 
+    localStorage.setItem("volume-state", volume_percent);
     setVolumeState(volume_percent);
   };
 

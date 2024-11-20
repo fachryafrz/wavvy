@@ -28,6 +28,7 @@ export default function Player() {
   const [isMobile, setIsMobile] = useState(false);
 
   // Hooks
+  const device = usePlayerDevice();
   const player = useSpotifyPlayer();
   const playback = usePlaybackState();
 
@@ -38,17 +39,34 @@ export default function Player() {
     },
   });
 
-  const { data: playbackState } = useQuery({
-    enabled: !playback,
-    queryKey: `/me/player`,
-    queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey).then(({ data }) => data);
-    },
-  });
+  useEffect(() => {
+    const volumeStateLocalStorage = Number(
+      localStorage.getItem("volume-state"),
+    );
+    if (volumeStateLocalStorage) {
+      setVolumeState(volumeStateLocalStorage);
+    }
+  }, []);
 
   useEffect(() => {
-    if (playbackState) setVolumeState(playbackState.device?.volume_percent);
-  }, [playbackState]);
+    if (!playback) return;
+
+    const volumeStateLocalStorage = Number(
+      localStorage.getItem("volume-state"),
+    );
+
+    const handleSetPlaybackVolume = async () => {
+      await fetchData(`/me/player/volume`, {
+        method: "PUT",
+        params: {
+          volume_percent: volumeStateLocalStorage || volumeState,
+          device_id: device.id,
+        },
+      });
+    };
+
+    handleSetPlaybackVolume();
+  }, [playback]);
 
   useEffect(() => {
     const isMobileDevice = () => {
