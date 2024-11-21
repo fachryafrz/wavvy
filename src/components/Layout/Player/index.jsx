@@ -26,13 +26,16 @@ export default function Player() {
   // State
   const [volumeState, setVolumeState] = useState(100);
   const [isMobile, setIsMobile] = useState(false);
+  const [recentlyPlayed, setRecentlyPlayed] = useState();
 
   // Hooks
+  const { user } = useAuth();
   const device = usePlayerDevice();
   const player = useSpotifyPlayer();
   const playback = usePlaybackState();
 
-  const { data: recentlyPlayed } = useQuery({
+  const { refetch: refetchRecentlyPlayed } = useQuery({
+    enabled: false,
     queryKey: `/me/player/recently-played`,
     queryFn: async ({ queryKey }) => {
       return await fetchData(queryKey).then(({ data }) => data.items[0].track);
@@ -47,6 +50,17 @@ export default function Player() {
       setVolumeState(volumeStateLocalStorage);
     }
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const handleRefetchRecentlyPlayed = async () => {
+      const { data } = await refetchRecentlyPlayed();
+      setRecentlyPlayed(data);
+    };
+
+    handleRefetchRecentlyPlayed();
+  }, [user]);
 
   useEffect(() => {
     if (!playback) return;

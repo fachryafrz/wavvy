@@ -1,5 +1,6 @@
 import CardLong from "@/components/Card/CardLong";
 import DetailsHero from "@/components/Layout/Details/Hero";
+import RetryAfter from "@/components/Modals/RetryAfter";
 import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
 import { isPlural } from "@/lib/isPlural";
 import { fetchData } from "@/server/actions";
@@ -11,7 +12,15 @@ import React from "react";
 export async function generateMetadata({ params }) {
   const { id } = params;
 
-  const { data: playlist } = await fetchData(`/playlists/${id}`);
+  const { data: playlist, error } = await fetchData(`/playlists/${id}`);
+
+  const retryAfter = error?.response.headers["retry-after"];
+  if (retryAfter)
+    return {
+      title: "Sorry you can't access this page",
+      description: `There was a problem with your request. Please try again after ${moment(retryAfter * 1000).format("mm [minutes] ss [seconds]")}.`,
+    };
+
   const [image] = playlist.images;
 
   return {
@@ -27,7 +36,11 @@ export async function generateMetadata({ params }) {
 export default async function page({ params }) {
   const { id } = params;
 
-  const { data: playlist } = await fetchData(`/playlists/${id}`);
+  const { data: playlist, error } = await fetchData(`/playlists/${id}`);
+
+  const retryAfter = error?.response.headers["retry-after"];
+  if (retryAfter) return <RetryAfter retryAfter={retryAfter} />;
+
   const [image] = playlist.images;
 
   return (

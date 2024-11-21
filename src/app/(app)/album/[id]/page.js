@@ -1,5 +1,6 @@
 import AlbumDetailsTracks from "@/components/Album/Details/Tracks";
 import DetailsHero from "@/components/Layout/Details/Hero";
+import RetryAfter from "@/components/Modals/RetryAfter";
 import SliderPlaylist from "@/components/Slider/Playlist";
 import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
 import { isPlural } from "@/lib/isPlural";
@@ -9,7 +10,15 @@ import React from "react";
 
 export async function generateMetadata({ params }) {
   const { id } = params;
-  const { data: album } = await fetchData(`/albums/${id}`);
+  const { data: album, error } = await fetchData(`/albums/${id}`);
+
+  const retryAfter = error?.response.headers["retry-after"];
+  if (retryAfter)
+    return {
+      title: "Sorry you can't access this page",
+      description: `There was a problem with your request. Please try again after ${moment(retryAfter * 1000).format("mm [minutes] ss [seconds]")}.`,
+    };
+
   const [image] = album.images;
   const [primaryArtist] = album.artists;
 
@@ -26,7 +35,11 @@ export async function generateMetadata({ params }) {
 export default async function page({ params }) {
   const { id } = params;
 
-  const { data: album } = await fetchData(`/albums/${id}`);
+  const { data: album, error } = await fetchData(`/albums/${id}`);
+
+  const retryAfter = error?.response.headers["retry-after"];
+  if (retryAfter) return <RetryAfter retryAfter={retryAfter} />;
+
   const [image] = album.images;
 
   const artistsDetails = [];
