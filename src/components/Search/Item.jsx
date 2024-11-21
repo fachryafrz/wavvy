@@ -8,7 +8,7 @@ export default function Item({ items }) {
     >
       {items?.map((item) => {
         const [image] =
-          item.images ?? item.album?.images ?? item.track?.album?.images;
+          item?.images ?? item?.album?.images ?? item?.track?.album?.images;
 
         return (
           <li key={item.id}>

@@ -33,6 +33,10 @@ export default function Type() {
       title: "Albums",
       href: `/search/${query}/albums`,
     },
+    {
+      title: "Playlists",
+      href: `/search/${query}/playlists`,
+    },
   ];
 
   useEffect(() => {
