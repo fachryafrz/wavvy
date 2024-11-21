@@ -38,7 +38,7 @@ export default function Player() {
     enabled: false,
     queryKey: `/me/player/recently-played`,
     queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey).then(({ data }) => data.items[0].track);
+      return await fetchData(queryKey).then(({ data }) => data);
     },
   });
 
@@ -56,7 +56,7 @@ export default function Player() {
 
     const handleRefetchRecentlyPlayed = async () => {
       const { data } = await refetchRecentlyPlayed();
-      setRecentlyPlayed(data);
+      setRecentlyPlayed(data.items[0].track);
     };
 
     handleRefetchRecentlyPlayed();
