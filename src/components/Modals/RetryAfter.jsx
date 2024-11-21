@@ -9,7 +9,7 @@ export default function RetryAfter({ retryAfter }) {
 
   const handleClose = () => {
     document.getElementById("retryAfter").close();
-    router.push("/");
+    router.back();
   };
 
   const [countdown, setCountdown] = useState(retryAfter ? retryAfter : 0);
@@ -43,8 +43,8 @@ export default function RetryAfter({ retryAfter }) {
               </h2>
 
               <p className={`text-pretty text-sm font-medium text-neutral-500`}>
-                There was a problem with your request. Please try again after{" "}
-                {moment(countdown * 1000).format("mm [minutes] ss [seconds]")}.
+                We are currently having trouble. <br /> Please try again after{" "}
+                {moment(countdown * 1000).format("m [minutes] s [seconds]")}.
               </p>
 
               <div className={`mt-4`}>
@@ -52,7 +52,7 @@ export default function RetryAfter({ retryAfter }) {
                   onClick={handleClose}
                   className={`btn btn-primary rounded-full`}
                 >
-                  Go to Feed
+                  Go back
                 </button>
               </div>
             </div>

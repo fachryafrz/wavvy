@@ -30,32 +30,27 @@ export default async function page({ params }) {
 
           return (
             <li key={item.id}>
-              <div className={`block rounded-xl p-2 hocus:bg-neutral`}>
-                <CardVertical
-                  name={
-                    <Link href={`/${item.track.type}/${item.track.id}`}>
-                      {item.track.name}
-                    </Link>
-                  }
-                  link={`/${item.track.type}/${item.track.id}`}
-                  image={image?.url ?? "/maskable/maskable_icon_x192.png"}
-                  info={item.track.artists.map((artist) => {
-                    return (
-                      <>
-                        <Link
-                          key={artist.id}
-                          href={`/${artist.type}/${artist.id}`}
-                          className={`hocus:underline`}
-                        >
-                          {artist.name}
-                        </Link>
+              <CardVertical
+                name={item.track.name}
+                uri={item.track.uri}
+                link={`/${item.track.type}/${item.track.id}`}
+                image={image?.url ?? "/maskable/maskable_icon_x192.png"}
+                info={item.track.artists.map((artist) => {
+                  return (
+                    <>
+                      <Link
+                        key={artist.id}
+                        href={`/${artist.type}/${artist.id}`}
+                        className={`hocus:underline`}
+                      >
+                        {artist.name}
+                      </Link>
 
-                        <span className={`last:hidden`}>, </span>
-                      </>
-                    );
-                  })}
-                />
-              </div>
+                      <span className={`last:hidden`}>, </span>
+                    </>
+                  );
+                })}
+              />
             </li>
           );
         })}

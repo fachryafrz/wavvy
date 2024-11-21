@@ -12,16 +12,12 @@ export default function Item({ items }) {
 
         return (
           <li key={item.id}>
-            <Link
-              href={`/${item.type}/${item.id}`}
-              className={`block rounded-xl p-2 hocus:bg-neutral`}
-            >
-              <CardVertical
-                name={item.name ?? item.track.name}
-                image={image?.url ?? "/maskable/maskable_icon_x192.png"}
-                type={item.type ?? item.track.type}
-              />
-            </Link>
+            <CardVertical
+              name={item.name ?? item.track.name}
+              uri={item.uri ?? item.track.uri}
+              image={image?.url ?? "/maskable/maskable_icon_x192.png"}
+              link={`/${item.type}/${item.id ?? item.track.id}`}
+            />
           </li>
         );
       })}

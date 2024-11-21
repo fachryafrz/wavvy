@@ -28,16 +28,13 @@ export default function SliderPlaylist({
             key={i}
             className={`!max-w-[calc(100%/2)] @md:!max-w-[calc(100%/3)] @2xl:!max-w-[calc(100%/4)] @5xl:!max-w-[calc(100%/5)]`}
           >
-            <Link
-              href={`/${item.type ?? item.track.type}/${item.id ?? item.track.id}`}
-              className={`block rounded-xl p-2 hocus:bg-neutral`}
-            >
-              <CardVertical
-                name={item.name ?? item.track.name}
-                image={image?.url ?? "/maskable/maskable_icon_x192.png"}
-                type={item.type ?? item.track.type}
-              />
-            </Link>
+            <CardVertical
+              id={item.id ?? item.track.id}
+              uri={item.uri ?? item.track.uri}
+              name={item.name ?? item.track.name}
+              image={image?.url ?? "/maskable/maskable_icon_x192.png"}
+              link={`/${item.type}/${item.id ?? item.track.id}`}
+            />
           </SwiperSlide>
         );
       })}

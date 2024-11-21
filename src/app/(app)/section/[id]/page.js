@@ -33,15 +33,12 @@ export default async function page({ params }) {
 
           return (
             <li key={item.id}>
-              <Link
-                href={`/playlist/${item.id}`}
-                className={`block rounded-xl p-2 hocus:bg-neutral`}
-              >
-                <CardVertical
-                  name={item.name}
-                  image={image?.url ?? "/maskable/maskable_icon_x192.png"}
-                />
-              </Link>
+              <CardVertical
+                id={item.id}
+                name={item.name}
+                uri={item.uri}
+                image={image?.url ?? "/maskable/maskable_icon_x192.png"}
+              />
             </li>
           );
         })}
