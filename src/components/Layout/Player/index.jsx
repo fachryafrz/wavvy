@@ -73,14 +73,14 @@ export default function Player() {
       await fetchData(`/me/player/volume`, {
         method: "PUT",
         params: {
-          volume_percent: volumeStateLocalStorage || volumeState,
+          volume_percent: volumeStateLocalStorage || 100,
           device_id: device.id,
         },
       });
     };
 
     handleSetPlaybackVolume();
-  }, [playback]);
+  }, [playback, device]);
 
   useEffect(() => {
     const isMobileDevice = () => {
@@ -88,15 +88,18 @@ export default function Player() {
 
       // Windows Phone must come first because its UA also contains "Android"
       if (/windows phone/i.test(userAgent)) {
+        setVolumeState(100);
         return true;
       }
 
       if (/android/i.test(userAgent)) {
+        setVolumeState(100);
         return true;
       }
 
       // iOS detection from: http://stackoverflow.com/a/9039885/177710
       if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        setVolumeState(100);
         return true;
       }
 
@@ -167,10 +170,8 @@ export default function Player() {
       {/* Options (Volume, Shuffle, Repeat) */}
       <div className={`hidden sm:block`}>
         <PlaybackOptions
-          track={playback?.track_window?.current_track ?? recentlyPlayed}
           volumeState={volumeState}
           setVolumeState={setVolumeState}
-          isMobile={isMobile}
         />
       </div>
     </div>

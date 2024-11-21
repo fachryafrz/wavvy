@@ -23,12 +23,7 @@ import {
 import { fetchData } from "@/server/actions";
 import { Slider } from "@mui/material";
 
-export default function PlaybackOptions({
-  track,
-  volumeState,
-  setVolumeState,
-  isMobile,
-}) {
+export default function PlaybackOptions({ volumeState, setVolumeState }) {
   const { user } = useAuth();
   const router = useRouter();
   const { mutate } = useAuth();
@@ -51,12 +46,6 @@ export default function PlaybackOptions({
       setRepeatState(playback.repeat_mode);
     }
   }, [playback]);
-
-  useEffect(() => {
-    if (isMobile) {
-      setVolumeState(100);
-    }
-  }, [isMobile]);
 
   const availableRepeatStates = [
     { state: "off" },
