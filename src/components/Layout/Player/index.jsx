@@ -24,7 +24,7 @@ import PlayerInfo from "./Info";
 
 export default function Player() {
   // State
-  const [volumeState, setVolumeState] = useState(100);
+  const [volumeState, setVolumeState] = useState();
   const [isMobile, setIsMobile] = useState(false);
   const [recentlyPlayed, setRecentlyPlayed] = useState();
 
@@ -48,6 +48,8 @@ export default function Player() {
     );
     if (volumeStateLocalStorage) {
       setVolumeState(volumeStateLocalStorage);
+    } else {
+      setVolumeState(100);
     }
   }, []);
 

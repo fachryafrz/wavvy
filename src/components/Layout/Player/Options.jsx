@@ -152,6 +152,7 @@ export default function PlaybackOptions({ volumeState, setVolumeState }) {
             valueLabelFormat={(value) => `${value}%`}
             className={`!py-2`}
             disabled={!playback}
+            onScroll={(_, value) => console.log(value)}
             sx={(t) => ({
               color: "#ff6337",
               height: 4,
