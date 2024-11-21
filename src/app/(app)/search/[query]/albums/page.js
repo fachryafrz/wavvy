@@ -19,7 +19,7 @@ export async function generateMetadata({ params }) {
 export default async function page({ params }) {
   const { query } = params;
 
-  const { data } = await fetchData(`/search?q=${query}`, {
+  const { data, error } = await fetchData(`/search?q=${query}`, {
     params: { type: "album" },
   });
 
