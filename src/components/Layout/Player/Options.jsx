@@ -111,11 +111,17 @@ export default function PlaybackOptions({ volumeState, setVolumeState }) {
     document.getElementById(`loginAlert`).showModal();
   };
 
+  const handleMouseWheelChangeVolume = async (e) => {
+    const delta = e.deltaY < 0 ? 1 : -1;
+    const newVolume = Math.max(0, Math.min(100, volumeState + delta * 5));
+    await handleSetVolume(newVolume);
+  };
+
   return (
     <div className={`flex flex-nowrap items-center justify-end`}>
       {/* Volume */}
       <div
-        className={`mr-4 flex max-w-40 flex-grow items-center justify-end gap-2`}
+        className={`mr-4 flex max-w-[150px] flex-grow items-center justify-end gap-2`}
       >
         <button
           onClick={() =>
@@ -151,8 +157,8 @@ export default function PlaybackOptions({ volumeState, setVolumeState }) {
             valueLabelDisplay="auto"
             valueLabelFormat={(value) => `${value}%`}
             className={`!py-2`}
-            disabled={!playback}
-            onScroll={(_, value) => console.log(value)}
+            // disabled={!playback}
+            onWheel={handleMouseWheelChangeVolume}
             sx={(t) => ({
               color: "#ff6337",
               height: 4,
