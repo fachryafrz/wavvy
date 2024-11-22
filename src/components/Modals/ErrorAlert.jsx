@@ -16,20 +16,26 @@ export default function ErrorAlert() {
 
     switch (errorAlert.type) {
       case "account_error":
-        setErrorTitle("Account Error");
-        setErrorMessage("There was a problem with your account.");
-        document.getElementById("errorAlert").showModal();
+        // setErrorTitle("Account Error");
+        // setErrorMessage("There was a problem with your account.");
+        document.getElementById("premiumAlert").showModal();
         break;
       case "authentication_error":
         document.getElementById("loginAlert").showModal();
         break;
       case "initialization_error":
         setErrorTitle("Initialization Error");
-        setErrorMessage("There was a problem initializing the app.");
+        setErrorMessage(
+          "There was a problem initializing the app. This is likely because your browser does not support EME protection which is required to play music.",
+        );
         document.getElementById("errorAlert").showModal();
         break;
       case "playback_error":
-        document.getElementById("premiumAlert").showModal();
+        setErrorTitle("Playback Error");
+        setErrorMessage(
+          "There was a problem loading and/or playing the song. Please try again later.",
+        );
+        document.getElementById("errorAlert").showModal();
         break;
     }
   }, [errorAlert]);
