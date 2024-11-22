@@ -157,7 +157,7 @@ export default function PlaybackOptions({ volumeState, setVolumeState }) {
             valueLabelDisplay="auto"
             valueLabelFormat={(value) => `${value}%`}
             className={`!py-2`}
-            // disabled={!playback}
+            disabled={!playback}
             onWheel={handleMouseWheelChangeVolume}
             sx={(t) => ({
               color: "#ff6337",
