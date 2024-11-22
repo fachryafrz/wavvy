@@ -13,9 +13,10 @@ import {
 } from "react-ionicons";
 import LoginBanner from "../LoginBanner";
 import { fetchData } from "@/server/actions";
+import { useAuth } from "@/hooks/auth";
 
 export default function SidebarContent() {
-  const { user } = userStore();
+  const { user } = useAuth();
 
   const [sidebar, setSidebar] = useState([
     {

@@ -4,8 +4,6 @@ import Player from "../Player";
 import Navbar from "../Navbar";
 import React, { useCallback, useEffect, useState } from "react";
 import SidebarContent from "./Content";
-import { useAuth } from "@/hooks/auth";
-import { userStore } from "@/zustand/user";
 import { WebPlaybackSDK } from "react-spotify-web-playback-sdk";
 
 export default function Sidebar({
@@ -14,19 +12,9 @@ export default function Sidebar({
   client_id,
   AUTH_TOKEN,
 }) {
-  const { user } = useAuth();
-  const { setUser } = userStore();
-
   const [playerHeight, setPlayerHeight] = useState(84);
 
   const getOAuthToken = useCallback((callback) => callback(AUTH_TOKEN), []);
-
-  useEffect(() => {
-    // NOTE: user dari useAuth dimasukkan ke userStore agar tidak terjadi hydration error
-    if (user) setUser(user);
-    else setUser(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
 
   useEffect(() => {
     const player = document.getElementById("player");
