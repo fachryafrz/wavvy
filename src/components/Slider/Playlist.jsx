@@ -33,7 +33,7 @@ export default function SliderPlaylist({
               uri={item.uri ?? item.track.uri}
               name={item.name ?? item.track.name}
               image={image?.url ?? "/maskable/maskable_icon_x192.png"}
-              link={`/${item.type}/${item.id ?? item.track.id}`}
+              link={`/${item.type ?? item.track.type}/${item.id ?? item.track.id}`}
             />
           </SwiperSlide>
         );

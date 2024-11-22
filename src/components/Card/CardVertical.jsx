@@ -37,7 +37,7 @@ export default function CardVertical({ name, link, image, info, uri }) {
         className={`relative aspect-square overflow-hidden ${type === `artist` ? `rounded-full` : `rounded-lg`}`}
       >
         <div
-          className={`pointer-events-none transition-all absolute inset-0 flex translate-y-2 items-end justify-end p-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 [&_*]:pointer-events-auto`}
+          className={`pointer-events-none absolute inset-0 flex translate-y-2 items-end justify-end p-3 opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100 [&_*]:pointer-events-auto`}
         >
           {type !== `artist` && (
             <button
