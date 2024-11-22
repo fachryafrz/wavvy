@@ -4,11 +4,13 @@ import AudioWave from "@/components/Animation/AudioWave";
 import { useAuth } from "@/hooks/auth";
 import { playSong } from "@/lib/play-song";
 import { fetchData } from "@/server/actions";
+import { useErrorAlert } from "@/zustand/error-alert";
 import Link from "next/link";
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from "react";
 import { HeartOutline } from "react-ionicons";
 import {
+  useErrorState,
   usePlaybackState,
   usePlayerDevice,
   useSpotifyPlayer,
@@ -27,6 +29,8 @@ export default function DetailsHero({
   const device = usePlayerDevice();
   const player = useSpotifyPlayer();
   const playback = usePlaybackState();
+  const error = useErrorState();
+  const { setErrorAlert } = useErrorAlert();
 
   const [fontSize, setFontSize] = useState(`2xl:text-7xl`);
   const [translateY, setTranslateY] = useState(`2xl:translate-y-7`);
@@ -94,9 +98,7 @@ export default function DetailsHero({
 
                   return (
                     <div key={artist.id} className={`flex items-center gap-2`}>
-                      <Link
-                        href={`/${artist.type}/${artist.id}`}
-                      >
+                      <Link href={`/${artist.type}/${artist.id}`}>
                         <figure
                           className={`aspect-square w-[40px] overflow-hidden rounded-full`}
                         >
@@ -129,7 +131,15 @@ export default function DetailsHero({
         <div className={`flex w-full items-center gap-4`}>
           {item.type !== "artist" && (
             <button
-              onClick={() => playSong(user, device, item.uri)}
+              onClick={async () =>
+                error
+                  ? setErrorAlert(error)
+                  : playback
+                    ? playback.paused
+                      ? await player.resume()
+                      : await player.pause()
+                    : playSong(user, device, item.uri)
+              }
               className={`btn btn-primary flex-grow rounded-full disabled:cursor-not-allowed md:max-w-[150px]`}
             >
               {isPlaying && <AudioWave className={`[&_*]:!bg-white`} />}

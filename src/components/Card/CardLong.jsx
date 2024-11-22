@@ -7,11 +7,14 @@ import TrackCard from "../Track/Card";
 import Link from "next/link";
 import { playSong } from "@/lib/play-song";
 import {
+  useErrorState,
   usePlaybackState,
   usePlayerDevice,
+  useSpotifyPlayer,
 } from "react-spotify-web-playback-sdk";
 import { useAuth } from "@/hooks/auth";
 import AudioWave from "../Animation/AudioWave";
+import { useErrorAlert } from "@/zustand/error-alert";
 
 export default function CardLong({
   item,
@@ -27,7 +30,10 @@ export default function CardLong({
   const { user } = useAuth();
 
   const device = usePlayerDevice();
+  const player = useSpotifyPlayer();
   const playback = usePlaybackState();
+  const error = useErrorState();
+  const { setErrorAlert } = useErrorAlert();
 
   const isPlaying =
     (playback?.context?.uri === item?.uri ||
@@ -84,7 +90,15 @@ export default function CardLong({
             <AudioWave />
           ) : (
             <button
-              onClick={() => playSong(user, device, item.uri)}
+              onClick={async () =>
+                error
+                  ? setErrorAlert(error)
+                  : playback
+                    ? playback.paused
+                      ? await player.resume()
+                      : await player.pause()
+                    : playSong(user, device, item.uri)
+              }
               className={`btn btn-square btn-ghost btn-sm`}
             >
               <Play color={`#ffffff`} width={`20px`} height={`20px`} />

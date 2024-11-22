@@ -2,19 +2,25 @@
 
 import { useAuth } from "@/hooks/auth";
 import { playSong } from "@/lib/play-song";
+import { useErrorAlert } from "@/zustand/error-alert";
 /* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
 import { Pause, Play } from "react-ionicons";
 import {
+  useErrorState,
   usePlaybackState,
   usePlayerDevice,
+  useSpotifyPlayer,
 } from "react-spotify-web-playback-sdk";
 
 export default function CardVertical({ name, link, image, info, uri }) {
   const { user } = useAuth();
   const device = usePlayerDevice();
+  const player = useSpotifyPlayer();
   const playback = usePlaybackState();
+  const error = useErrorState();
+  const { setErrorAlert } = useErrorAlert();
 
   const [, type, id] = uri.split(":");
 
@@ -24,16 +30,26 @@ export default function CardVertical({ name, link, image, info, uri }) {
     !playback?.paused;
 
   return (
-    <article className={`flex flex-col gap-2 rounded-xl p-2 hocus:bg-neutral`}>
+    <article
+      className={`group flex flex-col gap-2 rounded-xl p-2 hocus:bg-neutral`}
+    >
       <figure
-        className={`relative aspect-square overflow-hidden [&_div]:hover:grid ${type === `artist` ? `rounded-full` : `rounded-lg`}`}
+        className={`relative aspect-square overflow-hidden ${type === `artist` ? `rounded-full` : `rounded-lg`}`}
       >
         <div
-          className={`pointer-events-none absolute inset-0 hidden place-content-center [&_*]:pointer-events-auto`}
+          className={`pointer-events-none transition-all absolute inset-0 flex translate-y-2 items-end justify-end p-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 [&_*]:pointer-events-auto`}
         >
           {type !== `artist` && (
             <button
-              onClick={() => playSong(user, device, uri)}
+              onClick={async () =>
+                error
+                  ? setErrorAlert(error)
+                  : playback
+                    ? playback.paused
+                      ? await player.resume()
+                      : await player.pause()
+                    : playSong(user, device, uri)
+              }
               className={`btn btn-circle btn-primary btn-lg grid border-none bg-opacity-50 outline-none backdrop-blur hocus:bg-opacity-100`}
             >
               {isPlaying ? (

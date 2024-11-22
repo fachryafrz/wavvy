@@ -60,7 +60,7 @@ export default function PremiumAlert() {
           {/* <figure></figure> */}
         </div>
       </div>
-      <form method="dialog" className="modal-backdrop">
+      <form method="dialog" onSubmit={handleClose} className="modal-backdrop">
         <button>close</button>
       </form>
     </dialog>

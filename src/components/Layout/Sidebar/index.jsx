@@ -2,7 +2,7 @@
 
 import Player from "../Player";
 import Navbar from "../Navbar";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import SidebarContent from "./Content";
 import { WebPlaybackSDK } from "react-spotify-web-playback-sdk";
 
@@ -12,21 +12,7 @@ export default function Sidebar({
   client_id,
   AUTH_TOKEN,
 }) {
-  const [playerHeight, setPlayerHeight] = useState(84);
-
   const getOAuthToken = useCallback((callback) => callback(AUTH_TOKEN), []);
-
-  useEffect(() => {
-    const player = document.getElementById("player");
-
-    const handleClientHeight = () => {
-      setPlayerHeight(player?.parentElement.clientHeight);
-    };
-
-    handleClientHeight();
-
-    window.addEventListener("resize", handleClientHeight);
-  }, []);
 
   return (
     <WebPlaybackSDK
@@ -34,19 +20,14 @@ export default function Sidebar({
       getOAuthToken={getOAuthToken}
     >
       <div className={`flex h-dvh flex-col justify-between`}>
-        <div className="drawer flex-grow lg:drawer-open">
+        <div className="drawer flex-1 overflow-hidden lg:drawer-open">
           <input id="sidebar" type="checkbox" className="drawer-toggle" />
-          <div
-            className={`drawer-content overflow-y-auto`}
-            style={{
-              maxHeight: `calc(100dvh - ${playerHeight}px)`,
-            }}
-          >
+          <div className={`drawer-content flex min-h-0 flex-col`}>
             {/* Page content here */}
-            <div className={`flex min-h-full flex-col`}>
+            <div className={`flex-1 overflow-y-auto`}>
               <header
                 id="header"
-                className={`sticky top-0 z-50 bg-base-100 bg-opacity-90 pl-16 backdrop-blur lg:pl-0`}
+                className={`sticky top-0 z-50 bg-base-100 bg-opacity-80 backdrop-blur-sm`}
               >
                 <Navbar
                   authorizationURL={authorizationURL}
@@ -54,18 +35,12 @@ export default function Sidebar({
                 />
               </header>
 
-              {/* Center */}
-              <main className={`flex-grow p-4 pt-0`}>{children}</main>
+              <main className={`p-4 pt-0`}>{children}</main>
             </div>
           </div>
 
           {/* Left Sidebar */}
-          <div
-            className={`drawer-side z-50`}
-            style={{
-              maxHeight: `calc(100dvh - ${playerHeight}px)`,
-            }}
-          >
+          <div className={`drawer-side absolute inset-y-0 z-50 h-auto`}>
             <label
               htmlFor="sidebar"
               aria-label="close sidebar"
