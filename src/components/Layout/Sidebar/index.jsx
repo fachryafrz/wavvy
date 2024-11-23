@@ -24,7 +24,7 @@ export default function Sidebar({
           <input id="sidebar" type="checkbox" className="drawer-toggle" />
           <div className={`drawer-content flex min-h-0 flex-col`}>
             {/* Page content here */}
-            <div className={`flex-1 overflow-y-auto`}>
+            <div className={`flex-1 flex flex-col overflow-y-auto`}>
               <header
                 id="header"
                 className={`sticky top-0 z-50 bg-base-100 bg-opacity-80 backdrop-blur-sm`}
@@ -35,7 +35,7 @@ export default function Sidebar({
                 />
               </header>
 
-              <main className={`p-4 pt-0`}>{children}</main>
+              <main className={`p-4 pt-0 flex-1`}>{children}</main>
             </div>
           </div>
 

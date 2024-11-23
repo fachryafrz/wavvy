@@ -38,6 +38,7 @@ export default async function page({ params }) {
                 name={item.name}
                 uri={item.uri}
                 image={image?.url ?? "/maskable/maskable_icon_x192.png"}
+                link={`/${item.type}/${item.id}`}
               />
             </li>
           );

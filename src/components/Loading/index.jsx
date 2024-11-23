@@ -1,33 +1,6 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
 export default function Loading() {
-  const [headerHeight, setHeaderHeight] = useState(64);
-  const [playerHeight, setPlayerHeight] = useState(84);
-
-  useEffect(() => {
-    const header = document.getElementById("header");
-    const player = document.getElementById("player");
-
-    const handleClientHeight = () => {
-      setHeaderHeight(header?.clientHeight);
-      setPlayerHeight(player?.parentElement.clientHeight);
-    };
-
-    handleClientHeight();
-
-    window.addEventListener("resize", handleClientHeight);
-  }, []);
-
   return (
-    <div
-      className={`grid place-content-center`}
-      style={{
-        width: `calc(100%)`,
-        height: `calc(100dvh - ${playerHeight}px - ${headerHeight}px - 1.5rem)`,
-      }}
-    >
+    <div className={`grid h-full place-content-center`}>
       <figure className={`animate-ping`}>
         <svg
           id="logo-70"

@@ -49,18 +49,20 @@ export default async function page({ params }) {
   const [image] = album.images;
   const [primaryArtist] = track.artists;
 
-  const artistsDetails = [];
-  const artistsTopTracks = [];
-  for (const item of track.artists) {
-    const { id } = item;
-
-    const { data: topTracks } = await fetchData(`/artists/${id}/top-tracks`);
-
-    const { data: artist } = await fetchData(`/artists/${id}`);
-
-    artistsDetails.push(artist);
-    artistsTopTracks.push(topTracks);
-  }
+  const [artistsDetails, artistsTopTracks] = await Promise.all([
+    Promise.all(
+      track.artists.map(async ({ id }) => {
+        const { data } = await fetchData(`/artists/${id}`);
+        return data;
+      }),
+    ),
+    Promise.all(
+      track.artists.map(async ({ id }) => {
+        const { data } = await fetchData(`/artists/${id}/top-tracks`);
+        return data;
+      }),
+    ),
+  ]);
 
   const { data: albums } = await fetchData(
     `/artists/${primaryArtist.id}/albums`,

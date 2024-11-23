@@ -42,14 +42,13 @@ export default async function page({ params }) {
 
   const [image] = album.images;
 
-  const artistsDetails = [];
-  for (const item of album.artists) {
-    const { id } = item;
+  const artistsDetails = await Promise.all(
+    album.artists.map(async ({ id }) => {
+      const { data } = await fetchData(`/artists/${id}`);
+      return data;
+    }),
+  );
 
-    const { data: artist } = await fetchData(`/artists/${id}`);
-
-    artistsDetails.push(artist);
-  }
   const maxDiscNumber = Math.max(
     ...album.tracks.items.map((item) => item.disc_number),
   );

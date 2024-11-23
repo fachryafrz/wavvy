@@ -7,15 +7,12 @@ export default async function Home() {
     data: { categories },
   } = await fetchData(`/browse/categories`);
 
-  const categoriesPlaylists = [];
-
-  for (const item of categories.items) {
-    const { id } = item;
-
-    const { data } = await fetchData(`/browse/categories/${id}/playlists`);
-
-    categoriesPlaylists.push(data);
-  }
+  const categoriesPlaylists = await Promise.all(
+    categories.items.map(async ({ id }) => {
+      const { data } = await fetchData(`/browse/categories/${id}/playlists`);
+      return data;
+    })
+  );
 
   return (
     <div className={`flex flex-col gap-4 lg:grid lg:grid-cols-12`}>
