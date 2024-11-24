@@ -111,6 +111,7 @@ export default function PlaybackOptions({ volumeState, setVolumeState }) {
     document.getElementById(`loginAlert`).showModal();
   };
 
+  // NOTE: currently spamming API calls
   const handleMouseWheelChangeVolume = async (e) => {
     const delta = e.deltaY < 0 ? 1 : -1;
     const newVolume = Math.max(0, Math.min(100, volumeState + delta * 5));
@@ -158,7 +159,7 @@ export default function PlaybackOptions({ volumeState, setVolumeState }) {
             valueLabelFormat={(value) => `${value}%`}
             className={`!py-2`}
             disabled={!playback}
-            onWheel={handleMouseWheelChangeVolume}
+            // onWheel={handleMouseWheelChangeVolume}
             sx={(t) => ({
               color: "#ff6337",
               height: 4,

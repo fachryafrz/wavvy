@@ -93,11 +93,7 @@ export default function CardLong({
               onClick={async () =>
                 error
                   ? setErrorAlert(error)
-                  : playback
-                    ? playback.paused
-                      ? await player.resume()
-                      : await player.pause()
-                    : playSong(user, device, item.uri)
+                  : await playSong(user, device, item.uri)
               }
               className={`btn btn-square btn-ghost btn-sm`}
             >

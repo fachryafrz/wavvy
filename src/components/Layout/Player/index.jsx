@@ -24,7 +24,7 @@ import PlayerInfo from "./Info";
 
 export default function Player() {
   // State
-  const [volumeState, setVolumeState] = useState();
+  const [volumeState, setVolumeState] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [recentlyPlayed, setRecentlyPlayed] = useState();
 
@@ -47,8 +47,10 @@ export default function Player() {
       localStorage.getItem("volume-state"),
     );
     if (volumeStateLocalStorage) {
+      console.log(volumeStateLocalStorage);
       setVolumeState(volumeStateLocalStorage);
     } else {
+      console.log("no volume set");
       setVolumeState(100);
     }
   }, []);
@@ -84,32 +86,32 @@ export default function Player() {
     handleSetPlaybackVolume();
   }, [playback, device]);
 
-  useEffect(() => {
-    const isMobileDevice = () => {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  // useEffect(() => {
+  //   const isMobileDevice = () => {
+  //     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-      // Windows Phone must come first because its UA also contains "Android"
-      if (/windows phone/i.test(userAgent)) {
-        setVolumeState(100);
-        return true;
-      }
+  //     // Windows Phone must come first because its UA also contains "Android"
+  //     if (/windows phone/i.test(userAgent)) {
+  //       setVolumeState(100);
+  //       return true;
+  //     }
 
-      if (/android/i.test(userAgent)) {
-        setVolumeState(100);
-        return true;
-      }
+  //     if (/android/i.test(userAgent)) {
+  //       setVolumeState(100);
+  //       return true;
+  //     }
 
-      // iOS detection from: http://stackoverflow.com/a/9039885/177710
-      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        setVolumeState(100);
-        return true;
-      }
+  //     // iOS detection from: http://stackoverflow.com/a/9039885/177710
+  //     if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+  //       setVolumeState(100);
+  //       return true;
+  //     }
 
-      return false;
-    };
+  //     return false;
+  //   };
 
-    setIsMobile(isMobileDevice());
-  }, []);
+  //   setIsMobile(isMobileDevice());
+  // }, []);
 
   useEffect(() => {
     if (!playback) return;

@@ -44,11 +44,7 @@ export default function CardVertical({ name, link, image, info, uri }) {
               onClick={async () =>
                 error
                   ? setErrorAlert(error)
-                  : playback
-                    ? playback.paused
-                      ? await player.resume()
-                      : await player.pause()
-                    : playSong(user, device, uri)
+                  : await playSong(user, device, uri)
               }
               className={`btn btn-circle btn-primary btn-lg grid border-none bg-opacity-50 outline-none backdrop-blur hocus:bg-opacity-100`}
             >

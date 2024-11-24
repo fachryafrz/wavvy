@@ -134,11 +134,7 @@ export default function DetailsHero({
               onClick={async () =>
                 error
                   ? setErrorAlert(error)
-                  : playback
-                    ? playback.paused
-                      ? await player.resume()
-                      : await player.pause()
-                    : playSong(user, device, item.uri)
+                  : await playSong(user, device, item.uri)
               }
               className={`btn btn-primary flex-grow rounded-full disabled:cursor-not-allowed md:max-w-[150px]`}
             >
