@@ -2,10 +2,7 @@ import "./globals.css";
 import { Suspense } from "react";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { CookiesProvider } from "next-client-cookies/server";
-import LoginAlert from "@/components/Modals/LoginAlert";
-import PremiumAlert from "@/components/Modals/PremiumAlert";
 import TanStackQuery from "@/providers/TanStackQuery";
-import ErrorAlert from "@/components/Modals/ErrorAlert";
 
 export const metadata = {
   title: {
@@ -29,14 +26,7 @@ export default function RootLayout({ children }) {
 
       <body>
         <CookiesProvider>
-          <TanStackQuery>
-            {children}
-
-            {/* Modals */}
-            <PremiumAlert />
-            <LoginAlert />
-            <ErrorAlert />
-          </TanStackQuery>
+          <TanStackQuery>{children}</TanStackQuery>
         </CookiesProvider>
       </body>
     </html>

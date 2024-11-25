@@ -126,30 +126,30 @@ export default function Playback({ track, isMobile }) {
           {/* Previous */}
           <button
             ref={previousSongRef}
-            onClick={async () =>
+            onClick={() =>
               error
                 ? setErrorAlert(error)
                 : playback
-                  ? await player.previousTrack()
+                  ? player.previousTrack()
                   : null
             }
             disabled={!playback}
-            className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
+            className={`btn btn-square btn-ghost btn-sm z-10 !bg-transparent`}
           >
             <PlaySkipBack color={"#ffffff"} width={`20px`} height={`20px`} />
           </button>
 
           {/* Play Back */}
           <button
-            onClick={async () =>
+            onClick={() =>
               error
                 ? setErrorAlert(error)
                 : playback
-                  ? await player.seek(currentProgress - 1e4)
+                  ? player.seek(currentProgress - 1e4)
                   : null
             }
             disabled={!playback}
-            className={`btn btn-square btn-ghost btn-sm hidden !bg-transparent sm:inline-flex`}
+            className={`btn btn-square btn-ghost btn-sm z-10 hidden !bg-transparent sm:inline-flex`}
           >
             <PlayBack color={"#ffffff"} width={`20px`} height={`20px`} />
           </button>
@@ -157,16 +157,16 @@ export default function Playback({ track, isMobile }) {
           {/* Play/Pause */}
           <button
             ref={playPauseRef}
-            onClick={async () =>
+            onClick={() =>
               error
                 ? setErrorAlert(error)
                 : playback
                   ? playback.paused
-                    ? await player.resume()
-                    : await player.pause()
+                    ? player.resume()
+                    : player.pause()
                   : playSong(user, device, track?.uri)
             }
-            className={`btn btn-square btn-ghost !bg-transparent`}
+            className={`btn btn-square btn-ghost z-10 !bg-transparent`}
           >
             {!playback || playback?.paused ? (
               <PlayCircle color={"#ffffff"} width={`40px`} height={`40px`} />
@@ -177,15 +177,15 @@ export default function Playback({ track, isMobile }) {
 
           {/* Play Forward */}
           <button
-            onClick={async () =>
+            onClick={() =>
               error
                 ? setErrorAlert(error)
                 : playback
-                  ? await player.seek(currentProgress + 1e4)
+                  ? player.seek(currentProgress + 1e4)
                   : null
             }
             disabled={!playback}
-            className={`btn btn-square btn-ghost btn-sm hidden !bg-transparent sm:inline-flex`}
+            className={`btn btn-square btn-ghost btn-sm z-10 hidden !bg-transparent sm:inline-flex`}
           >
             <PlayForward color={"#ffffff"} width={`20px`} height={`20px`} />
           </button>
@@ -193,15 +193,15 @@ export default function Playback({ track, isMobile }) {
           {/* Next */}
           <button
             ref={nextSongRef}
-            onClick={async () =>
+            onClick={() =>
               error
                 ? setErrorAlert(error)
                 : playback
-                  ? await player.nextTrack()
+                  ? player.nextTrack()
                   : null
             }
             disabled={!playback}
-            className={`btn btn-square btn-ghost btn-sm !bg-transparent`}
+            className={`btn btn-square btn-ghost btn-sm z-10 !bg-transparent`}
           >
             <PlaySkipForward color={"#ffffff"} width={`20px`} height={`20px`} />
           </button>
@@ -225,7 +225,7 @@ export default function Playback({ track, isMobile }) {
         step={1}
         max={durationMs}
         onChange={(_, value) => setCurrentProgress(value)}
-        onChangeCommitted={async (_, value) => await player.seek(value)}
+        onChangeCommitted={(_, value) => player.seek(value)}
         valueLabelDisplay={isMobile ? "auto" : "off"}
         valueLabelFormat={(value) => convertProgress(value)}
         disabled={!playback}

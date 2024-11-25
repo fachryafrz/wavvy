@@ -47,10 +47,8 @@ export default function Player() {
       localStorage.getItem("volume-state"),
     );
     if (volumeStateLocalStorage) {
-      console.log(volumeStateLocalStorage);
       setVolumeState(volumeStateLocalStorage);
     } else {
-      console.log("no volume set");
       setVolumeState(100);
     }
   }, []);
@@ -156,6 +154,12 @@ export default function Player() {
       id="player"
       className={`grid w-full grid-cols-3 items-center gap-2 sm:gap-4`}
     >
+      {/* Toggle Mobile Player */}
+      <div
+        onClick={() => document.getElementById("mobilePlayer").showModal()}
+        className={`absolute inset-0 z-0 sm:hidden`}
+      ></div>
+
       {/* Track Info (Image, Title, Artist) */}
       <div className={`col-span-2 sm:col-span-1`}>
         <PlayerInfo

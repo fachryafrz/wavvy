@@ -71,8 +71,6 @@ export default function PlaybackOptions({ volumeState, setVolumeState }) {
 
   // Toggle Shuffle Mode
   const handleToggleShuffleMode = async (shuffle_state) => {
-    console.log(shuffle_state);
-
     await fetchData(`/me/player/shuffle`, {
       method: "PUT",
       params: { state: shuffle_state, device_id: device.id },
@@ -154,7 +152,7 @@ export default function PlaybackOptions({ volumeState, setVolumeState }) {
             step={1}
             max={100}
             onChange={(_, value) => setVolumeState(value)}
-            onChangeCommitted={async (_, value) => await handleSetVolume(value)}
+            onChangeCommitted={(_, value) => handleSetVolume(value)}
             valueLabelDisplay="auto"
             valueLabelFormat={(value) => `${value}%`}
             className={`!py-2`}
@@ -205,10 +203,8 @@ export default function PlaybackOptions({ volumeState, setVolumeState }) {
 
       {/* Shuffle */}
       <button
-        onClick={async () =>
-          !user
-            ? handleLoginAlert()
-            : await handleToggleShuffleMode(!shuffleState)
+        onClick={() =>
+          error ? setErrorAlert(error) : handleToggleShuffleMode(!shuffleState)
         }
         disabled={!playback}
         className={`btn btn-square btn-ghost no-animation btn-sm !bg-transparent`}
@@ -222,8 +218,8 @@ export default function PlaybackOptions({ volumeState, setVolumeState }) {
 
       {/* Repeat */}
       <button
-        onClick={async () =>
-          !user ? handleLoginAlert() : await handleRepeatStateChange()
+        onClick={() =>
+          error ? setErrorAlert(error) : handleRepeatStateChange()
         }
         disabled={!playback}
         className={`btn btn-square btn-ghost no-animation btn-sm relative !bg-transparent`}

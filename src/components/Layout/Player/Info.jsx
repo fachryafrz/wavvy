@@ -28,7 +28,7 @@ export default function PlayerInfo({ track }) {
             ) : (
               <Link
                 href={`/${track?.type ?? "track"}/${track?.id}`}
-                className={`hocus:underline`}
+                className={`relative z-10 hocus:underline`}
               >
                 {track?.name}
               </Link>
@@ -49,7 +49,7 @@ export default function PlayerInfo({ track }) {
                     <>
                       <Link
                         href={`/artist/${id}`}
-                        className={`hocus:underline`}
+                        className={`relative z-10 hocus:underline`}
                       >
                         {artist.name}
                       </Link>

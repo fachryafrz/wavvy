@@ -17,7 +17,7 @@ export default function TrackCard({
           {type && id ? (
             <Link
               href={`/${type}/${id}`}
-              className={`aspect-square max-w-14 flex-grow`}
+              className={`z-10 aspect-square max-w-14 flex-grow`}
             >
               <figure className={`overflow-hidden rounded-lg`}>
                 <img src={image} alt={name} loading="lazy" draggable="false" />

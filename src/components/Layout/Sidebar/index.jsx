@@ -5,6 +5,10 @@ import Navbar from "../Navbar";
 import React, { useCallback } from "react";
 import SidebarContent from "./Content";
 import { WebPlaybackSDK } from "react-spotify-web-playback-sdk";
+import MobilePlayer from "@/components/Modals/MobilePlayer";
+import PremiumAlert from "@/components/Modals/PremiumAlert";
+import LoginAlert from "@/components/Modals/LoginAlert";
+import ErrorAlert from "@/components/Modals/ErrorAlert";
 
 export default function Sidebar({
   children,
@@ -24,7 +28,7 @@ export default function Sidebar({
           <input id="sidebar" type="checkbox" className="drawer-toggle" />
           <div className={`drawer-content flex min-h-0 flex-col`}>
             {/* Page content here */}
-            <div className={`flex-1 flex flex-col overflow-y-auto`}>
+            <div className={`flex flex-1 flex-col overflow-y-auto`}>
               <header
                 id="header"
                 className={`sticky top-0 z-50 bg-base-100 bg-opacity-80 backdrop-blur-sm`}
@@ -35,7 +39,7 @@ export default function Sidebar({
                 />
               </header>
 
-              <main className={`p-4 pt-0 flex-1`}>{children}</main>
+              <main className={`flex-1 p-4 pt-0`}>{children}</main>
             </div>
           </div>
 
@@ -59,6 +63,12 @@ export default function Sidebar({
           <Player />
         </div>
       </div>
+
+      {/* Modals */}
+      <PremiumAlert />
+      <LoginAlert />
+      <ErrorAlert />
+      <MobilePlayer />
     </WebPlaybackSDK>
   );
 }
