@@ -133,7 +133,7 @@ export default function DetailsHero({
               onClick={async () =>
                 error
                   ? setErrorAlert(error)
-                  : await playSong(user, device, item.uri)
+                  : await playSong(user, device, item.uri, item.artists ?? [])
               }
               className={`btn btn-primary flex-grow rounded-full disabled:cursor-not-allowed md:max-w-[150px]`}
             >

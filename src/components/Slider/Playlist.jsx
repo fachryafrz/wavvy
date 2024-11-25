@@ -29,11 +29,8 @@ export default function SliderPlaylist({
             className={`!max-w-[calc(100%/2)] @md:!max-w-[calc(100%/3)] @2xl:!max-w-[calc(100%/4)] @5xl:!max-w-[calc(100%/5)]`}
           >
             <CardVertical
-              id={item.id ?? item.track.id}
-              uri={item.uri ?? item.track.uri}
-              name={item.name ?? item.track.name}
+              item={item.track ?? item}
               image={image?.url ?? "/maskable/maskable_icon_x192.png"}
-              link={`/${item.type ?? item.track.type}/${item.id ?? item.track.id}`}
             />
           </SwiperSlide>
         );

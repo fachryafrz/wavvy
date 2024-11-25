@@ -31,9 +31,7 @@ export default async function page({ params }) {
           return (
             <li key={item.id}>
               <CardVertical
-                name={item.track.name}
-                uri={item.track.uri}
-                link={`/${item.track.type}/${item.track.id}`}
+                item={item.track}
                 image={image?.url ?? "/maskable/maskable_icon_x192.png"}
                 info={item.track.artists.map((artist) => {
                   return (

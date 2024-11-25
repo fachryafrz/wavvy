@@ -9,7 +9,7 @@ export default function TopBar({ track }) {
   return (
     <form method="dialog">
       <header className={`flex items-center justify-between`}>
-        <button className={`btn btn-circle btn-ghost`}>
+        <button className={`btn btn-circle btn-ghost outline-0`}>
           <ChevronDown color={"#ffffff"} height="24px" width="24px" />
         </button>
 

@@ -1,6 +1,6 @@
 import { fetchData } from "@/server/actions";
 
-export const playSong = async (user, device, uri) => {
+export const playSong = async (user, device, uri, artists) => {
   if (!user) {
     document.getElementById("loginAlert").showModal();
     return;
@@ -14,7 +14,10 @@ export const playSong = async (user, device, uri) => {
   const {
     data: { tracks: queues },
   } = await fetchData(`/recommendations`, {
-    params: { seed_tracks: id },
+    params: {
+      seed_tracks: id,
+      seed_artists: artists.map(({ id }) => id).join(","),
+    },
   });
 
   await fetchData(`/me/player/play`, {

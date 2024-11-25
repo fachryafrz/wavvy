@@ -34,11 +34,8 @@ export default async function page({ params }) {
           return (
             <li key={item.id}>
               <CardVertical
-                id={item.id}
-                name={item.name}
-                uri={item.uri}
+                item={item}
                 image={image?.url ?? "/maskable/maskable_icon_x192.png"}
-                link={`/${item.type}/${item.id}`}
               />
             </li>
           );

@@ -166,7 +166,7 @@ export default function Playback({ track, isMobile }) {
                   ? playback.paused
                     ? player.resume()
                     : player.pause()
-                  : playSong(user, device, track?.uri)
+                  : playSong(user, device, track?.uri, track?.artists ?? [])
             }
             disabled={!webPlaybackSDKReady}
             className={`btn btn-square btn-ghost z-10 !bg-transparent`}

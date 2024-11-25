@@ -14,10 +14,8 @@ export default function Item({ items }) {
         return (
           <li key={item.id}>
             <CardVertical
-              name={item.name ?? item.track?.name}
-              uri={item.uri ?? item.track?.uri}
+              item={item.track ?? item}
               image={image?.url ?? "/maskable/maskable_icon_x192.png"}
-              link={`/${item.type}/${item.id ?? item.track?.id}`}
             />
           </li>
         );

@@ -14,7 +14,7 @@ import {
   useSpotifyPlayer,
 } from "react-spotify-web-playback-sdk";
 
-export default function CardVertical({ name, link, image, info, uri }) {
+export default function CardVertical({ item, image, info }) {
   const { user } = useAuth();
   const device = usePlayerDevice();
   const player = useSpotifyPlayer();
@@ -22,10 +22,10 @@ export default function CardVertical({ name, link, image, info, uri }) {
   const error = useErrorState();
   const { setErrorAlert } = useErrorAlert();
 
-  const [, type, id] = uri.split(":");
+  const [, type, id] = item.uri.split(":");
 
   const isPlaying =
-    (playback?.context?.uri === uri ||
+    (playback?.context?.uri === item.uri ||
       playback?.track_window?.current_track?.id === id) &&
     !playback?.paused;
 
@@ -44,7 +44,7 @@ export default function CardVertical({ name, link, image, info, uri }) {
               onClick={async () =>
                 error
                   ? setErrorAlert(error)
-                  : await playSong(user, device, uri)
+                  : await playSong(user, device, item.uri, item.artists ?? [])
               }
               className={`btn btn-circle btn-primary btn-lg grid border-none bg-opacity-50 outline-none backdrop-blur hocus:bg-opacity-100`}
             >
@@ -57,23 +57,19 @@ export default function CardVertical({ name, link, image, info, uri }) {
           )}
         </div>
 
-        {link ? (
-          <Link
-            href={link}
-            className={`pointer-events-none lg:pointer-events-auto`}
-          >
-            <img src={image} alt={name} draggable="false" />
-          </Link>
-        ) : (
-          <img src={image} alt={name} draggable="false" />
-        )}
+        <Link
+          href={`/${item.type}/${item.id}`}
+          className={`pointer-events-none lg:pointer-events-auto`}
+        >
+          <img src={image} alt={item.name} draggable="false" />
+        </Link>
       </figure>
 
       <div className={`flex flex-col gap-1`}>
         <h3
           className={`line-clamp-1 font-medium hocus:underline ${type === `artist` ? `text-center` : `text-start`}`}
         >
-          <Link href={link}>{name}</Link>
+          <Link href={`/${item.type}/${item.id}`}>{item.name}</Link>
         </h3>
 
         {info && (

@@ -241,7 +241,7 @@ export default function Control({ track, volumeState, setVolumeState }) {
                 ? playback.paused
                   ? player.resume()
                   : player.pause()
-                : playSong(user, device, track?.uri)
+                : playSong(user, device, track?.uri, track?.artists ?? [])
           }
           disabled={!webPlaybackSDKReady}
         >

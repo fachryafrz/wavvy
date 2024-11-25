@@ -27,6 +27,7 @@ export default function Player() {
   const [volumeState, setVolumeState] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [recentlyPlayed, setRecentlyPlayed] = useState();
+  const [hasSetPlaybackVolume, setHasSetPlaybackVolume] = useState(false);
 
   // Hooks
   const { user } = useAuth();
@@ -65,13 +66,14 @@ export default function Player() {
   }, [user]);
 
   useEffect(() => {
-    if (!playback) return;
+    if (!playback || hasSetPlaybackVolume) return;
 
     const volumeStateLocalStorage = Number(
       localStorage.getItem("volume-state"),
     );
 
     const handleSetPlaybackVolume = async () => {
+      console.log("i am here");
       await fetchData(`/me/player/volume`, {
         method: "PUT",
         params: {
@@ -79,10 +81,11 @@ export default function Player() {
           device_id: device.id,
         },
       });
+      setHasSetPlaybackVolume(true);
     };
 
     handleSetPlaybackVolume();
-  }, [playback, device]);
+  }, [playback, device, hasSetPlaybackVolume]);
 
   // useEffect(() => {
   //   const isMobileDevice = () => {
