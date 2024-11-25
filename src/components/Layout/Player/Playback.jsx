@@ -16,6 +16,7 @@ import {
   usePlaybackState,
   usePlayerDevice,
   useSpotifyPlayer,
+  useWebPlaybackSDKReady,
 } from "react-spotify-web-playback-sdk";
 import { fetchData } from "@/server/actions";
 import { playSong } from "@/lib/play-song";
@@ -29,6 +30,7 @@ export default function Playback({ track, isMobile }) {
   const { mutate } = useAuth();
   // const { playback, setPlayback } = usePlayback();
 
+  const webPlaybackSDKReady = useWebPlaybackSDKReady();
   const device = usePlayerDevice();
   const player = useSpotifyPlayer();
   const playback = usePlaybackState();
@@ -166,6 +168,7 @@ export default function Playback({ track, isMobile }) {
                     : player.pause()
                   : playSong(user, device, track?.uri)
             }
+            disabled={!webPlaybackSDKReady}
             className={`btn btn-square btn-ghost z-10 !bg-transparent`}
           >
             {!playback || playback?.paused ? (

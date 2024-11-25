@@ -2,6 +2,7 @@ import LoadingCard from "@/components/Loading/Card";
 import TrackCard from "@/components/Track/Card";
 import { useAuth } from "@/hooks/auth";
 import Link from "next/link";
+import { useEffect } from "react";
 import {
   usePlayerDevice,
   useSpotifyPlayer,

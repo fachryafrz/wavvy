@@ -25,12 +25,14 @@ import {
   usePlaybackState,
   usePlayerDevice,
   useSpotifyPlayer,
+  useWebPlaybackSDKReady,
 } from "react-spotify-web-playback-sdk";
 
 export default function Control({ track, volumeState, setVolumeState }) {
   // Hooks
   const { user } = useAuth();
   const { setErrorAlert } = useErrorAlert();
+  const webPlaybackSDKReady = useWebPlaybackSDKReady();
   const device = usePlayerDevice();
   const player = useSpotifyPlayer();
   const playback = usePlaybackState();
@@ -201,7 +203,7 @@ export default function Control({ track, volumeState, setVolumeState }) {
       </div>
 
       {/* Controls */}
-      <div className={`flex items-center justify-between`}>
+      <div className={`flex items-center justify-evenly`}>
         {/* Previous */}
         <button
           onClick={() =>
@@ -241,11 +243,12 @@ export default function Control({ track, volumeState, setVolumeState }) {
                   : player.pause()
                 : playSong(user, device, track?.uri)
           }
+          disabled={!webPlaybackSDKReady}
         >
           {!playback || playback?.paused ? (
-            <PlayCircle color={"#ffffff"} height="64px" width="64px" />
+            <PlayCircle color={"#ffffff"} height="72px" width="72px" />
           ) : (
-            <PauseCircle color={"#ffffff"} width={`64px`} height={`64px`} />
+            <PauseCircle color={"#ffffff"} width={`72px`} height={`72px`} />
           )}
         </button>
 
