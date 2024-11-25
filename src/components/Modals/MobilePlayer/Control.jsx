@@ -112,7 +112,7 @@ export default function Control({ track, volumeState, setVolumeState }) {
     setCurrentProgress(playback ? playback.position : 0);
     setDurationMs(playback ? playback.duration : 0);
     setShuffleState(playback ? playback.shuffle : false);
-    setRepeatState(playback ? playback.repeat_mode : "off");
+    setRepeatState(playback ? playback.repeat_mode : 0);
   }, [playback]);
 
   useEffect(() => {
