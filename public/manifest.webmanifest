@@ -28,7 +28,8 @@
       "icons": [
         {
           "src": "/icons/heart-outline.svg",
-          "type": "image/svg+xml"
+          "type": "image/svg+xml",
+          "sizes": "150x150"
         }
       ]
     },
@@ -39,7 +40,8 @@
       "icons": [
         {
           "src": "/icons/calendar-outline.svg",
-          "type": "image/svg+xml"
+          "type": "image/svg+xml",
+          "sizes": "150x150"
         }
       ]
     }
