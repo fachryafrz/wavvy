@@ -23,7 +23,6 @@ export default function Logout({ user }) {
             <img
               src={profilePicture}
               alt={user.display_name}
-              loading="lazy"
               draggable="false"
             />
           </figure>

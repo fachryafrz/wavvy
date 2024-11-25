@@ -62,10 +62,10 @@ export default function CardVertical({ name, link, image, info, uri }) {
             href={link}
             className={`pointer-events-none lg:pointer-events-auto`}
           >
-            <img src={image} alt={name} loading="lazy" draggable="false" />
+            <img src={image} alt={name} draggable="false" />
           </Link>
         ) : (
-          <img src={image} alt={name} loading="lazy" draggable="false" />
+          <img src={image} alt={name} draggable="false" />
         )}
       </figure>
 

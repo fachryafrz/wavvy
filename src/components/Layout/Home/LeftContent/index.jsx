@@ -11,25 +11,27 @@ import { fetchData } from "@/server/actions";
 import { useAuth } from "@/hooks/auth";
 
 export default function LeftContent({ categories, categoriesPlaylists }) {
-  const { user } = useAuth();
+  // NOTE: Need to get user from zustand, otherwise it will get error hydration
+  const { user } = userStore();
 
-  const {
-    data: recentlyPlayedData,
-    error,
-    isLoading: recentlyPlayedIsLoading,
-  } = useQuery({
-    queryKey: `/me/player/recently-played`,
-    queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey).then(({ data }) => data);
-    },
-  });
+  const { data: recentlyPlayedData, isLoading: recentlyPlayedIsLoading } =
+    useQuery({
+      queryKey: `/me/player/recently-played`,
+      queryFn: async ({ queryKey }) => {
+        return await fetchData(queryKey).then(({ data }) => data);
+      },
+    });
+
+  const handleFindCategory = (name) => {
+    return categoriesPlaylists.find((cp) => cp.message === name);
+  };
 
   return (
     <div className={`flex flex-col gap-4 @container`}>
       {/* Categories */}
-      {user &&
-        categories.items?.slice(0, 1).map((category, i) => {
-          return (
+      {categories.items?.slice(0, 1).map((category, i) => {
+        return (
+          handleFindCategory(category.name).playlists.items.length > 0 && (
             <section key={category.id}>
               <SliderPlaylist
                 id={`slider-${category.id}`}
@@ -41,15 +43,14 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
                     {category.name}
                   </Link>
                 }
-                data={categoriesPlaylists
-                  .find((cp) => cp.message === category.name)
-                  .playlists.items.filter((item) =>
-                    (item.name ?? item.track.name).includes("Mix"),
-                  )}
+                data={handleFindCategory(category.name).playlists.items.filter(
+                  (item) => (item.name ?? item.track.name).includes("Mix"),
+                )}
               />
             </section>
-          );
-        })}
+          )
+        );
+      })}
 
       {/* Playlists, Artists, Albums, Streams */}
       {user && (
@@ -83,23 +84,22 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
 
       {categories.items?.slice(1).map((category, i) => {
         return (
-          <section key={category.id}>
-            <SliderPlaylist
-              id={`slider-${category.id}`}
-              title={
-                <Link
-                  href={`/section/${category.id}`}
-                  className={`hocus:underline`}
-                >
-                  {category.name}
-                </Link>
-              }
-              data={
-                categoriesPlaylists.find((cp) => cp.message === category.name)
-                  .playlists.items
-              }
-            />
-          </section>
+          handleFindCategory(category.name).playlists.items.length > 0 && (
+            <section key={category.id}>
+              <SliderPlaylist
+                id={`slider-${category.id}`}
+                title={
+                  <Link
+                    href={`/section/${category.id}`}
+                    className={`hocus:underline`}
+                  >
+                    {category.name}
+                  </Link>
+                }
+                data={handleFindCategory(category.name).playlists.items}
+              />
+            </section>
+          )
         );
       })}
     </div>

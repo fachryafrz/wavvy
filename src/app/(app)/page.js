@@ -1,5 +1,4 @@
 import LeftContent from "@/components/Layout/Home/LeftContent";
-import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
 import { fetchData } from "@/server/actions";
 
 export default async function Home() {

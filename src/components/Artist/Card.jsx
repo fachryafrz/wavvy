@@ -16,7 +16,6 @@ export default function ArtistCard({ artist, index }) {
         <img
           src={image?.url ?? "/maskable/maskable_icon_x192.png"}
           alt={artist.name}
-          loading="lazy"
           draggable="false"
           className={`-ml-2 aspect-[3/4] max-w-12 rounded-lg`}
         />

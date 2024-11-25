@@ -107,7 +107,6 @@ export default function DetailsHero({
                               image?.url ?? "/maskable/maskable_icon_x192.png"
                             }
                             alt={artist.name}
-                            loading="lazy"
                             draggable="false"
                           />
                         </figure>
@@ -154,7 +153,7 @@ export default function DetailsHero({
       <figure
         className={`aspect-square w-full max-w-[200px] overflow-hidden rounded-xl shadow-xl md:max-w-[300px]`}
       >
-        <img src={image} alt={item.name} loading="lazy" draggable="false" />
+        <img src={image} alt={item.name} draggable="false" />
       </figure>
 
       <div className={`absolute inset-0 -z-10`}>
