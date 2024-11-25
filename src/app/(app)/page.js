@@ -1,6 +1,8 @@
 import LeftContent from "@/components/Layout/Home/LeftContent";
 import { fetchData } from "@/server/actions";
 
+export const revalidate = 1800; // 30 minutes
+
 export default async function Home() {
   const {
     data: { categories },

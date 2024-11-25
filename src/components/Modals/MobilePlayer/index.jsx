@@ -64,7 +64,7 @@ export default function MobilePlayer() {
 
   return (
     <dialog id="mobilePlayer" className="modal modal-bottom">
-      <div className="modal-box flex h-full max-h-none w-full max-w-none flex-col justify-between rounded-none bg-base-200 bg-opacity-90 p-4 backdrop-blur">
+      <div className="modal-box flex h-full max-h-none w-full max-w-none flex-col justify-between rounded-none bg-base-200 bg-opacity-90 p-4 pb-12 backdrop-blur">
         {/* Top Bar */}
         <section>
           <TopBar

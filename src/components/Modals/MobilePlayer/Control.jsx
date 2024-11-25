@@ -277,7 +277,7 @@ export default function Control({ track, volumeState, setVolumeState }) {
       {/* Volume, Shuffle, Repeat */}
       <div className={`flex items-center justify-between gap-4`}>
         {/* Volume */}
-        <div className={`flex flex-grow max-w-[250px] items-center justify-end gap-2`}>
+        <div className={`flex flex-grow items-center gap-2`}>
           <button
             onClick={() =>
               volumeState === 0 ? handleSetVolume(100) : handleSetVolume(0)
@@ -299,7 +299,7 @@ export default function Control({ track, volumeState, setVolumeState }) {
             )}
           </button>
 
-          <div className={`flex flex-grow items-center`}>
+          <div className={`flex max-w-[150px] flex-grow items-center`}>
             <Slider
               aria-label="volume"
               size="small"
