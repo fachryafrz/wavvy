@@ -20,6 +20,30 @@
       "type": "image/png"
     }
   ],
+  "shortcuts": [
+    {
+      "name": "Saved Songs",
+      "description": "View the list of songs you saved",
+      "url": "/me/tracks",
+      "icons": [
+        {
+          "src": "/icons/heart-outline.svg",
+          "type": "image/svg+xml"
+        }
+      ]
+    },
+    {
+      "name": "History",
+      "description": "View the list of songs you listened to",
+      "url": "/me/recently-played",
+      "icons": [
+        {
+          "src": "/icons/calendar-outline.svg",
+          "type": "image/svg+xml"
+        }
+      ]
+    }
+  ],
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
