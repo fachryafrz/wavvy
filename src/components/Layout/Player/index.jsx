@@ -21,15 +21,13 @@ import {
 import { fetchData } from "@/server/actions";
 import { useAuth } from "@/hooks/auth";
 import PlayerInfo from "./Info";
-import { MusicalNotes } from "react-ionicons";
 
 export default function Player() {
   // State
   const [volumeState, setVolumeState] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [recentlyPlayed, setRecentlyPlayed] = useState();
   const [hasSetPlaybackVolume, setHasSetPlaybackVolume] = useState(false);
-  const [playbackState, setPlaybackState] = useState();
-  const [track, setTrack] = useState();
 
   // Hooks
   const { user } = useAuth();
@@ -37,7 +35,6 @@ export default function Player() {
   const player = useSpotifyPlayer();
   const playback = usePlaybackState();
 
-  // Queries
   const { refetch: refetchRecentlyPlayed } = useQuery({
     enabled: false,
     queryKey: `/me/player/recently-played`,
@@ -45,13 +42,6 @@ export default function Player() {
       return await fetchData(queryKey).then(({ data }) => data);
     },
   });
-
-  // Lifecycle
-  useEffect(() => {
-    if (!playback) return;
-
-    setTrack(playback.track_window.current_track);
-  }, [playback]);
 
   useEffect(() => {
     const volumeStateLocalStorage = Number(
@@ -69,8 +59,7 @@ export default function Player() {
 
     const handleRefetchRecentlyPlayed = async () => {
       const { data } = await refetchRecentlyPlayed();
-
-      setTrack(data.items[0].track);
+      setRecentlyPlayed(data.items[0].track);
     };
 
     handleRefetchRecentlyPlayed();
@@ -84,6 +73,7 @@ export default function Player() {
     );
 
     const handleSetPlaybackVolume = async () => {
+      console.log("i am here");
       await fetchData(`/me/player/volume`, {
         method: "PUT",
         params: {
@@ -96,18 +86,6 @@ export default function Player() {
 
     handleSetPlaybackVolume();
   }, [playback, device, hasSetPlaybackVolume]);
-
-  useEffect(() => {
-    if (!user) return;
-
-    const handlePlaybackState = async () => {
-      const { data } = await fetchData(`/me/player`);
-      setTrack(data.item);
-      setPlaybackState(data);
-    };
-
-    handlePlaybackState();
-  }, [user, playback, device]);
 
   // useEffect(() => {
   //   const isMobileDevice = () => {
@@ -177,7 +155,7 @@ export default function Player() {
   return (
     <div
       id="player"
-      className={`grid w-full grid-cols-3 items-center gap-x-2 gap-y-1 sm:gap-x-4`}
+      className={`grid w-full grid-cols-3 items-center gap-2 sm:gap-4`}
     >
       {/* Toggle Mobile Player */}
       <div
@@ -187,12 +165,17 @@ export default function Player() {
 
       {/* Track Info (Image, Title, Artist) */}
       <div className={`col-span-2 sm:col-span-1`}>
-        <PlayerInfo track={track} />
+        <PlayerInfo
+          track={playback?.track_window?.current_track ?? recentlyPlayed}
+        />
       </div>
 
       {/* Playback (Play, Pause, Next, Previous, Runtime) */}
       <div className={``}>
-        <Playback track={track} isMobile={isMobile} />
+        <Playback
+          track={playback?.track_window?.current_track ?? recentlyPlayed}
+          isMobile={isMobile}
+        />
       </div>
 
       {/* Options (Volume, Shuffle, Repeat) */}
@@ -202,26 +185,6 @@ export default function Player() {
           setVolumeState={setVolumeState}
         />
       </div>
-
-      {/* Other Devices */}
-      {user &&
-        playbackState &&
-        device &&
-        playbackState.device.id !== device.device_id && (
-          <div
-            className={`col-span-3 mx-1 flex justify-center rounded-lg bg-primary p-1 text-base-100`}
-          >
-            <div className={`flex items-center gap-1`}>
-              <MusicalNotes />
-              <button className={`font-medium hocus:underline`}>
-                <span className={`sm:hidden`}>{playbackState.device.name}</span>
-                <span className={`hidden sm:inline`}>
-                  {`Playing on ${playbackState.device.name}`}
-                </span>
-              </button>
-            </div>
-          </div>
-        )}
     </div>
   );
 }
