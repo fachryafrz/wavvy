@@ -28,5 +28,15 @@ export const playSong = async (user, device, uri, artists) => {
     data: JSON.stringify(
       types.includes(type) ? { context_uri: uri } : { uris: [uri] },
     ),
+  }).then(() => {
+    const volumeStateLocalStorage = localStorage.getItem("volume-state");
+
+    fetchData(`/me/player/volume`, {
+      method: "PUT",
+      params: {
+        volume_percent: Number(volumeStateLocalStorage) || 0,
+        device_id: device.id,
+      },
+    });
   });
 };

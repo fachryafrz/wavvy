@@ -14,10 +14,12 @@ import { useAuth } from "@/hooks/auth";
 import PlayerInfo from "./Info";
 import { useTrack } from "@/zustand/track";
 import { useVolume } from "@/zustand/volume";
+import { MusicalNotes } from "react-ionicons";
 
 export default function Player() {
   // State
   const [isMobile, setIsMobile] = useState(false);
+  const [playbackState, setPlaybackState] = useState(null);
 
   // Hooks
   const { user } = useAuth();
@@ -42,6 +44,7 @@ export default function Player() {
     if (volumeStateLocalStorage) {
       setVolume(volumeStateLocalStorage);
     } else {
+      localStorage.setItem("volume-state", 100);
       setVolume(100);
     }
   }, []);
@@ -49,35 +52,37 @@ export default function Player() {
   useEffect(() => {
     if (!user) return;
 
+    if (playbackState) {
+      setTrack(playbackState.item);
+      return;
+    }
+
     const handleRefetchRecentlyPlayed = async () => {
       const { data } = await refetchRecentlyPlayed();
       setTrack(data.items[0].track);
     };
 
     handleRefetchRecentlyPlayed();
-  }, [user]);
+  }, [user, playbackState]);
 
   useEffect(() => {
     if (!playback) return;
 
     setTrack(playback.track_window.current_track);
+  }, [playback]);
 
-    const volumeStateLocalStorage = Number(
-      localStorage.getItem("volume-state"),
-    );
+  useEffect(() => {
+    if (!user) return;
 
-    const handleSetPlaybackVolume = async () => {
-      await fetchData(`/me/player/volume`, {
-        method: "PUT",
-        params: {
-          volume_percent: volumeStateLocalStorage || 100,
-          device_id: device?.id,
-        },
-      });
+    const handlePlaybackState = async () => {
+      const { data } = await fetchData(`/me/player`);
+      if (!data) return;
+
+      setPlaybackState(data);
     };
 
-    handleSetPlaybackVolume();
-  }, [playback, device]);
+    handlePlaybackState();
+  }, [user, playback]);
 
   // useEffect(() => {
   //   const isMobileDevice = () => {
@@ -147,7 +152,7 @@ export default function Player() {
   return (
     <div
       id="player"
-      className={`grid w-full grid-cols-3 items-center gap-2 sm:gap-4`}
+      className={`grid w-full grid-cols-3 items-center gap-x-2 gap-y-1 sm:gap-x-4`}
     >
       {/* Toggle Mobile Player */}
       <div
@@ -169,6 +174,26 @@ export default function Player() {
       <div className={`hidden sm:block`}>
         <PlaybackOptions />
       </div>
+
+      {/* Other Devices */}
+      {user &&
+        playbackState &&
+        device &&
+        playbackState.device.id !== device.device_id && (
+          <div
+            className={`col-span-3 mx-1 flex justify-center rounded-lg bg-primary p-1 text-base-100`}
+          >
+            <div className={`flex items-center gap-1`}>
+              <MusicalNotes />
+              <button className={`font-medium hocus:underline`}>
+                <span className={`sm:hidden`}>{playbackState.device.name}</span>
+                <span className={`hidden sm:inline`}>
+                  {`Playing on ${playbackState.device.name}`}
+                </span>
+              </button>
+            </div>
+          </div>
+        )}
     </div>
   );
 }
