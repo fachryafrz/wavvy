@@ -22,14 +22,16 @@ import {
 } from "react-spotify-web-playback-sdk";
 import { fetchData } from "@/server/actions";
 import { Slider } from "@mui/material";
+import { useVolume } from "@/zustand/volume";
 
-export default function PlaybackOptions({ volumeState, setVolumeState }) {
+export default function PlaybackOptions() {
   const { user } = useAuth();
   const router = useRouter();
   const { mutate } = useAuth();
   // const { playback, setPlayback } = usePlayback();
   const queryClient = useQueryClient();
   const { handleError } = useHandleError();
+  const { volume, setVolume } = useVolume();
 
   const device = usePlayerDevice();
   const player = useSpotifyPlayer();
@@ -41,7 +43,7 @@ export default function PlaybackOptions({ volumeState, setVolumeState }) {
 
   useEffect(() => {
     if (playback) {
-      // setVolumeState(playback ? device.volume_percent : 100);
+      // setVolume(playback ? device.volume_percent : 100);
       setShuffleState(playback.shuffle);
       setRepeatState(playback.repeat_mode);
     }
@@ -66,7 +68,7 @@ export default function PlaybackOptions({ volumeState, setVolumeState }) {
     });
 
     localStorage.setItem("volume-state", volume_percent);
-    setVolumeState(volume_percent);
+    setVolume(volume_percent);
   };
 
   // Toggle Shuffle Mode
@@ -112,7 +114,7 @@ export default function PlaybackOptions({ volumeState, setVolumeState }) {
   // NOTE: currently spamming API calls
   const handleMouseWheelChangeVolume = async (e) => {
     const delta = e.deltaY < 0 ? 1 : -1;
-    const newVolume = Math.max(0, Math.min(100, volumeState + delta * 5));
+    const newVolume = Math.max(0, Math.min(100, volume + delta * 5));
     await handleSetVolume(newVolume);
   };
 
@@ -124,19 +126,19 @@ export default function PlaybackOptions({ volumeState, setVolumeState }) {
       >
         <button
           onClick={() =>
-            volumeState === 0 ? handleSetVolume(100) : handleSetVolume(0)
+            volume === 0 ? handleSetVolume(100) : handleSetVolume(0)
           }
           disabled={!playback}
           className={`btn btn-square btn-ghost no-animation btn-sm !bg-transparent`}
         >
           {/* Volume Icon */}
-          {volumeState >= 75 ? (
+          {volume >= 75 ? (
             <VolumeHigh color={"#ffffff"} width={`20px`} height={`20px`} />
-          ) : volumeState < 75 && volumeState >= 50 ? (
+          ) : volume < 75 && volume >= 50 ? (
             <VolumeMedium color={"#ffffff"} width={`20px`} height={`20px`} />
-          ) : volumeState < 50 && volumeState >= 25 ? (
+          ) : volume < 50 && volume >= 25 ? (
             <VolumeLow color={"#ffffff"} width={`20px`} height={`20px`} />
-          ) : volumeState < 25 && volumeState > 0 ? (
+          ) : volume < 25 && volume > 0 ? (
             <VolumeOff color={"#ffffff"} width={`20px`} height={`20px`} />
           ) : (
             <VolumeMute color={"#ffffff"} width={`20px`} height={`20px`} />
@@ -147,11 +149,11 @@ export default function PlaybackOptions({ volumeState, setVolumeState }) {
           <Slider
             aria-label="volume"
             size="small"
-            value={volumeState}
+            value={volume}
             min={0}
             step={1}
             max={100}
-            onChange={(_, value) => setVolumeState(value)}
+            onChange={(_, value) => setVolume(value)}
             onChangeCommitted={(_, value) => handleSetVolume(value)}
             valueLabelDisplay="auto"
             valueLabelFormat={(value) => `${value}%`}

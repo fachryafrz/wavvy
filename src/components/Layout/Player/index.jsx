@@ -1,36 +1,28 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
-
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import TrackCard from "../../Track/Card";
+import { useEffect, useState } from "react";
 import Playback from "./Playback";
-import LoadingCard from "@/components/Loading/Card";
 import PlaybackOptions from "./Options";
-import { usePlayback } from "@/zustand/playback";
-import { useQueue } from "@/zustand/queue";
-import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import {
   usePlaybackState,
   usePlayerDevice,
   useSpotifyPlayer,
-  useWebPlaybackSDKReady,
 } from "react-spotify-web-playback-sdk";
 import { fetchData } from "@/server/actions";
 import { useAuth } from "@/hooks/auth";
 import PlayerInfo from "./Info";
+import { useTrack } from "@/zustand/track";
+import { useVolume } from "@/zustand/volume";
 
 export default function Player() {
   // State
-  const [volumeState, setVolumeState] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const [recentlyPlayed, setRecentlyPlayed] = useState();
-  const [hasSetPlaybackVolume, setHasSetPlaybackVolume] = useState(false);
 
   // Hooks
   const { user } = useAuth();
+  const { track, setTrack } = useTrack();
+  const { volume, setVolume } = useVolume();
   const device = usePlayerDevice();
   const player = useSpotifyPlayer();
   const playback = usePlaybackState();
@@ -48,9 +40,9 @@ export default function Player() {
       localStorage.getItem("volume-state"),
     );
     if (volumeStateLocalStorage) {
-      setVolumeState(volumeStateLocalStorage);
+      setVolume(volumeStateLocalStorage);
     } else {
-      setVolumeState(100);
+      setVolume(100);
     }
   }, []);
 
@@ -59,7 +51,7 @@ export default function Player() {
 
     const handleRefetchRecentlyPlayed = async () => {
       const { data } = await refetchRecentlyPlayed();
-      setRecentlyPlayed(data.items[0].track);
+      setTrack(data.items[0].track);
     };
 
     handleRefetchRecentlyPlayed();
@@ -67,6 +59,8 @@ export default function Player() {
 
   useEffect(() => {
     if (!playback) return;
+
+    setTrack(playback.track_window.current_track);
 
     const volumeStateLocalStorage = Number(
       localStorage.getItem("volume-state"),
@@ -91,18 +85,18 @@ export default function Player() {
 
   //     // Windows Phone must come first because its UA also contains "Android"
   //     if (/windows phone/i.test(userAgent)) {
-  //       setVolumeState(100);
+  //       setVolume(100);
   //       return true;
   //     }
 
   //     if (/android/i.test(userAgent)) {
-  //       setVolumeState(100);
+  //       setVolume(100);
   //       return true;
   //     }
 
   //     // iOS detection from: http://stackoverflow.com/a/9039885/177710
   //     if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-  //       setVolumeState(100);
+  //       setVolume(100);
   //       return true;
   //     }
 
@@ -163,25 +157,17 @@ export default function Player() {
 
       {/* Track Info (Image, Title, Artist) */}
       <div className={`col-span-2 sm:col-span-1`}>
-        <PlayerInfo
-          track={playback?.track_window?.current_track ?? recentlyPlayed}
-        />
+        <PlayerInfo />
       </div>
 
       {/* Playback (Play, Pause, Next, Previous, Runtime) */}
-      <div className={``}>
-        <Playback
-          track={playback?.track_window?.current_track ?? recentlyPlayed}
-          isMobile={isMobile}
-        />
+      <div>
+        <Playback isMobile={isMobile} />
       </div>
 
       {/* Options (Volume, Shuffle, Repeat) */}
       <div className={`hidden sm:block`}>
-        <PlaybackOptions
-          volumeState={volumeState}
-          setVolumeState={setVolumeState}
-        />
+        <PlaybackOptions />
       </div>
     </div>
   );

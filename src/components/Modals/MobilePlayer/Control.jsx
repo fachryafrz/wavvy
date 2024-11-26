@@ -2,6 +2,8 @@ import { useAuth } from "@/hooks/auth";
 import { playSong } from "@/lib/play-song";
 import { fetchData } from "@/server/actions";
 import { useErrorAlert } from "@/zustand/error-alert";
+import { useTrack } from "@/zustand/track";
+import { useVolume } from "@/zustand/volume";
 import { Slider } from "@mui/material";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -28,9 +30,11 @@ import {
   useWebPlaybackSDKReady,
 } from "react-spotify-web-playback-sdk";
 
-export default function Control({ track, volumeState, setVolumeState }) {
+export default function Control() {
   // Hooks
   const { user } = useAuth();
+  const { track } = useTrack();
+  const { volume, setVolume } = useVolume();
   const { setErrorAlert } = useErrorAlert();
   const webPlaybackSDKReady = useWebPlaybackSDKReady();
   const device = usePlayerDevice();
@@ -72,7 +76,7 @@ export default function Control({ track, volumeState, setVolumeState }) {
     });
 
     localStorage.setItem("volume-state", volume_percent);
-    setVolumeState(volume_percent);
+    setVolume(volume_percent);
   };
   // Toggle Shuffle Mode
   const handleToggleShuffleMode = async (shuffle_state) => {
@@ -283,19 +287,19 @@ export default function Control({ track, volumeState, setVolumeState }) {
         <div className={`flex flex-grow items-center gap-2`}>
           <button
             onClick={() =>
-              volumeState === 0 ? handleSetVolume(100) : handleSetVolume(0)
+              volume === 0 ? handleSetVolume(100) : handleSetVolume(0)
             }
             disabled={!playback}
             className={`btn btn-square btn-ghost no-animation btn-sm !bg-transparent`}
           >
             {/* Volume Icon */}
-            {volumeState >= 75 ? (
+            {volume >= 75 ? (
               <VolumeHigh color={"#ffffff"} width={`32px`} height={`32px`} />
-            ) : volumeState < 75 && volumeState >= 50 ? (
+            ) : volume < 75 && volume >= 50 ? (
               <VolumeMedium color={"#ffffff"} width={`32px`} height={`32px`} />
-            ) : volumeState < 50 && volumeState >= 25 ? (
+            ) : volume < 50 && volume >= 25 ? (
               <VolumeLow color={"#ffffff"} width={`32px`} height={`32px`} />
-            ) : volumeState < 25 && volumeState > 0 ? (
+            ) : volume < 25 && volume > 0 ? (
               <VolumeOff color={"#ffffff"} width={`32px`} height={`32px`} />
             ) : (
               <VolumeMute color={"#ffffff"} width={`32px`} height={`32px`} />
@@ -306,11 +310,11 @@ export default function Control({ track, volumeState, setVolumeState }) {
             <Slider
               aria-label="volume"
               size="small"
-              value={volumeState}
+              value={volume}
               min={0}
               step={1}
               max={100}
-              onChange={(_, value) => setVolumeState(value)}
+              onChange={(_, value) => setVolume(value)}
               onChangeCommitted={(_, value) => handleSetVolume(value)}
               valueLabelDisplay="auto"
               valueLabelFormat={(value) => `${value}%`}

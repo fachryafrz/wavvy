@@ -1,7 +1,9 @@
+import { useTrack } from "@/zustand/track";
 import { useRouter } from "next/navigation";
 import { ChevronDown } from "react-ionicons";
 
-export default function TopBar({ track }) {
+export default function TopBar() {
+  const { track } = useTrack();
   const router = useRouter();
 
   const [_, type, id] = track?.album.uri.split(":") ?? [];

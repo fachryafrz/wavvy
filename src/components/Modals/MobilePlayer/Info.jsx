@@ -1,6 +1,8 @@
+import { useTrack } from "@/zustand/track";
 import { useRouter } from "next/navigation";
 
-export default function Info({ track }) {
+export default function Info() {
+  const { track } = useTrack();
   const router = useRouter();
 
   return (
