@@ -38,11 +38,10 @@ export default function Player() {
   });
 
   useEffect(() => {
-    const volumeStateLocalStorage = Number(
-      localStorage.getItem("volume-state"),
-    );
+    const volumeStateLocalStorage = localStorage.getItem("volume-state");
+
     if (volumeStateLocalStorage) {
-      setVolume(volumeStateLocalStorage);
+      setVolume(Number(volumeStateLocalStorage));
     } else {
       localStorage.setItem("volume-state", 100);
       setVolume(100);
@@ -66,17 +65,27 @@ export default function Player() {
   }, [user, playbackState]);
 
   useEffect(() => {
-    if (!playback) return;
+    if (!playback || !device) return;
 
     setTrack(playback.track_window.current_track);
-  }, [playback]);
+
+    const volumeStateLocalStorage = localStorage.getItem("volume-state");
+
+    fetchData(`/me/player/volume`, {
+      method: "PUT",
+      params: {
+        volume_percent: Number(volumeStateLocalStorage) || 0,
+        device_id: device.id,
+      },
+    });
+  }, [playback, device]);
 
   useEffect(() => {
     if (!user) return;
 
     const handlePlaybackState = async () => {
       const { data } = await fetchData(`/me/player`);
-      if (!data) return;
+      if (!data || data === "") return;
 
       setPlaybackState(data);
     };
