@@ -11,14 +11,14 @@ export const playSong = async (user, device, uri, artists) => {
 
   const [app, type, id] = uri.split(":");
 
-  const {
-    data: { tracks: queues },
-  } = await fetchData(`/recommendations`, {
-    params: {
-      seed_tracks: id,
-      seed_artists: artists.map(({ id }) => id).join(","),
-    },
-  });
+  // const {
+  //   data: { tracks: queues },
+  // } = await fetchData(`/recommendations`, {
+  //   params: {
+  //     seed_tracks: id,
+  //     seed_artists: artists.map(({ id }) => id).join(","),
+  //   },
+  // });
 
   await fetchData(`/me/player/play`, {
     params: {
@@ -26,9 +26,7 @@ export const playSong = async (user, device, uri, artists) => {
     },
     method: "PUT",
     data: JSON.stringify(
-      types.includes(type)
-        ? { context_uri: uri }
-        : { uris: [uri, ...queues.map(({ uri }) => uri)] },
+      types.includes(type) ? { context_uri: uri } : { uris: [uri] },
     ),
   });
 };

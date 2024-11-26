@@ -66,26 +66,24 @@ export default function Player() {
   }, [user]);
 
   useEffect(() => {
-    if (!playback || hasSetPlaybackVolume) return;
+    if (!playback) return;
 
     const volumeStateLocalStorage = Number(
       localStorage.getItem("volume-state"),
     );
 
     const handleSetPlaybackVolume = async () => {
-      console.log("i am here");
       await fetchData(`/me/player/volume`, {
         method: "PUT",
         params: {
           volume_percent: volumeStateLocalStorage || 100,
-          device_id: device.id,
+          device_id: device?.id,
         },
       });
-      setHasSetPlaybackVolume(true);
     };
 
     handleSetPlaybackVolume();
-  }, [playback, device, hasSetPlaybackVolume]);
+  }, [playback, device]);
 
   // useEffect(() => {
   //   const isMobileDevice = () => {
