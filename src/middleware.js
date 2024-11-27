@@ -7,7 +7,7 @@ import {
 import { NextResponse } from "next/server";
 
 export default async function middleware(request) {
-  const { pathname, searchParams } = request.nextUrl;
+  const { pathname, searchParams, origin } = request.nextUrl;
   const headers = {
     Authorization: `Basic ${Buffer.from(
       `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`,
@@ -34,7 +34,7 @@ export default async function middleware(request) {
   if (code) {
     const params = new URLSearchParams({
       code: code,
-      redirect_uri: `${process.env.NEXT_PUBLIC_APP_URL}`,
+      redirect_uri: origin,
       grant_type: "authorization_code",
     });
     const data = await fetch(process.env.ACCESS_TOKEN_URL, {
