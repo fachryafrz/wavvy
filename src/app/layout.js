@@ -23,7 +23,6 @@ export const metadata = {
     images: ["/maskable/maskable_icon_x192.png"],
   },
   manifest: "/manifest.webmanifest",
-  colorScheme: "dark",
 };
 
 export default function RootLayout({ children }) {
