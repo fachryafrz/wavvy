@@ -153,10 +153,10 @@ export default function DetailsHero({
                           artists: item.artists,
                         })
                   }
-                  className={`btn btn-ghost max-w-fit flex-grow rounded-full bg-white text-black disabled:cursor-not-allowed`}
+                  className={`btn btn-circle btn-ghost rounded-full bg-white text-black disabled:cursor-not-allowed sm:max-w-fit sm:flex-grow sm:px-4`}
                 >
                   <Radio color={`#000`} />
-                  <span>Radio</span>
+                  <span className={`hidden sm:inline`}>Radio</span>
                 </button>
               )}
             </>

@@ -116,7 +116,7 @@ export default function CardLong({
               </div>
               <ul
                 tabIndex={0}
-                className="menu dropdown-content z-[1] w-52 rounded-box bg-neutral-800 p-2 shadow-xl"
+                className="menu dropdown-content z-[1] rounded-lg bg-neutral-800 p-1 shadow-xl"
               >
                 <li>
                   <button
@@ -132,7 +132,9 @@ export default function CardLong({
                     }
                   >
                     <Radio color={`#fff`} width={`16px`} height={`16px`} />
-                    <span className={`font-medium`}>Start Radio</span>
+                    <span className={`whitespace-nowrap font-medium`}>
+                      Start Radio
+                    </span>
                   </button>
                 </li>
               </ul>
