@@ -2,13 +2,12 @@
 
 import AudioWave from "@/components/Animation/AudioWave";
 import { useAuth } from "@/hooks/auth";
-import { playSong } from "@/lib/play-song";
-import { fetchData } from "@/server/actions";
+import { fetchData, playSong, startRadio } from "@/server/actions";
 import { useErrorAlert } from "@/zustand/error-alert";
 import Link from "next/link";
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from "react";
-import { HeartOutline } from "react-ionicons";
+import { HeartOutline, Radio } from "react-ionicons";
 import {
   useErrorState,
   usePlaybackState,
@@ -60,7 +59,7 @@ export default function DetailsHero({
 
   return (
     <div
-      className={`relative -mx-4 flex flex-col-reverse items-center justify-between gap-4 overflow-clip py-12 px-4 md:mx-0 md:flex-row md:rounded-3xl md:p-8`}
+      className={`relative -mx-4 flex flex-col-reverse items-center justify-between gap-4 overflow-clip px-4 py-12 md:mx-0 md:flex-row md:rounded-3xl md:p-8`}
     >
       <div
         className={`flex w-full flex-grow flex-col items-center gap-6 text-center md:items-start md:text-start`}
@@ -127,19 +126,40 @@ export default function DetailsHero({
         </div>
 
         {/* CTA */}
-        <div className={`flex w-full items-center gap-4`}>
+        <div className={`flex w-full items-center gap-2`}>
           {item.type !== "artist" && (
-            <button
-              onClick={async () =>
-                error
-                  ? setErrorAlert(error)
-                  : await playSong(user, device, item.uri, item.artists ?? [])
-              }
-              className={`btn btn-primary flex-grow rounded-full disabled:cursor-not-allowed md:max-w-[150px]`}
-            >
-              {isPlaying && <AudioWave className={`[&_*]:!bg-white`} />}
-              <span>{isPlaying ? "Playing" : "Listen Now"}</span>
-            </button>
+            <>
+              <button
+                onClick={() =>
+                  error
+                    ? setErrorAlert(error)
+                    : playSong({ user, device, uri: item.uri })
+                }
+                className={`btn btn-primary flex-grow rounded-full disabled:cursor-not-allowed md:max-w-[150px]`}
+              >
+                {isPlaying && <AudioWave className={`[&_*]:!bg-white`} />}
+                <span>{isPlaying ? "Playing" : "Listen Now"}</span>
+              </button>
+
+              {!["album", "playlist"].includes(item.type) && (
+                <button
+                  onClick={() =>
+                    error
+                      ? setErrorAlert(error)
+                      : startRadio({
+                          user,
+                          device,
+                          uri: item.uri,
+                          artists: item.artists,
+                        })
+                  }
+                  className={`btn btn-ghost max-w-fit flex-grow rounded-full bg-white text-black disabled:cursor-not-allowed`}
+                >
+                  <Radio color={`#000`} />
+                  <span>Radio</span>
+                </button>
+              )}
+            </>
           )}
 
           {/* <button

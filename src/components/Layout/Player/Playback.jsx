@@ -18,20 +18,17 @@ import {
   useSpotifyPlayer,
   useWebPlaybackSDKReady,
 } from "react-spotify-web-playback-sdk";
-import { fetchData } from "@/server/actions";
-import { playSong } from "@/lib/play-song";
+import { playSong } from "@/server/actions";
 import Slider from "@mui/material/Slider";
 import { useErrorAlert } from "@/zustand/error-alert";
 import { usePlayback } from "@/zustand/playback";
 
 export default function Playback({ isMobile }) {
+  // Hooks
   const { user } = useAuth();
   const { track } = usePlayback();
   const router = useRouter();
-
   const { mutate } = useAuth();
-  // const { playback, setPlayback } = usePlayback();
-
   const webPlaybackSDKReady = useWebPlaybackSDKReady();
   const device = usePlayerDevice();
   const player = useSpotifyPlayer();
@@ -168,7 +165,7 @@ export default function Playback({ isMobile }) {
                   ? playback.paused
                     ? player.resume()
                     : player.pause()
-                  : playSong(user, device, track?.uri, track?.artists ?? [])
+                  : playSong({ user, device, uri: track?.uri })
             }
             disabled={!webPlaybackSDKReady}
             className={`btn btn-square btn-ghost z-10 !bg-transparent`}

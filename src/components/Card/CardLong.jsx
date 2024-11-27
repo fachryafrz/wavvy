@@ -2,10 +2,9 @@
 
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import { Play } from "react-ionicons";
+import { EllipsisVertical, Play, Radio } from "react-ionicons";
 import TrackCard from "../Track/Card";
 import Link from "next/link";
-import { playSong } from "@/lib/play-song";
 import {
   useErrorState,
   usePlaybackState,
@@ -15,6 +14,7 @@ import {
 import { useAuth } from "@/hooks/auth";
 import AudioWave from "../Animation/AudioWave";
 import { useErrorAlert } from "@/zustand/error-alert";
+import { playSong, startRadio } from "@/server/actions";
 
 export default function CardLong({
   item,
@@ -84,16 +84,16 @@ export default function CardLong({
       {/* Play, Options */}
       {cta && item.type !== "artist" && (
         <div
-          className={`col-span-2 col-start-5 flex justify-end pr-1 @lg:col-start-12`}
+          className={`col-span-2 col-start-5 flex items-center justify-end pr-1 @lg:col-start-12`}
         >
           {isPlaying ? (
             <AudioWave />
           ) : (
             <button
-              onClick={async () =>
+              onClick={() =>
                 error
                   ? setErrorAlert(error)
-                  : await playSong(user, device, item.uri, item.artists ?? [])
+                  : playSong({ user, device, uri: item.uri })
               }
               className={`btn btn-square btn-ghost btn-sm`}
             >
@@ -101,13 +101,43 @@ export default function CardLong({
             </button>
           )}
 
-          {/* <button className={`btn btn-square btn-ghost btn-sm`}>
-            <EllipsisVertical
-              color={`#ffffff`}
-              width={`20px`}
-              height={`20px`}
-            />
-          </button> */}
+          {!["album", "playlist"].includes(item.type) && (
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className={`btn btn-square btn-ghost btn-sm`}
+              >
+                <EllipsisVertical
+                  color={`#ffffff`}
+                  width={`20px`}
+                  height={`20px`}
+                />
+              </div>
+              <ul
+                tabIndex={0}
+                className="menu dropdown-content z-[1] w-52 rounded-box bg-neutral-800 p-2 shadow-xl"
+              >
+                <li>
+                  <button
+                    onClick={() =>
+                      error
+                        ? setErrorAlert(error)
+                        : startRadio({
+                            user,
+                            device,
+                            uri: item.uri,
+                            artists: item.artists,
+                          })
+                    }
+                  >
+                    <Radio color={`#fff`} width={`16px`} height={`16px`} />
+                    <span className={`font-medium`}>Start Radio</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       )}
     </div>

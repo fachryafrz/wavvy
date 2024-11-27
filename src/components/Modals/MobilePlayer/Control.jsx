@@ -1,6 +1,5 @@
 import { useAuth } from "@/hooks/auth";
-import { playSong } from "@/lib/play-song";
-import { fetchData } from "@/server/actions";
+import { fetchData, playSong } from "@/server/actions";
 import { useErrorAlert } from "@/zustand/error-alert";
 import { usePlayback } from "@/zustand/playback";
 import { Slider } from "@mui/material";
@@ -235,7 +234,7 @@ export default function Control() {
                 ? playback.paused
                   ? player.resume()
                   : player.pause()
-                : playSong(user, device, track?.uri, track?.artists ?? [])
+                : playSong({ user, device, uri: track?.uri })
           }
           disabled={!webPlaybackSDKReady}
         >

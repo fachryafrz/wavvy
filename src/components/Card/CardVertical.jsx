@@ -1,12 +1,12 @@
 "use client";
 
 import { useAuth } from "@/hooks/auth";
-import { playSong } from "@/lib/play-song";
+import { playSong, startRadio } from "@/server/actions";
 import { useErrorAlert } from "@/zustand/error-alert";
 /* eslint-disable @next/next/no-img-element */
 
 import Link from "next/link";
-import { Pause, Play } from "react-ionicons";
+import { EllipsisVertical, Pause, Play, Radio } from "react-ionicons";
 import {
   useErrorState,
   usePlaybackState,
@@ -37,23 +37,43 @@ export default function CardVertical({ item, image, info }) {
         className={`relative aspect-square overflow-hidden ${type === `artist` ? `rounded-full` : `rounded-lg`}`}
       >
         <div
-          className={`pointer-events-none absolute inset-0 flex translate-y-2 items-end justify-end p-3 opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100 [&_*]:pointer-events-auto`}
+          className={`pointer-events-none absolute inset-x-0 bottom-0 flex translate-y-2 items-end justify-end gap-1 p-3 opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100 [&_*]:pointer-events-auto`}
         >
           {type !== `artist` && (
-            <button
-              onClick={async () =>
-                error
-                  ? setErrorAlert(error)
-                  : await playSong(user, device, item.uri, item.artists ?? [])
-              }
-              className={`btn btn-circle btn-primary btn-lg grid border-none bg-opacity-50 outline-none backdrop-blur hocus:bg-opacity-100`}
-            >
-              {isPlaying ? (
-                <Pause color={`#ffffff`} width={`2rem`} height={`2rem`} />
-              ) : (
-                <Play color={`#ffffff`} width={`2rem`} height={`2rem`} />
+            <>
+              {!["album", "playlist"].includes(item.type) && (
+                <button
+                  onClick={() =>
+                    error
+                      ? setErrorAlert(error)
+                      : startRadio({
+                          user,
+                          device,
+                          uri: item.uri,
+                          artists: item.artists,
+                        })
+                  }
+                  className={`btn btn-circle btn-ghost btn-sm grid border-none bg-white bg-opacity-50 outline-none backdrop-blur hocus:!bg-white hocus:bg-opacity-100`}
+                >
+                  <Radio color={`#000`} />
+                </button>
               )}
-            </button>
+
+              <button
+                onClick={() =>
+                  error
+                    ? setErrorAlert(error)
+                    : playSong({ user, device, uri: item.uri })
+                }
+                className={`btn btn-circle btn-primary btn-lg grid border-none bg-opacity-50 outline-none backdrop-blur hocus:bg-opacity-100`}
+              >
+                {isPlaying ? (
+                  <Pause color={`#ffffff`} width={`2rem`} height={`2rem`} />
+                ) : (
+                  <Play color={`#ffffff`} width={`2rem`} height={`2rem`} />
+                )}
+              </button>
+            </>
           )}
         </div>
 
@@ -66,11 +86,13 @@ export default function CardVertical({ item, image, info }) {
       </figure>
 
       <div className={`flex flex-col gap-1`}>
-        <h3
-          className={`line-clamp-1 font-medium hocus:underline ${type === `artist` ? `text-center` : `text-start`}`}
-        >
-          <Link href={`/${item.type}/${item.id}`}>{item.name}</Link>
-        </h3>
+        <div className={`flex items-center justify-between`}>
+          <h3
+            className={`line-clamp-1 max-w-fit font-medium hocus:underline ${type === `artist` ? `text-center` : `text-start`}`}
+          >
+            <Link href={`/${item.type}/${item.id}`}>{item.name}</Link>
+          </h3>
+        </div>
 
         {info && (
           <span className={`line-clamp-2 text-sm font-medium text-neutral-500`}>
