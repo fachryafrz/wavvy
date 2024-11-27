@@ -2,8 +2,7 @@ import { useAuth } from "@/hooks/auth";
 import { playSong } from "@/lib/play-song";
 import { fetchData } from "@/server/actions";
 import { useErrorAlert } from "@/zustand/error-alert";
-import { useTrack } from "@/zustand/track";
-import { useVolume } from "@/zustand/volume";
+import { usePlayback } from "@/zustand/playback";
 import { Slider } from "@mui/material";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -33,8 +32,13 @@ import {
 export default function Control() {
   // Hooks
   const { user } = useAuth();
-  const { track } = useTrack();
-  const { volume, setVolume } = useVolume();
+  const {
+    track,
+    volume,
+    setVolume,
+    handleSetVolume,
+    handleMouseWheelChangeVolume,
+  } = usePlayback();
   const { setErrorAlert } = useErrorAlert();
   const webPlaybackSDKReady = useWebPlaybackSDKReady();
   const device = usePlayerDevice();
@@ -63,21 +67,7 @@ export default function Control() {
 
     return `${minutes}:${seconds}`;
   };
-  // Set Volume
-  const handleSetVolume = async (volume_percent) => {
-    if (!playback) return;
 
-    await fetchData(`/me/player/volume`, {
-      method: "PUT",
-      params: {
-        volume_percent: volume_percent,
-        device_id: device.id,
-      },
-    });
-
-    localStorage.setItem("volume-state", volume_percent);
-    setVolume(volume_percent);
-  };
   // Toggle Shuffle Mode
   const handleToggleShuffleMode = async (shuffle_state) => {
     await fetchData(`/me/player/shuffle`, {
@@ -287,7 +277,9 @@ export default function Control() {
         <div className={`flex flex-grow items-center gap-2`}>
           <button
             onClick={() =>
-              volume === 0 ? handleSetVolume(100) : handleSetVolume(0)
+              volume === 0
+                ? handleSetVolume(100, playback, device)
+                : handleSetVolume(0)
             }
             disabled={!playback}
             className={`btn btn-square btn-ghost no-animation btn-sm !bg-transparent`}
@@ -315,12 +307,16 @@ export default function Control() {
               step={1}
               max={100}
               onChange={(_, value) => setVolume(value)}
-              onChangeCommitted={(_, value) => handleSetVolume(value)}
+              onChangeCommitted={(_, value) =>
+                handleSetVolume(value, playback, device)
+              }
               valueLabelDisplay="auto"
               valueLabelFormat={(value) => `${value}%`}
               className={`!py-2`}
               disabled={!playback}
-              // onWheel={handleMouseWheelChangeVolume}
+              onWheel={(event) =>
+                handleMouseWheelChangeVolume(event, volume, playback, device)
+              }
               sx={(t) => ({
                 color: "#ff6337",
                 height: 2,

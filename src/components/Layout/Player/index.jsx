@@ -12,9 +12,8 @@ import {
 import { fetchData } from "@/server/actions";
 import { useAuth } from "@/hooks/auth";
 import PlayerInfo from "./Info";
-import { useTrack } from "@/zustand/track";
-import { useVolume } from "@/zustand/volume";
 import { MusicalNotes } from "react-ionicons";
+import { usePlayback } from "@/zustand/playback";
 
 export default function Player() {
   // State
@@ -23,8 +22,7 @@ export default function Player() {
 
   // Hooks
   const { user } = useAuth();
-  const { track, setTrack } = useTrack();
-  const { volume, setVolume } = useVolume();
+  const { track, setTrack, volume, setVolume } = usePlayback();
   const device = usePlayerDevice();
   const player = useSpotifyPlayer();
   const playback = usePlaybackState();

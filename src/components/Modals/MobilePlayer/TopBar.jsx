@@ -1,9 +1,9 @@
-import { useTrack } from "@/zustand/track";
+import { usePlayback } from "@/zustand/playback";
 import { useRouter } from "next/navigation";
 import { ChevronDown } from "react-ionicons";
 
 export default function TopBar() {
-  const { track } = useTrack();
+  const { track } = usePlayback();
   const router = useRouter();
 
   const [_, type, id] = track?.album.uri.split(":") ?? [];

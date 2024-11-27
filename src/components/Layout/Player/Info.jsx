@@ -1,9 +1,8 @@
 import LoadingCard from "@/components/Loading/Card";
 import TrackCard from "@/components/Track/Card";
 import { useAuth } from "@/hooks/auth";
-import { useTrack } from "@/zustand/track";
+import { usePlayback } from "@/zustand/playback";
 import Link from "next/link";
-import { useEffect } from "react";
 import {
   usePlayerDevice,
   useSpotifyPlayer,
@@ -12,7 +11,7 @@ import {
 
 export default function PlayerInfo() {
   const { user } = useAuth();
-  const { track } = useTrack();
+  const { track } = usePlayback();
   const webPlaybackSDKReady = useWebPlaybackSDKReady();
   const device = usePlayerDevice();
   const player = useSpotifyPlayer();

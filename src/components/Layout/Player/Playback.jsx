@@ -22,11 +22,11 @@ import { fetchData } from "@/server/actions";
 import { playSong } from "@/lib/play-song";
 import Slider from "@mui/material/Slider";
 import { useErrorAlert } from "@/zustand/error-alert";
-import { useTrack } from "@/zustand/track";
+import { usePlayback } from "@/zustand/playback";
 
 export default function Playback({ isMobile }) {
   const { user } = useAuth();
-  const { track } = useTrack();
+  const { track } = usePlayback();
   const router = useRouter();
 
   const { mutate } = useAuth();

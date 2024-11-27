@@ -1,8 +1,8 @@
-import { useTrack } from "@/zustand/track";
+import { usePlayback } from "@/zustand/playback";
 import { useRouter } from "next/navigation";
 
 export default function Info() {
-  const { track } = useTrack();
+  const { track } = usePlayback();
   const router = useRouter();
 
   return (

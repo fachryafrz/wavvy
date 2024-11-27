@@ -22,16 +22,15 @@ import {
 } from "react-spotify-web-playback-sdk";
 import { fetchData } from "@/server/actions";
 import { Slider } from "@mui/material";
-import { useVolume } from "@/zustand/volume";
 
 export default function PlaybackOptions() {
   const { user } = useAuth();
   const router = useRouter();
   const { mutate } = useAuth();
-  // const { playback, setPlayback } = usePlayback();
   const queryClient = useQueryClient();
   const { handleError } = useHandleError();
-  const { volume, setVolume } = useVolume();
+  const { volume, setVolume, handleSetVolume, handleMouseWheelChangeVolume } =
+    usePlayback();
 
   const device = usePlayerDevice();
   const player = useSpotifyPlayer();
@@ -54,22 +53,6 @@ export default function PlaybackOptions() {
     { state: "context" },
     { state: "track" },
   ];
-
-  // Set Volume
-  const handleSetVolume = async (volume_percent) => {
-    if (!playback) return;
-
-    await fetchData(`/me/player/volume`, {
-      method: "PUT",
-      params: {
-        volume_percent: volume_percent,
-        device_id: device.id,
-      },
-    });
-
-    localStorage.setItem("volume-state", volume_percent);
-    setVolume(volume_percent);
-  };
 
   // Toggle Shuffle Mode
   const handleToggleShuffleMode = async (shuffle_state) => {
@@ -111,13 +94,6 @@ export default function PlaybackOptions() {
     document.getElementById(`loginAlert`).showModal();
   };
 
-  // NOTE: currently spamming API calls
-  const handleMouseWheelChangeVolume = async (e) => {
-    const delta = e.deltaY < 0 ? 1 : -1;
-    const newVolume = Math.max(0, Math.min(100, volume + delta * 5));
-    await handleSetVolume(newVolume);
-  };
-
   return (
     <div className={`flex flex-nowrap items-center justify-end`}>
       {/* Volume */}
@@ -126,7 +102,9 @@ export default function PlaybackOptions() {
       >
         <button
           onClick={() =>
-            volume === 0 ? handleSetVolume(100) : handleSetVolume(0)
+            volume === 0
+              ? handleSetVolume(100, playback, device)
+              : handleSetVolume(0, playback, device)
           }
           disabled={!playback}
           className={`btn btn-square btn-ghost no-animation btn-sm !bg-transparent`}
@@ -154,12 +132,16 @@ export default function PlaybackOptions() {
             step={1}
             max={100}
             onChange={(_, value) => setVolume(value)}
-            onChangeCommitted={(_, value) => handleSetVolume(value)}
+            onChangeCommitted={(_, value) =>
+              handleSetVolume(value, playback, device)
+            }
             valueLabelDisplay="auto"
             valueLabelFormat={(value) => `${value}%`}
             className={`!py-2`}
             disabled={!playback}
-            // onWheel={handleMouseWheelChangeVolume}
+            onWheel={(event) =>
+              handleMouseWheelChangeVolume(event, volume, playback, device)
+            }
             sx={(t) => ({
               color: "#ff6337",
               height: 4,

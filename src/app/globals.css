@@ -7,10 +7,6 @@
 }
 
 @layer components {
-  * {
-    @apply scrollbar-thin scrollbar-track-transparent scrollbar-thumb-base-100;
-  }
-
   img {
     @apply h-full w-full object-cover italic;
   }

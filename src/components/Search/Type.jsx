@@ -44,7 +44,7 @@ export default function Type() {
   }, [query, type]);
 
   return (
-    <div className={`sticky z-40 -mt-2 -mx-2 top-16 bg-base-100 backdrop-blur bg-opacity-90`}>
+    <div className={`sticky z-40 -mx-2 top-0 bg-base-100 backdrop-blur bg-opacity-90`}>
       <Swiper
         modules={[FreeMode]}
         freeMode={true}

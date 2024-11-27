@@ -38,17 +38,14 @@ export default function Sidebar({
           <input id="sidebar" type="checkbox" className="drawer-toggle" />
           <div className={`drawer-content flex min-h-0 flex-col`}>
             {/* Page content here */}
-            <div className={`flex flex-1 flex-col overflow-y-auto`}>
-              <header
-                id="header"
-                className={`sticky top-0 z-50 bg-base-100 bg-opacity-80 backdrop-blur-sm`}
-              >
-                <Navbar
-                  authorizationURL={authorizationURL}
-                  client_id={client_id}
-                />
-              </header>
+            <header id="header" className={`bg-base-100`}>
+              <Navbar
+                authorizationURL={authorizationURL}
+                client_id={client_id}
+              />
+            </header>
 
+            <div className={`flex flex-1 flex-col overflow-y-auto`}>
               <main className={`flex-1 p-4 pt-0`}>{children}</main>
             </div>
           </div>
