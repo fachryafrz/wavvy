@@ -1,9 +1,8 @@
 import CardVertical from "@/components/Card/CardVertical";
-import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
+import LoginAlert from "@/components/Modals/LoginAlert";
 import { fetchData } from "@/server/actions";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import React from "react";
 
 export async function generateMetadata() {
   return {
@@ -12,9 +11,11 @@ export async function generateMetadata() {
 }
 
 export default async function page({ params }) {
-  const { data: savedTracks } = await fetchData(`/me/tracks`).catch((error) =>
-    redirect("/"),
+  const { data: savedTracks, error } = await fetchData(`/me/tracks`).catch(
+    (error) => redirect("/"),
   );
+
+  if (error) return <LoginAlert show={true} redirect={`/`} />;
 
   return (
     <div className={`@container`}>

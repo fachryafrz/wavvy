@@ -2,11 +2,22 @@
 
 import { useErrorAlert } from "@/zustand/error-alert";
 import LoginBanner from "../Layout/LoginBanner";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-export default function LoginAlert() {
+export default function LoginAlert({ show = false, redirect }) {
   const { setErrorAlert } = useErrorAlert();
+  const router = useRouter();
 
-  const handleClose = () => setErrorAlert(null);
+  const handleClose = () => {
+    setErrorAlert(null);
+
+    if (redirect) router.push(redirect);
+  };
+
+  useEffect(() => {
+    if (show) document.getElementById("loginAlert").showModal();
+  }, [show]);
 
   return (
     <>

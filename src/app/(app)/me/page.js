@@ -1,10 +1,15 @@
+import LoginAlert from "@/components/Modals/LoginAlert";
 import Profile from "@/components/User/Profile";
-import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
 import { fetchData } from "@/server/actions";
 import { redirect } from "next/navigation";
 
 export async function generateMetadata() {
-  const { data: user } = await fetchData(`/me`);
+  const { data: user, error } = await fetchData(`/me`);
+
+  if (error)
+    return {
+      title: "You are not logged in",
+    };
 
   return {
     title: `${user.display_name}`,
@@ -12,7 +17,11 @@ export async function generateMetadata() {
 }
 
 export default async function page() {
-  const { data: user } = await fetchData(`/me`).catch((error) => redirect("/"));
+  const { data: user, error } = await fetchData(`/me`).catch((error) =>
+    redirect("/"),
+  );
+
+  if (error) return <LoginAlert show={true} redirect={`/`} />;
 
   return (
     <div>
