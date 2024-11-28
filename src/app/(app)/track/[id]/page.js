@@ -49,28 +49,39 @@ export default async function page({ params }) {
   const [image] = album.images;
   const [primaryArtist] = track.artists;
 
-  const [artistsDetails, artistsTopTracks] = await Promise.all([
-    Promise.all(
-      track.artists.map(async ({ id }) => {
-        const { data } = await fetchData(`/artists/${id}`);
-        return data;
-      }),
-    ),
-    Promise.all(
-      track.artists.map(async ({ id }) => {
-        const { data } = await fetchData(`/artists/${id}/top-tracks`);
-        return data;
-      }),
-    ),
-  ]);
+  const [artistsDetails, artistsTopTracks, albums, relatedArtists, isSaved] =
+    await Promise.all([
+      // Get artists
+      Promise.all(
+        track.artists.map(async ({ id }) => {
+          const { data } = await fetchData(`/artists/${id}`);
+          return data;
+        }),
+      ),
 
-  const { data: albums } = await fetchData(
-    `/artists/${primaryArtist.id}/albums`,
-  );
+      // Get top tracks
+      Promise.all(
+        track.artists.map(async ({ id }) => {
+          const { data } = await fetchData(`/artists/${id}/top-tracks`);
+          return data;
+        }),
+      ),
 
-  const { data: relatedArtists } = await fetchData(
-    `/artists/${primaryArtist.id}/related-artists`,
-  );
+      // Get albums
+      fetchData(`/artists/${primaryArtist.id}/albums`).then(({ data }) => data),
+
+      // Get related artists
+      fetchData(`/artists/${primaryArtist.id}/related-artists`).then(
+        ({ data }) => data,
+      ),
+
+      // Check if track is saved
+      fetchData(`/me/tracks/contains`, {
+        params: { ids: id },
+      })
+        .then(({ data }) => data[0])
+        .catch(() => false),
+    ]);
 
   return (
     <div className={`flex flex-col gap-4`}>
@@ -82,6 +93,7 @@ export default async function page({ params }) {
           image={image?.url ?? "/maskable/maskable_icon_x192.png"}
           title={track.name}
           type={`Song`}
+          isSaved={isSaved}
           secondInfo={
             <>
               <span>Album: </span>

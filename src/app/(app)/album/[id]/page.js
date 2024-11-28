@@ -40,23 +40,32 @@ export default async function page({ params }) {
   const retryAfter = error?.response.headers["retry-after"];
   if (retryAfter) return <RetryAfter retryAfter={retryAfter} />;
 
-  const [image] = album.images;
-
-  const artistsDetails = await Promise.all(
-    album.artists.map(async ({ id }) => {
-      const { data } = await fetchData(`/artists/${id}`);
-      return data;
-    }),
-  );
-
   const maxDiscNumber = Math.max(
     ...album.tracks.items.map((item) => item.disc_number),
   );
 
+  const [image] = album.images;
   const [primaryArtist] = album.artists;
-  const { data: moreAlbums } = await fetchData(
-    `/artists/${primaryArtist.id}/albums`,
-  );
+
+  const [artistsDetails, moreAlbums, isSaved] = await Promise.all([
+    // Get artists
+    Promise.all(
+      album.artists.map(async ({ id }) => {
+        const { data } = await fetchData(`/artists/${id}`);
+        return data;
+      }),
+    ),
+
+    // Get more albums
+    fetchData(`/artists/${primaryArtist.id}/albums`).then(({ data }) => data),
+
+    // Check if album is saved
+    fetchData(`/me/albums/contains`, {
+      params: { ids: id },
+    })
+      .then(({ data }) => data[0])
+      .catch(() => false),
+  ]);
 
   return (
     <div className={`flex flex-col gap-4`}>
@@ -68,6 +77,7 @@ export default async function page({ params }) {
           image={image?.url ?? "/maskable/maskable_icon_x192.png"}
           title={album.name}
           type={`Album ${album.album_type !== "album" ? `(${album.album_type})` : ``}`}
+          isSaved={isSaved}
           secondInfo={
             <span className={`mx-auto md:mx-0`}>
               {album.total_tracks}{" "}

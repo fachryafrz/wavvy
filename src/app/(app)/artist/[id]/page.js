@@ -43,20 +43,33 @@ export default async function page({ params }) {
 
   const [image] = artist.images;
 
-  const { data: topTracks } = await fetchData(`/artists/${id}/top-tracks`);
+  const [topTracks, albums, appearsOn, relatedArtists, isFollowed] =
+    await Promise.all([
+      // Get top tracks
+      fetchData(`/artists/${id}/top-tracks`).then(({ data }) => data),
+
+      // Get albums
+      fetchData(`/artists/${id}/albums`, {
+        params: { include_groups: "album" },
+      }).then(({ data }) => data),
+
+      // Get appears on
+      fetchData(`/artists/${id}/albums`, {
+        params: { include_groups: "appears_on" },
+      }).then(({ data }) => data),
+
+      // Get related artists
+      fetchData(`/artists/${id}/related-artists`).then(({ data }) => data),
+
+      // Check if artist is followed
+      fetchData(`/me/following/contains`, {
+        params: { type: `artist`, ids: id },
+      })
+        .then(({ data }) => data[0])
+        .catch(() => false),
+    ]);
 
   const includeGroups = "single,album,appears_on,compilation";
-  const { data: albums } = await fetchData(`/artists/${id}/albums`, {
-    params: { include_groups: "album" },
-  });
-
-  const { data: appearsOn } = await fetchData(`/artists/${id}/albums`, {
-    params: { include_groups: "appears_on" },
-  });
-
-  const { data: relatedArtists } = await fetchData(
-    `/artists/${id}/related-artists`,
-  );
 
   return (
     <div className={`flex flex-col gap-4`}>
@@ -67,6 +80,7 @@ export default async function page({ params }) {
           image={image?.url ?? "/maskable/maskable_icon_x192.png"}
           title={artist.name}
           type={`Artist`}
+          isFollowed={isFollowed}
           secondInfo={
             <div className={`flex gap-1 text-white`}>
               <span>

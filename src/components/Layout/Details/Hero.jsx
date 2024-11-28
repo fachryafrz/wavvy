@@ -1,13 +1,15 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element */
+
 import AudioWave from "@/components/Animation/AudioWave";
 import { useAuth } from "@/hooks/auth";
 import { fetchData, playSong, startRadio } from "@/server/actions";
 import { useErrorAlert } from "@/zustand/error-alert";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
-/* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from "react";
-import { HeartOutline, Radio } from "react-ionicons";
+import { AddCircleOutline, CheckmarkCircle, Radio } from "react-ionicons";
 import {
   useErrorState,
   usePlaybackState,
@@ -21,19 +23,55 @@ export default function DetailsHero({
   type,
   image,
   title,
+  isSaved,
+  isFollowed,
   secondInfo,
 }) {
+  // Hooks
   const { user } = useAuth();
-
   const device = usePlayerDevice();
   const player = useSpotifyPlayer();
   const playback = usePlaybackState();
   const error = useErrorState();
   const { setErrorAlert } = useErrorAlert();
+  const queryClient = useQueryClient();
 
+  // State
   const [fontSize, setFontSize] = useState(`2xl:text-7xl`);
   const [translateY, setTranslateY] = useState(`2xl:translate-y-7`);
+  const [isSavedState, setIsSavedState] = useState(isSaved);
+  const [isFollowedState, setIsFollowedState] = useState(isFollowed);
 
+  // Functions
+  const { refetch: saveTrackRefetch } = useQuery({
+    enabled: false,
+    queryKey:
+      item.type === "playlist"
+        ? `/playlists/${item.id}/followers`
+        : `/me/${item.type}s?ids=${item.id}`,
+    queryFn: async ({ queryKey }) => {
+      await fetchData(queryKey, { method: isSavedState ? "DELETE" : "PUT" });
+      setIsSavedState(!isSavedState);
+
+      const { data } = await fetchData(`/me/playlists`);
+      queryClient.setQueryData(`/me/playlists`, data);
+    },
+  });
+  const { refetch: followArtistRefetch } = useQuery({
+    enabled: false,
+    queryKey: `/me/following`,
+    queryFn: async ({ queryKey }) => {
+      await fetchData(queryKey, {
+        method: isFollowedState ? "DELETE" : "PUT",
+        params: { type: `artist`, ids: item.id },
+      });
+      setIsFollowedState(!isFollowedState);
+    },
+  });
+
+  // NOTE: Buat play from artist dari popular songs
+
+  // Lifecycle
   useEffect(() => {
     const { name } = item;
 
@@ -52,6 +90,7 @@ export default function DetailsHero({
     }
   }, [item]);
 
+  // Helpers
   const isPlaying =
     (playback?.context?.uri === item?.uri ||
       playback?.track_window?.current_track?.id === item?.id) &&
@@ -127,7 +166,7 @@ export default function DetailsHero({
 
         {/* CTA */}
         <div className={`flex w-full items-center gap-2`}>
-          {item.type !== "artist" && (
+          {item.type !== "artist" ? (
             <>
               <button
                 onClick={() =>
@@ -153,20 +192,44 @@ export default function DetailsHero({
                           artists: item.artists,
                         })
                   }
-                  className={`btn btn-circle btn-ghost rounded-full bg-white text-black disabled:cursor-not-allowed sm:max-w-fit sm:flex-grow sm:px-4`}
+                  className={`btn btn-circle btn-ghost rounded-full bg-white text-black disabled:cursor-not-allowed hocus:!bg-white hocus:!bg-opacity-80 sm:max-w-fit sm:flex-grow sm:px-4`}
                 >
                   <Radio color={`#000`} />
                   <span className={`hidden sm:inline`}>Radio</span>
                 </button>
               )}
-            </>
-          )}
 
-          {/* <button
-            className={`btn btn-square btn-outline btn-primary flex items-center justify-center rounded-full`}
-          >
-            <HeartOutline color={`#ffffff`} />
-          </button> */}
+              <button
+                onClick={() =>
+                  error ? setErrorAlert(error) : saveTrackRefetch()
+                }
+                className={`btn btn-circle btn-ghost transition-all focus-visible:outline-none hocus:scale-110 hocus:!bg-transparent`}
+              >
+                {isSavedState ? (
+                  <CheckmarkCircle
+                    color={`#ff6337`}
+                    width={`2rem`}
+                    height={`2rem`}
+                  />
+                ) : (
+                  <AddCircleOutline
+                    color={`#ffffff`}
+                    width={`2rem`}
+                    height={`2rem`}
+                  />
+                )}
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={() =>
+                error ? setErrorAlert(error) : followArtistRefetch()
+              }
+              className={`btn btn-primary flex-grow rounded-full disabled:cursor-not-allowed md:max-w-[150px]`}
+            >
+              <span>{isFollowedState ? "Following" : "Follow"}</span>
+            </button>
+          )}
         </div>
       </div>
 
