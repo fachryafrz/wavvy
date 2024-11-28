@@ -85,14 +85,12 @@ export default function CardVertical({ item, image, info }) {
         </Link>
       </figure>
 
-      <div className={`flex flex-col gap-1`}>
-        <div className={`flex items-center justify-between`}>
-          <h3
-            className={`line-clamp-1 max-w-fit font-medium hocus:underline ${type === `artist` ? `text-center` : `text-start`}`}
-          >
-            <Link href={`/${item.type}/${item.id}`}>{item.name}</Link>
-          </h3>
-        </div>
+      <div
+        className={`flex flex-col gap-1 ${type === `artist` ? `items-center` : `items-start`}`}
+      >
+        <h3 className={`line-clamp-1 max-w-fit font-medium hocus:underline`}>
+          <Link href={`/${item.type}/${item.id}`}>{item.name}</Link>
+        </h3>
 
         {info && (
           <span className={`line-clamp-2 text-sm font-medium text-neutral-500`}>
