@@ -43,6 +43,13 @@ export default async function page({ params }) {
 
   const [image] = playlist.images;
 
+  const [isSaved] = await Promise.all([
+    // Check if playlist is saved
+    fetchData(`/playlists/${id}/followers/contains`)
+      .then(({ data }) => data[0])
+      .catch(() => false),
+  ]);
+
   return (
     <div className={`flex flex-col gap-4`}>
       {/* Hero */}
@@ -52,6 +59,7 @@ export default async function page({ params }) {
           image={image?.url ?? "/maskable/maskable_icon_x192.png"}
           title={playlist.name}
           type={`Playlist`}
+          isSaved={isSaved}
           secondInfo={
             <div className={`flex flex-col items-start`}>
               <div>

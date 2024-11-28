@@ -18,28 +18,32 @@ import { useAuth } from "@/hooks/auth";
 export default function SidebarContent() {
   const { user } = useAuth();
 
-  const [sidebar, setSidebar] = useState([
-    {
-      section: "",
-      links: [
-        {
-          title: "Feed",
-          href: "/",
-          icon: <BarcodeOutline />,
-        },
-        // {
-        //   title: "Playlists",
-        //   href: "/playlists",
-        //   icon: <MusicalNoteOutline />,
-        // },
-        // {
-        //   title: "Podcasts",
-        //   href: "/podcasts",
-        //   icon: <MicOutline />,
-        // },
-      ],
-    },
-  ]);
+  const sidebar = {
+    section: "",
+    links: [
+      {
+        title: "Feed",
+        href: "/",
+        icon: <BarcodeOutline />,
+      },
+    ],
+  };
+
+  const yourMusicObject = {
+    section: "Your Music",
+    links: [
+      {
+        title: "Saved Songs",
+        href: "/me/tracks",
+        icon: <HeartOutline />,
+      },
+      {
+        title: "History",
+        href: "/me/recently-played",
+        icon: <CalendarOutline />,
+      },
+    ],
+  };
 
   const {
     data,
@@ -49,74 +53,14 @@ export default function SidebarContent() {
   } = useQuery({
     queryKey: `/me/playlists`,
     queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey).then(({ data }) => data);
+      const { data } = await fetchData(queryKey);
+      return data;
     },
     enabled: false,
   });
 
   useEffect(() => {
-    const yourMusicObject = {
-      section: "Your Music",
-      links: [
-        {
-          title: "Saved Songs",
-          href: "/me/tracks",
-          icon: <HeartOutline />,
-        },
-        {
-          title: "History",
-          href: "/me/recently-played",
-          icon: <CalendarOutline />,
-        },
-      ],
-    };
-
-    const addPlaylistsToSidebar = () => {
-      setSidebar((currentSidebar) => {
-        const sections = ["Your Playlists", "Your Music"];
-        const isAlreadyInSidebar = currentSidebar.some((section) =>
-          sections.includes(section.section),
-        );
-
-        if (!isAlreadyInSidebar) {
-          // Cek apakah data ada dan itemnya lebih dari 0
-          if (data?.items && data.items.length > 0) {
-            const playlistsObject = {
-              section: "Your Playlists",
-              links: data.items.map((playlist) => ({
-                title: playlist.name,
-                href: `/${playlist.type}/${playlist.id}`,
-                image: playlist.images[0]?.url,
-              })),
-            };
-
-            return [...currentSidebar, yourMusicObject, playlistsObject];
-          } else {
-            // Jika tidak ada playlist, hanya tambahkan Your Music
-            return [...currentSidebar, yourMusicObject];
-          }
-        }
-
-        return currentSidebar;
-      });
-    };
-
-    if (data) {
-      addPlaylistsToSidebar(); // Panggil hanya jika data sudah siap
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (!user) {
-      setSidebar((sidebar) =>
-        sidebar.filter((section) => section.section !== "Your Playlists"),
-      );
-      setSidebar((sidebar) =>
-        sidebar.filter((section) => section.section !== "Your Music"),
-      );
-
-      return;
-    }
+    if (!user) return;
 
     fetchPlaylist();
   }, [user]);
@@ -151,17 +95,32 @@ export default function SidebarContent() {
       </Link>
 
       <div className={`flex flex-col gap-8 py-4`}>
-        {sidebar.map((sidebar, i) => {
-          return (
-            <div key={i} className={`flex flex-col gap-2`}>
-              {sidebar.section && (
-                <div className={`pl-4`}>
-                  <h2 className={`section-title`}>{sidebar.section}</h2>
-                </div>
-              )}
+        <div className={`flex flex-col gap-2`}>
+          {/* <div className={`pl-4`}>
+            <h2 className={`section-title`}>Feed</h2>
+          </div> */}
 
-              <ul key={i}>
-                {sidebar.links.map((link, i) => {
+          <ul>
+            {sidebar.links.map((link, i) => {
+              return (
+                <li key={link.href}>
+                  <PlaylistCardSmall link={link} />
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
+        {user && (
+          <>
+            {/* Your Music */}
+            <div className={`flex flex-col gap-2`}>
+              <div className={`pl-4`}>
+                <h2 className={`section-title`}>{yourMusicObject.section}</h2>
+              </div>
+
+              <ul>
+                {yourMusicObject.links.map((link) => {
                   return (
                     <li key={link.href}>
                       <PlaylistCardSmall link={link} />
@@ -170,8 +129,31 @@ export default function SidebarContent() {
                 })}
               </ul>
             </div>
-          );
-        })}
+
+            {/* Your Playlists */}
+            <div className={`flex flex-col gap-2`}>
+              <div className={`pl-4`}>
+                <h2 className={`section-title`}>Your Playlists</h2>
+              </div>
+
+              <ul>
+                {data?.items?.map((link) => {
+                  return (
+                    <li key={link.href}>
+                      <PlaylistCardSmall
+                        link={{
+                          href: `/playlist/${link.id}`,
+                          title: link.name,
+                          image: link.images[0].url,
+                        }}
+                      />
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </>
+        )}
 
         {loading && (
           <div className={`flex items-center justify-center`}>
