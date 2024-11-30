@@ -13,7 +13,11 @@ export default function PlaylistCardSmall({ link }) {
       href={link.href}
       className={`nav-link relative !bg-transparent font-medium hocus:bg-transparent hocus:opacity-50 ${isActive ? "active-left" : ""}`}
     >
-      {link.icon && React.cloneElement(link.icon, { color: iconColor })}
+      {link.icon && (
+        <div className={`grid w-8 place-content-center`}>
+          {React.cloneElement(link.icon, { color: iconColor })}
+        </div>
+      )}
 
       {link.image && (
         <figure>

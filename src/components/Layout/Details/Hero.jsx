@@ -53,8 +53,15 @@ export default function DetailsHero({
       await fetchData(queryKey, { method: isSavedState ? "DELETE" : "PUT" });
       setIsSavedState(!isSavedState);
 
-      const { data } = await fetchData(`/me/playlists`);
-      queryClient.setQueryData(`/me/playlists`, data);
+      if (item.type === "album") {
+        const { data: albums } = await fetchData(`/me/albums`);
+        queryClient.setQueryData(`/me/albums`, albums);
+      }
+
+      if (item.type === "playlist") {
+        const { data: playlists } = await fetchData(`/me/playlists`);
+        queryClient.setQueryData(`/me/playlists`, playlists);
+      }
     },
   });
   const { refetch: followArtistRefetch } = useQuery({
@@ -66,6 +73,11 @@ export default function DetailsHero({
         params: { type: `artist`, ids: item.id },
       });
       setIsFollowedState(!isFollowedState);
+
+      const {
+        data: { artists },
+      } = await fetchData(`/me/following?type=artist`);
+      queryClient.setQueryData(`/me/following?type=artist`, artists);
     },
   });
 

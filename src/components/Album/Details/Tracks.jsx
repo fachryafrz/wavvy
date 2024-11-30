@@ -37,7 +37,7 @@ export default function AlbumDetailsTracks({ album, disc }) {
         {album.tracks.items.map((item, j) => {
           return (
             item.disc_number === disc && (
-              <li key={item.id} className={`flex items-center gap-4 hocus:rounded-lg hocus:bg-neutral`}>
+              <li key={item.id} className={`flex -mx-2 px-2 items-center gap-4 hocus:rounded-lg hocus:bg-neutral`}>
                 <span className={`flex w-5 justify-center`}>
                   {item.track_number}
                 </span>
