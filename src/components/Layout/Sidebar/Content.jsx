@@ -29,8 +29,8 @@ export default function SidebarContent() {
     ],
   };
 
-  const yourMusicObject = {
-    section: "Your Music",
+  const myMusicObject = {
+    section: "My Music",
     links: [
       {
         title: "Saved Songs",
@@ -46,15 +46,43 @@ export default function SidebarContent() {
   };
 
   const {
-    data,
-    error,
+    data: artists,
+    error: artistsError,
+    refetch: fetchArtists,
+  } = useQuery({
+    queryKey: `/me/following?type=artist`,
+    queryFn: async ({ queryKey }) => {
+      const {
+        data: { artists },
+      } = await fetchData(queryKey);
+      return artists;
+    },
+    enabled: false,
+  });
+
+  const {
+    data: albums,
+    error: albumsError,
+    refetch: fetchAlbums,
+  } = useQuery({
+    queryKey: `/me/albums`,
+    queryFn: async ({ queryKey }) => {
+      const { data: albums } = await fetchData(queryKey);
+      return albums;
+    },
+    enabled: false,
+  });
+
+  const {
+    data: playlists,
+    error: playlistsError,
     isLoading: loading,
     refetch: fetchPlaylist,
   } = useQuery({
     queryKey: `/me/playlists`,
     queryFn: async ({ queryKey }) => {
-      const { data } = await fetchData(queryKey);
-      return data;
+      const { data: playlists } = await fetchData(queryKey);
+      return playlists;
     },
     enabled: false,
   });
@@ -62,6 +90,8 @@ export default function SidebarContent() {
   useEffect(() => {
     if (!user) return;
 
+    fetchArtists();
+    fetchAlbums();
     fetchPlaylist();
   }, [user]);
 
@@ -113,14 +143,14 @@ export default function SidebarContent() {
 
         {user && (
           <>
-            {/* Your Music */}
+            {/* My Music */}
             <div className={`flex flex-col gap-2`}>
               <div className={`pl-4`}>
-                <h2 className={`section-title`}>{yourMusicObject.section}</h2>
+                <h2 className={`section-title`}>{myMusicObject.section}</h2>
               </div>
 
               <ul>
-                {yourMusicObject.links.map((link) => {
+                {myMusicObject.links.map((link) => {
                   return (
                     <li key={link.href}>
                       <PlaylistCardSmall link={link} />
@@ -130,16 +160,44 @@ export default function SidebarContent() {
               </ul>
             </div>
 
-            {/* Your Playlists */}
+            {/* Library */}
             <div className={`flex flex-col gap-2`}>
               <div className={`pl-4`}>
-                <h2 className={`section-title`}>Your Playlists</h2>
+                <h2 className={`section-title`}>Library</h2>
               </div>
 
               <ul>
-                {data?.items?.map((link) => {
+                {artists?.items?.map((link) => {
                   return (
-                    <li key={link.href}>
+                    <li key={link.id}>
+                      <PlaylistCardSmall
+                        link={{
+                          href: `/artist/${link.id}`,
+                          title: link.name,
+                          image: link.images[0].url,
+                        }}
+                      />
+                    </li>
+                  );
+                })}
+
+                {albums?.items?.map((link) => {
+                  return (
+                    <li key={link.id}>
+                      <PlaylistCardSmall
+                        link={{
+                          href: `/album/${link.album.id}`,
+                          title: link.album.name,
+                          image: link.album.images[0].url,
+                        }}
+                      />
+                    </li>
+                  );
+                })}
+
+                {playlists?.items?.map((link) => {
+                  return (
+                    <li key={link.id}>
                       <PlaylistCardSmall
                         link={{
                           href: `/playlist/${link.id}`,

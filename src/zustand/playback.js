@@ -19,13 +19,15 @@ export const usePlayback = create((set, get) => ({
     localStorage.setItem("volume-state", volume_percent);
     set({ volume: volume_percent });
 
-    await fetchData(`/me/player/volume`, {
-      method: "PUT",
-      params: {
-        volume_percent: volume_percent,
-        device_id: device.id,
-      },
-    });
+    await Promise.all([
+      fetchData(`/me/player/volume`, {
+        method: "PUT",
+        params: {
+          volume_percent: volume_percent,
+          device_id: device.id,
+        },
+      }),
+    ]);
   },
   handleMouseWheelChangeVolume: (event, volume, playback, device) => {
     const delta = event.deltaY < 0 ? 1 : -1;
