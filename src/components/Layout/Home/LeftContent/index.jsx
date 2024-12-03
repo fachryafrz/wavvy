@@ -30,6 +30,7 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
       {/* Categories */}
       {categories.items?.slice(0, 1).map((category, i) => {
         return (
+          handleFindCategory(category.name) &&
           handleFindCategory(category.name).playlists.items.length > 0 && (
             <section key={category.id}>
               <SliderPlaylist
@@ -83,6 +84,7 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
 
       {categories.items?.slice(1).map((category, i) => {
         return (
+          handleFindCategory(category.name) &&
           handleFindCategory(category.name).playlists.items.length > 0 && (
             <section key={category.id}>
               <SliderPlaylist
