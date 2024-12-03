@@ -32,6 +32,7 @@ export default function Sidebar({
     <WebPlaybackSDK
       initialDeviceName={process.env.NEXT_PUBLIC_APP_NAME}
       getOAuthToken={getOAuthToken}
+      initialVolume={0}
     >
       <div className={`flex h-dvh flex-col justify-between`}>
         <div className="drawer flex-1 overflow-hidden lg:drawer-open">
