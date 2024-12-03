@@ -9,20 +9,21 @@ export default async function Home() {
   } = await fetchData(`/browse/categories`);
 
   const categoriesPlaylists = await Promise.all(
-    categories.items.map(async ({ id }) => {
-      const { data } = await fetchData(`/browse/categories/${id}/playlists`);
-      return data;
-    })
+    categories.items.map(({ id }) =>
+      fetchData(`/browse/categories/${id}/playlists`).then(({ data }) => data),
+    ),
   );
 
   return (
     <div className={`flex flex-col gap-4 lg:grid lg:grid-cols-12`}>
       {/* Left Content */}
       <div className={`col-span-full lg:row-start-1`}>
-        <LeftContent
-          categories={categories}
-          categoriesPlaylists={categoriesPlaylists}
-        />
+        {categories && categoriesPlaylists && (
+          <LeftContent
+            categories={categories}
+            categoriesPlaylists={categoriesPlaylists}
+          />
+        )}
       </div>
     </div>
   );
