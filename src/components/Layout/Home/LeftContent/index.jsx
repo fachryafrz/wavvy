@@ -43,9 +43,7 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
                     {category.name}
                   </Link>
                 }
-                data={handleFindCategory(category.name).playlists.items.filter(
-                  (item) => (item.name ?? item.track.name).includes("Mix"),
-                )}
+                data={handleFindCategory(category.name).playlists.items}
               />
             </section>
           )
