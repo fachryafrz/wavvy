@@ -15,6 +15,7 @@ import {
   VolumeOff,
 } from "react-ionicons";
 import {
+  useErrorState,
   usePlaybackState,
   usePlayerDevice,
   useSpotifyPlayer,
@@ -35,10 +36,14 @@ export default function PlaybackOptions() {
   const device = usePlayerDevice();
   const player = useSpotifyPlayer();
   const playback = usePlaybackState();
+  const error = useErrorState();
 
   // State
   const [shuffleState, setShuffleState] = useState(false);
   const [repeatState, setRepeatState] = useState(0);
+
+  // Ref
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
     if (playback) {
@@ -140,7 +145,13 @@ export default function PlaybackOptions() {
             className={`!py-2`}
             disabled={!playback}
             onWheel={(event) =>
-              handleMouseWheelChangeVolume(event, volume, playback, device)
+              handleMouseWheelChangeVolume(
+                event,
+                volume,
+                playback,
+                device,
+                timeoutRef,
+              )
             }
             sx={(t) => ({
               color: "#ff6337",

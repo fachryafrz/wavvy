@@ -4,7 +4,7 @@ import { useErrorAlert } from "@/zustand/error-alert";
 import { usePlayback } from "@/zustand/playback";
 import { Slider } from "@mui/material";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   PauseCircle,
   PlayBack,
@@ -53,6 +53,7 @@ export default function Control() {
 
   // Ref
   const endMinutes = durationMs - currentProgress || track?.duration_ms;
+  const timeoutRef = useRef(null);
 
   // Functions
   const handleLoginAlert = () => {
@@ -314,7 +315,13 @@ export default function Control() {
               className={`!py-2`}
               disabled={!playback}
               onWheel={(event) =>
-                handleMouseWheelChangeVolume(event, volume, playback, device)
+                handleMouseWheelChangeVolume(
+                  event,
+                  volume,
+                  playback,
+                  device,
+                  timeoutRef,
+                )
               }
               sx={(t) => ({
                 color: "#ff6337",
