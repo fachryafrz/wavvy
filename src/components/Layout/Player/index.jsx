@@ -73,7 +73,7 @@ export default function Player() {
       method: "PUT",
       params: {
         volume_percent: Number(volumeStateLocalStorage) || 0,
-        device_id: device.id,
+        device_id: device.device_id,
       },
     });
   }, [playback, device]);

@@ -23,7 +23,7 @@ export const usePlayback = create((set, get) => ({
       method: "PUT",
       params: {
         volume_percent: volume_percent,
-        device_id: device.id,
+        device_id: device.device_id,
       },
     });
   },

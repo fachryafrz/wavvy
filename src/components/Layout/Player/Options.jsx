@@ -63,7 +63,7 @@ export default function PlaybackOptions() {
   const handleToggleShuffleMode = async (shuffle_state) => {
     await fetchData(`/me/player/shuffle`, {
       method: "PUT",
-      params: { state: shuffle_state, device_id: device.id },
+      params: { state: shuffle_state, device_id: device.device_id },
     });
 
     setShuffleState(shuffle_state);
@@ -81,7 +81,7 @@ export default function PlaybackOptions() {
     try {
       const response = await fetchData(`/me/player/repeat`, {
         method: "PUT",
-        params: { state: selectedState, device_id: device.id },
+        params: { state: selectedState, device_id: device.device_id },
       });
 
       if (response.ok) {
