@@ -289,10 +289,8 @@ export default function Control() {
               <VolumeHigh color={"#ffffff"} width={`32px`} height={`32px`} />
             ) : volume < 75 && volume >= 50 ? (
               <VolumeMedium color={"#ffffff"} width={`32px`} height={`32px`} />
-            ) : volume < 50 && volume >= 25 ? (
+            ) : volume < 50 && volume > 0 ? (
               <VolumeLow color={"#ffffff"} width={`32px`} height={`32px`} />
-            ) : volume < 25 && volume > 0 ? (
-              <VolumeOff color={"#ffffff"} width={`32px`} height={`32px`} />
             ) : (
               <VolumeMute color={"#ffffff"} width={`32px`} height={`32px`} />
             )}

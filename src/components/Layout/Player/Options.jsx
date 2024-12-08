@@ -119,10 +119,8 @@ export default function PlaybackOptions() {
             <VolumeHigh color={"#ffffff"} width={`20px`} height={`20px`} />
           ) : volume < 75 && volume >= 50 ? (
             <VolumeMedium color={"#ffffff"} width={`20px`} height={`20px`} />
-          ) : volume < 50 && volume >= 25 ? (
+          ) : volume < 50 && volume > 0 ? (
             <VolumeLow color={"#ffffff"} width={`20px`} height={`20px`} />
-          ) : volume < 25 && volume > 0 ? (
-            <VolumeOff color={"#ffffff"} width={`20px`} height={`20px`} />
           ) : (
             <VolumeMute color={"#ffffff"} width={`20px`} height={`20px`} />
           )}

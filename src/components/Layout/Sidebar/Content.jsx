@@ -48,6 +48,7 @@ export default function SidebarContent() {
   const {
     data: artists,
     error: artistsError,
+    isLoading: artistsLoading,
     refetch: fetchArtists,
   } = useQuery({
     queryKey: `/me/following?type=artist`,
@@ -63,6 +64,7 @@ export default function SidebarContent() {
   const {
     data: albums,
     error: albumsError,
+    isLoading: albumsLoading,
     refetch: fetchAlbums,
   } = useQuery({
     queryKey: `/me/albums`,
@@ -76,7 +78,7 @@ export default function SidebarContent() {
   const {
     data: playlists,
     error: playlistsError,
-    isLoading: loading,
+    isLoading: playlistsLoading,
     refetch: fetchPlaylist,
   } = useQuery({
     queryKey: `/me/playlists`,
@@ -213,7 +215,7 @@ export default function SidebarContent() {
           </>
         )}
 
-        {loading && (
+        {(artistsLoading || albumsLoading || playlistsLoading) && (
           <div className={`flex items-center justify-center`}>
             <span className={`loading loading-spinner`} />
           </div>
