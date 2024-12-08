@@ -63,9 +63,13 @@ export default function Player() {
   }, [user, playbackState]);
 
   useEffect(() => {
-    if (!playback || !device) return;
+    if (!playback) return;
 
     setTrack(playback.track_window.current_track);
+  }, [playback]);
+
+  useEffect(() => {
+    if (!device) return;
 
     const volumeStateLocalStorage = localStorage.getItem("volume-state");
 
@@ -76,7 +80,7 @@ export default function Player() {
         device_id: device.device_id,
       },
     });
-  }, [playback, device]);
+  }, [device]);
 
   useEffect(() => {
     if (!user) return;

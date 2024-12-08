@@ -2,8 +2,8 @@
 
 import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
 import axios from "axios";
-import { cookies, headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+import genresSeed from "@/data/genre-seeds.json";
 
 export const fetchData = async (url, options) => {
   const cookiesStore = cookies();
@@ -76,19 +76,8 @@ export const startRadio = async ({ user, device, uri, artists }) => {
   const [artist] = artists;
   const [spotify, type, id] = uri.split(":");
 
-  const [
-    // Get Genres Seed
-    {
-      data: { genres: genresSeed },
-    },
-
-    // Get Artist Genres
-    {
-      data: { genres },
-    },
-  ] = await Promise.all([
-    fetchData(`/recommendations/available-genre-seeds`),
-    fetchData(`/artists/${artist.id}`),
+  const [genres] = await Promise.all([
+    fetchData(`/artists/${artist.id}`).then(({ data: { genres } }) => genres),
   ]);
 
   // Get Recommendations

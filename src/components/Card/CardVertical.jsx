@@ -63,7 +63,15 @@ export default function CardVertical({ item, image, info }) {
                 onClick={() =>
                   error
                     ? setErrorAlert(error)
-                    : playSong({ user, device, uri: item.uri })
+                    : playback &&
+                        (playback.track_window.current_track.album.uri.split(
+                          ":",
+                        )[2] === id ||
+                          playback.track_window.current_track.id === id)
+                      ? playback.paused
+                        ? player.resume()
+                        : player.pause()
+                      : playSong({ user, device, uri: item.uri })
                 }
                 className={`btn btn-circle btn-primary btn-lg grid border-none bg-opacity-50 outline-none backdrop-blur hocus:bg-opacity-100`}
               >

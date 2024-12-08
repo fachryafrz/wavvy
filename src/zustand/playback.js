@@ -45,6 +45,6 @@ export const usePlayback = create((set, get) => ({
 
     timeoutRef.current = setTimeout(() => {
       get().handleSetVolume(newVolume, playback, device);
-    }, 200);
+    }, 300);
   },
 }));

@@ -131,7 +131,9 @@ export default function Playback({ isMobile }) {
               error
                 ? setErrorAlert(error)
                 : playback
-                  ? player.previousTrack()
+                  ? currentProgress < 2e3 // 2 seconds
+                    ? player.previousTrack()
+                    : player.seek(0)
                   : null
             }
             disabled={!playback}
@@ -156,26 +158,34 @@ export default function Playback({ isMobile }) {
           </button>
 
           {/* Play/Pause */}
-          <button
-            ref={playPauseRef}
-            onClick={() =>
-              error
-                ? setErrorAlert(error)
-                : playback
-                  ? playback.paused
-                    ? player.resume()
-                    : player.pause()
-                  : playSong({ user, device, uri: track?.uri })
-            }
-            disabled={!webPlaybackSDKReady}
-            className={`btn btn-square btn-ghost z-10 !bg-transparent`}
-          >
-            {!playback || playback?.paused ? (
-              <PlayCircle color={"#ffffff"} width={`40px`} height={`40px`} />
-            ) : (
-              <PauseCircle color={"#ffffff"} width={`40px`} height={`40px`} />
+          <div className={`relative grid place-content-center`}>
+            <button
+              ref={playPauseRef}
+              onClick={() =>
+                error
+                  ? setErrorAlert(error)
+                  : playback
+                    ? playback.paused
+                      ? player.resume()
+                      : player.pause()
+                    : playSong({ user, device, uri: track?.uri })
+              }
+              disabled={!webPlaybackSDKReady || playback?.loading}
+              className={`btn btn-square btn-ghost z-10 !bg-transparent`}
+            >
+              {!playback || playback?.paused ? (
+                <PlayCircle color={"#ffffff"} width={`40px`} height={`40px`} />
+              ) : (
+                <PauseCircle color={"#ffffff"} width={`40px`} height={`40px`} />
+              )}
+            </button>
+
+            {playback?.loading && (
+              <div className={`absolute inset-0 grid place-content-center`}>
+                <span className="loading loading-spinner w-[3.5rem]"></span>
+              </div>
             )}
-          </button>
+          </div>
 
           {/* Play Forward */}
           <button

@@ -20,7 +20,6 @@ import {
 export default function DetailsHero({
   item,
   artists,
-  type,
   image,
   title,
   isSaved,
@@ -41,6 +40,9 @@ export default function DetailsHero({
   const [translateY, setTranslateY] = useState(`2xl:translate-y-7`);
   const [isSavedState, setIsSavedState] = useState(isSaved);
   const [isFollowedState, setIsFollowedState] = useState(isFollowed);
+
+  // Ref
+  const [spotify, type, id] = item.uri.split(":");
 
   // Functions
   const { refetch: saveTrackRefetch } = useQuery({
@@ -184,7 +186,15 @@ export default function DetailsHero({
                 onClick={() =>
                   error
                     ? setErrorAlert(error)
-                    : playSong({ user, device, uri: item.uri })
+                    : playback &&
+                        (playback.track_window.current_track.album.uri.split(
+                          ":",
+                        )[2] === id ||
+                          playback.track_window.current_track.id === id)
+                      ? playback.paused
+                        ? player.resume()
+                        : player.pause()
+                      : playSong({ user, device, uri: item.uri })
                 }
                 className={`btn btn-primary flex-grow rounded-full disabled:cursor-not-allowed md:max-w-[150px]`}
               >
