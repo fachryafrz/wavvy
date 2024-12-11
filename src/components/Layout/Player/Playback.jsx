@@ -131,7 +131,8 @@ export default function Playback({ isMobile }) {
               error
                 ? setErrorAlert(error)
                 : playback
-                  ? currentProgress < 5e3 // 5 seconds
+                  ? playback.track_window.previous_tracks.length > 0 &&
+                    currentProgress < 5e3 // 5 seconds
                     ? player.previousTrack()
                     : player.seek(0)
                   : null
