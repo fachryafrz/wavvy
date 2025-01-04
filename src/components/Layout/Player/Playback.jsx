@@ -56,7 +56,7 @@ export default function Playback({ isMobile }) {
   useEffect(() => {
     let interval;
 
-    if (!playback?.paused) {
+    if (!playback?.paused && !playback?.loading) {
       interval = setInterval(() => {
         if (playback?.position !== undefined) {
           setCurrentProgress((prevProgress) => prevProgress + 1000);
