@@ -18,7 +18,7 @@ Explore a huge collection of songs, albums, and artists from various genres. Fro
 
 Get in-depth details about your favorite songs. From lyrics to the story behind the music, we've got all the info you need to appreciate your music even more.
 
-![Artist & Music Details](https://fachryafrz.vercel.app/projects/ryth/details.png)
+[![Artist & Music Details](https://fachryafrz.vercel.app/projects/ryth/details.png)](https://ryth.vercel.app)
 _Explore detailed artist and song information to dive deeper into the music you love._
 
 ### 👥 Artist Profiles:
@@ -29,7 +29,7 @@ Learn more about your favorite artists. Dive into their journey, listen to their
 
 Find your favorite songs or discover new ones easily with our intuitive search feature. With a user-friendly interface, Ryth makes it simple to navigate and discover new music.
 
-![Mobile Screen](https://fachryafrz.vercel.app/projects/ryth/mobile.png)
+[![Mobile Screen](https://fachryafrz.vercel.app/projects/ryth/mobile.png)](https://ryth.vercel.app)
 _Take Ryth on the go! Enjoy seamless access to music and artist details right from your mobile device._
 
 🎉 Visit our website at [Ryth](https://ryth.vercel.app) and start your musical journey today!
