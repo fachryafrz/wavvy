@@ -8,6 +8,10 @@
 
 Are you a music enthusiast or looking for a platform to discover new sounds? Look no further! I'm excited to share with you my brand new website: Ryth! 🎤🎶
 
+Ryth is your ultimate destination for exploring music. Whether you're into the latest chart-toppers or underground tracks, we've got you covered.
+
+No more switching between apps for your music needs! With Ryth, not only can you enjoy our website, but we also offer to install the app for all your devices! 📱
+
 Here's what you can expect from Ryth:
 
 ### 🎵 Extensive Music Library:
