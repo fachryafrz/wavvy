@@ -4,11 +4,13 @@ import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useHandleError } from "./error";
 import { fetchData } from "@/server/actions";
+import { userStore } from "@/zustand/user";
 
 export const useAuth = () => {
   const router = useRouter();
   const pathname = usePathname();
   const queryClient = useQueryClient();
+  const { setUser } = userStore();
 
   const { data: user, error } = useQuery({
     queryKey: `/me`,
@@ -21,6 +23,7 @@ export const useAuth = () => {
 
   const invalidate = () => {
     queryClient.resetQueries({ queryKey: `/me` });
+    setUser(null);
     router.refresh();
   };
 
