@@ -3,6 +3,12 @@ import { Suspense } from "react";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { CookiesProvider } from "next-client-cookies/server";
 import TanStackQuery from "@/providers/TanStackQuery";
+import { Roboto } from "next/font/google";
+
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
+});
 
 export const viewport = {
   width: "device-width",
@@ -32,7 +38,7 @@ export default function RootLayout({ children }) {
         <GoogleAnalytics />
       </Suspense>
 
-      <body>
+      <body className={roboto.className}>
         <CookiesProvider>
           <TanStackQuery>{children}</TanStackQuery>
         </CookiesProvider>
