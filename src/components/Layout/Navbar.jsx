@@ -19,7 +19,8 @@ export default function Navbar({ authorizationURL, client_id }) {
       </label>
 
       <div className={`flex-1`}>
-        <SearchBar />
+        <SearchBar className={`hidden sm:block`} />
+        <SearchBar placeholder="Tap to search" className={`sm:hidden`} />
       </div>
 
       {!user ? (

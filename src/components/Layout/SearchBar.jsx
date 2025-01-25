@@ -1,9 +1,12 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Close, Search } from "react-ionicons";
-import Typewriter from "typewriter-effect";
+import Typewriter from "typewriter-effect/dist/core";
 
-export default function SearchBar() {
+export default function SearchBar({
+  placeholder = "Type / to search",
+  className,
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -36,6 +39,42 @@ export default function SearchBar() {
   }, [page, query]);
 
   useEffect(() => {
+    let input = searchRef.current;
+
+    const customNodeCreator = (character) => {
+      // Add character to input placeholder
+      input.placeholder = input.placeholder + character;
+
+      // Return null to skip internal adding of dom node
+      return null;
+    };
+
+    const onRemoveNode = ({ character }) => {
+      if (input.placeholder) {
+        // Remove last character from input placeholder
+        input.placeholder = input.placeholder.slice(0, -1);
+      }
+    };
+
+    const typewriter = new Typewriter(null, {
+      loop: true,
+      delay: 50,
+      onCreateTextNode: customNodeCreator,
+      onRemoveNode: onRemoveNode,
+    });
+
+    typewriter
+      .typeString("What do you want to listen?")
+      .pauseFor(5e3)
+      .deleteAll()
+      .typeString("Search for a song, artist, album or playlist")
+      .pauseFor(5e3)
+      .deleteAll()
+      .typeString(placeholder)
+      .pauseFor(10e3)
+      .deleteAll()
+      .start();
+
     const onKeyDown = (event) => {
       if (event.key === "/") {
         if (document.activeElement !== searchRef.current) {
@@ -64,9 +103,9 @@ export default function SearchBar() {
   return (
     <form
       onSubmit={handleSearch}
-      className={`flex-grow md:w-96 md:flex-grow-0`}
+      className={`flex-grow md:w-96 md:flex-grow-0 ${className}`}
     >
-      <label className="input input-bordered flex items-center rounded-full border-0 bg-neutral">
+      <label className="input input-bordered relative flex items-center rounded-full border-0 bg-neutral pr-0">
         <div className={`pointer-events-none`}>
           <Search color={"#6f6f6f"} />
         </div>
@@ -76,39 +115,15 @@ export default function SearchBar() {
           ref={searchRef}
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="input-sm w-full grow font-medium placeholder:font-medium placeholder:text-[#6f6f6f] placeholder:opacity-100 placeholder:sm:opacity-0"
-          placeholder="Search"
+          className="input-sm w-full grow pr-0 font-medium placeholder:font-medium placeholder:text-[#6f6f6f]"
         />
 
-        {!input && (
-          <div
-            className={`pointer-events-none absolute ml-[2.15rem] hidden h-full items-center text-sm font-medium text-[#6f6f6f] sm:flex`}
-          >
-            <Typewriter
-              onInit={(typewriter) => {
-                typewriter
-                  .typeString("What do you want to listen?")
-                  .pauseFor(5e3)
-                  .deleteAll()
-                  .typeString("Search for a song, artist, album or playlist")
-                  .pauseFor(5e3)
-                  .deleteAll()
-                  .typeString("Type / to search")
-                  .pauseFor(10e3)
-                  .deleteAll()
-                  .start();
-              }}
-              options={{
-                cursor: "",
-                loop: true,
-                delay: 50,
-              }}
-            />
-          </div>
-        )}
-
         {input && (
-          <button type="button" onClick={() => setInput("")}>
+          <button
+            type="button"
+            onClick={() => setInput("")}
+            className={`absolute right-4`}
+          >
             <Close color={"#fff"} />
           </button>
         )}
