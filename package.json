@@ -29,6 +29,7 @@
     "react-spotify-web-playback-sdk": "^3.0.2",
     "swiper": "^11.1.10",
     "swr": "^2.2.5",
+    "typewriter-effect": "^2.21.0",
     "zustand": "^4.5.5"
   },
   "devDependencies": {
