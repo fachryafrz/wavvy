@@ -1,5 +1,6 @@
+import { debounce } from "@mui/material";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Close, Search } from "react-ionicons";
 import Typewriter from "typewriter-effect/dist/core";
 
@@ -12,6 +13,8 @@ export default function SearchBar({
   const searchParams = useSearchParams();
   const searchRef = useRef();
 
+  const DEBOUNCE_DELAY = 300;
+
   const [origin, page, query, type] = pathname.split("/");
 
   const [input, setInput] = useState("");
@@ -19,22 +22,35 @@ export default function SearchBar({
   const handleSearch = (e) => {
     e.preventDefault();
 
-    if (!input) return;
+    const value = e.target.input?.value || e.target.value;
 
-    const trimmed = input.trim();
+    if (!value) return;
+
+    const trimmed = value.trim().replace(/\s/g, "+");
 
     if (type) {
       router.push(`/search/${trimmed}/${type}`);
     } else {
       router.push(`/search/${trimmed}`);
     }
-
-    searchRef.current.blur();
   };
 
+  const debounceSearch = useCallback(
+    debounce((e) => handleSearch(e), DEBOUNCE_DELAY),
+    [],
+  );
+
   useEffect(() => {
-    if (page === "search" && query) {
-      setInput(decodeURIComponent(query).replace(/\+/g, " "));
+    return () => debounceSearch.clear();
+  }, []);
+
+  useEffect(() => {
+    if (
+      page === "search" &&
+      query &&
+      document.activeElement !== searchRef.current
+    ) {
+      setInput(query.replace(/\+/g, " "));
     }
   }, [page, query]);
 
@@ -102,7 +118,10 @@ export default function SearchBar({
 
   return (
     <form
-      onSubmit={handleSearch}
+      onSubmit={(e) => {
+        handleSearch(e);
+        searchRef.current.blur();
+      }}
       className={`flex-grow md:w-96 md:flex-grow-0 ${className}`}
     >
       <label className="input input-bordered relative flex items-center rounded-full border-0 bg-neutral pr-0">
@@ -114,7 +133,10 @@ export default function SearchBar({
           type="text"
           ref={searchRef}
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e) => {
+            setInput(e.target.value);
+            debounceSearch(e);
+          }}
           className="input-sm w-full grow pr-0 font-medium placeholder:font-medium placeholder:text-[#6f6f6f]"
         />
 
