@@ -50,7 +50,7 @@ export default async function middleware(request) {
       maxAge: data.expires_in,
     });
     response.cookies.set(SPOTIFY_REFRESH_TOKEN, data.refresh_token, {
-      maxAge: 60 * 60 * 24 * 30,
+      maxAge: 60 * 60 * 24 * 30 * 12, // 1 year
     });
     response.cookies.delete(RYTH_REDIRECT);
 
@@ -75,7 +75,7 @@ export default async function middleware(request) {
     response.cookies.set(SPOTIFY_ACCESS_TOKEN, data.access_token, {
       maxAge: data.expires_in,
     });
-    response.cookies.delete(SPOTIFY_REFRESH_TOKEN);
+    // response.cookies.delete(SPOTIFY_REFRESH_TOKEN); // NOTE: Me being a dumbass for deleting refresh token
     response.cookies.delete(RYTH_REDIRECT);
 
     return response;
