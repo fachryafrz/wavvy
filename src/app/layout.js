@@ -4,6 +4,7 @@ import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { CookiesProvider } from "next-client-cookies/server";
 import TanStackQuery from "@/providers/TanStackQuery";
 import { Roboto } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -42,6 +43,8 @@ export default function RootLayout({ children }) {
         <CookiesProvider>
           <TanStackQuery>{children}</TanStackQuery>
         </CookiesProvider>
+
+        <Analytics />
       </body>
     </html>
   );
