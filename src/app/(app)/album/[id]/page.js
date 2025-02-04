@@ -3,9 +3,9 @@ import DetailsHero from "@/components/Layout/Details/Hero";
 import RetryAfter from "@/components/Modals/RetryAfter";
 import SliderPlaylist from "@/components/Slider/Playlist";
 import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
-import { isPlural } from "@/lib/isPlural";
 import { fetchData } from "@/server/actions";
 import moment from "moment";
+import pluralize from "pluralize";
 import React from "react";
 
 export async function generateMetadata({ params }) {
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }) {
 
   return {
     title: `${album.name} album by ${primaryArtist.name}`,
-    description: `album by ${primaryArtist.name}. ${album.total_tracks} ${isPlural(album.total_tracks, `Song`, `Songs`)}. ${moment(album.release_date).format(`MMM DD, YYYY`)}`,
+    description: `album by ${primaryArtist.name}. ${pluralize("Song", album.total_tracks, true)}. ${moment(album.release_date).format(`MMM DD, YYYY`)}`,
     openGraph: {
       title: `${album.name} - ${process.env.NEXT_PUBLIC_APP_NAME}`,
       images: [image?.url ?? "/maskable/maskable_icon_x192.png"],
@@ -80,8 +80,7 @@ export default async function page({ params }) {
           isSaved={isSaved}
           secondInfo={
             <span className={`mx-auto md:mx-0`}>
-              {album.total_tracks}{" "}
-              {isPlural(album.total_tracks, `Song`, `Songs`)} &bull;{" "}
+              {pluralize("Song", album.total_tracks, true)} &bull;{" "}
               {moment(album.release_date).format("MMM DD, YYYY")}
             </span>
           }

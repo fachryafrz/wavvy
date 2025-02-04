@@ -2,13 +2,12 @@ import CardLong from "@/components/Card/CardLong";
 import DetailsHero from "@/components/Layout/Details/Hero";
 import RetryAfter from "@/components/Modals/RetryAfter";
 import SliderPlaylist from "@/components/Slider/Playlist";
-import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
-import { isPlural } from "@/lib/isPlural";
 import { fetchData } from "@/server/actions";
 import axios from "axios";
 import moment from "moment";
 import { cookies, headers } from "next/headers";
 import Link from "next/link";
+import pluralize from "pluralize";
 import React from "react";
 
 export async function generateMetadata({ params }) {
@@ -166,13 +165,12 @@ export default async function page({ params }) {
                         // secondInfo={
                         //   <div className={`mx-auto w-fit`}>
                         //     {album.total_tracks}{" "}
-                        //     {isPlural(album.total_tracks, `Song`, `Songs`)}
+                        //     {pluralize(`Song`, album.total_tracks)}
                         //   </div>
                         // }
                         smallInfo={
                           <div className={``}>
-                            {album.total_tracks}{" "}
-                            {isPlural(album.total_tracks, `Song`, `Songs`)}
+                            {pluralize(`Song`, album.total_tracks, true)}
                           </div>
                         }
                       />

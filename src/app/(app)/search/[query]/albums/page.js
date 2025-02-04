@@ -1,6 +1,6 @@
 import Item from "@/components/Search/Item";
-import { isPlural } from "@/lib/isPlural";
 import { fetchData } from "@/server/actions";
+import pluralize from "pluralize";
 
 export async function generateMetadata({ params }) {
   const { query: rawQuery } = params;
@@ -27,10 +27,10 @@ export default async function page({ params }) {
     <div className={`flex flex-col gap-4 @container`}>
       <section>
         <div className={`text-xl font-medium`}>
-          {isPlural(data.albums.items.length, "Album", "Albums")}
+          {pluralize("Album", data.albums.items.length)}
         </div>
         <div className={`-mx-2`}>
-          <Item items={data.albums.items} />
+          <Item itemsData={data.albums.items} />
         </div>
       </section>
     </div>
