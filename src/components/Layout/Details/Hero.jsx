@@ -121,7 +121,7 @@ export default function DetailsHero({
         <div className={`flex w-full flex-col gap-4 @container`}>
           {/* Type */}
           <span
-            data-before-content={type}
+            data-before-content={type === "track" ? "song" : type}
             className={`before-content hidden translate-y-4 font-medium capitalize text-white md:block ${translateY}`}
           />
 

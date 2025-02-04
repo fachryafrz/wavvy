@@ -131,6 +131,7 @@ export default function SearchBar({
 
         <input
           type="text"
+          name="input"
           ref={searchRef}
           value={input}
           onChange={(e) => {

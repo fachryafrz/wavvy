@@ -30,7 +30,7 @@ export default async function page({ params }) {
           {pluralize("Artist", data.artists.items.length)}
         </div>
         <div className={`-mx-2`}>
-          <Item items={data.artists.items} />
+          <Item itemsData={data.artists.items} />
         </div>
       </section>
     </div>
