@@ -3,11 +3,11 @@ import DetailsHero from "@/components/Layout/Details/Hero";
 import RetryAfter from "@/components/Modals/RetryAfter";
 import SliderPlaylist from "@/components/Slider/Playlist";
 import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
-import { isPlural } from "@/lib/isPlural";
 import { fetchData } from "@/server/actions";
 import moment from "moment";
 import Link from "next/link";
 import numeral from "numeral";
+import pluralize from "pluralize";
 import React from "react";
 
 export async function generateMetadata({ params }) {
@@ -85,7 +85,7 @@ export default async function page({ params }) {
             <div className={`flex gap-1 text-white`}>
               <span>
                 {numeral(artist.followers.total).format("0,0")}{" "}
-                {isPlural(artist.followers.total, `follower`, `followers`)}
+                {pluralize("follower", artist.followers.total)}
               </span>
             </div>
           }

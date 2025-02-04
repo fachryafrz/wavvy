@@ -1,12 +1,11 @@
 import CardLong from "@/components/Card/CardLong";
 import DetailsHero from "@/components/Layout/Details/Hero";
 import RetryAfter from "@/components/Modals/RetryAfter";
-import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
-import { isPlural } from "@/lib/isPlural";
 import { fetchData } from "@/server/actions";
 import moment from "moment";
 import Link from "next/link";
 import numeral from "numeral";
+import pluralize from "pluralize";
 import React from "react";
 
 export async function generateMetadata({ params }) {
@@ -77,11 +76,7 @@ export default async function page({ params }) {
                 <div>
                   <span>
                     {numeral(playlist.followers.total).format(`0,0`)}{" "}
-                    {isPlural(
-                      playlist.followers.total,
-                      `follower`,
-                      `followers`,
-                    )}
+                    {pluralize("follower", playlist.followers.total)}
                   </span>
                 </div>
               )}
@@ -101,7 +96,7 @@ export default async function page({ params }) {
                 <CardLong
                   name={
                     <h2 className={`text-xl font-medium`}>
-                      {isPlural(playlist.tracks.items.length, `Song`, `Songs`)}
+                      {pluralize("Song", playlist.tracks.items.length)}
                     </h2>
                   }
                   secondInfo={<div className={`mx-auto w-fit`}>Duration</div>}

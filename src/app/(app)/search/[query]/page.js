@@ -1,7 +1,7 @@
 import Item from "@/components/Search/Item";
-import { isPlural } from "@/lib/isPlural";
 import Link from "next/link";
 import { fetchData } from "@/server/actions";
+import pluralize from "pluralize";
 
 export async function generateMetadata({ params }) {
   const { query: rawQuery } = params;
@@ -43,7 +43,7 @@ export default async function page({ params }) {
           href={`/search/${query}/tracks`}
           className={`text-xl font-medium hocus:underline`}
         >
-          {isPlural(data?.tracks?.items.length, "Song", "Songs")}
+          {pluralize("Song", data?.tracks?.items.length)}
         </Link>
         <div className={`-mx-2`}>
           <Item items={data?.tracks?.items.slice(0, 6)} />
@@ -55,7 +55,7 @@ export default async function page({ params }) {
           href={`/search/${query}/artists`}
           className={`text-xl font-medium hocus:underline`}
         >
-          {isPlural(data?.artists?.items.length, "Artist", "Artists")}
+          {pluralize("Artist", data?.artists?.items.length)}
         </Link>
         <div className={`-mx-2`}>
           <Item items={data?.artists?.items.slice(0, 6)} />
@@ -67,7 +67,7 @@ export default async function page({ params }) {
           href={`/search/${query}/albums`}
           className={`text-xl font-medium hocus:underline`}
         >
-          {isPlural(data?.albums?.items.length, "Album", "Albums")}
+          {pluralize("Album", data?.albums?.items.length)}
         </Link>
         <div className={`-mx-2`}>
           <Item items={data?.albums?.items.slice(0, 6)} />
@@ -79,7 +79,7 @@ export default async function page({ params }) {
           href={`/search/${query}/playlists`}
           className={`text-xl font-medium hocus:underline`}
         >
-          {isPlural(data?.playlists?.items.length, "Playlist", "Playlists")}
+          {pluralize("Playlist", data?.playlists?.items.length)}
         </Link>
         <div className={`-mx-2`}>
           <Item items={data?.playlists?.items.slice(0, 6)} />
