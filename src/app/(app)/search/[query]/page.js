@@ -46,7 +46,7 @@ export default async function page({ params }) {
           {pluralize("Song", data?.tracks?.items.length)}
         </Link>
         <div className={`-mx-2`}>
-          <Item items={data?.tracks?.items.slice(0, 6)} />
+          <Item itemsData={data?.tracks?.items} itemsType="tracks" />
         </div>
       </section>
 
@@ -58,7 +58,7 @@ export default async function page({ params }) {
           {pluralize("Artist", data?.artists?.items.length)}
         </Link>
         <div className={`-mx-2`}>
-          <Item items={data?.artists?.items.slice(0, 6)} />
+          <Item itemsData={data?.artists?.items} itemsType="artists" />
         </div>
       </section>
 
@@ -70,7 +70,7 @@ export default async function page({ params }) {
           {pluralize("Album", data?.albums?.items.length)}
         </Link>
         <div className={`-mx-2`}>
-          <Item items={data?.albums?.items.slice(0, 6)} />
+          <Item itemsData={data?.albums?.items} itemsType="albums" />
         </div>
       </section>
 
@@ -82,7 +82,7 @@ export default async function page({ params }) {
           {pluralize("Playlist", data?.playlists?.items.length)}
         </Link>
         <div className={`-mx-2`}>
-          <Item items={data?.playlists?.items.slice(0, 6)} />
+          <Item itemsData={data?.playlists?.items} itemsType="playlists" />
         </div>
       </section>
     </div>
