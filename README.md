@@ -4,7 +4,7 @@
 
 # 🎶 Ryth - Music Streaming and Discovery Platform 🎧
 
-Are you a music enthusiast or looking for a platform to discover new sounds? Look no further! I'm excited to share with you my brand new website: Ryth! 🎤🎶
+Are you a music enthusiast or looking for a platform to discover new sounds? Look no further! I'm excited to share with about **Ryth**! 🎤🎶
 
 Ryth is your ultimate destination for exploring music. Whether you're into the latest chart-toppers or underground tracks, we've got you covered.
 
