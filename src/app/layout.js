@@ -30,16 +30,6 @@ export const metadata = {
     images: ["/maskable/maskable_icon_x192.png"],
   },
   manifest: "/manifest.webmanifest",
-  robots: {
-    index: true,
-    follow: false,
-    noimageindex: true,
-    googleBot: {
-      index: true,
-      follow: false,
-      noimageindex: true,
-    },
-  },
 };
 
 export default function RootLayout({ children }) {
