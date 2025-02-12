@@ -1,43 +1,55 @@
 [![Ryth](https://fachryafrz.vercel.app/projects/ryth/home.png)](https://ryth.vercel.app)
 
-[![Website](https://img.shields.io/badge/Ryth-Discover%20your%20musical%20journey%20now!-blue)](https://ryth.vercel.app)
+# Ryth - Music Streaming and Discovery
 
-# 🎶 Ryth - Music Streaming and Discovery Platform 🎧
+Ryth is a music streaming and discovery platform built with Next.js 14 and Spotify API. It allows users to stream, browse and search for songs, authenticate with Spotify, and save their favorite songs.
 
-Are you a music enthusiast or looking for a platform to discover new sounds? Look no further! I'm excited to share with about **Ryth**! 🎤🎶
+## ✨ Features
 
-Ryth is your ultimate destination for exploring music. Whether you're into the latest chart-toppers or underground tracks, we've got you covered.
+- 📚 Extensive music library
+- 📝 Detailed track information
+- 👥 Artist profiles
+- 🔍 Easy search functionality
+- 🔑 Authentication with Spotify
+- 🎵 Stream songs
 
-No more switching between apps for your music needs! With Ryth, not only can you enjoy our website, but we also offer to install the app for all your devices! 📱
+## 🛠️ Tech Stack
 
-Here's what you can expect from Ryth:
+- **Next.js 14** - React-based framework
+- **React** - JavaScript framework
+- **Tailwind CSS** - Styling and UI design
+- **DaisyUI** - Tailwind CSS component library
+- **Spotify API** - Authentication and database
+- **Spotify Web Playback** - Web-based music player
 
-## 🎵 Extensive Music Library:
+## 🚀 Fork the repository
 
-Explore a huge collection of songs, albums, and artists from various genres. From timeless classics to emerging hits, Ryth has something for every musical taste.
+### 1. Fork
 
-## 📝 Detailed Track Information:
+Click the **Fork** button at the top-right corner of this page to create a copy of this repository in your account.
 
-Get in-depth details about your favorite songs. From lyrics to the story behind the music, we've got all the info you need to appreciate your music even more.
+### 2. Clone Your Forked Repository
 
-[![Artist & Music Details](https://fachryafrz.vercel.app/projects/ryth/details.png)](https://ryth.vercel.app)
-_Explore detailed artist and song information to dive deeper into the music you love._
+```sh
+git clone https://github.com/{your-username}/ryth.git
 
-## 👥 Artist Profiles:
+cd ryth
 
-Learn more about your favorite artists. Dive into their journey, listen to their discography, and explore their musical legacy. Ryth brings you closer to the creators behind the music.
+npm install
 
-## 🔍 Easy Search Functionality:
+cp .env.example .env
 
-Find your favorite songs or discover new ones easily with our intuitive search feature. With a user-friendly interface, Ryth makes it simple to navigate and discover new music.
+npm run dev
+```
 
-[![Mobile Screen](https://fachryafrz.vercel.app/projects/ryth/mobile.png)](https://ryth.vercel.app)
-_Take Ryth on the go! Enjoy seamless access to music and artist details right from your mobile device._
+## 🤝 Contributing
 
-🎉 Visit our website at [Ryth](https://ryth.vercel.app) and start your musical journey today!
+Contributions are welcome! Please fork the repository, make your changes, and submit a pull request. We'll review and merge your contributions as we continue to improve Ryth.
 
-Ready to dive into the world of music? Let Ryth be your personal soundtrack. 🎶🔍🎧
+## 📜 License
 
-## License
+This project is licensed under the [MIT License](LICENSE.md).
 
-This project is licensed under the [MIT License](LICENSE.md). Feel free to use, modify, and distribute the code.
+## 📬 Contact
+
+For any questions or feedback, reach out at [fachrydwiafriza@gmail.com](mailto:fachrydwiafriza@gmail.com).
