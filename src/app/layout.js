@@ -30,11 +30,11 @@ export const metadata = {
   },
   manifest: "/manifest.webmanifest",
   robots: {
-    index: true,
+    index: false,
     follow: false,
     noimageindex: true,
     googleBot: {
-      index: true,
+      index: false,
       follow: false,
       noimageindex: true,
     },
