@@ -34,8 +34,8 @@ Ryth is a music streaming and discovery platform built with Next.js 14 and Spoti
 
 - **Next.js 14** - React-based framework
 - **React** - JavaScript framework
-- **Tailwind CSS** - Styling and UI design
 - **DaisyUI** - Tailwind CSS component library
+- **Tailwind CSS** - Styling and UI design
 - **Spotify API** - Authentication and database
 - **Spotify Web Playback** - Web-based music player
 
