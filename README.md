@@ -6,12 +6,29 @@ Ryth is a music streaming and discovery platform built with Next.js 14 and Spoti
 
 ## ✨ Features
 
-- 📚 Extensive music library
-- 📝 Detailed track information
-- 👥 Artist profiles
-- 🔍 Easy search functionality
 - 🔑 Authentication with Spotify
-- 🎵 Stream songs
+- 📚 Extensive music library
+- 📝 Detailed information:
+  - 🎵 Song details
+  - 📔 Album details
+  - 👥 Artist profiles
+  - 📃 Playlist details
+- 🔍 Easy search functionality:
+  - 🎵 Songs
+  - 👥 Artists
+  - 📔 Albums
+  - 📃 Playlists
+- 🎵 Stream songs:
+  - ▶️ Play
+  - ⏸️ Pause
+  - ⏮️ Previous track
+  - ⏭️ Next track
+  - 🔀 Shuffle
+  - 🔁 Repeat
+  - 🔍 Seek
+  - 🔊 Volume control
+  - 📱 Mobile player
+  - 📻 Radio
 
 ## 🛠️ Tech Stack
 
