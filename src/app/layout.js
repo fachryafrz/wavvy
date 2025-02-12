@@ -1,10 +1,9 @@
 import "./globals.css";
 import { Suspense } from "react";
-import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { CookiesProvider } from "next-client-cookies/server";
 import TanStackQuery from "@/providers/TanStackQuery";
 import { Roboto } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -43,18 +42,16 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const gtagId = process.env.GA_MEASUREMENT_ID;
+  
   return (
     <html lang="en">
-      <Suspense>
-        <GoogleAnalytics />
-      </Suspense>
-
       <body className={roboto.className}>
         <CookiesProvider>
           <TanStackQuery>{children}</TanStackQuery>
         </CookiesProvider>
 
-        <Analytics />
+        <GoogleAnalytics gaId={gtagId} />
       </body>
     </html>
   );
