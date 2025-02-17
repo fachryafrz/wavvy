@@ -12,7 +12,7 @@ export default function TargetOrRange({
   setValue,
 }) {
   return (
-    <div className={`space-y-2 ${type === TARGET ? "pb-6" : ""}`}>
+    <div className={`space-y-2`}>
       <div className={`flex items-center justify-between gap-4`}>
         <h3 className={`font-medium`}>{title}</h3>
 
@@ -38,7 +38,7 @@ export default function TargetOrRange({
         <div className={`px-2`}>
           <Slider
             aria-label={title}
-            valueLabelDisplay={type === TARGET ? "on" : "off"}
+            valueLabelDisplay={type === TARGET ? "auto" : "off"}
             value={value}
             min={0}
             max={1}

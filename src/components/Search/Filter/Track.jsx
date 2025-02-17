@@ -80,6 +80,7 @@ export default function Track() {
       onChange={handleTrackChange}
       loadOptions={tracksLoadOptions}
       value={track}
+      placeholder={"Search for a song..."}
       isMulti
     />
   );

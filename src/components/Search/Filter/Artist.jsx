@@ -80,6 +80,7 @@ export default function Artist() {
       onChange={handleArtistChange}
       loadOptions={artistsLoadOptions}
       value={artist}
+      placeholder={"Search for an artist..."}
       isMulti
     />
   );

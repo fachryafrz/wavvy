@@ -19,11 +19,14 @@ import Genre from "./Genre";
 import Market from "./Market";
 import Artist from "./Artist";
 import Track from "./Track";
+import { useFilterToggle } from "@/zustand/filterToggle";
 
 export default function Filter({ markets, genres }) {
+  const { filterToggle } = useFilterToggle();
+
   return (
     <div
-      className={`flex-1 max-h-[calc(100dvh-(64px+64px+84px+1rem))] max-w-[300px] space-y-2 overflow-y-auto rounded-2xl bg-neutral p-4`}
+      className={`fixed left-0 z-10 max-h-[calc(100dvh-(64px+64px+80px))] w-full flex-1 space-y-2 overflow-y-auto bg-neutral bg-opacity-95 p-4 backdrop-blur transition-all duration-300 sm:left-4 sm:max-h-[calc(100dvh-(64px+64px+84px+0.5rem))] sm:max-w-[300px] sm:rounded-2xl lg:left-auto xl:sticky xl:top-[64px] ${filterToggle ? "xl:ml-0" : "-translate-x-[calc(300px+1rem)] xl:-ml-[calc(300px+1rem)]"}`}
     >
       <Market data={markets} />
       <Artist />
@@ -48,9 +51,16 @@ export default function Filter({ markets, genres }) {
 }
 
 export function FilterMenuToggle() {
+  const { filterToggle, setFilterToggle } = useFilterToggle();
+
   return (
-    <button className={`btn btn-circle btn-primary`}>
+    <button
+      onClick={() => setFilterToggle(!filterToggle)}
+      className={`btn btn-primary rounded-full`}
+    >
       <Options color={`#ffffff`} />
+
+      <h2 className={`font-medium`}>Tune Your Music</h2>
     </button>
   );
 }

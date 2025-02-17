@@ -54,6 +54,7 @@ export default function Market({ data }) {
       options={markets}
       onChange={handleMarketChange}
       value={market}
+      placeholder={"Pick a country..."}
     />
   );
 }

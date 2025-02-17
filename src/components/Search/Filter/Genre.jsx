@@ -54,6 +54,7 @@ export default function Genre({ data }) {
       options={genres}
       onChange={handleGenreChange}
       value={genre}
+      placeholder={"Select a genre..."}
     />
   );
 }
