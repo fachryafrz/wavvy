@@ -1,7 +1,9 @@
+import { useAuth } from "@/hooks/auth";
 import { debounce } from "@mui/material";
+import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Close, Search } from "react-ionicons";
+import { Close, Options, Search } from "react-ionicons";
 import Typewriter from "typewriter-effect/dist/core";
 
 export default function SearchBar({
@@ -12,6 +14,7 @@ export default function SearchBar({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const searchRef = useRef();
+  const { user } = useAuth();
 
   const DEBOUNCE_DELAY = 300;
 
@@ -149,6 +152,15 @@ export default function SearchBar({
           >
             <Close color={"#fff"} />
           </button>
+        )}
+
+        {pathname !== `/search` && (
+          <Link
+            href={user ? `/search?market=${user.country}` : `/search`}
+            className={`btn btn-circle btn-ghost border-0 bg-transparent outline-none`}
+          >
+            <Options color={`#ffffff`} />
+          </Link>
         )}
       </label>
     </form>

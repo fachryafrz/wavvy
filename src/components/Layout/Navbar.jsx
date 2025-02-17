@@ -32,21 +32,9 @@ export default function Navbar({ authorizationURL, client_id }) {
         <Menu color={`#ffffff`} />
       </label>
 
-      <div className={`flex flex-1 items-center gap-2`}>
-        {/* Search bar */}
-        <SearchBar className={`hidden sm:block`} />
-        <SearchBar placeholder="Tap to search" className={`sm:hidden`} />
-
-        {/* Search filter */}
-        {pathname !== `/search` && (
-          <Link
-            href={user ? `/search?market=${user.country}` : `/search`}
-            className={`btn btn-circle btn-primary`}
-          >
-            <Options color={`#ffffff`} />
-          </Link>
-        )}
-      </div>
+      {/* Search bar */}
+      <SearchBar className={`hidden sm:block`} />
+      <SearchBar placeholder="Tap to search" className={`sm:hidden`} />
 
       {!user ? (
         <Login authorizationURL={authorizationURL} client_id={client_id} />
