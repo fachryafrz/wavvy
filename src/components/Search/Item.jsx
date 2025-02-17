@@ -67,8 +67,8 @@ export default function Item({ itemsData, itemsType }) {
     return uniqueItems;
   }, [data]);
 
-  // Fetch more films using mutation
-  const fetchMoreFilms = useMutation({
+  // Fetch more songs using mutation
+  const fetchMoreSongs = useMutation({
     mutationFn: async () => {
       const newKey = `${getKey()}&offset=${items.length}`;
       return fetcher(newKey);
@@ -88,7 +88,7 @@ export default function Item({ itemsData, itemsType }) {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          fetchMoreFilms.mutate();
+          fetchMoreSongs.mutate();
         }
       },
       { threshold: 0.5 },
