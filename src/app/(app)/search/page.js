@@ -7,7 +7,7 @@ export default async function page() {
   return (
     <div className={`relative`}>
       {/* Header */}
-      <div className={`flex z-20 bg-base-100 bg-opacity-90 backdrop-blur py-2 items-center gap-2 sticky top-0`}>
+      <div className={`flex z-20 bg-base-100 pb-4 bg-opacity-90 backdrop-blur py-2 items-center gap-2 sticky top-0`}>
         {/* Filter Toggle */}
         <FilterMenuToggle />
       </div>

@@ -26,7 +26,7 @@ export default function Filter({ markets, genres }) {
 
   return (
     <div
-      className={`fixed left-0 z-10 max-h-[calc(100dvh-(64px+64px+80px))] w-full flex-1 space-y-2 overflow-y-auto bg-neutral bg-opacity-95 p-4 backdrop-blur transition-all duration-300 sm:left-4 sm:max-h-[calc(100dvh-(64px+64px+84px+1rem))] sm:max-w-[300px] sm:rounded-2xl lg:left-auto xl:sticky xl:top-[64px] ${filterToggle ? "-translate-x-0 xl:ml-0" : "-translate-x-[calc(100%+1rem)] xl:-ml-[calc(300px+1rem)]"}`}
+      className={`fixed left-0 z-10 max-h-[calc(100dvh-(64px+64px+80px))] w-full flex-1 space-y-2 overflow-y-auto bg-neutral bg-opacity-95 p-4 backdrop-blur transition-all duration-300 sm:left-4 sm:max-h-[calc(100dvh-(64px+64px+84px+1.5rem))] sm:max-w-[300px] sm:rounded-2xl lg:left-auto xl:sticky xl:top-[64px] ${filterToggle ? "-translate-x-0 xl:ml-0" : "-translate-x-[calc(100%+1rem)] xl:-ml-[calc(300px+1rem)]"}`}
     >
       <Artist />
       <Genre data={genres} />
