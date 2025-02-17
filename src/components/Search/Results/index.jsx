@@ -13,7 +13,7 @@ export default function Results() {
   return (
     <div className={`flex-1 @container`}>
       <div
-        className={`-mx-2 grid grid-cols-2 @lg:grid-cols-3 @3xl:grid-cols-4 @5xl:grid-cols-5 @6xl:grid-cols-6`}
+        className={`-mx-2 -mt-2 grid grid-cols-2 @lg:grid-cols-3 @3xl:grid-cols-4 @5xl:grid-cols-5 @6xl:grid-cols-6`}
       >
         {[...Array(20)].map((_, i) => (
           <div key={i}>
