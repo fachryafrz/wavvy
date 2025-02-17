@@ -1,5 +1,5 @@
 import { useRouter, useSearchParams } from "next/navigation";
-import TargetOrRange from "./TargetOrRange";
+import TargetOrRange from "./Reusable/TargetOrRange";
 import { useEffect, useState } from "react";
 import { RANGE, TARGET } from "@/lib/constants";
 

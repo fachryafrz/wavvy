@@ -29,7 +29,7 @@ export default function Navbar({ authorizationURL, client_id }) {
         {/* Search filter */}
         {pathname !== `/search` && (
           <Link href={`/search`} className={`btn btn-circle btn-primary`}>
-            <Options />
+            <Options color={`#ffffff`} />
           </Link>
         )}
       </div>

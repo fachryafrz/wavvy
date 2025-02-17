@@ -17,16 +17,16 @@ export default function TargetOrRange({
         <h3 className={`font-medium`}>{title}</h3>
 
         {/* Toggle */}
-        <div className={`-mr-1 flex rounded-full bg-black p-1`}>
+        <div className={`-mr-1 flex rounded-full bg-base-100 p-1`}>
           <button
             onClick={() => setType(TARGET)}
-            className={`btn btn-xs rounded-full ${type === TARGET ? "btn-primary text-black" : ""}`}
+            className={`btn btn-xs rounded-full ${type === TARGET ? "btn-primary text-black" : "border-0 bg-base-100"}`}
           >
             Target
           </button>
           <button
             onClick={() => setType(RANGE)}
-            className={`btn btn-xs rounded-full ${type === RANGE ? "btn-primary text-black" : ""}`}
+            className={`btn btn-xs rounded-full ${type === RANGE ? "btn-primary text-black" : "border-0 bg-base-100"}`}
           >
             Range
           </button>
@@ -37,7 +37,7 @@ export default function TargetOrRange({
       <div>
         <div className={`px-2`}>
           <Slider
-            aria-label="Default"
+            aria-label={title}
             valueLabelDisplay={type === TARGET ? "on" : "off"}
             value={value}
             min={0}

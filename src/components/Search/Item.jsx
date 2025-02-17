@@ -27,7 +27,7 @@ export default function Item({ itemsData, itemsType }) {
   const getKey = () => {
     return `/search?q=${query}&type=${type}`;
 
-    // NOTE: This is needed if useing search params
+    // NOTE: This is needed if using search params
     // if (isQueryParams) {
     // return `/search?q=${query}`;
     // } else {

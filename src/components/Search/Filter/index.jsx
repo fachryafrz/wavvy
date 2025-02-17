@@ -15,16 +15,20 @@ import Speechiness from "./Speechiness";
 import Tempo from "./Tempo";
 import TimeSignature from "./TimeSignature";
 import Valence from "./Valence";
+import Genre from "./Genre";
+import Market from "./Market";
+import Artist from "./Artist";
+import Track from "./Track";
 
-export default function Filter() {
+export default function Filter({ markets, genres }) {
   return (
     <div
-      className={`max-h-[calc(100dvh-(64px+64px+84px+1rem))] space-y-2 overflow-y-auto rounded-2xl bg-neutral p-4`}
+      className={`flex-1 max-h-[calc(100dvh-(64px+64px+84px+1rem))] max-w-[300px] space-y-2 overflow-y-auto rounded-2xl bg-neutral p-4`}
     >
-      {/* Market */}
-      {/* Seed Artists */}
-      {/* Seed Genres */}
-      {/* Seed Tracks */}
+      <Market data={markets} />
+      <Artist />
+      <Genre data={genres} />
+      <Track />
       <Acousticness />
       <Danceability />
       <Duration />
@@ -46,7 +50,7 @@ export default function Filter() {
 export function FilterMenuToggle() {
   return (
     <button className={`btn btn-circle btn-primary`}>
-      <Options />
+      <Options color={`#ffffff`} />
     </button>
   );
 }
