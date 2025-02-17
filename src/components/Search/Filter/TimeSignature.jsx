@@ -8,6 +8,9 @@ const TARGET_TIME_SIGNATURE = "target_time_signature";
 const MIN_TIME_SIGNATURE = "min_time_signature";
 const MAX_TIME_SIGNATURE = "max_time_signature";
 
+const MIN = 3;
+const MAX = 6;
+
 export default function TimeSignature() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -66,7 +69,7 @@ export default function TimeSignature() {
       const min = searchParams.get(MIN_TIME_SIGNATURE);
       const max = searchParams.get(MAX_TIME_SIGNATURE);
 
-      setTimeSignature([min || 0, max || 1]);
+      setTimeSignature([min || MIN, max || MAX]);
     }
   }, [type, searchParams]);
 
@@ -79,6 +82,8 @@ export default function TimeSignature() {
       value={timeSignature}
       setValue={setTimeSignature}
       disabled={isRequired}
+      min={MIN}
+      max={MAX}
     />
   );
 }

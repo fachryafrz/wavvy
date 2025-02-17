@@ -8,6 +8,9 @@ const TARGET_TEMPO = "target_tempo";
 const MIN_TEMPO = "min_tempo";
 const MAX_TEMPO = "max_tempo";
 
+const MIN = 60;
+const MAX = 200;
+
 export default function Tempo() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -66,7 +69,7 @@ export default function Tempo() {
       const min = searchParams.get(MIN_TEMPO);
       const max = searchParams.get(MAX_TEMPO);
 
-      setTempo([min || 0, max || 1]);
+      setTempo([min || MIN, max || MAX]);
     }
   }, [type, searchParams]);
 
@@ -79,6 +82,10 @@ export default function Tempo() {
       value={tempo}
       setValue={setTempo}
       disabled={isRequired}
+      min={MIN}
+      max={MAX}
+      step={1}
+      valueLabelFormat={(value) => `${value} BPM`}
     />
   );
 }

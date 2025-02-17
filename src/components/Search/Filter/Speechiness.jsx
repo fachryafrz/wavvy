@@ -8,6 +8,9 @@ const TARGET_SPEECHINESS = "target_speechiness";
 const MIN_SPEECHINESS = "min_speechiness";
 const MAX_SPEECHINESS = "max_speechiness";
 
+const MIN = 0;
+const MAX = 1;
+
 export default function Speechiness() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -66,7 +69,7 @@ export default function Speechiness() {
       const min = searchParams.get(MIN_SPEECHINESS);
       const max = searchParams.get(MAX_SPEECHINESS);
 
-      setSpeechiness([min || 0, max || 1]);
+      setSpeechiness([min || MIN, max || MAX]);
     }
   }, [type, searchParams]);
 
@@ -79,6 +82,10 @@ export default function Speechiness() {
       value={speechiness}
       setValue={setSpeechiness}
       disabled={isRequired}
+      min={MIN}
+      max={MAX}
+      step={0.01}
+      valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
     />
   );
 }

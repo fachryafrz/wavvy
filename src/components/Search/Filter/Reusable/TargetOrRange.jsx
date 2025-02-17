@@ -11,9 +11,10 @@ export default function TargetOrRange({
   value,
   setValue,
   disabled,
+  ...props
 }) {
   return (
-    <div className={`space-y-2`}>
+    <div className={`space-y-2 ${type === TARGET ? "pb-6" : ""}`}>
       <div className={`flex items-center justify-between gap-4`}>
         <h3 className={`font-medium`}>{title}</h3>
 
@@ -38,12 +39,10 @@ export default function TargetOrRange({
       <div>
         <div className={`px-2`}>
           <Slider
+            {...props}
             aria-label={title}
             valueLabelDisplay={type === TARGET ? "auto" : "off"}
             value={value}
-            min={0}
-            max={1}
-            step={0.01}
             onChange={(e, value) => setValue(value)}
             onChangeCommitted={(e, value) => onSlider(value)}
             disabled={disabled}
@@ -64,7 +63,7 @@ export default function TargetOrRange({
               "& .MuiSlider-valueLabel": {
                 background: "#000",
                 borderRadius: "9999px",
-                width: "2.5rem",
+                // width: "2.5rem",
                 height: "1.5rem",
                 top: "55px",
 

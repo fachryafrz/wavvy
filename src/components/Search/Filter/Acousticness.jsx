@@ -8,6 +8,9 @@ const TARGET_ACOUSTICNESS = "target_acousticness";
 const MIN_ACOUSTICNESS = "min_acousticness";
 const MAX_ACOUSTICNESS = "max_acousticness";
 
+const MIN = 0;
+const MAX = 1;
+
 export default function Acousticness() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -66,7 +69,7 @@ export default function Acousticness() {
       const min = searchParams.get(MIN_ACOUSTICNESS);
       const max = searchParams.get(MAX_ACOUSTICNESS);
 
-      setAcousticness([min || 0, max || 1]);
+      setAcousticness([min || MIN, max || MAX]);
     }
   }, [type, searchParams]);
 
@@ -79,6 +82,10 @@ export default function Acousticness() {
       value={acousticness}
       setValue={setAcousticness}
       disabled={isRequired}
+      min={MIN}
+      max={MAX}
+      step={0.01}
+      valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
     />
   );
 }

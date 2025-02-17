@@ -8,6 +8,9 @@ const TARGET_POPULARITY = "target_popularity";
 const MIN_POPULARITY = "min_popularity";
 const MAX_POPULARITY = "max_popularity";
 
+const MIN = 0;
+const MAX = 100;
+
 export default function Popularity() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -66,7 +69,7 @@ export default function Popularity() {
       const min = searchParams.get(MIN_POPULARITY);
       const max = searchParams.get(MAX_POPULARITY);
 
-      setPopularity([min || 0, max || 1]);
+      setPopularity([min || MIN, max || MAX]);
     }
   }, [type, searchParams]);
 
@@ -79,6 +82,9 @@ export default function Popularity() {
       value={popularity}
       setValue={setPopularity}
       disabled={isRequired}
+      min={MIN}
+      max={MAX}
+      valueLabelFormat={(value) => `${value}%`}
     />
   );
 }

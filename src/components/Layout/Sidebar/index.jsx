@@ -11,6 +11,7 @@ import LoginAlert from "@/components/Modals/LoginAlert";
 import ErrorAlert from "@/components/Modals/ErrorAlert";
 import { userStore } from "@/zustand/user";
 import { useAuth } from "@/hooks/auth";
+import { useDrawerOpen } from "@/zustand/drawerOpen";
 
 export default function Sidebar({
   children,
@@ -23,6 +24,7 @@ export default function Sidebar({
   // NOTE: Don't remove this. This is for getting rid of the hydration error
   const { user } = useAuth();
   const { setUser } = userStore();
+  const { drawerOpen } = useDrawerOpen();
 
   useEffect(() => {
     if (user) setUser(user);
@@ -35,7 +37,9 @@ export default function Sidebar({
       initialVolume={0}
     >
       <div className={`flex h-dvh flex-col justify-between`}>
-        <div className="drawer flex-1 overflow-hidden lg:drawer-open">
+        <div
+          className={`drawer flex-1 overflow-hidden ${drawerOpen ? "lg:drawer-open" : ""}`}
+        >
           <input id="sidebar" type="checkbox" className="drawer-toggle" />
           <div className={`drawer-content flex min-h-0 flex-col`}>
             {/* Page content here */}

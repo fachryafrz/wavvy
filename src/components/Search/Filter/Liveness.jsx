@@ -8,6 +8,9 @@ const TARGET_LIVENESS = "target_liveness";
 const MIN_LIVENESS = "min_liveness";
 const MAX_LIVENESS = "max_liveness";
 
+const MIN = 0;
+const MAX = 1;
+
 export default function Liveness() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -66,7 +69,7 @@ export default function Liveness() {
       const min = searchParams.get(MIN_LIVENESS);
       const max = searchParams.get(MAX_LIVENESS);
 
-      setLiveness([min || 0, max || 1]);
+      setLiveness([min || MIN, max || MAX]);
     }
   }, [type, searchParams]);
 
@@ -79,6 +82,10 @@ export default function Liveness() {
       value={liveness}
       setValue={setLiveness}
       disabled={isRequired}
+      min={MIN}
+      max={MAX}
+      step={0.01}
+      valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
     />
   );
 }

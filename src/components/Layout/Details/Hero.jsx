@@ -47,23 +47,22 @@ export default function DetailsHero({
   // Functions
   const { refetch: saveTrackRefetch } = useQuery({
     enabled: false,
-    queryKey: [
+    queryKey:
       item.type === "playlist"
-        ? `/playlists/${item.id}/followers`
-        : `/me/${item.type}s?ids=${item.id}`,
-    ],
+        ? [`/playlists/${item.id}/followers`]
+        : [`/me/${item.type}s?ids=${item.id}`],
     queryFn: async ({ queryKey }) => {
       await fetchData(queryKey[0], { method: isSavedState ? "DELETE" : "PUT" });
       setIsSavedState(!isSavedState);
 
       if (item.type === "album") {
         const { data: albums } = await fetchData(`/me/albums`);
-        queryClient.setQueryData(`/me/albums`, albums);
+        queryClient.setQueryData([`/me/albums`], albums);
       }
 
       if (item.type === "playlist") {
         const { data: playlists } = await fetchData(`/me/playlists`);
-        queryClient.setQueryData(`/me/playlists`, playlists);
+        queryClient.setQueryData([`/me/playlists`], playlists);
       }
     },
   });
@@ -80,7 +79,7 @@ export default function DetailsHero({
       const {
         data: { artists },
       } = await fetchData(`/me/following?type=artist`);
-      queryClient.setQueryData(`/me/following?type=artist`, artists);
+      queryClient.setQueryData([`/me/following?type=artist`], artists);
     },
   });
 
@@ -223,9 +222,7 @@ export default function DetailsHero({
               )}
 
               <button
-                onClick={() =>
-                  error ? setErrorAlert(error) : saveTrackRefetch()
-                }
+                onClick={() => saveTrackRefetch()}
                 className={`btn btn-circle btn-ghost transition-all focus-visible:outline-none hocus:scale-110 hocus:!bg-transparent`}
               >
                 {isSavedState ? (
@@ -245,9 +242,7 @@ export default function DetailsHero({
             </>
           ) : (
             <button
-              onClick={() =>
-                error ? setErrorAlert(error) : followArtistRefetch()
-              }
+              onClick={() => followArtistRefetch()}
               className={`btn btn-primary flex-grow rounded-full disabled:cursor-not-allowed md:max-w-[150px]`}
             >
               <span>{isFollowedState ? "Following" : "Follow"}</span>

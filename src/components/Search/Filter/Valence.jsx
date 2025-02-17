@@ -8,6 +8,9 @@ const TARGET_VALENCE = "target_valence";
 const MIN_VALENCE = "min_valence";
 const MAX_VALENCE = "max_valence";
 
+const MIN = 0;
+const MAX = 1;
+
 export default function Valence() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -66,7 +69,7 @@ export default function Valence() {
       const min = searchParams.get(MIN_VALENCE);
       const max = searchParams.get(MAX_VALENCE);
 
-      setValence([min || 0, max || 1]);
+      setValence([min || MIN, max || MAX]);
     }
   }, [type, searchParams]);
 
@@ -79,6 +82,10 @@ export default function Valence() {
       value={valence}
       setValue={setValence}
       disabled={isRequired}
+      min={MIN}
+      max={MAX}
+      step={0.01}
+      valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
     />
   );
 }

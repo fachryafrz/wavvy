@@ -8,6 +8,9 @@ const TARGET_KEY = "target_key";
 const MIN_KEY = "min_key";
 const MAX_KEY = "max_key";
 
+const MIN = 0;
+const MAX = 11;
+
 export default function Key() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -66,7 +69,7 @@ export default function Key() {
       const min = searchParams.get(MIN_KEY);
       const max = searchParams.get(MAX_KEY);
 
-      setKey([min || 0, max || 1]);
+      setKey([min || MIN, max || MAX]);
     }
   }, [type, searchParams]);
 
@@ -79,6 +82,8 @@ export default function Key() {
       value={key}
       setValue={setKey}
       disabled={isRequired}
+      min={MIN}
+      max={MAX}
     />
   );
 }

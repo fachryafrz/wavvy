@@ -11,7 +11,7 @@ export default function Track() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const current = new URLSearchParams(Array.from(searchParams.entries()));
-  const { isRequired, setIsRequired } = useRequiredFilter();
+  const { isRequired } = useRequiredFilter();
 
   const [track, setTrack] = useState();
 
@@ -75,10 +75,6 @@ export default function Track() {
       setTrack(null);
     }
   }, [searchParams]);
-
-  useEffect(() => {
-    setIsRequired(!track || track.length === 0);
-  }, [track]);
 
   return (
     <AsyncSelectFilter

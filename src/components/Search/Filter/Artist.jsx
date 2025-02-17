@@ -11,7 +11,7 @@ export default function Artist() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const current = new URLSearchParams(Array.from(searchParams.entries()));
-  const { isRequired, setIsRequired } = useRequiredFilter();
+  const { isRequired } = useRequiredFilter();
 
   const [artist, setArtist] = useState();
 
@@ -75,10 +75,6 @@ export default function Artist() {
       setArtist(null);
     }
   }, [searchParams]);
-
-  useEffect(() => {
-    setIsRequired(!artist || artist.length === 0);
-  }, [artist]);
 
   return (
     <AsyncSelectFilter

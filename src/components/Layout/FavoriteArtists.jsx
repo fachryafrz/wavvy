@@ -16,10 +16,9 @@ export default function FavoriteArtists() {
     error,
     isLoading: loading,
   } = useQuery({
-    queryKey: [`/me/following`],
+    queryKey: [`/me/following?type=artist`],
     queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey[0], { params: { type: `artist` } })
-        .then(({ data }) => data);
+      return await fetchData(queryKey[0]).then(({ data }) => data.artists);
     },
   });
 
@@ -43,9 +42,9 @@ export default function FavoriteArtists() {
       )}
 
       {/* Cards */}
-      {data?.artists.items.length > 0 && (
+      {data?.items.length > 0 && (
         <ul className={`-mx-1 flex flex-col`}>
-          {data.artists.items.slice(0, showLimit).map((item, i) => {
+          {data.items.slice(0, showLimit).map((item, i) => {
             return (
               <li key={item.id}>
                 <Link

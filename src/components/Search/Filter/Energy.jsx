@@ -8,6 +8,9 @@ const TARGET_ENERGY = "target_energy";
 const MIN_ENERGY = "min_energy";
 const MAX_ENERGY = "max_energy";
 
+const MIN = 0;
+const MAX = 1;
+
 export default function Energy() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -66,7 +69,7 @@ export default function Energy() {
       const min = searchParams.get(MIN_ENERGY);
       const max = searchParams.get(MAX_ENERGY);
 
-      setEnergy([min || 0, max || 1]);
+      setEnergy([min || MIN, max || MAX]);
     }
   }, [type, searchParams]);
 
@@ -79,6 +82,10 @@ export default function Energy() {
       value={energy}
       setValue={setEnergy}
       disabled={isRequired}
+      min={MIN}
+      max={MAX}
+      step={0.1}
+      valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
     />
   );
 }

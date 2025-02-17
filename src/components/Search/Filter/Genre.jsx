@@ -10,7 +10,7 @@ export default function Genre({ data }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const current = new URLSearchParams(Array.from(searchParams.entries()));
-  const { isRequired, setIsRequired } = useRequiredFilter();
+  const { isRequired } = useRequiredFilter();
 
   const [genre, setGenre] = useState();
 
@@ -53,11 +53,6 @@ export default function Genre({ data }) {
       setGenre(null);
     }
   }, [searchParams]);
-
-  useEffect(() => {
-    // BUG: Kalau ada genre dan di refresh requirednya masih true
-    setIsRequired(!genre || genre.length === 0);
-  }, [genre]);
 
   return (
     <SelectFilter

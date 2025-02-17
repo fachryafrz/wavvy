@@ -8,6 +8,9 @@ const TARGET_INSTRUMENTALNESS = "target_instrumentalness";
 const MIN_INSTRUMENTALNESS = "min_instrumentalness";
 const MAX_INSTRUMENTALNESS = "max_instrumentalness";
 
+const MIN = 0;
+const MAX = 1;
+
 export default function Instrumentalness() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -66,7 +69,7 @@ export default function Instrumentalness() {
       const min = searchParams.get(MIN_INSTRUMENTALNESS);
       const max = searchParams.get(MAX_INSTRUMENTALNESS);
 
-      setInstrumentalness([min || 0, max || 1]);
+      setInstrumentalness([min || MIN, max || MAX]);
     }
   }, [type, searchParams]);
 
@@ -79,6 +82,10 @@ export default function Instrumentalness() {
       value={instrumentalness}
       setValue={setInstrumentalness}
       disabled={isRequired}
+      min={MIN}
+      max={MAX}
+      step={0.01}
+      valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
     />
   );
 }

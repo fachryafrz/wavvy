@@ -1,4 +1,3 @@
-import { useAuth } from "@/hooks/auth";
 import { debounce } from "@mui/material";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -14,7 +13,6 @@ export default function SearchBar({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const searchRef = useRef();
-  const { user } = useAuth();
 
   const DEBOUNCE_DELAY = 300;
 
@@ -148,7 +146,6 @@ export default function SearchBar({
           <button
             type="button"
             onClick={() => setInput("")}
-            className={`absolute right-4`}
           >
             <Close color={"#fff"} />
           </button>
@@ -156,7 +153,7 @@ export default function SearchBar({
 
         {pathname !== `/search` && (
           <Link
-            href={user ? `/search?market=${user.country}` : `/search`}
+            href={`/search`}
             className={`btn btn-circle btn-ghost border-0 bg-transparent outline-none`}
           >
             <Options color={`#ffffff`} />

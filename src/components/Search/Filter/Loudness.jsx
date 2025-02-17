@@ -8,6 +8,9 @@ const TARGET_LOUDNESS = "target_loudness";
 const MIN_LOUDNESS = "min_loudness";
 const MAX_LOUDNESS = "max_loudness";
 
+const MIN = -60;
+const MAX = 0;
+
 export default function Loudness() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -66,7 +69,7 @@ export default function Loudness() {
       const min = searchParams.get(MIN_LOUDNESS);
       const max = searchParams.get(MAX_LOUDNESS);
 
-      setLoudness([min || 0, max || 1]);
+      setLoudness([min || MIN, max || MAX]);
     }
   }, [type, searchParams]);
 
@@ -79,6 +82,9 @@ export default function Loudness() {
       value={loudness}
       setValue={setLoudness}
       disabled={isRequired}
+      min={MIN}
+      max={MAX}
+      valueLabelFormat={(value) => `${value} dB`}
     />
   );
 }

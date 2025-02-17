@@ -3,10 +3,14 @@ import TargetOrRange from "./Reusable/TargetOrRange";
 import { useEffect, useState } from "react";
 import { RANGE, TARGET } from "@/lib/constants";
 import { useRequiredFilter } from "@/zustand/isRequiredFilter";
+import moment from "moment";
 
 const TARGET_DURATION = "target_duration_ms";
 const MIN_DURATION = "min_duration_ms";
 const MAX_DURATION = "max_duration_ms";
+
+const MIN = 0;
+const MAX = 600000;
 
 export default function Duration() {
   const router = useRouter();
@@ -66,7 +70,7 @@ export default function Duration() {
       const min = searchParams.get(MIN_DURATION);
       const max = searchParams.get(MAX_DURATION);
 
-      setDuration([min || 0, max || 1]);
+      setDuration([min || MIN, max || MAX]);
     }
   }, [type, searchParams]);
 
@@ -79,6 +83,9 @@ export default function Duration() {
       value={duration}
       setValue={setDuration}
       disabled={isRequired}
+      min={MIN}
+      max={MAX}
+      valueLabelFormat={(value) => moment(value).format("mm:ss")}
     />
   );
 }

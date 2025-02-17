@@ -8,6 +8,9 @@ const TARGET_MODE = "target_mode";
 const MIN_MODE = "min_mode";
 const MAX_MODE = "max_mode";
 
+const MIN = 0;
+const MAX = 1;
+
 export default function Mode() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -66,7 +69,7 @@ export default function Mode() {
       const min = searchParams.get(MIN_MODE);
       const max = searchParams.get(MAX_MODE);
 
-      setMode([min || 0, max || 1]);
+      setMode([min || MIN, max || MAX]);
     }
   }, [type, searchParams]);
 
@@ -79,6 +82,10 @@ export default function Mode() {
       value={mode}
       setValue={setMode}
       disabled={isRequired}
+      min={MIN}
+      max={MAX}
+      step={0.01}
+      valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
     />
   );
 }
