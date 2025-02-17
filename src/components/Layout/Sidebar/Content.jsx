@@ -51,11 +51,11 @@ export default function SidebarContent() {
     isLoading: artistsLoading,
     refetch: fetchArtists,
   } = useQuery({
-    queryKey: `/me/following?type=artist`,
+    queryKey: [`/me/following?type=artist`],
     queryFn: async ({ queryKey }) => {
       const {
         data: { artists },
-      } = await fetchData(queryKey);
+      } = await fetchData(queryKey[0]);
       return artists;
     },
     enabled: false,
@@ -67,9 +67,9 @@ export default function SidebarContent() {
     isLoading: albumsLoading,
     refetch: fetchAlbums,
   } = useQuery({
-    queryKey: `/me/albums`,
+    queryKey: [`/me/albums`],
     queryFn: async ({ queryKey }) => {
-      const { data: albums } = await fetchData(queryKey);
+      const { data: albums } = await fetchData(queryKey[0]);
       return albums;
     },
     enabled: false,
@@ -81,9 +81,9 @@ export default function SidebarContent() {
     isLoading: playlistsLoading,
     refetch: fetchPlaylist,
   } = useQuery({
-    queryKey: `/me/playlists`,
+    queryKey: [`/me/playlists`],
     queryFn: async ({ queryKey }) => {
-      const { data: playlists } = await fetchData(queryKey);
+      const { data: playlists } = await fetchData(queryKey[0]);
       return playlists;
     },
     enabled: false,

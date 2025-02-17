@@ -29,9 +29,9 @@ export default function Player() {
 
   const { refetch: refetchRecentlyPlayed } = useQuery({
     enabled: false,
-    queryKey: `/me/player/recently-played`,
+    queryKey: [`/me/player/recently-played`],
     queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey).then(({ data }) => data);
+      return await fetchData(queryKey[0]).then(({ data }) => data);
     },
   });
 

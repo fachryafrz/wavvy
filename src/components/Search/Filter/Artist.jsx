@@ -3,6 +3,7 @@ import AsyncSelectFilter from "./Reusable/AsyncSelectFilter";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchData } from "@/server/actions";
 import { debounce } from "@mui/material";
+import { useRequiredFilter } from "@/zustand/isRequiredFilter";
 
 const SEED_ARTISTS = "seed_artists";
 
@@ -10,8 +11,9 @@ export default function Artist() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const current = new URLSearchParams(Array.from(searchParams.entries()));
+  const { isRequired, setIsRequired } = useRequiredFilter();
 
-  const [artist, setArtist] = useState([]);
+  const [artist, setArtist] = useState();
 
   const artistsLoadOptions = debounce((inputValue, callback) => {
     const fetchDataWithDelay = async () => {
@@ -74,9 +76,14 @@ export default function Artist() {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    setIsRequired(!artist || artist.length === 0);
+  }, [artist]);
+
   return (
     <AsyncSelectFilter
       title={"Artist"}
+      isRequired={isRequired}
       onChange={handleArtistChange}
       loadOptions={artistsLoadOptions}
       value={artist}

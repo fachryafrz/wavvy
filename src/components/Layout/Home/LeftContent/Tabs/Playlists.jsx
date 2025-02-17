@@ -11,9 +11,9 @@ export default function TabPlaylists() {
     error,
     isLoading: loading,
   } = useQuery({
-    queryKey: `/browse/featured-playlists`,
+    queryKey: [`/browse/featured-playlists`],
     queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey).then(({ data }) => data);
+      return await fetchData(queryKey[0]).then(({ data }) => data);
     },
   });
 

@@ -1,7 +1,8 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import SelectFilter from "./Reusable/SelectFilter";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toUpper } from "@/lib/toUpper";
+import { useRequiredFilter } from "@/zustand/isRequiredFilter";
 
 const SEED_GENRES = "seed_genres";
 
@@ -9,13 +10,18 @@ export default function Genre({ data }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const current = new URLSearchParams(Array.from(searchParams.entries()));
+  const { isRequired, setIsRequired } = useRequiredFilter();
 
-  const [genre, setGenre] = useState([]);
+  const [genre, setGenre] = useState();
 
-  const genres = data.map((genre) => ({
-    value: genre,
-    label: toUpper(genre.replace(/-/g, " ")),
-  }));
+  const genres = useMemo(
+    () =>
+      data.map((genre) => ({
+        value: genre,
+        label: toUpper(genre.replace(/-/g, " ")),
+      })),
+    [data],
+  );
 
   const handleGenreChange = (selectedOption) => {
     const value = selectedOption.map((option) => option.value);
@@ -48,9 +54,15 @@ export default function Genre({ data }) {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    // BUG: Kalau ada genre dan di refresh requirednya masih true
+    setIsRequired(!genre || genre.length === 0);
+  }, [genre]);
+
   return (
     <SelectFilter
       title={"Genre"}
+      isRequired={isRequired}
       options={genres}
       onChange={handleGenreChange}
       value={genre}

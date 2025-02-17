@@ -13,9 +13,9 @@ export default function TabNewReleases() {
     error,
     isLoading: loading,
   } = useQuery({
-    queryKey: `/browse/new-releases`,
+    queryKey: [`/browse/new-releases`],
     queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey).then(({ data }) => data);
+      return await fetchData(queryKey[0]).then(({ data }) => data);
     },
   });
 

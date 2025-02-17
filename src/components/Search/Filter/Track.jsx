@@ -3,6 +3,7 @@ import AsyncSelectFilter from "./Reusable/AsyncSelectFilter";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { fetchData } from "@/server/actions";
 import { debounce } from "@mui/material";
+import { useRequiredFilter } from "@/zustand/isRequiredFilter";
 
 const SEED_TRACKS = "seed_tracks";
 
@@ -10,8 +11,9 @@ export default function Track() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const current = new URLSearchParams(Array.from(searchParams.entries()));
+  const { isRequired, setIsRequired } = useRequiredFilter();
 
-  const [track, setTrack] = useState([]);
+  const [track, setTrack] = useState();
 
   const tracksLoadOptions = debounce((inputValue, callback) => {
     const fetchDataWithDelay = async () => {
@@ -74,9 +76,14 @@ export default function Track() {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    setIsRequired(!track || track.length === 0);
+  }, [track]);
+
   return (
     <AsyncSelectFilter
       title={"Song"}
+      isRequired={isRequired}
       onChange={handleTrackChange}
       loadOptions={tracksLoadOptions}
       value={track}

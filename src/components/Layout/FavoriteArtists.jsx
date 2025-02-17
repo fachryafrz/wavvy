@@ -16,9 +16,9 @@ export default function FavoriteArtists() {
     error,
     isLoading: loading,
   } = useQuery({
-    queryKey: `/me/following`,
+    queryKey: [`/me/following`],
     queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey, { params: { type: `artist` } })
+      return await fetchData(queryKey[0], { params: { type: `artist` } })
         .then(({ data }) => data);
     },
   });

@@ -2,11 +2,15 @@
 
 import Select from "react-select";
 
-export default function SelectFilter({ title, ...props }) {
+export default function SelectFilter({ title, isRequired, ...props }) {
   return (
     <div className={`space-y-2 pb-2`}>
-      <div>
+      <div className={`flex items-center gap-2`}>
         <h3 className={`font-medium`}>{title}</h3>
+
+        {isRequired && (
+          <span className={`badge badge-primary badge-sm`}>Required</span>
+        )}
       </div>
 
       <div className={`-mx-1`}>

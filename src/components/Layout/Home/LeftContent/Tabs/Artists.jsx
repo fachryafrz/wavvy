@@ -12,9 +12,9 @@ export default function TabArtists() {
     error,
     isLoading: loading,
   } = useQuery({
-    queryKey: `/me/top/artists`,
+    queryKey: [`/me/top/artists`],
     queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey).then(({ data }) => data);
+      return await fetchData(queryKey[0]).then(({ data }) => data);
     },
   });
 

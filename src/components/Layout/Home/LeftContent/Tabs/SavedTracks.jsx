@@ -13,9 +13,9 @@ export default function TabSavedTracks() {
     error,
     isLoading: loading,
   } = useQuery({
-    queryKey: `/me/tracks`,
+    queryKey: [`/me/tracks`],
     queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey).then(({ data }) => data);
+      return await fetchData(queryKey[0]).then(({ data }) => data);
     },
   });
 

@@ -1,29 +1,40 @@
 "use client";
 
-import moment from "moment";
 import { useRouter } from "next/navigation";
+import pluralize from "pluralize";
 import { useEffect, useState } from "react";
 
 export default function RetryAfter({ retryAfter }) {
   const router = useRouter();
+  const [countdown, setCountdown] = useState(Number(retryAfter) || 0);
 
   const handleClose = () => {
     document.getElementById("retryAfter").close();
-    router.back();
+    router.replace("/");
   };
-
-  const [countdown, setCountdown] = useState(retryAfter ? retryAfter : 0);
 
   useEffect(() => {
     if (!retryAfter) return;
-    document.getElementById("retryAfter").showModal();
+
+    const dialog = document.getElementById("retryAfter");
+    if (dialog) dialog.showModal();
+
     const intervalId = setInterval(() => {
       setCountdown((prevCountdown) =>
         prevCountdown > 0 ? prevCountdown - 1 : 0,
       );
     }, 1000);
+
     return () => clearInterval(intervalId);
   }, [retryAfter]);
+
+  // Fungsi untuk mengonversi detik ke jam, menit, dan detik
+  const formatDuration = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${pluralize("hour", hours, true)} ${pluralize("minute", minutes, true)} ${pluralize("second", secs, true)}`;
+  };
 
   return (
     <dialog
@@ -44,7 +55,7 @@ export default function RetryAfter({ retryAfter }) {
 
               <p className={`text-pretty text-sm font-medium text-neutral-500`}>
                 We are currently having trouble. <br /> Please try again after{" "}
-                {moment(countdown * 1000).format("m [minutes] s [seconds]")}.
+                {formatDuration(countdown)}.
               </p>
 
               <div className={`mt-4`}>
@@ -52,17 +63,14 @@ export default function RetryAfter({ retryAfter }) {
                   onClick={handleClose}
                   className={`btn btn-primary rounded-full`}
                 >
-                  Go back
+                  Go home
                 </button>
               </div>
             </div>
           </div>
-
-          {/* Image of Ryth when Logged In (Coming Soon) */}
-          {/* <figure></figure> */}
         </div>
       </div>
-      <form method="dialog" onSubmit={handleClose} className="modal-backdrop">
+      <form method="dialog" className="modal-backdrop">
         <button>close</button>
       </form>
     </dialog>

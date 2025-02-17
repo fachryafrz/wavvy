@@ -2,6 +2,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import TargetOrRange from "./Reusable/TargetOrRange";
 import { useEffect, useState } from "react";
 import { RANGE, TARGET } from "@/lib/constants";
+import { useRequiredFilter } from "@/zustand/isRequiredFilter";
 
 const TARGET_MODE = "target_mode";
 const MIN_MODE = "min_mode";
@@ -11,6 +12,7 @@ export default function Mode() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const current = new URLSearchParams(Array.from(searchParams.entries()));
+  const { isRequired } = useRequiredFilter();
 
   const [type, setType] = useState(TARGET);
   const [mode, setMode] = useState(0);
@@ -76,6 +78,7 @@ export default function Mode() {
       setType={setType}
       value={mode}
       setValue={setMode}
+      disabled={isRequired}
     />
   );
 }

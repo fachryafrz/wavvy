@@ -2,6 +2,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import TargetOrRange from "./Reusable/TargetOrRange";
 import { useEffect, useState } from "react";
 import { RANGE, TARGET } from "@/lib/constants";
+import { useRequiredFilter } from "@/zustand/isRequiredFilter";
 
 const TARGET_DURATION = "target_duration_ms";
 const MIN_DURATION = "min_duration_ms";
@@ -11,6 +12,7 @@ export default function Duration() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const current = new URLSearchParams(Array.from(searchParams.entries()));
+  const { isRequired } = useRequiredFilter();
 
   const [type, setType] = useState(TARGET);
   const [duration, setDuration] = useState(0);
@@ -76,6 +78,7 @@ export default function Duration() {
       setType={setType}
       value={duration}
       setValue={setDuration}
+      disabled={isRequired}
     />
   );
 }

@@ -13,9 +13,9 @@ export default function TabTracks() {
     error,
     isLoading: loading,
   } = useQuery({
-    queryKey: `/me/top/tracks`,
+    queryKey: [`/me/top/tracks`],
     queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey).then(({ data }) => data);
+      return await fetchData(queryKey[0]).then(({ data }) => data);
     },
   });
 

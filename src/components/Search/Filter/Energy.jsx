@@ -2,6 +2,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import TargetOrRange from "./Reusable/TargetOrRange";
 import { useEffect, useState } from "react";
 import { RANGE, TARGET } from "@/lib/constants";
+import { useRequiredFilter } from "@/zustand/isRequiredFilter";
 
 const TARGET_ENERGY = "target_energy";
 const MIN_ENERGY = "min_energy";
@@ -11,6 +12,7 @@ export default function Energy() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const current = new URLSearchParams(Array.from(searchParams.entries()));
+  const { isRequired } = useRequiredFilter();
 
   const [type, setType] = useState(TARGET);
   const [energy, setEnergy] = useState(0);
@@ -76,6 +78,7 @@ export default function Energy() {
       setType={setType}
       value={energy}
       setValue={setEnergy}
+      disabled={isRequired}
     />
   );
 }

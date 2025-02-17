@@ -2,6 +2,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import TargetOrRange from "./Reusable/TargetOrRange";
 import { useEffect, useState } from "react";
 import { RANGE, TARGET } from "@/lib/constants";
+import { useRequiredFilter } from "@/zustand/isRequiredFilter";
 
 const TARGET_INSTRUMENTALNESS = "target_instrumentalness";
 const MIN_INSTRUMENTALNESS = "min_instrumentalness";
@@ -11,6 +12,7 @@ export default function Instrumentalness() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const current = new URLSearchParams(Array.from(searchParams.entries()));
+  const { isRequired } = useRequiredFilter();
 
   const [type, setType] = useState(TARGET);
   const [instrumentalness, setInstrumentalness] = useState(0);
@@ -76,6 +78,7 @@ export default function Instrumentalness() {
       setType={setType}
       value={instrumentalness}
       setValue={setInstrumentalness}
+      disabled={isRequired}
     />
   );
 }

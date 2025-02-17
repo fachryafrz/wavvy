@@ -2,6 +2,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import TargetOrRange from "./Reusable/TargetOrRange";
 import { useEffect, useState } from "react";
 import { RANGE, TARGET } from "@/lib/constants";
+import { useRequiredFilter } from "@/zustand/isRequiredFilter";
 
 const TARGET_LOUDNESS = "target_loudness";
 const MIN_LOUDNESS = "min_loudness";
@@ -11,6 +12,7 @@ export default function Loudness() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const current = new URLSearchParams(Array.from(searchParams.entries()));
+  const { isRequired } = useRequiredFilter();
 
   const [type, setType] = useState(TARGET);
   const [loudness, setLoudness] = useState(0);
@@ -76,6 +78,7 @@ export default function Loudness() {
       setType={setType}
       value={loudness}
       setValue={setLoudness}
+      disabled={isRequired}
     />
   );
 }

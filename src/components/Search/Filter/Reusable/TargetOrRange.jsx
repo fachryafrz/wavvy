@@ -10,6 +10,7 @@ export default function TargetOrRange({
   setType,
   value,
   setValue,
+  disabled,
 }) {
   return (
     <div className={`space-y-2`}>
@@ -45,6 +46,7 @@ export default function TargetOrRange({
             step={0.01}
             onChange={(e, value) => setValue(value)}
             onChangeCommitted={(e, value) => onSlider(value)}
+            disabled={disabled}
             sx={{
               color: "#ff6337",
 
