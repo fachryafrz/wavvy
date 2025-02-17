@@ -14,7 +14,7 @@ export default function Logout({ user }) {
   const profilePicture = user.images?.find((image) => image.width === 300).url;
 
   return (
-    <div>
+    <div className={`z-30`}>
       <div className="dropdown dropdown-end dropdown-hover">
         <div tabIndex={0} role="button" className="">
           <figure
