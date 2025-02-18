@@ -26,7 +26,7 @@ export default function TabPlaylists() {
   };
 
   return (
-    <div>
+    <>
       {loading && (
         <div className={`flex flex-col`}>
           {[...Array(showLimit)].map((_, i) => (
@@ -52,7 +52,7 @@ export default function TabPlaylists() {
 
       {!loading && data?.playlists.items.length === 0 && (
         <span
-          className={`text mx-auto block w-fit text-sm font-medium text-neutral-500`}
+          className={`text mx-auto flex h-full w-fit items-center justify-center text-center text-sm font-medium text-neutral-500 placeholder-accent-content`}
         >
           No playlists available.
         </span>
@@ -68,6 +68,6 @@ export default function TabPlaylists() {
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 }

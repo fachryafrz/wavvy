@@ -28,7 +28,7 @@ export default function TabTracks() {
   };
 
   return (
-    <div>
+    <>
       {loading && (
         <div className={`flex flex-col`}>
           {[...Array(showLimit)].map((_, i) => (
@@ -78,7 +78,7 @@ export default function TabTracks() {
 
       {!loading && data?.items.length === 0 && (
         <span
-          className={`text mx-auto block w-fit text-sm font-medium text-neutral-500`}
+          className={`text mx-auto flex h-full w-fit items-center justify-center text-center text-sm font-medium text-neutral-500 placeholder-accent-content`}
         >
           You haven&apos;t listened to any songs yet
         </span>
@@ -94,6 +94,6 @@ export default function TabTracks() {
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 }

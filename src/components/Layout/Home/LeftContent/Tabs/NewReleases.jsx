@@ -28,7 +28,7 @@ export default function TabNewReleases() {
   };
 
   return (
-    <div>
+    <>
       {loading && (
         <div className={`flex flex-col`}>
           {[...Array(showLimit)].map((_, i) => (
@@ -73,7 +73,7 @@ export default function TabNewReleases() {
 
       {!loading && data?.albums.items.length === 0 && (
         <span
-          className={`text mx-auto block w-fit text-sm font-medium text-neutral-500`}
+          className={`text mx-auto flex h-full w-fit items-center justify-center text-center text-sm font-medium text-neutral-500 placeholder-accent-content`}
         >
           No new releases available.
         </span>
@@ -89,6 +89,6 @@ export default function TabNewReleases() {
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 }
