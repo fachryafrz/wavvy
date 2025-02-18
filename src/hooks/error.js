@@ -9,7 +9,7 @@ export const useHandleError = () => {
     const { status } = error.response;
 
     if (status === 401) {
-      queryClient.resetQueries({ queryKey: `/api/me` });
+      queryClient.resetQueries({ queryKey: [`/api/me`] });
       router.refresh();
     }
     if (status === 403) {

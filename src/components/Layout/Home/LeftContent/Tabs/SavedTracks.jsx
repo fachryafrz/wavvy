@@ -13,9 +13,9 @@ export default function TabSavedTracks() {
     error,
     isLoading: loading,
   } = useQuery({
-    queryKey: `/me/tracks`,
+    queryKey: [`/me/tracks`],
     queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey).then(({ data }) => data);
+      return await fetchData(queryKey[0]).then(({ data }) => data);
     },
   });
 
@@ -28,7 +28,7 @@ export default function TabSavedTracks() {
   };
 
   return (
-    <div>
+    <>
       {loading && (
         <div className={`flex flex-col`}>
           {[...Array(showLimit)].map((_, i) => (
@@ -79,7 +79,7 @@ export default function TabSavedTracks() {
 
       {!loading && data?.items.length === 0 && (
         <span
-          className={`text mx-auto block w-fit text-sm font-medium text-neutral-500`}
+          className={`text mx-auto flex h-full w-fit items-center justify-center text-center text-sm font-medium text-neutral-500 placeholder-accent-content`}
         >
           You haven&apos;t saved any songs yet
         </span>
@@ -95,6 +95,6 @@ export default function TabSavedTracks() {
           </Link>
         </div>
       )}
-    </div>
+    </>
   );
 }

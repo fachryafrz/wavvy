@@ -58,7 +58,7 @@ export default function Slider({
             prevEl: `#${id}_prev`,
           }}
           breakpoints={props.breakpoints ? props.breakpoints : breakpoints}
-          className={`!-ml-2`}
+          className={`!-mx-4 !px-2`}
         >
           {isLoading && (
             <div>

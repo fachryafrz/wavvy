@@ -46,7 +46,7 @@ export default function HomeTabs() {
   };
 
   return (
-    <div className={`flex flex-col`}>
+    <div className={`flex flex-col h-full`}>
       {/* Tabs */}
       {/* <div
         className={`relative flex items-center gap-6 before:absolute before:-top-4 before:left-0 before:h-0.5 before:w-full before:bg-neutral`}
@@ -93,7 +93,7 @@ export default function HomeTabs() {
       </div>
 
       {/* List */}
-      <div className={`-mx-1`}>
+      <div className={`-mx-1 h-full min-h-[368px]`}>
         {tabParam === "top-tracks" && <TabTracks />}
         {tabParam === "top-artists" && <TabArtists />}
         {tabParam === "popular-playlists" && <TabPlaylists />}
