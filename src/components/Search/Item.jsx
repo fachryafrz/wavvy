@@ -24,10 +24,10 @@ export default function Item({ itemsData, itemsType }) {
   };
 
   // Prepare query key
-  const getKey = () => {
+  const getKey = useMemo(() => {
     return `/search?q=${query}&type=${type}`;
 
-    // NOTE: This is needed if useing search params
+    // NOTE: This is needed if using search params
     // if (isQueryParams) {
     // return `/search?q=${query}`;
     // } else {
@@ -40,15 +40,15 @@ export default function Item({ itemsData, itemsType }) {
     //   }
     //   return `/api/search/filter?${params.toString()}`;
     // }
-  };
+  }, []);
 
   // Query Client
   const queryClient = useQueryClient();
 
   // Use TanStack Query for data fetching
   const { data, isLoading, refetch } = useQuery({
-    queryKey: [type, getKey()],
-    queryFn: () => fetcher(getKey()),
+    queryKey: [type, getKey],
+    queryFn: async () => await fetcher(getKey),
     enabled: !isAllPage, // You can control when the query should run
     staleTime: Infinity, // Adjust as needed
     cacheTime: Infinity, // Adjust as needed
@@ -67,14 +67,14 @@ export default function Item({ itemsData, itemsType }) {
     return uniqueItems;
   }, [data]);
 
-  // Fetch more films using mutation
-  const fetchMoreFilms = useMutation({
+  // Fetch more songs using mutation
+  const fetchMoreSongs = useMutation({
     mutationFn: async () => {
-      const newKey = `${getKey()}&offset=${items.length}`;
+      const newKey = `${getKey}&offset=${items.length}`;
       return fetcher(newKey);
     },
     onSuccess: (newData) => {
-      queryClient.setQueryData([type, getKey()], (prevData) => {
+      queryClient.setQueryData([type, getKey], (prevData) => {
         if (!prevData) return newData;
         return {
           ...newData,
@@ -88,7 +88,7 @@ export default function Item({ itemsData, itemsType }) {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          fetchMoreFilms.mutate();
+          fetchMoreSongs.mutate();
         }
       },
       { threshold: 0.5 },

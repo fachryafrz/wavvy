@@ -5,6 +5,7 @@
 Ryth is a music streaming platform that offers seamless access to an extensive music library. You can explore detailed information about songs, albums, artists, and playlists. The intuitive search functionality makes it easy to find songs, artists, albums, and playlists effortlessly.
 
 ## 🔍 How It Works
+
 - **Authenticate with Spotify** – Securely log in to access your personalized music experience.
 - **Explore the Music Library** – Discover an extensive collection of songs, albums, artists, and playlists.
 - **Search Easily** – Find your favorite songs, artists, albums, and playlists with a powerful search function.
@@ -12,6 +13,7 @@ Ryth is a music streaming platform that offers seamless access to an extensive m
 - **Enjoy Personalized Listening** – Use mobile-friendly playback and radio mode for endless music discovery.
 
 ## ✨ Key Features
+
 - **Extensive Music Library** – Access a vast catalog of songs, albums, and playlists.
 - **Detailed Song & Artist Information** – View comprehensive details about songs, albums, artists, and playlists.
 - **Powerful Search Function** – Easily find songs, artists, albums, and playlists.
@@ -33,6 +35,23 @@ Ryth is a music streaming platform that offers seamless access to an extensive m
   - 👥 Artists
   - 📔 Albums
   - 📃 Playlists
+- 🔍 Advanced search with filters:
+  - 🎭 Genre
+  - 🌍 Market
+  - 😊 Valence (Mood)
+  - 🎸 Acousticness
+  - 💃 Danceability
+  - ⏳ Duration
+  - 🌩️ Energy
+  - 🎻 Instrumentalness
+  - 🎹 Key
+  - 🎤 Liveness
+  - 📢 Loudness
+  - 🔀 Mode
+  - 📈 Popularity
+  - 🗣️ Speechiness
+  - 🎵 Tempo
+  - 📏 Time Signature
 - 🎵 Stream songs:
   - ▶️ Play
   - ⏸️ Pause
@@ -86,3 +105,4 @@ This project is licensed under the [MIT License](LICENSE.md).
 
 [![Ryth](https://fachryafrz.vercel.app/projects/ryth/details.png)](https://ryth.vercel.app)
 [![Ryth](https://fachryafrz.vercel.app/projects/ryth/mobile.png)](https://ryth.vercel.app)
+[![Ryth](https://fachryafrz.vercel.app/projects/ryth/filters.png)](https://ryth.vercel.app)

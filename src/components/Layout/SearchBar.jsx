@@ -1,7 +1,8 @@
 import { debounce } from "@mui/material";
+import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Close, Search } from "react-ionicons";
+import { Close, Options, Search } from "react-ionicons";
 import Typewriter from "typewriter-effect/dist/core";
 
 export default function SearchBar({
@@ -145,10 +146,18 @@ export default function SearchBar({
           <button
             type="button"
             onClick={() => setInput("")}
-            className={`absolute right-4`}
           >
             <Close color={"#fff"} />
           </button>
+        )}
+
+        {pathname !== `/search` && (
+          <Link
+            href={`/search`}
+            className={`btn btn-circle btn-ghost border-0 bg-transparent outline-none`}
+          >
+            <Options color={`#ffffff`} />
+          </Link>
         )}
       </label>
     </form>

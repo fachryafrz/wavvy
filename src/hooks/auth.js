@@ -13,16 +13,16 @@ export const useAuth = () => {
   const { setUser } = userStore();
 
   const { data: user, error } = useQuery({
-    queryKey: `/me`,
+    queryKey: [`/me`],
     queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey).then(({ data }) => data);
+      return await fetchData(queryKey[0]).then(({ data }) => data);
     },
     refetchInterval: 1000 * 60 * 5,
   });
-  const userData = queryClient.getQueryData(`/me`);
+  const userData = queryClient.getQueryData([`/me`]);
 
   const invalidate = () => {
-    queryClient.resetQueries({ queryKey: `/me` });
+    queryClient.resetQueries({ queryKey: [`/me`] });
     setUser(null);
     router.refresh();
   };

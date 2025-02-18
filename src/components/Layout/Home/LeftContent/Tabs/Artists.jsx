@@ -12,9 +12,9 @@ export default function TabArtists() {
     error,
     isLoading: loading,
   } = useQuery({
-    queryKey: `/me/top/artists`,
+    queryKey: [`/me/top/artists`],
     queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey).then(({ data }) => data);
+      return await fetchData(queryKey[0]).then(({ data }) => data);
     },
   });
 
@@ -27,7 +27,7 @@ export default function TabArtists() {
   };
 
   return (
-    <div>
+    <>
       {loading && (
         <div className={`flex flex-col`}>
           {[...Array(showLimit)].map((_, i) => (
@@ -62,7 +62,7 @@ export default function TabArtists() {
 
       {!loading && data?.items.length === 0 && (
         <span
-          className={`text mx-auto block w-fit text-sm font-medium text-neutral-500`}
+          className={`text mx-auto flex h-full w-fit items-center justify-center text-center text-sm font-medium text-neutral-500 placeholder-accent-content`}
         >
           You haven&apos;t listened to any artists yet
         </span>
@@ -78,6 +78,6 @@ export default function TabArtists() {
           </button>
         </div>
       )}
-    </div>
+    </>
   );
 }
