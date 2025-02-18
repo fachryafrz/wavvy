@@ -52,6 +52,7 @@ export default function Filter({ markets, genres }) {
       <Genre data={genres} />
       <Track />
       <Market data={markets} />
+      <Valence />
       <Acousticness />
       <Danceability />
       <Duration />
@@ -65,7 +66,6 @@ export default function Filter({ markets, genres }) {
       <Speechiness />
       <Tempo />
       <TimeSignature />
-      <Valence />
     </div>
   );
 }

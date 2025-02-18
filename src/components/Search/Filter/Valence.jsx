@@ -75,7 +75,7 @@ export default function Valence() {
 
   return (
     <TargetOrRange
-      title={"Valence"}
+      title={"Mood"}
       onSlider={handleValence}
       type={type}
       setType={setType}
