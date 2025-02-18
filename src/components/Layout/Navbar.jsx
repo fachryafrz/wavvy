@@ -19,8 +19,10 @@ export default function Navbar({ authorizationURL, client_id }) {
 
   useEffect(() => {
     if (window.innerWidth >= 1280) {
+      setDrawerOpen(true);
       setFilterToggle(true);
     } else {
+      setDrawerOpen(false);
       setFilterToggle(false);
     }
   }, []);

@@ -115,7 +115,7 @@ export default function Results() {
             );
           })}
 
-        {(isLoading || songs?.length > 0) &&
+        {isLoading &&
           [...Array(20)].map((_, i) => (
             <li key={i} ref={i === 0 ? loadMoreRef : null}>
               <SkeletonCard type={`track`} />

@@ -28,6 +28,7 @@ export default function Sidebar({
 
   useEffect(() => {
     if (user) setUser(user);
+    else setUser(null);
   }, [user]);
 
   return (
@@ -40,7 +41,7 @@ export default function Sidebar({
         <div
           className={`drawer flex-1 overflow-hidden ${drawerOpen ? "lg:drawer-open" : ""}`}
         >
-          <input id="sidebar" type="checkbox" className="drawer-toggle" />
+          <input id="sidebar" type="checkbox" checked={drawerOpen} className="drawer-toggle" />
           <div className={`drawer-content flex min-h-0 flex-col`}>
             {/* Page content here */}
             <header id="header" className={`bg-base-100`}>
