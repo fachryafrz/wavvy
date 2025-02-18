@@ -64,26 +64,26 @@ export default function Results() {
   });
 
   // Infinite load
-  useEffect(() => {
-    if (!loadMoreRef.current) return; // Pastikan elemen ada
+  // useEffect(() => {
+  //   if (!loadMoreRef.current) return; // Pastikan elemen ada
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          fetchMoreSongs.mutate();
-        }
-      },
-      { threshold: 0.5 },
-    );
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       if (entries[0].isIntersecting) {
+  //         fetchMoreSongs.mutate();
+  //       }
+  //     },
+  //     { threshold: 0.5 },
+  //   );
 
-    observer.observe(loadMoreRef.current);
+  //   observer.observe(loadMoreRef.current);
 
-    return () => {
-      if (loadMoreRef.current) {
-        observer.unobserve(loadMoreRef.current);
-      }
-    };
-  }, [loadMoreRef.current]); // Menjalankan ulang efek jika elemen berubah
+  //   return () => {
+  //     if (loadMoreRef.current) {
+  //       observer.unobserve(loadMoreRef.current);
+  //     }
+  //   };
+  // }, [loadMoreRef.current]); // Menjalankan ulang efek jika elemen berubah
 
   return (
     <div className={`flex-1 @container`}>
