@@ -1,14 +1,14 @@
 import LeftContent from "@/components/Layout/Home/LeftContent";
-import { fetchData } from "@/server/actions";
+import { axios } from "@/lib/axios";
 
 export default async function Home() {
   const {
     data: { categories },
-  } = await fetchData(`/browse/categories`);
+  } = await axios.get(`/browse/categories`);
 
   const categoriesPlaylists = await Promise.all(
     categories.items.map(({ id }) =>
-      fetchData(`/browse/categories/${id}/playlists`).then(({ data }) => data),
+      axios.get(`/browse/categories/${id}/playlists`).then(({ data }) => data),
     ),
   );
 
