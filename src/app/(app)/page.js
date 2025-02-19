@@ -1,13 +1,15 @@
 import LeftContent from "@/components/Layout/Home/LeftContent";
-import { axios } from "@/lib/axios";
+import { createSpotifyAxiosInstance } from "@/lib/axios";
 
 export default async function Home() {
+  const axios = await createSpotifyAxiosInstance();
+
   const {
     data: { categories },
   } = await axios.get(`/browse/categories`);
 
   const categoriesPlaylists = await Promise.all(
-    categories.items.map(({ id }) =>
+    categories.items.slice(0, 5).map(({ id }) =>
       axios.get(`/browse/categories/${id}/playlists`).then(({ data }) => data),
     ),
   );
