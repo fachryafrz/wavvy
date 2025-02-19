@@ -30,6 +30,7 @@ export default function PlayerInfo() {
             ) : (
               <Link
                 href={`/${track?.type ?? "track"}/${track?.id}`}
+                prefetch={false}
                 className={`relative z-10 hocus:underline`}
               >
                 {track?.name}
@@ -51,6 +52,7 @@ export default function PlayerInfo() {
                     <>
                       <Link
                         href={`/artist/${id}`}
+                        prefetch={false}
                         className={`relative z-10 hocus:underline`}
                       >
                         {artist.name}
@@ -67,6 +69,7 @@ export default function PlayerInfo() {
                     <>
                       <Link
                         href={`/artist/${id}`}
+                        prefetch={false}
                         className={`hocus:underline`}
                       >
                         {artist.name}

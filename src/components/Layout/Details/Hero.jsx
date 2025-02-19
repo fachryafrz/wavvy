@@ -150,7 +150,10 @@ export default function DetailsHero({
 
                   return (
                     <div key={artist.id} className={`flex items-center gap-2`}>
-                      <Link href={`/${artist.type}/${artist.id}`}>
+                      <Link
+                        href={`/${artist.type}/${artist.id}`}
+                        prefetch={false}
+                      >
                         <figure
                           className={`aspect-square w-[40px] overflow-hidden rounded-full`}
                         >
@@ -166,6 +169,7 @@ export default function DetailsHero({
 
                       <Link
                         href={`/${artist.type}/${artist.id}`}
+                        prefetch={false}
                         className={`font-medium hocus:underline`}
                       >
                         {artist.name}

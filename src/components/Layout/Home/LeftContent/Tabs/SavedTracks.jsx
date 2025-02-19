@@ -55,6 +55,7 @@ export default function TabSavedTracks() {
                   <>
                     <Link
                       href={`/${artist.type}/${artist.id}`}
+                      prefetch={false}
                       className={`hocus:underline`}
                     >
                       {artist.name}
@@ -67,6 +68,7 @@ export default function TabSavedTracks() {
               secondInfo={
                 <Link
                   href={`/${item.track.album.type}/${item.track.album.id}`}
+                  prefetch={false}
                   className={`hocus:underline`}
                 >
                   {item.track.album.name}
@@ -89,6 +91,7 @@ export default function TabSavedTracks() {
         <div className={`mt-4 flex justify-center`}>
           <Link
             href={`/me/tracks`}
+            prefetch={false}
             className={`btn btn-ghost btn-sm w-full text-primary`}
           >
             Show more

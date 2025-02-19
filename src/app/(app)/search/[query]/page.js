@@ -43,6 +43,7 @@ export default async function page({ params }) {
       <section>
         <Link
           href={`/search/${query}/tracks`}
+          prefetch={false}
           className={`text-xl font-medium hocus:underline`}
         >
           {pluralize("Song", data?.tracks?.items.length)}
@@ -55,6 +56,7 @@ export default async function page({ params }) {
       <section>
         <Link
           href={`/search/${query}/artists`}
+          prefetch={false}
           className={`text-xl font-medium hocus:underline`}
         >
           {pluralize("Artist", data?.artists?.items.length)}
@@ -67,6 +69,7 @@ export default async function page({ params }) {
       <section>
         <Link
           href={`/search/${query}/albums`}
+          prefetch={false}
           className={`text-xl font-medium hocus:underline`}
         >
           {pluralize("Album", data?.albums?.items.length)}
@@ -79,6 +82,7 @@ export default async function page({ params }) {
       <section>
         <Link
           href={`/search/${query}/playlists`}
+          prefetch={false}
           className={`text-xl font-medium hocus:underline`}
         >
           {pluralize("Playlist", data?.playlists?.items.length)}

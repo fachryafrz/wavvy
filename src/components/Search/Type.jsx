@@ -44,7 +44,9 @@ export default function Type() {
   }, [query, type]);
 
   return (
-    <div className={`sticky z-40 -mx-2 top-0 bg-base-100 backdrop-blur bg-opacity-90`}>
+    <div
+      className={`sticky top-0 z-40 -mx-2 bg-base-100 bg-opacity-90 backdrop-blur`}
+    >
       <Swiper
         modules={[FreeMode]}
         freeMode={true}
@@ -59,6 +61,7 @@ export default function Type() {
             <SwiperSlide key={tab.title} className={`!max-w-fit`}>
               <Link
                 href={tab.href}
+                prefetch={false}
                 className={`btn btn-ghost btn-sm rounded-full ${isActive ? "bg-white text-black" : "bg-neutral text-white"}`}
               >
                 <h2>{tab.title}</h2>

@@ -28,7 +28,11 @@ export default function FavoriteArtists() {
       <div className={`flex items-center justify-between`}>
         <h2 className={`section-title`}>Favorite Artists</h2>
 
-        <Link href={`/`} className={`text-xs font-medium text-primary`}>
+        <Link
+          href={`/`}
+          prefetch={false}
+          className={`text-xs font-medium text-primary`}
+        >
           See all
         </Link>
       </div>
@@ -49,6 +53,7 @@ export default function FavoriteArtists() {
               <li key={item.id}>
                 <Link
                   href={`/${item.type}/${item.id}`}
+                  prefetch={false}
                   className={`flex items-center justify-between`}
                 >
                   <ArtistCard artist={item} index={i} />

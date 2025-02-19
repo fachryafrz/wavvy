@@ -87,6 +87,7 @@ export default function CardVertical({ item, image, info }) {
 
         <Link
           href={`/${item.type}/${item.id}`}
+          prefetch={false}
           className={`pointer-events-none lg:pointer-events-auto`}
         >
           <img src={image} alt={item.name} draggable="false" />
@@ -97,7 +98,9 @@ export default function CardVertical({ item, image, info }) {
         className={`flex flex-col gap-1 ${type === `artist` ? `items-center` : `items-start`}`}
       >
         <h3 className={`line-clamp-1 max-w-fit font-medium hocus:underline`}>
-          <Link href={`/${item.type}/${item.id}`}>{item.name}</Link>
+          <Link href={`/${item.type}/${item.id}`} prefetch={false}>
+            {item.name}
+          </Link>
         </h3>
 
         {info && (
