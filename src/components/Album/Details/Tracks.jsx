@@ -60,6 +60,7 @@ export default function AlbumDetailsTracks({ album, disc }) {
                         <>
                           <Link
                             href={`/${artist.type}/${artist.id}`}
+                            prefetch={false}
                             className={`hocus:underline`}
                           >
                             {artist.name}

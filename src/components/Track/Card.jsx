@@ -17,6 +17,7 @@ export default function TrackCard({
           {type && id ? (
             <Link
               href={`/${type}/${id}`}
+              prefetch={false}
               className={`z-10 aspect-square max-w-14 flex-grow`}
             >
               <figure className={`overflow-hidden rounded-lg`}>

@@ -54,6 +54,7 @@ export default function TabTracks() {
                   <>
                     <Link
                       href={`/${artist.type}/${artist.id}`}
+                      prefetch={false}
                       className={`hocus:underline`}
                     >
                       {artist.name}
@@ -66,6 +67,7 @@ export default function TabTracks() {
               secondInfo={
                 <Link
                   href={`/${track.album.type}/${track.album.id}`}
+                  prefetch={false}
                   className={`hocus:underline`}
                 >
                   {track.album.name}

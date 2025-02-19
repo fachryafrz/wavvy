@@ -99,7 +99,7 @@ export default function SidebarContent() {
 
   return (
     <>
-      <Link href={`/`}>
+      <Link href={`/`} prefetch={false}>
         <figure className={`flex items-center justify-center px-4`}>
           <svg
             id="logo-70"

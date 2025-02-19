@@ -38,6 +38,7 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
                 title={
                   <Link
                     href={`/section/${category.id}`}
+                    prefetch={false}
                     className={`hocus:underline`}
                   >
                     {category.name}
@@ -70,7 +71,11 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
           <SliderPlaylist
             id={`recently-played`}
             title={
-              <Link href={`/me/recently-played`} className={`hocus:underline`}>
+              <Link
+                href={`/me/recently-played`}
+                prefetch={false}
+                className={`hocus:underline`}
+              >
                 Recently Played
               </Link>
             }
@@ -90,6 +95,7 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
                 title={
                   <Link
                     href={`/section/${category.id}`}
+                    prefetch={false}
                     className={`hocus:underline`}
                   >
                     {category.name}
