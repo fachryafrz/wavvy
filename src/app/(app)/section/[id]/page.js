@@ -1,13 +1,13 @@
 import CardVertical from "@/components/Card/CardVertical";
-import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
-import { fetchData } from "@/server/actions";
-import Link from "next/link";
+import { createSpotifyAxiosInstance } from "@/lib/axios";
 import React from "react";
 
 export async function generateMetadata({ params }) {
   const { id } = params;
 
-  const { data } = await fetchData(`/browse/categories/${id}/playlists`);
+  const axios = await createSpotifyAxiosInstance();
+
+  const { data } = await axios.get(`/browse/categories/${id}/playlists`);
 
   return {
     title: `${data.message}`,
@@ -17,7 +17,9 @@ export async function generateMetadata({ params }) {
 export default async function page({ params }) {
   const { id } = params;
 
-  const { data } = await fetchData(`/browse/categories/${id}/playlists`);
+  const axios = await createSpotifyAxiosInstance();
+
+  const { data } = await axios.get(`/browse/categories/${id}/playlists`);
 
   return (
     <div className={`@container`}>

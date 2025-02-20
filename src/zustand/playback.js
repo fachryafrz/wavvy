@@ -1,4 +1,4 @@
-import { fetchData } from "@/server/actions";
+import axios from "axios";
 import { create } from "zustand";
 
 export const usePlayback = create((set, get) => ({
@@ -19,8 +19,9 @@ export const usePlayback = create((set, get) => ({
     localStorage.setItem("volume-state", volume_percent);
     set({ volume: volume_percent });
 
-    await fetchData(`/me/player/volume`, {
+    await axios.request({
       method: "PUT",
+      url: `/me/player/volume`,
       params: {
         volume_percent: volume_percent,
         device_id: device.device_id,

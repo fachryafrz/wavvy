@@ -7,7 +7,6 @@ import FavoriteArtists from "../../FavoriteArtists";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { userStore } from "@/zustand/user";
-import { fetchData } from "@/server/actions";
 
 export default function LeftContent({ categories, categoriesPlaylists }) {
   // NOTE: Need to get user from zustand, otherwise it will get error hydration
@@ -15,10 +14,11 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
 
   const { data: recentlyPlayedData, isLoading: recentlyPlayedIsLoading } =
     useQuery({
-      queryKey: [`/me/player/recently-played`],
+      queryKey: [`/api/me/player/recently-played`],
       queryFn: async ({ queryKey }) => {
-        return await fetchData(queryKey[0]).then(({ data }) => data);
+        return await axios.get(queryKey[0]).then(({ data }) => data);
       },
+      enabled: !!user,
     });
 
   const handleFindCategory = (name) => {
