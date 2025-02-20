@@ -2,7 +2,7 @@ import { RateLimiter } from "limiter";
 import { NextResponse } from "next/server";
 
 export const limiter = new RateLimiter({
-  tokensPerInterval: 180,
+  tokensPerInterval: 120,
   interval: "min",
   fireImmediately: true,
 });
