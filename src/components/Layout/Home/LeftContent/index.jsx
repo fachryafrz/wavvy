@@ -18,6 +18,7 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
       queryFn: async ({ queryKey }) => {
         return await axios.get(queryKey[0]).then(({ data }) => data);
       },
+      enabled: !!user,
     });
 
   const handleFindCategory = (name) => {
