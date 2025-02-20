@@ -1,6 +1,6 @@
 "use client";
 
-import { Options } from "react-ionicons";
+import { Close, Options } from "react-ionicons";
 import Acousticness from "./Acousticness";
 import Danceability from "./Danceability";
 import Duration from "./Duration";
@@ -27,7 +27,7 @@ import { useRequiredFilter } from "@/zustand/isRequiredFilter";
 export default function Filter({ markets, genres }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { filterToggle } = useFilterToggle();
+  const { filterToggle, setFilterToggle } = useFilterToggle();
   const { setIsRequired } = useRequiredFilter();
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function Filter({ markets, genres }) {
 
   return (
     <div
-      className={`fixed left-0 z-10 max-h-[calc(100dvh-(64px+64px+80px))] w-full flex-1 space-y-2 overflow-y-auto bg-neutral bg-opacity-95 p-4 backdrop-blur transition-all duration-300 sm:left-4 sm:max-h-[calc(100dvh-(64px+64px+84px+0.5rem))] sm:max-w-[300px] sm:rounded-2xl lg:left-auto xl:sticky xl:top-[calc(64px+0.5rem)] xl:max-h-[calc(100dvh-(64px+64px+84px+1.5rem))] ${filterToggle ? "-translate-x-0 opacity-100 xl:ml-0" : "-translate-x-[calc(100%+1rem)] opacity-0 xl:-ml-[calc(300px+1rem)]"}`}
+      className={`fixed left-0 z-20 max-h-[calc(100dvh-(64px+80px))] w-full flex-1 space-y-2 overflow-y-auto bg-neutral bg-opacity-90 p-4 backdrop-blur transition-all duration-300 sm:left-4 sm:mt-2 sm:max-h-[calc(100dvh-(64px+84px+1.5rem))] sm:max-w-[300px] sm:rounded-2xl lg:left-auto xl:sticky xl:top-2 ${filterToggle ? "-translate-x-0 opacity-100 xl:ml-0" : "-translate-x-[calc(100%+1rem)] opacity-0 xl:-ml-[calc(300px+1rem)]"}`}
     >
       <Artist />
       <Genre data={genres} />
@@ -66,6 +66,14 @@ export default function Filter({ markets, genres }) {
       <Speechiness />
       <Tempo />
       <TimeSignature />
+
+      {/* Close Button */}
+      <button
+        onClick={() => setFilterToggle(false)}
+        className={`absolute right-4 top-0 block sm:hidden`}
+      >
+        <Close color={`#ffffff`} width={`34px`} height={`34px`} />
+      </button>
     </div>
   );
 }
@@ -76,11 +84,9 @@ export function FilterMenuToggle() {
   return (
     <button
       onClick={() => setFilterToggle(!filterToggle)}
-      className={`btn btn-primary rounded-full`}
+      className={`btn btn-circle btn-primary`}
     >
       <Options color={`#ffffff`} />
-
-      <h2 className={`font-medium`}>Tune</h2>
     </button>
   );
 }

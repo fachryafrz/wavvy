@@ -7,7 +7,7 @@ import { useRequiredFilter } from "@/zustand/isRequiredFilter";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 export default function Results() {
   const router = useRouter();
@@ -43,46 +43,44 @@ export default function Results() {
   }, [data]);
 
   // Fetch more songs
-  const fetchMoreSongs = useMutation({
-    mutationFn: async () => {
-      const newKey = `/api/recommendations?${searchParams.toString()}&offset=${songs.length}`;
-      return axios.get(newKey).then(({ data }) => data);
-    },
-    onSuccess: (newData) => {
-      queryClient.setQueryData(
-        [`/api/recommendations?${searchParams.toString()}`],
-        (prevData) => {
-          if (!prevData) return newData;
-          return {
-            ...newData,
-            tracks: [...prevData.tracks, ...newData.tracks],
-          };
-        },
-      );
-    },
-  });
+  const fetchMoreSongs = useCallback(async () => {
+    const newKey = `/api/recommendations?${searchParams.toString()}&offset=${songs.length}`;
+    const newData = await axios.get(newKey).then(({ data }) => data);
+
+    queryClient.setQueryData(
+      [`/api/recommendations?${searchParams.toString()}`],
+      (prevData) => {
+        if (!prevData) return newData;
+        return {
+          ...newData,
+          tracks: [...prevData.tracks, ...newData.tracks],
+        };
+      },
+    );
+  }, [queryClient, searchParams, songs.length]);
 
   // Infinite load
-  // useEffect(() => {
-  //   if (!loadMoreRef.current) return; // Pastikan elemen ada
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchMoreSongs();
+        }
+      },
+      { threshold: 0.5 },
+    );
 
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       if (entries[0].isIntersecting) {
-  //         fetchMoreSongs.mutate();
-  //       }
-  //     },
-  //     { threshold: 0.5 },
-  //   );
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
 
-  //   observer.observe(loadMoreRef.current);
-
-  //   return () => {
-  //     if (loadMoreRef.current) {
-  //       observer.unobserve(loadMoreRef.current);
-  //     }
-  //   };
-  // }, [loadMoreRef.current]); // Menjalankan ulang efek jika elemen berubah
+    return () => {
+      if (loadMoreRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        observer.unobserve(loadMoreRef.current);
+      }
+    };
+  }, [fetchMoreSongs]);
 
   return (
     <div className={`flex-1 @container`}>
@@ -97,6 +95,15 @@ export default function Results() {
       <ul
         className={`-mx-2 grid grid-cols-2 @lg:grid-cols-3 @3xl:grid-cols-4 @5xl:grid-cols-5 @6xl:grid-cols-6`}
       >
+        {/* Initial loading */}
+        {isLoading &&
+          songs?.length === 0 &&
+          [...Array(20)].map((_, i) => (
+            <li key={i}>
+              <SkeletonCard type={`track`} />
+            </li>
+          ))}
+
         {songs?.length > 0 &&
           songs.map((item) => {
             if (!item) return null;
@@ -114,7 +121,8 @@ export default function Results() {
             );
           })}
 
-        {isLoading &&
+        {/* Infinite loading */}
+        {songs?.length > 0 &&
           [...Array(20)].map((_, i) => (
             <li key={i} ref={i === 0 ? loadMoreRef : null}>
               <SkeletonCard type={`track`} />

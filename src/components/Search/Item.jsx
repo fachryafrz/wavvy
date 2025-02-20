@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import CardVertical from "../Card/CardVertical";
 import SkeletonCard from "../Skeleton/Card";
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -54,27 +54,26 @@ export default function Item({ itemsData, itemsType }) {
   }, [data]);
 
   // Fetch more songs using mutation
-  const fetchMoreSongs = useMutation({
-    mutationFn: async () => {
-      const newKey = `${getKey}&offset=${items.length}`;
-      return fetcher(newKey);
-    },
-    onSuccess: (newData) => {
-      queryClient.setQueryData([type, getKey], (prevData) => {
-        if (!prevData) return newData;
-        return {
-          ...newData,
-          items: [...prevData.items, ...newData.items],
-        };
-      });
-    },
-  });
+  const fetchMoreSongs = useCallback(async () => {
+    const newKey = `${getKey}&offset=${items.length}`;
+    const newData = await axios
+      .get(newKey)
+      .then(({ data }) => data[combinedType]);
+
+    queryClient.setQueryData([type, getKey], (prevData) => {
+      if (!prevData) return newData;
+      return {
+        ...newData,
+        items: [...prevData.items, ...newData.items],
+      };
+    });
+  }, [combinedType, getKey, items.length, queryClient, type]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          fetchMoreSongs.mutate();
+          fetchMoreSongs();
         }
       },
       { threshold: 0.5 },
@@ -90,7 +89,7 @@ export default function Item({ itemsData, itemsType }) {
         observer.unobserve(loadMoreRef.current);
       }
     };
-  }, []);
+  }, [fetchMoreSongs]);
 
   return (
     <ul

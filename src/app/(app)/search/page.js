@@ -5,16 +5,15 @@ import markets from '@/data/market-seeds.json'
 
 export default async function page() {
   return (
-    <div className={`relative h-full`}>
-      {/* Header */}
-      <div className={`flex z-20 bg-base-100 pb-4 bg-opacity-90 backdrop-blur py-2 items-center gap-2 sticky top-0`}>
-        {/* Filter Toggle */}
-        <FilterMenuToggle />
-      </div>
+    <div className={`flex gap-4 h-full`}>
+      {/* Filter */}
+      <Filter markets={markets} genres={genres} />
 
-      <div className={`flex gap-4 h-full max-h-[calc(100%-64px)]`}>
-        {/* Filter */}
-        <Filter markets={markets} genres={genres} />
+      <div className={`flex-1 flex flex-col`}>
+        {/* Filter Toggle */}
+        <div className={`bg-base-100 sticky top-0 z-10 bg-opacity-90 py-2 backdrop-blur flex justify-end xl:justify-start`}>
+          <FilterMenuToggle />
+        </div>
 
         {/* Songs */}
         <Results />

@@ -15,7 +15,8 @@ export const useAuth = () => {
     queryFn: async ({ queryKey }) => {
       return await axios.get(queryKey[0]).then(({ data }) => data);
     },
-    refetchInterval: 1000 * 60 * 60,
+    staleTime: 1000 * 60 * 60, // 1 jam
+    retryOnMount: false,
   });
   const userData = queryClient.getQueryData([`/api/me`]);
 
@@ -30,8 +31,9 @@ export const useAuth = () => {
   };
 
   useEffect(() => {
-    if (userData && error) invalidate();
-  }, [userData, error]);
+    if (user) setUser(user);
+    else setUser(null);
+  }, [user]);
 
   return { user, logout };
 };

@@ -2,15 +2,13 @@
 
 import Player from "../Player";
 import Navbar from "../Navbar";
-import React, { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import SidebarContent from "./Content";
 import { WebPlaybackSDK } from "react-spotify-web-playback-sdk";
 import MobilePlayer from "@/components/Modals/MobilePlayer";
 import PremiumAlert from "@/components/Modals/PremiumAlert";
 import LoginAlert from "@/components/Modals/LoginAlert";
 import ErrorAlert from "@/components/Modals/ErrorAlert";
-import { userStore } from "@/zustand/user";
-import { useAuth } from "@/hooks/auth";
 import { useDrawerOpen } from "@/zustand/drawerOpen";
 
 export default function Sidebar({
@@ -21,15 +19,7 @@ export default function Sidebar({
 }) {
   const getOAuthToken = useCallback((callback) => callback(AUTH_TOKEN), []);
 
-  // NOTE: Don't remove this. This is for getting rid of the hydration error
-  const { user } = useAuth();
-  const { setUser } = userStore();
   const { drawerOpen } = useDrawerOpen();
-
-  useEffect(() => {
-    if (user) setUser(user);
-    else setUser(null);
-  }, [user]);
 
   return (
     <WebPlaybackSDK

@@ -3,7 +3,6 @@ import SelectFilter from "./Reusable/SelectFilter";
 import { useEffect, useMemo, useState } from "react";
 import iso3311a2 from "iso-3166-1-alpha-2";
 import { useRequiredFilter } from "@/zustand/isRequiredFilter";
-import { useAuth } from "@/hooks/auth";
 
 const MARKET = "market";
 
@@ -12,7 +11,6 @@ export default function Market({ data }) {
   const searchParams = useSearchParams();
   const current = new URLSearchParams(Array.from(searchParams.entries()));
   const { isRequired } = useRequiredFilter();
-  const { user } = useAuth(); // NOTE: default value ke user.country
 
   const [market, setMarket] = useState([]);
 
