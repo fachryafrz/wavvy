@@ -8,7 +8,6 @@ import {
   PlaySkipBack,
   PlaySkipForward,
 } from "react-ionicons";
-import { useHandleError } from "@/hooks/error";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/auth";
 import {
@@ -82,8 +81,6 @@ export default function Playback({ isMobile }) {
     if (!user) return 0;
     return (progress / duration) * 100;
   };
-
-  const { handleError } = useHandleError();
 
   // Login Alert
   const handleLoginAlert = () => {

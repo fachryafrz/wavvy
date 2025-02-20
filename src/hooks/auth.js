@@ -2,7 +2,6 @@ import axios from "axios";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { useHandleError } from "./error";
 import { fetchData } from "@/server/actions";
 import { userStore } from "@/zustand/user";
 

@@ -9,7 +9,7 @@ export default async function Home() {
   } = await axios.get(`/browse/categories`);
 
   const categoriesPlaylists = await Promise.all(
-    categories.items.slice(0, 5).map(({ id }) =>
+    categories.items.slice(0, 7).map(({ id }) =>
       axios.get(`/browse/categories/${id}/playlists`).then(({ data }) => data),
     ),
   );

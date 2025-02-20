@@ -26,20 +26,6 @@ export default function Item({ itemsData, itemsType }) {
   // Prepare query key
   const getKey = useMemo(() => {
     return `/search?q=${query}&type=${type}`;
-
-    // NOTE: This is needed if using search params
-    // if (isQueryParams) {
-    // return `/search?q=${query}`;
-    // } else {
-    //   const params = new URLSearchParams({
-    //     media_type: type,
-    //     ...Object.fromEntries(searchParams),
-    //   });
-    //   if (searchParams.get("watch_providers") && location) {
-    //     params.append("watch_region", location.country_code);
-    //   }
-    //   return `/api/search/filter?${params.toString()}`;
-    // }
   }, []);
 
   // Query Client

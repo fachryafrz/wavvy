@@ -6,7 +6,7 @@ import {
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-export async function DELETE(request) {
+export async function DELETE(req) {
   const cookiesStore = cookies();
   const headers = {
     Authorization: `Basic ${Buffer.from(
@@ -38,6 +38,6 @@ export async function DELETE(request) {
       { status: 200 },
     );
   } catch (error) {
-    return NextResponse.json(error, { status: error.status });
+    return NextResponse.json(error.response.data, { status: error.response.status });
   }
 }

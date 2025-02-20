@@ -1,5 +1,5 @@
 import Item from "@/components/Search/Item";
-import { fetchData } from "@/server/actions";
+import { createSpotifyAxiosInstance } from "@/lib/axios";
 import pluralize from "pluralize";
 
 export async function generateMetadata({ params }) {
@@ -19,8 +19,10 @@ export async function generateMetadata({ params }) {
 export default async function page({ params }) {
   const { query } = params;
 
-  const { data } = await fetchData(`/search?q=${query}`, {
-    params: { type: "track" },
+  const axios = await createSpotifyAxiosInstance();
+
+  const { data } = await axios.get(`/search`, {
+    params: { q: query, type: "track" },
   });
 
   return (

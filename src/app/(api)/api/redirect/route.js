@@ -6,7 +6,7 @@ import {
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-export async function GET(request) {
+export async function GET(req) {
   const cookiesStore = cookies();
   const headers = {
     Authorization: `Basic ${Buffer.from(
@@ -14,7 +14,7 @@ export async function GET(request) {
     ).toString("base64")}`,
     "Content-Type": "application/x-www-form-urlencoded",
   };
-  const url = new URL(request.url);
+  const url = new URL(req.url);
   const { path } = Object.fromEntries(url.searchParams);
 
   try {
@@ -22,6 +22,6 @@ export async function GET(request) {
 
     return NextResponse.json({ message: "Login attempt" }, { status: 200 });
   } catch (error) {
-    return NextResponse.json(error, { status: error.status });
+    return NextResponse.json(error.response.data, { status: error.response.status });
   }
 }

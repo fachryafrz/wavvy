@@ -1,9 +1,5 @@
-import { useHandleError } from "@/hooks/error";
-import { useAuth } from "@/hooks/auth";
+
 import { usePlayback } from "@/zustand/playback";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import {
   Repeat,
@@ -25,11 +21,6 @@ import { fetchData } from "@/server/actions";
 import { Slider } from "@mui/material";
 
 export default function PlaybackOptions() {
-  const { user } = useAuth();
-  const router = useRouter();
-  const { mutate } = useAuth();
-  const queryClient = useQueryClient();
-  const { handleError } = useHandleError();
   const { volume, setVolume, handleSetVolume, handleMouseWheelChangeVolume } =
     usePlayback();
 
