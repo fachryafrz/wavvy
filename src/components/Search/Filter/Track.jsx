@@ -1,9 +1,9 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import AsyncSelectFilter from "./Reusable/AsyncSelectFilter";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { fetchData } from "@/server/actions";
+import { useEffect, useState } from "react";
 import { debounce } from "@mui/material";
 import { useRequiredFilter } from "@/zustand/isRequiredFilter";
+import axios from "axios";
 
 const SEED_TRACKS = "seed_tracks";
 
@@ -19,7 +19,7 @@ export default function Track() {
     const fetchDataWithDelay = async () => {
       const {
         data: { tracks },
-      } = await fetchData(`/search`, {
+      } = await axios.get(`/api/search`, {
         params: { q: inputValue, type: "track" },
       });
 
@@ -55,7 +55,7 @@ export default function Track() {
 
   useEffect(() => {
     const fetchTracks = async (tracks) => {
-      const { data } = await fetchData(`/tracks`, {
+      const { data } = await axios.get(`/api/tracks`, {
         params: { ids: tracks },
       });
 

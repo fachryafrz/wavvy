@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/auth";
 import { fetchData, playSong, startRadio } from "@/server/actions";
 import { useErrorAlert } from "@/zustand/error-alert";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AddCircleOutline, CheckmarkCircle, Radio } from "react-ionicons";
@@ -56,12 +57,12 @@ export default function DetailsHero({
       setIsSavedState(!isSavedState);
 
       if (item.type === "album") {
-        const { data: albums } = await fetchData(`/me/albums`);
+        const { data: albums } = await axios.get(`/api/me/albums`);
         queryClient.setQueryData([`/me/albums`], albums);
       }
 
       if (item.type === "playlist") {
-        const { data: playlists } = await fetchData(`/me/playlists`);
+        const { data: playlists } = await axios.get(`/api/me/playlists`);
         queryClient.setQueryData([`/me/playlists`], playlists);
       }
     },
@@ -78,7 +79,7 @@ export default function DetailsHero({
 
       const {
         data: { artists },
-      } = await fetchData(`/me/following?type=artist`);
+      } = await axios.get(`/api/me/following?type=artist`);
       queryClient.setQueryData([`/me/following?type=artist`], artists);
     },
   });

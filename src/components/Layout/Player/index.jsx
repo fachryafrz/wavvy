@@ -14,6 +14,7 @@ import { useAuth } from "@/hooks/auth";
 import PlayerInfo from "./Info";
 import { MusicalNotes } from "react-ionicons";
 import { usePlayback } from "@/zustand/playback";
+import axios from "axios";
 
 export default function Player() {
   // State
@@ -29,9 +30,9 @@ export default function Player() {
 
   const { refetch: refetchRecentlyPlayed } = useQuery({
     enabled: false,
-    queryKey: [`/me/player/recently-played`],
+    queryKey: [`/api/me/player/recently-played`],
     queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey[0]).then(({ data }) => data);
+      return await axios.get(queryKey[0]).then(({ data }) => data);
     },
   });
 
@@ -86,7 +87,7 @@ export default function Player() {
     if (!user) return;
 
     const handlePlaybackState = async () => {
-      const { data } = await fetchData(`/me/player`);
+      const { data } = await axios.get(`/api/me/player`);
       if (!data || data === "") return;
 
       setPlaybackState(data);
