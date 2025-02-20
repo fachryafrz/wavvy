@@ -5,6 +5,7 @@ import {
 } from "@/lib/constants";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { limiter, tokenExpired } from "../config/limiter";
 
 export async function GET(req) {
   const cookiesStore = cookies();
@@ -16,6 +17,9 @@ export async function GET(req) {
   };
   const url = new URL(req.url);
   const { path } = Object.fromEntries(url.searchParams);
+
+  const remainingToken = await limiter.removeTokens(1);
+  if (remainingToken < 0) return tokenExpired(req);
 
   try {
     cookiesStore.set(RYTH_REDIRECT, path);

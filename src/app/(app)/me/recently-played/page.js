@@ -40,7 +40,7 @@ export default async function page({ params }) {
             const [image] = item.track.album.images;
 
             return (
-              <li key={item.id}>
+              <li key={`${item.id}-${i}`}>
                 <CardVertical
                   item={item.track}
                   image={image?.url ?? "/maskable/maskable_icon_x192.png"}

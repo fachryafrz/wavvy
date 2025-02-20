@@ -2,11 +2,15 @@ import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
 import axios from "axios";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { limiter, tokenExpired } from "../../config/limiter";
 
 export async function GET(req, ctx) {
   const { first, second } = ctx.params;
   const { searchParams } = new URL(req.url);
   const cookiesStore = cookies();
+
+  const remainingToken = await limiter.removeTokens(1);
+  if (remainingToken < 0) return tokenExpired(req);
 
   try {
     const { data, status } = await axios.get(
