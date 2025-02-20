@@ -17,7 +17,7 @@ import {
   useSpotifyPlayer,
   useWebPlaybackSDKReady,
 } from "react-spotify-web-playback-sdk";
-import { playSong } from "@/server/actions";
+import { playSong } from "@/lib/playback";
 import Slider from "@mui/material/Slider";
 import { useErrorAlert } from "@/zustand/error-alert";
 import { usePlayback } from "@/zustand/playback";

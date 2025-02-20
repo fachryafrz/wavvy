@@ -1,4 +1,3 @@
-
 import { usePlayback } from "@/zustand/playback";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -17,8 +16,8 @@ import {
   useSpotifyPlayer,
   useWebPlaybackSDKReady,
 } from "react-spotify-web-playback-sdk";
-import { fetchData } from "@/server/actions";
 import { Slider } from "@mui/material";
+import axios from "axios";
 
 export default function PlaybackOptions() {
   const { volume, setVolume, handleSetVolume, handleMouseWheelChangeVolume } =
@@ -52,8 +51,9 @@ export default function PlaybackOptions() {
 
   // Toggle Shuffle Mode
   const handleToggleShuffleMode = async (shuffle_state) => {
-    await fetchData(`/me/player/shuffle`, {
+    await axios.request({
       method: "PUT",
+      url: `/me/player/shuffle`,
       params: { state: shuffle_state, device_id: device.device_id },
     });
 
@@ -70,8 +70,9 @@ export default function PlaybackOptions() {
     const selectedState = repeatModes[state];
 
     try {
-      const response = await fetchData(`/me/player/repeat`, {
+      const response = await axios.request({
         method: "PUT",
+        url: `/me/player/repeat`,
         params: { state: selectedState, device_id: device.device_id },
       });
 

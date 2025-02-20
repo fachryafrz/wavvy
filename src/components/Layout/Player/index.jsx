@@ -9,7 +9,6 @@ import {
   usePlayerDevice,
   useSpotifyPlayer,
 } from "react-spotify-web-playback-sdk";
-import { fetchData } from "@/server/actions";
 import { useAuth } from "@/hooks/auth";
 import PlayerInfo from "./Info";
 import { MusicalNotes } from "react-ionicons";
@@ -74,8 +73,9 @@ export default function Player() {
 
     const volumeStateLocalStorage = localStorage.getItem("volume-state");
 
-    fetchData(`/me/player/volume`, {
+    axios.request({
       method: "PUT",
+      url: `/me/player/volume`,
       params: {
         volume_percent: Number(volumeStateLocalStorage) || 0,
         device_id: device.device_id,

@@ -14,7 +14,7 @@ import {
 import { useAuth } from "@/hooks/auth";
 import AudioWave from "../Animation/AudioWave";
 import { useErrorAlert } from "@/zustand/error-alert";
-import { playSong, startRadio } from "@/server/actions";
+import { playSong, startRadio } from "@/lib/playback";
 
 export default function CardLong({
   item,

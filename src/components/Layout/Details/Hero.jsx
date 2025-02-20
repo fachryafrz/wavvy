@@ -4,7 +4,7 @@
 
 import AudioWave from "@/components/Animation/AudioWave";
 import { useAuth } from "@/hooks/auth";
-import { fetchData, playSong, startRadio } from "@/server/actions";
+import { playSong, startRadio } from "@/lib/playback";
 import { useErrorAlert } from "@/zustand/error-alert";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -50,29 +50,33 @@ export default function DetailsHero({
     enabled: false,
     queryKey:
       item.type === "playlist"
-        ? [`/playlists/${item.id}/followers`]
-        : [`/me/${item.type}s?ids=${item.id}`],
+        ? [`/api/playlists/${item.id}/followers`]
+        : [`/api/me/${item.type}s?ids=${item.id}`],
     queryFn: async ({ queryKey }) => {
-      await fetchData(queryKey[0], { method: isSavedState ? "DELETE" : "PUT" });
+      await axios.request({
+        method: isSavedState ? "DELETE" : "PUT",
+        url: queryKey[0],
+      });
       setIsSavedState(!isSavedState);
 
       if (item.type === "album") {
         const { data: albums } = await axios.get(`/api/me/albums`);
-        queryClient.setQueryData([`/me/albums`], albums);
+        queryClient.setQueryData([`/api/me/albums`], albums);
       }
 
       if (item.type === "playlist") {
         const { data: playlists } = await axios.get(`/api/me/playlists`);
-        queryClient.setQueryData([`/me/playlists`], playlists);
+        queryClient.setQueryData([`/api/me/playlists`], playlists);
       }
     },
   });
   const { refetch: followArtistRefetch } = useQuery({
     enabled: false,
-    queryKey: [`/me/following`],
+    queryKey: [`/api/me/following`],
     queryFn: async ({ queryKey }) => {
-      await fetchData(queryKey[0], {
+      await axios.request({
         method: isFollowedState ? "DELETE" : "PUT",
+        url: queryKey[0],
         params: { type: `artist`, ids: item.id },
       });
       setIsFollowedState(!isFollowedState);
@@ -80,7 +84,7 @@ export default function DetailsHero({
       const {
         data: { artists },
       } = await axios.get(`/api/me/following?type=artist`);
-      queryClient.setQueryData([`/me/following?type=artist`], artists);
+      queryClient.setQueryData([`/api/me/following?type=artist`], artists);
     },
   });
 
