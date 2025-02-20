@@ -1,9 +1,9 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import AsyncSelectFilter from "./Reusable/AsyncSelectFilter";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { fetchData } from "@/server/actions";
+import { useEffect, useState } from "react";
 import { debounce } from "@mui/material";
 import { useRequiredFilter } from "@/zustand/isRequiredFilter";
+import axios from "axios";
 
 const SEED_ARTISTS = "seed_artists";
 
@@ -19,7 +19,7 @@ export default function Artist() {
     const fetchDataWithDelay = async () => {
       const {
         data: { artists },
-      } = await fetchData(`/search`, {
+      } = await axios.get(`/api/search`, {
         params: { q: inputValue, type: "artist" },
       });
 
@@ -55,7 +55,7 @@ export default function Artist() {
 
   useEffect(() => {
     const fetchArtists = async (artists) => {
-      const { data } = await fetchData(`/artists`, {
+      const { data } = await axios.get(`/api/artists`, {
         params: { ids: artists },
       });
 

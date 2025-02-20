@@ -3,12 +3,11 @@
 import CardVertical from "@/components/Card/CardVertical";
 import RetryAfter from "@/components/Modals/RetryAfter";
 import SkeletonCard from "@/components/Skeleton/Card";
-import { fetchData } from "@/server/actions";
 import { useRequiredFilter } from "@/zustand/isRequiredFilter";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
 
 export default function Results() {
   const router = useRouter();

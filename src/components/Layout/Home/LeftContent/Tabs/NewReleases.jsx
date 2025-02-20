@@ -1,6 +1,5 @@
 import CardLong from "@/components/Card/CardLong";
 import LoadingCard from "@/components/Loading/Card";
-import { fetchData } from "@/server/actions";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import moment from "moment";
@@ -13,9 +12,9 @@ export default function TabNewReleases() {
     error,
     isLoading: loading,
   } = useQuery({
-    queryKey: [`/browse/new-releases`],
+    queryKey: [`/api/browse/new-releases`],
     queryFn: async ({ queryKey }) => {
-      return await fetchData(queryKey[0]).then(({ data }) => data);
+      return await axios.get(queryKey[0]).then(({ data }) => data);
     },
   });
 

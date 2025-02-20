@@ -4,8 +4,8 @@ import { usePathname } from "next/navigation";
 import CardVertical from "../Card/CardVertical";
 import SkeletonCard from "../Skeleton/Card";
 import { useEffect, useMemo, useRef } from "react";
-import { fetchData } from "@/server/actions";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
 export default function Item({ itemsData, itemsType }) {
   const pathname = usePathname();
@@ -18,28 +18,14 @@ export default function Item({ itemsData, itemsType }) {
 
   // Fetcher function
   const fetcher = async (url) => {
-    const { data } = await fetchData(url);
+    const { data } = await axios.get(url);
 
     return data[combinedType];
   };
 
   // Prepare query key
   const getKey = useMemo(() => {
-    return `/search?q=${query}&type=${type}`;
-
-    // NOTE: This is needed if using search params
-    // if (isQueryParams) {
-    // return `/search?q=${query}`;
-    // } else {
-    //   const params = new URLSearchParams({
-    //     media_type: type,
-    //     ...Object.fromEntries(searchParams),
-    //   });
-    //   if (searchParams.get("watch_providers") && location) {
-    //     params.append("watch_region", location.country_code);
-    //   }
-    //   return `/api/search/filter?${params.toString()}`;
-    // }
+    return `/api/search?q=${query}&type=${type}`;
   }, []);
 
   // Query Client

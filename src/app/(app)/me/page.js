@@ -1,31 +1,37 @@
 import LoginAlert from "@/components/Modals/LoginAlert";
 import Profile from "@/components/User/Profile";
-import { fetchData } from "@/server/actions";
-import { redirect } from "next/navigation";
+import { createSpotifyAxiosInstance } from "@/lib/axios";
 
 export async function generateMetadata() {
-  const { data: user, error } = await fetchData(`/me`);
+  try {
+    const axios = await createSpotifyAxiosInstance();
 
-  if (error)
+    const { data: user } = await axios.get(`/me`);
+
+    return {
+      title: user.display_name,
+    };
+  } catch (error) {
     return {
       title: "You are not logged in",
-    };
-
-  return {
-    title: `${user.display_name}`,
-  };
+    }
+  }
 }
 
 export default async function page() {
-  const { data: user, error } = await fetchData(`/me`).catch((error) =>
-    redirect("/"),
-  );
+  try {
+    const axios = await createSpotifyAxiosInstance();
 
-  if (error) return <LoginAlert show={true} redirect={`/`} />;
+    const { data: user } = await axios.get(`/me`)
 
-  return (
-    <div>
-      <Profile user={user} />
-    </div>
-  );
+    return (
+      <div>
+        <Profile user={user} />
+      </div>
+    );
+  } catch (error) {
+    return <LoginAlert show={true} redirect={`/`} />;
+  }
+
+
 }

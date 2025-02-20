@@ -5,8 +5,9 @@ import {
 } from "@/lib/constants";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { limiter, tokenExpired } from "../../config/limiter";
 
-export async function DELETE(request) {
+export async function DELETE(req) {
   const cookiesStore = cookies();
   const headers = {
     Authorization: `Basic ${Buffer.from(
@@ -14,6 +15,10 @@ export async function DELETE(request) {
     ).toString("base64")}`,
     "Content-Type": "application/x-www-form-urlencoded",
   };
+
+  const remainingToken = await limiter.removeTokens(1);
+  if (remainingToken < 0) return tokenExpired(req);
+
 
   try {
     cookiesStore.delete(SPOTIFY_ACCESS_TOKEN);
@@ -38,6 +43,6 @@ export async function DELETE(request) {
       { status: 200 },
     );
   } catch (error) {
-    return NextResponse.json(error, { status: error.status });
+    return NextResponse.json(error.response.data, { status: error.response.status });
   }
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/hooks/auth";
-import { playSong, startRadio } from "@/server/actions";
+import { playSong, startRadio } from "@/lib/playback";
 import { useErrorAlert } from "@/zustand/error-alert";
 /* eslint-disable @next/next/no-img-element */
 

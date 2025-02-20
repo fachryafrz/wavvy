@@ -8,7 +8,6 @@ import {
   PlaySkipBack,
   PlaySkipForward,
 } from "react-ionicons";
-import { useHandleError } from "@/hooks/error";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/auth";
 import {
@@ -18,7 +17,7 @@ import {
   useSpotifyPlayer,
   useWebPlaybackSDKReady,
 } from "react-spotify-web-playback-sdk";
-import { playSong } from "@/server/actions";
+import { playSong } from "@/lib/playback";
 import Slider from "@mui/material/Slider";
 import { useErrorAlert } from "@/zustand/error-alert";
 import { usePlayback } from "@/zustand/playback";
@@ -82,8 +81,6 @@ export default function Playback({ isMobile }) {
     if (!user) return 0;
     return (progress / duration) * 100;
   };
-
-  const { handleError } = useHandleError();
 
   // Login Alert
   const handleLoginAlert = () => {
