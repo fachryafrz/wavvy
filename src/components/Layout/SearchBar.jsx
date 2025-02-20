@@ -162,7 +162,7 @@ export default function SearchBar({
             prefetch={false}
             className={`btn btn-circle btn-ghost border-0 bg-transparent outline-none`}
           >
-            <Options color={`#ffffff`} />
+            <Options color={`#6f6f6f`} />
           </Link>
         )}
       </label>
