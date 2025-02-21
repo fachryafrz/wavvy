@@ -44,33 +44,40 @@ export default function Filter({ markets, genres }) {
     }
   }, [searchParams]);
 
+  const oldClassName = `fixed left-0 z-20 max-h-[calc(100dvh-(64px+80px))] w-full flex-1 space-y-2 overflow-y-auto bg-neutral bg-opacity-90 p-4 backdrop-blur transition-all duration-300 sm:left-4 sm:mt-2 sm:max-h-[calc(100dvh-(64px+84px+1.5rem))] sm:max-w-[300px] sm:rounded-2xl lg:left-auto xl:sticky xl:top-2 ${filterToggle ? "-translate-x-0 opacity-100 xl:ml-0" : "-translate-x-[calc(100%+1rem)] opacity-0 xl:-ml-[calc(300px+1rem)]"}`;
+
   return (
     <div
-      className={`fixed left-0 z-20 max-h-[calc(100dvh-(64px+80px))] w-full flex-1 space-y-2 overflow-y-auto bg-neutral bg-opacity-90 p-4 backdrop-blur transition-all duration-300 sm:left-4 sm:mt-2 sm:max-h-[calc(100dvh-(64px+84px+1.5rem))] sm:max-w-[300px] sm:rounded-2xl lg:left-auto xl:sticky xl:top-2 ${filterToggle ? "-translate-x-0 opacity-100 xl:ml-0" : "-translate-x-[calc(100%+1rem)] opacity-0 xl:-ml-[calc(300px+1rem)]"}`}
+      className={`fixed left-0 top-[66px] z-20 w-full transition-all duration-300 sm:left-4 sm:mt-2 sm:max-w-[300px] lg:left-auto xl:static ${filterToggle ? "-translate-x-0 opacity-100 xl:ml-0" : "-translate-x-[calc(100%+1rem)] opacity-0 xl:-ml-[calc(300px+1rem)]"}`}
     >
-      <Artist />
-      <Genre data={genres} />
-      <Track />
-      <Market data={markets} />
-      <Valence />
-      <Acousticness />
-      <Danceability />
-      <Duration />
-      <Energy />
-      <Instrumentalness />
-      <Key />
-      <Liveness />
-      <Loudness />
-      <Mode />
-      <Popularity />
-      <Speechiness />
-      <Tempo />
-      <TimeSignature />
+      {/* Filter */}
+      <div
+        className={`max-h-[calc(100dvh-(64px+80px))] space-y-2 overflow-y-auto bg-neutral bg-opacity-90 p-4 backdrop-blur sm:max-h-[calc(100dvh-(64px+84px+1.5rem))] sm:rounded-2xl xl:sticky xl:top-2`}
+      >
+        <Artist />
+        <Genre data={genres} />
+        <Track />
+        <Market data={markets} />
+        <Valence />
+        <Acousticness />
+        <Danceability />
+        <Duration />
+        <Energy />
+        <Instrumentalness />
+        <Key />
+        <Liveness />
+        <Loudness />
+        <Mode />
+        <Popularity />
+        <Speechiness />
+        <Tempo />
+        <TimeSignature />
+      </div>
 
       {/* Close Button */}
       <button
         onClick={() => setFilterToggle(false)}
-        className={`absolute right-4 top-0 block sm:hidden`}
+        className={`absolute right-4 top-2 block sm:hidden`}
       >
         <Close color={`#ffffff`} width={`34px`} height={`34px`} />
       </button>
