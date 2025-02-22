@@ -1,6 +1,6 @@
 {
   "name": "ryth",
-  "version": "0.2.12",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
