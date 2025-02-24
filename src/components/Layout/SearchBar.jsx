@@ -123,9 +123,9 @@ export default function SearchBar({
         handleSearch(e);
         searchRef.current.blur();
       }}
-      className={`flex-grow md:w-96 md:flex-grow-0 ${className}`}
+      className={`w-full md:w-96 xl:w-full ${className}`}
     >
-      <label className="input input-bordered relative flex items-center rounded-full border-0 bg-neutral pr-0">
+      <label className="input input-bordered relative flex w-full items-center rounded-full border-0 bg-neutral pr-0">
         <div className={`pointer-events-none`}>
           <Search color={"#6f6f6f"} />
         </div>

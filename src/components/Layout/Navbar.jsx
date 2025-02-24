@@ -30,26 +30,33 @@ export default function Navbar({ authorizationURL, client_id }) {
   }, []);
 
   return (
-    <nav className={`z-40 flex items-center justify-between gap-2 p-4 py-2`}>
-      <div className={`flex flex-1 gap-2`}>
-        <label
-          htmlFor="sidebar"
-          onClick={() => setDrawerOpen(!drawerOpen)}
-          className="btn btn-square btn-primary drawer-button rounded-full"
-        >
-          <Menu color={`#ffffff`} />
-        </label>
+    <nav
+      className={`z-40 flex items-center gap-2 p-4 py-2 xl:grid xl:grid-cols-3`}
+    >
+      <label
+        htmlFor="sidebar"
+        onClick={() => setDrawerOpen(!drawerOpen)}
+        className="btn btn-square btn-primary drawer-button rounded-full"
+      >
+        <Menu color={`#ffffff`} />
+      </label>
 
-        {/* Search bar */}
-        <SearchBar className={`hidden sm:block`} />
+      {/* Search bar */}
+      <div className={`flex-1`}>
+        <SearchBar className={`hidden sm:flex`} />
         <SearchBar placeholder="Tap to search" className={`sm:hidden`} />
       </div>
 
-      {!user ? (
-        <Login authorizationURL={authorizationURL} client_id={client_id} />
-      ) : (
-        <Logout user={user} />
-      )}
+      {/* NOTE: has to be display flex, otherwise it will add unnecessary height */}
+      <div
+        className={`flex justify-end`}
+      >
+        {!user ? (
+          <Login authorizationURL={authorizationURL} client_id={client_id} />
+        ) : (
+          <Logout user={user} />
+        )}
+      </div>
     </nav>
   );
 }
