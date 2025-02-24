@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/fachryafrz/ryth/compare/v1.0.0...v1.1.0) (2025-02-24)
+
+
+### Features
+
+* add Spotify logo on the login button ([#20](https://github.com/fachryafrz/ryth/issues/20)) ([d214f04](https://github.com/fachryafrz/ryth/commit/d214f046be6f37f17f663ef1049babca43f8ac43))
+
 ## 1.0.0 (2025-02-22)
 
 
