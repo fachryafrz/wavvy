@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/fachryafrz/ryth/compare/v1.1.0...v1.2.0) (2025-02-24)
+
+
+### Features
+
+* search bar position to the center on bigger screen ([#23](https://github.com/fachryafrz/ryth/issues/23)) ([76e30a6](https://github.com/fachryafrz/ryth/commit/76e30a656a5354e9e638034faa95b8e2ab52a8e9))
+
 ## [1.1.0](https://github.com/fachryafrz/ryth/compare/v1.0.0...v1.1.0) (2025-02-24)
 
 
