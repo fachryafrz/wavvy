@@ -34,7 +34,7 @@ export async function generateMetadata({ params }) {
         description: `There was a problem with your request. Please try again after ${moment(retryAfter * 1000).format("mm [minutes] ss [seconds]")}.`,
       };
 
-    throw error
+    throw error;
   }
 }
 
@@ -46,12 +46,12 @@ export default async function page({ params }) {
 
     const { data: playlist } = await axios.get(`/playlists/${id}`);
 
-
     const [image] = playlist.images;
 
     const [isSaved] = await Promise.all([
       // Check if playlist is saved
-      axios.get(`/playlists/${id}/followers/contains`)
+      axios
+        .get(`/playlists/${id}/followers/contains`)
         .then(({ data }) => data[0])
         .catch(() => false),
     ]);
@@ -67,7 +67,9 @@ export default async function page({ params }) {
             type={`Playlist`}
             isSaved={isSaved}
             secondInfo={
-              <div className={`flex flex-col items-start`}>
+              <div
+                className={`flex flex-col items-center text-center md:items-start md:text-start`}
+              >
                 <div>
                   <span>By: </span>
 
@@ -125,7 +127,9 @@ export default async function page({ params }) {
                         key={item.id}
                         className={`flex items-center gap-4 hocus:rounded-lg hocus:bg-neutral`}
                       >
-                        <span className={`flex w-5 justify-center`}>{j + 1}</span>
+                        <span className={`flex w-5 justify-center`}>
+                          {j + 1}
+                        </span>
 
                         <div className={`flex-grow @container`}>
                           <CardLong
@@ -170,6 +174,6 @@ export default async function page({ params }) {
     const retryAfter = error?.response.headers["retry-after"];
     if (retryAfter) return <RetryAfter retryAfter={retryAfter} />;
 
-    throw error
+    throw error;
   }
 }
