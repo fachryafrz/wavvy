@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { generateRandomString } from "@/lib/randomString";
@@ -62,9 +63,16 @@ export default function Login({ authorizationURL, client_id }) {
     <button
       id="login"
       onClick={handleLogin}
-      className={`btn btn-primary max-w-fit rounded-full`}
+      className={`btn rounded-full aspect-square sm:aspect-auto px-0 sm:px-2 sm:pr-4 btn-primary`}
     >
-      Login
+      <img
+        src="/icons/spotify-white-icon.png"
+        alt=""
+        draggable={false}
+        className={`w-8 object-contain`}
+      />
+
+      <div className={`hidden sm:block`}>Login <span className={`hidden md:inline`}>with Spotify</span></div>
     </button>
   );
 }
