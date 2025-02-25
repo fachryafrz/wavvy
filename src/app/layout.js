@@ -16,7 +16,7 @@ const roboto = Roboto({
 export const viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#131720",
+  themeColor: "#0a0a0a",
   userScalable: true,
   colorScheme: "dark",
 };
