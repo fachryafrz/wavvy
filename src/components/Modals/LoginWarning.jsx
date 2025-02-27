@@ -47,22 +47,29 @@ export default function LoginWarning({ onLogin }) {
             own way!
           </p>
 
-          <div className="mt-2 grid w-full grid-cols-2 gap-2">
-            <form method="dialog" className="flex-1">
-              <button
-                type="submit"
-                className="btn btn-neutral w-full rounded-full"
-              >
-                Close
-              </button>
-            </form>
+          <div className="mt-2 flex w-full flex-col gap-2 xs:flex-row">
+            <div className={`flex-1`}>
+              <form method="dialog">
+                <button
+                  type="submit"
+                  className="btn btn-neutral w-full rounded-full"
+                >
+                  Close
+                </button>
+              </form>
+            </div>
 
-            <button
-              onClick={onLogin}
-              className={`btn btn-primary flex-1 rounded-full`}
-            >
-              I&apos;m Approved, Let&apos;s Go!
-            </button>
+            <div className={`flex-1`}>
+              <button
+                onClick={onLogin}
+                className={`btn btn-primary w-full text-pretty rounded-full leading-snug`}
+              >
+                <span className={`sm:hidden`}>I&apos;m Approved</span>
+                <span className={`hidden sm:inline`}>
+                  I&apos;m Approved, Let&apos;s Go!
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
