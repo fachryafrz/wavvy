@@ -92,7 +92,7 @@ export default function DetailsHero({
 
   // Lifecycle
   useEffect(() => {
-    const { name } = item;
+    const name = item.name || item.display_name;
 
     if (name.length > 40) {
       setFontSize(`2xl:text-4xl`);
@@ -117,7 +117,7 @@ export default function DetailsHero({
 
   return (
     <div
-      className={`relative -mx-4 flex flex-col-reverse items-center justify-between gap-4 overflow-clip px-4 py-12 md:mx-0 md:flex-row md:rounded-3xl md:p-8`}
+      className={`relative -mx-4 flex flex-col-reverse items-center justify-between gap-4 overflow-clip px-4 py-12 md:mx-0 md:flex-row md:rounded-3xl md:p-8 ${type === "user" ? "!flex-row-reverse" : ""}`}
     >
       <div
         className={`flex w-full flex-grow flex-col items-center gap-6 text-center md:items-start md:text-start`}
@@ -125,10 +125,12 @@ export default function DetailsHero({
         {/* Details */}
         <div className={`flex w-full flex-col gap-4 @container`}>
           {/* Type */}
-          <span
-            data-before-content={type === "track" ? "song" : type}
-            className={`before-content hidden translate-y-4 font-medium capitalize text-white md:block ${translateY}`}
-          />
+          {type !== "user" && (
+            <span
+              data-before-content={type === "track" ? "song" : type}
+              className={`before-content hidden translate-y-4 font-medium capitalize text-white md:block ${translateY}`}
+            />
+          )}
 
           {/* Title */}
           <h1
