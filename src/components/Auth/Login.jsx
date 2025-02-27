@@ -6,6 +6,7 @@ import axios from "axios";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { PersonCircle } from "react-ionicons";
+import LoginWarning from "../Modals/LoginWarning";
 
 export default function Login({ authorizationURL, client_id }) {
   const router = useRouter();
@@ -60,19 +61,25 @@ export default function Login({ authorizationURL, client_id }) {
   };
 
   return (
-    <button
-      id="login"
-      onClick={handleLogin}
-      className={`btn rounded-full aspect-square sm:aspect-auto px-0 sm:px-2 sm:pr-4 btn-primary`}
-    >
-      <img
-        src="/icons/spotify-white-icon.png"
-        alt=""
-        draggable={false}
-        className={`w-8 object-contain`}
-      />
+    <>
+      <button
+        id="login"
+        onClick={() => document.getElementById("loginWarning").showModal()}
+        className={`btn btn-primary aspect-square rounded-full px-0 sm:aspect-auto sm:px-2 sm:pr-4`}
+      >
+        <img
+          src="/icons/spotify-white-icon.png"
+          alt=""
+          draggable={false}
+          className={`w-8 object-contain`}
+        />
 
-      <div className={`hidden sm:block`}>Login <span className={`hidden md:inline`}>with Spotify</span></div>
-    </button>
+        <div className={`hidden sm:block`}>
+          Login <span className={`hidden md:inline`}>with Spotify</span>
+        </div>
+      </button>
+
+      <LoginWarning onLogin={handleLogin} />
+    </>
   );
 }
