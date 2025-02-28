@@ -1,17 +1,13 @@
-import CardVertical from "@/components/Card/CardVertical";
 import SavedTracks from "@/components/Layout/Profile/SavedTracks";
 import LoginAlert from "@/components/Modals/LoginAlert";
 import { createSpotifyAxiosInstance } from "@/lib/axios";
-import Link from "next/link";
-import { redirect } from "next/navigation";
 
 export const revalidate = 0;
 
 export async function generateMetadata() {
   try {
     const axios = await createSpotifyAxiosInstance();
-
-    const { data: user } = await axios.get(`/me/tracks`);
+    const { data: user } = await axios.get(`/me`);
 
     return {
       title: `Saved Songs (${user.display_name})`,
@@ -23,10 +19,10 @@ export async function generateMetadata() {
   }
 }
 
-export default async function page({ params }) {
+export default async function page() {
   try {
     const axios = await createSpotifyAxiosInstance();
-    const { data } = await axios.get(`/me`);
+    const { data: user } = await axios.get(`/me`);
 
     return <SavedTracks />;
   } catch (error) {
