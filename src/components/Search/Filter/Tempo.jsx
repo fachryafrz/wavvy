@@ -84,8 +84,8 @@ export default function Tempo() {
       disabled={isRequired}
       min={MIN}
       max={MAX}
-      step={1}
-      valueLabelFormat={(value) => `${value} BPM`}
+      step={0.001}
+      // valueLabelFormat={(value) => `${value} BPM`}
     />
   );
 }

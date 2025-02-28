@@ -84,8 +84,7 @@ export default function Mode() {
       disabled={isRequired}
       min={MIN}
       max={MAX}
-      step={0.01}
-      valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
+      // valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
     />
   );
 }

@@ -36,7 +36,7 @@ export async function generateMetadata({ params }) {
         description: `There was a problem with your request. Please try again after ${moment(retryAfter * 1000).format("mm [minutes] ss [seconds]")}.`,
       };
 
-    throw error
+    throw error;
   }
 }
 
@@ -52,7 +52,7 @@ export default async function page({ params }) {
     const [image] = album.images;
     const [primaryArtist] = track.artists;
 
-    const [artistsDetails, artistsTopTracks, albums, relatedArtists, isSaved] =
+    const [artistsDetails, artistsTopTracks, albums, relatedArtists] =
       await Promise.all([
         // Get artists
         Promise.all(
@@ -71,19 +71,14 @@ export default async function page({ params }) {
         ),
 
         // Get albums
-        axios.get(`/artists/${primaryArtist.id}/albums`).then(({ data }) => data),
+        axios
+          .get(`/artists/${primaryArtist.id}/albums`)
+          .then(({ data }) => data),
 
         // Get related artists
-        axios.get(`/artists/${primaryArtist.id}/related-artists`).then(
-          ({ data }) => data,
-        ),
-
-        // Check if track is saved
-        axios.get(`/me/tracks/contains`, {
-          params: { ids: id },
-        })
-          .then(({ data }) => data[0])
-          .catch(() => false),
+        axios
+          .get(`/artists/${primaryArtist.id}/related-artists`)
+          .then(({ data }) => data),
       ]);
 
     return (
@@ -96,7 +91,6 @@ export default async function page({ params }) {
             image={image?.url ?? "/maskable/maskable_icon_x192.png"}
             title={track.name}
             type={`Song`}
-            isSaved={isSaved}
             secondInfo={
               <>
                 <span>Album: </span>
@@ -120,7 +114,9 @@ export default async function page({ params }) {
               <SliderPlaylist
                 id={`top-tracks-${artist.id}`}
                 title={`Top Songs by ${artist.name}`}
-                data={artistsTopTracks[i].tracks.filter((item) => item.id !== id)}
+                data={artistsTopTracks[i].tracks.filter(
+                  (item) => item.id !== id,
+                )}
               />
             </section>
           );
@@ -159,12 +155,16 @@ export default async function page({ params }) {
                       <div className={`-mx-1`}>
                         <CardLong
                           item={album}
-                          image={image?.url ?? "/maskable/maskable_icon_x192.png"}
+                          image={
+                            image?.url ?? "/maskable/maskable_icon_x192.png"
+                          }
                           link={`/${album.type}/${album.id}`}
                           // cta={false}
                           thirdInfo={
                             <div className={`mx-auto w-fit`}>
-                              {moment(album.release_date).format("MMMM DD, YYYY")}
+                              {moment(album.release_date).format(
+                                "MMMM DD, YYYY",
+                              )}
                             </div>
                           }
                           // secondInfo={
@@ -218,6 +218,6 @@ export default async function page({ params }) {
     const retryAfter = error?.response.headers["retry-after"];
     if (retryAfter) return <RetryAfter retryAfter={retryAfter} />;
 
-    throw error
+    throw error;
   }
 }

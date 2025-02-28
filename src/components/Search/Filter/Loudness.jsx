@@ -84,7 +84,8 @@ export default function Loudness() {
       disabled={isRequired}
       min={MIN}
       max={MAX}
-      valueLabelFormat={(value) => `${value} dB`}
+      step={0.001}
+      // valueLabelFormat={(value) => `${value} dB`}
     />
   );
 }

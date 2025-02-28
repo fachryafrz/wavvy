@@ -84,8 +84,8 @@ export default function Danceability() {
       disabled={isRequired}
       min={MIN}
       max={MAX}
-      step={0.1}
-      valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
+      step={0.001}
+      // valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
     />
   );
 }

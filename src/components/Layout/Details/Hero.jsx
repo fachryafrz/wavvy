@@ -10,7 +10,14 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AddCircleOutline, CheckmarkCircle, Radio } from "react-ionicons";
+import {
+  AddCircleOutline,
+  CheckmarkCircle,
+  EllipsisHorizontal,
+  Play,
+  Radio,
+  Search,
+} from "react-ionicons";
 import {
   useErrorState,
   usePlaybackState,
@@ -23,7 +30,6 @@ export default function DetailsHero({
   artists,
   image,
   title,
-  isSaved,
   isFollowed,
   secondInfo,
 }) {
@@ -39,7 +45,7 @@ export default function DetailsHero({
   // State
   const [fontSize, setFontSize] = useState(`2xl:text-7xl`);
   const [translateY, setTranslateY] = useState(`2xl:translate-y-7`);
-  const [isSavedState, setIsSavedState] = useState(isSaved);
+  const [isSavedState, setIsSavedState] = useState();
   const [isFollowedState, setIsFollowedState] = useState(isFollowed);
 
   // Ref
@@ -49,9 +55,9 @@ export default function DetailsHero({
   const { refetch: saveTrackRefetch } = useQuery({
     enabled: false,
     queryKey:
-      item.type === "playlist"
-        ? [`/api/playlists/${item.id}/followers`]
-        : [`/api/me/${item.type}s?ids=${item.id}`],
+      type === "playlist"
+        ? [`/api/playlists/${id}/followers`]
+        : [`/api/me/${type}s?ids=${id}`],
     queryFn: async ({ queryKey }) => {
       await axios.request({
         method: isSavedState ? "DELETE" : "PUT",
@@ -59,12 +65,12 @@ export default function DetailsHero({
       });
       setIsSavedState(!isSavedState);
 
-      if (item.type === "album") {
+      if (type === "album") {
         const { data: albums } = await axios.get(`/api/me/albums`);
         queryClient.setQueryData([`/api/me/albums`], albums);
       }
 
-      if (item.type === "playlist") {
+      if (type === "playlist") {
         const { data: playlists } = await axios.get(`/api/me/playlists`);
         queryClient.setQueryData([`/api/me/playlists`], playlists);
       }
@@ -77,7 +83,7 @@ export default function DetailsHero({
       await axios.request({
         method: isFollowedState ? "DELETE" : "PUT",
         url: queryKey[0],
-        params: { type: `artist`, ids: item.id },
+        params: { type: `artist`, ids: id },
       });
       setIsFollowedState(!isFollowedState);
 
@@ -85,6 +91,15 @@ export default function DetailsHero({
         data: { artists },
       } = await axios.get(`/api/me/following?type=artist`);
       queryClient.setQueryData([`/api/me/following?type=artist`], artists);
+    },
+  });
+  const { refetch: checkIsSaved } = useQuery({
+    enabled: false,
+    queryKey: [`/api/me/tracks/contains`],
+    queryFn: async ({ queryKey }) => {
+      const { data } = await axios.get(queryKey, { params: { ids: id } });
+
+      setIsSavedState(data[0]);
     },
   });
 
@@ -109,6 +124,12 @@ export default function DetailsHero({
     }
   }, [item]);
 
+  useEffect(() => {
+    if (!user) return;
+
+    checkIsSaved();
+  }, [user]);
+
   // Helpers
   const isPlaying =
     (playback?.context?.uri === item?.uri ||
@@ -117,7 +138,7 @@ export default function DetailsHero({
 
   return (
     <div
-      className={`relative -mx-4 flex flex-col-reverse items-center justify-between gap-4 overflow-clip px-4 py-12 md:mx-0 md:flex-row md:rounded-3xl md:p-8 ${type === "user" ? "!flex-row-reverse" : ""}`}
+      className={`relative -mx-4 flex flex-col-reverse items-center justify-between gap-4 px-4 py-12 md:mx-0 md:flex-row md:rounded-3xl md:p-8 ${type === "user" ? "!flex-row-reverse" : ""}`}
     >
       <div
         className={`flex w-full flex-grow flex-col items-center gap-6 text-center md:items-start md:text-start`}
@@ -191,7 +212,7 @@ export default function DetailsHero({
 
         {/* CTA */}
         <div className={`flex w-full items-center gap-2`}>
-          {item.type !== "artist" ? (
+          {type !== "artist" ? (
             <>
               <button
                 onClick={() =>
@@ -209,11 +230,15 @@ export default function DetailsHero({
                 }
                 className={`btn btn-primary flex-grow rounded-full disabled:cursor-not-allowed md:max-w-[150px]`}
               >
-                {isPlaying && <AudioWave className={`[&_*]:!bg-white`} />}
+                {isPlaying ? (
+                  <AudioWave className={`[&_*]:!bg-white`} />
+                ) : (
+                  <Play color={`#fff`} />
+                )}
                 <span>{isPlaying ? "Playing" : "Listen Now"}</span>
               </button>
 
-              {!["album", "playlist"].includes(item.type) && (
+              {!["album", "playlist"].includes(type) && (
                 <button
                   onClick={() =>
                     error

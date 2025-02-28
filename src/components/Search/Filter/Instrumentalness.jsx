@@ -84,8 +84,8 @@ export default function Instrumentalness() {
       disabled={isRequired}
       min={MIN}
       max={MAX}
-      step={0.01}
-      valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
+      step={0.00001}
+      // valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
     />
   );
 }
