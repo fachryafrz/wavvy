@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@bprogress/next": "^3.2.4",
     "@ducanh2912/next-pwa": "^10.2.8",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",

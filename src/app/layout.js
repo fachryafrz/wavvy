@@ -7,6 +7,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import Sidebar from "@/components/Layout/Sidebar";
 import { cookies } from "next/headers";
 import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
+import Providers from "@/components/Layout/ProgressBarProvider";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -56,19 +57,21 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <CookiesProvider>
-          <TanStackQuery>
-            <Sidebar
-              authorizationURL={authorizationURL}
-              client_id={client_id}
-              AUTH_TOKEN={AUTH_TOKEN}
-            >
-              {children}
-            </Sidebar>
-          </TanStackQuery>
-        </CookiesProvider>
+        <Providers>
+          <CookiesProvider>
+            <TanStackQuery>
+              <Sidebar
+                authorizationURL={authorizationURL}
+                client_id={client_id}
+                AUTH_TOKEN={AUTH_TOKEN}
+              >
+                {children}
+              </Sidebar>
+            </TanStackQuery>
+          </CookiesProvider>
 
-        <GoogleAnalytics gaId={gtagId} />
+          <GoogleAnalytics gaId={gtagId} />
+        </Providers>
       </body>
     </html>
   );
