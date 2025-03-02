@@ -152,7 +152,7 @@ export default function SearchBar({
                 : "btn btn-circle btn-ghost border-0 bg-transparent outline-none"
             }
           >
-            <Close color={"#fff"} />
+            <Close color={"#6f6f6f"} />
           </button>
         )}
 
