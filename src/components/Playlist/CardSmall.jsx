@@ -26,6 +26,8 @@ export default function PlaylistCardSmall({ link }) {
             src={link.image}
             alt={link.title}
             draggable="false"
+            width={32}
+            height={32}
             className={`h-8 w-8 rounded-lg`}
           />
         </figure>

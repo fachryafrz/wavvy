@@ -15,6 +15,8 @@ export default function Info() {
               src={track?.album.images[0].url}
               alt=""
               draggable="false"
+              width={350}
+              height={350}
               className={`mx-auto max-w-[350px] object-contain`}
             />
           ) : (
@@ -22,6 +24,8 @@ export default function Info() {
               src={`/maskable/maskable_icon_x512.png`}
               alt=""
               draggable="false"
+              width={512}
+              height={512}
               className={`mx-auto max-w-[350px] object-contain`}
             />
           )}

@@ -21,14 +21,26 @@ export default function TrackCard({
               className={`z-10 aspect-square max-w-14 flex-grow`}
             >
               <figure className={`overflow-hidden rounded-lg`}>
-                <img src={image} alt={name} draggable="false" />
+                <img
+                  src={image}
+                  alt={name}
+                  width={56}
+                  height={56}
+                  draggable="false"
+                />
               </figure>
             </Link>
           ) : (
             <figure
               className={`aspect-square max-w-14 flex-grow overflow-hidden rounded-lg`}
             >
-              <img src={image} alt={name} draggable="false" />
+              <img
+                src={image}
+                alt={name}
+                width={56}
+                height={56}
+                draggable="false"
+              />
             </figure>
           )}
         </>

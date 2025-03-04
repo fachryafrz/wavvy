@@ -140,7 +140,13 @@ export function ProfileHero({ user }) {
       <figure
         className={`aspect-square w-full max-w-[200px] overflow-hidden rounded-full shadow-xl md:max-w-[300px]`}
       >
-        <img src={image} alt={user.name} draggable="false" />
+        <img
+          src={image}
+          alt={user.name}
+          width={300}
+          height={300}
+          draggable="false"
+        />
       </figure>
 
       <div className={`absolute inset-0 -z-10`}>

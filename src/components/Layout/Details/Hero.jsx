@@ -191,6 +191,8 @@ export default function DetailsHero({
                             }
                             alt={artist.name}
                             draggable="false"
+                            width={40}
+                            height={40}
                           />
                         </figure>
                       </Link>
@@ -290,7 +292,13 @@ export default function DetailsHero({
       <figure
         className={`aspect-square w-full max-w-[200px] overflow-hidden rounded-xl shadow-xl md:max-w-[300px]`}
       >
-        <img src={image} alt={item.name} draggable="false" />
+        <img
+          src={image}
+          alt={item.name}
+          width={300}
+          height={300}
+          draggable="false"
+        />
       </figure>
 
       <div className={`absolute inset-0 -z-10`}>

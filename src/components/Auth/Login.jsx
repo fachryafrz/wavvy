@@ -71,6 +71,8 @@ export default function Login({ authorizationURL, client_id }) {
           src="/icons/spotify-white-icon.png"
           alt=""
           draggable={false}
+          width={32}
+          height={32}
           className={`w-8 object-contain`}
         />
 
