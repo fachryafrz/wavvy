@@ -146,11 +146,7 @@ export default function SearchBar({
           <button
             type="button"
             onClick={() => setInput("")}
-            className={
-              pathname !== "/search"
-                ? ""
-                : "btn btn-circle btn-ghost border-0 bg-transparent outline-none"
-            }
+            className={`btn btn-circle btn-ghost border-0 bg-transparent outline-none`}
           >
             <Close color={"#6f6f6f"} />
           </button>

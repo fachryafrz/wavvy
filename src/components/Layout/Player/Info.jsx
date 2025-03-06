@@ -18,67 +18,67 @@ export default function PlayerInfo() {
 
   return (
     <>
-      {!webPlaybackSDKReady && <LoadingCard />}
+      {user && !webPlaybackSDKReady && <LoadingCard />}
 
-      {webPlaybackSDKReady && (
+      {!user && (
+        <TrackCard
+          id={track?.id}
+          type={track?.type ?? "track"}
+          name={"Nothing Playing"}
+          image={"/maskable/maskable_icon_x192.png"}
+          info={null}
+        />
+      )}
+
+      {user && webPlaybackSDKReady && (
         <TrackCard
           id={track?.id}
           type={track?.type ?? "track"}
           name={
-            !user ? (
-              "Nothing Playing"
-            ) : (
-              <Link
-                href={`/${track?.type ?? "track"}/${track?.id}`}
-                prefetch={false}
-                className={`relative z-10 hocus:underline`}
-              >
-                {track?.name}
-              </Link>
-            )
+            <Link
+              href={`/${track?.type ?? "track"}/${track?.id}`}
+              prefetch={false}
+              className={`relative z-10 hocus:underline`}
+            >
+              {track?.name}
+            </Link>
           }
-          image={
-            !user
-              ? "/maskable/maskable_icon_x192.png"
-              : track?.album.images[0].url
-          }
+          image={track?.album.images[0].url}
           info={
-            !user
-              ? null
-              : (track?.artists.map((artist) => {
-                  const [app, type, id] = artist.uri.split(":");
+            track?.artists.map((artist) => {
+              const [app, type, id] = artist.uri.split(":");
 
-                  return (
-                    <>
-                      <Link
-                        href={`/artist/${id}`}
-                        prefetch={false}
-                        className={`relative z-10 hocus:underline`}
-                      >
-                        {artist.name}
-                      </Link>
+              return (
+                <>
+                  <Link
+                    href={`/artist/${id}`}
+                    prefetch={false}
+                    className={`relative z-10 hocus:underline`}
+                  >
+                    {artist.name}
+                  </Link>
 
-                      <span className={`last:hidden`}>, </span>
-                    </>
-                  );
-                }) ??
-                track?.artists.map((artist) => {
-                  const [app, type, id] = artist.uri.split(":");
+                  <span className={`last:hidden`}>, </span>
+                </>
+              );
+            }) ??
+            track?.artists.map((artist) => {
+              const [app, type, id] = artist.uri.split(":");
 
-                  return (
-                    <>
-                      <Link
-                        href={`/artist/${id}`}
-                        prefetch={false}
-                        className={`hocus:underline`}
-                      >
-                        {artist.name}
-                      </Link>
+              return (
+                <>
+                  <Link
+                    href={`/artist/${id}`}
+                    prefetch={false}
+                    className={`hocus:underline`}
+                  >
+                    {artist.name}
+                  </Link>
 
-                      <span className={`last:hidden`}>, </span>
-                    </>
-                  );
-                }))
+                  <span className={`last:hidden`}>, </span>
+                </>
+              );
+            })
           }
         />
       )}
