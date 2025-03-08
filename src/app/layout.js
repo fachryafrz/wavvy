@@ -32,7 +32,6 @@ export const metadata = {
     title: process.env.NEXT_PUBLIC_APP_NAME,
     images: ["/maskable/maskable_icon_x192.png"],
   },
-  manifest: "/manifest.webmanifest",
   robots: {
     index: false,
     follow: false,
