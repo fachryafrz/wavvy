@@ -1,4 +1,4 @@
-[![Ryth](https://fachryafrz.vercel.app/projects/ryth/home.png)](https://ryth.vercel.app)
+[![Ryth](https://fachryafrz.com/projects/ryth/home.png)](https://ryth.vercel.app)
 
 # Ryth – Music Streaming and Discovery
 
@@ -103,6 +103,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 📸 Screenshots
 
-[![Ryth](https://fachryafrz.vercel.app/projects/ryth/details.png)](https://ryth.vercel.app)
-[![Ryth](https://fachryafrz.vercel.app/projects/ryth/mobile.png)](https://ryth.vercel.app)
-[![Ryth](https://fachryafrz.vercel.app/projects/ryth/filters.png)](https://ryth.vercel.app)
+[![Ryth](https://fachryafrz.com/projects/ryth/details.png)](https://ryth.vercel.app)
+[![Ryth](https://fachryafrz.com/projects/ryth/mobile.png)](https://ryth.vercel.app)
+[![Ryth](https://fachryafrz.com/projects/ryth/filters.png)](https://ryth.vercel.app)
