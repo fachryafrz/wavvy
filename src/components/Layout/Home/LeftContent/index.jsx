@@ -59,7 +59,7 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
           </div>
 
           <div>
-            <div className={`sticky top-16`}>
+            <div className={`sticky top-0`}>
               <FavoriteArtists />
             </div>
           </div>
