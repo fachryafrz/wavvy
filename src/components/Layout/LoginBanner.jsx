@@ -1,5 +1,7 @@
 "use client";
 
+import { siteConfig } from "@/config/site";
+
 export default function LoginBanner({ authorizationURL, client_id }) {
   const handleLogin = () => {
     document.getElementById("login").click();
@@ -14,11 +16,11 @@ export default function LoginBanner({ authorizationURL, client_id }) {
       >
         <div className={`flex flex-col gap-2`}>
           <h2 className={`text-pretty text-xl font-medium @sm:text-2xl`}>
-            Unlock the power of {process.env.NEXT_PUBLIC_APP_NAME}
+            Unlock the power of {siteConfig.name}
           </h2>
 
           <p className={`max-w-[270px] text-sm font-medium text-neutral-500`}>
-            Enjoy any music by login to {process.env.NEXT_PUBLIC_APP_NAME}. Find
+            Enjoy any music by login to {siteConfig.name}. Find
             your rythm. Enjoy unlimited music.
           </p>
         </div>

@@ -10,6 +10,7 @@ import PremiumAlert from "@/components/Modals/PremiumAlert";
 import LoginAlert from "@/components/Modals/LoginAlert";
 import ErrorAlert from "@/components/Modals/ErrorAlert";
 import { useDrawerOpen } from "@/zustand/drawerOpen";
+import { siteConfig } from "@/config/site";
 
 export default function Sidebar({
   children,
@@ -23,7 +24,7 @@ export default function Sidebar({
 
   return (
     <WebPlaybackSDK
-      initialDeviceName={process.env.NEXT_PUBLIC_APP_NAME}
+      initialDeviceName={siteConfig.name}
       getOAuthToken={getOAuthToken}
       initialVolume={0}
     >

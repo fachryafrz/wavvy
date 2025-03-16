@@ -1,4 +1,5 @@
 import Item from "@/components/Search/Item";
+import { siteConfig } from "@/config/site";
 import { createSpotifyAxiosInstance } from "@/lib/axios";
 import Link from "next/link";
 import pluralize from "pluralize";
@@ -10,9 +11,9 @@ export async function generateMetadata({ params }) {
 
   return {
     title: `Search "${query}"`,
-    description: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
+    description: siteConfig.description,
     openGraph: {
-      title: `Search "${query}" - ${process.env.NEXT_PUBLIC_APP_NAME}`,
+      title: `Search "${query}" - ${siteConfig.name}`,
     },
   };
 }

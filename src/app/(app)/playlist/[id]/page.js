@@ -22,7 +22,7 @@ export async function generateMetadata({ params }) {
       title: playlist.name,
       description: playlist.description,
       openGraph: {
-        title: `${playlist.name} - ${process.env.NEXT_PUBLIC_APP_NAME}`,
+        title: `${playlist.name} - ${siteConfig.name}`,
         images: [image?.url ?? "/maskable/maskable_icon_x192.png"],
       },
     };

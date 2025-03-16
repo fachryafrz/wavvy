@@ -2,6 +2,7 @@ import AlbumDetailsTracks from "@/components/Album/Details/Tracks";
 import DetailsHero from "@/components/Layout/Details/Hero";
 import RetryAfter from "@/components/Modals/RetryAfter";
 import SliderPlaylist from "@/components/Slider/Playlist";
+import { siteConfig } from "@/config/site";
 import { createSpotifyAxiosInstance } from "@/lib/axios";
 import moment from "moment";
 import pluralize from "pluralize";
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }) {
       title: `${album.name} album by ${primaryArtist.name}`,
       description: `album by ${primaryArtist.name}. ${pluralize("Song", album.total_tracks, true)}. ${moment(album.release_date).format(`MMM DD, YYYY`)}`,
       openGraph: {
-        title: `${album.name} - ${process.env.NEXT_PUBLIC_APP_NAME}`,
+        title: `${album.name} - ${siteConfig.name}`,
         images: [image?.url ?? "/maskable/maskable_icon_x192.png"],
       },
     };

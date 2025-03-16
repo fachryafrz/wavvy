@@ -2,6 +2,7 @@ import CardLong from "@/components/Card/CardLong";
 import DetailsHero from "@/components/Layout/Details/Hero";
 import RetryAfter from "@/components/Modals/RetryAfter";
 import SliderPlaylist from "@/components/Slider/Playlist";
+import { siteConfig } from "@/config/site";
 import { createSpotifyAxiosInstance } from "@/lib/axios";
 import moment from "moment";
 import Link from "next/link";
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }) {
       title: `${artist.name}`,
       description: `Listen to ${artist.name}. ${numeral(artist.followers.total).format(`0a`)} followers`,
       openGraph: {
-        title: `${artist.name} - ${process.env.NEXT_PUBLIC_APP_NAME}`,
+        title: `${artist.name} - ${siteConfig.name}`,
         images: [image?.url ?? "/maskable/maskable_icon_x192.png"],
       },
     };

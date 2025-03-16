@@ -13,6 +13,7 @@ import {
 } from "react-ionicons";
 import LoginBanner from "../LoginBanner";
 import { useAuth } from "@/hooks/auth";
+import { siteConfig } from "@/config/site";
 
 export default function SidebarContent() {
   const { user } = useAuth();
@@ -122,7 +123,7 @@ export default function SidebarContent() {
           </svg>
         </figure>
 
-        <h1 className={`sr-only`}>{process.env.NEXT_PUBLIC_APP_NAME}</h1>
+        <h1 className={`sr-only`}>{siteConfig.name}</h1>
       </Link>
 
       <div className={`flex flex-col gap-8 py-4`}>

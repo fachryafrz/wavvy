@@ -2,6 +2,7 @@ import CardLong from "@/components/Card/CardLong";
 import DetailsHero from "@/components/Layout/Details/Hero";
 import RetryAfter from "@/components/Modals/RetryAfter";
 import SliderPlaylist from "@/components/Slider/Playlist";
+import { siteConfig } from "@/config/site";
 import { createSpotifyAxiosInstance } from "@/lib/axios";
 import moment from "moment";
 import Link from "next/link";
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }) {
       title: `${track.name} by ${primaryArtist.name}`,
       description: `${track.name} by ${primaryArtist.name}. ${moment(album.release_date).format("YYYY")}`,
       openGraph: {
-        title: `${track.name} - ${process.env.NEXT_PUBLIC_APP_NAME}`,
+        title: `${track.name} - ${siteConfig.name}`,
         images: [image?.url ?? "/maskable/maskable_icon_x192.png"],
       },
     };

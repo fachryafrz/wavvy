@@ -8,6 +8,7 @@ import Sidebar from "@/components/Layout/Sidebar";
 import { cookies } from "next/headers";
 import { SPOTIFY_ACCESS_TOKEN } from "@/lib/constants";
 import Providers from "@/components/Layout/ProgressBarProvider";
+import { siteConfig } from "@/config/site";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -24,12 +25,12 @@ export const viewport = {
 
 export const metadata = {
   title: {
-    template: `%s - ${process.env.NEXT_PUBLIC_APP_NAME}`,
-    default: process.env.NEXT_PUBLIC_APP_NAME,
+    template: `%s - ${siteConfig.name}`,
+    default: siteConfig.name,
   },
-  description: process.env.NEXT_PUBLIC_APP_DESCRIPTION,
+  description: siteConfig.description,
   openGraph: {
-    title: process.env.NEXT_PUBLIC_APP_NAME,
+    title: siteConfig.name,
     images: ["/maskable/maskable_icon_x192.png"],
   },
   robots: {
