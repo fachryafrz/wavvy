@@ -4,14 +4,6 @@
 
 Ryth is a music streaming platform that offers seamless access to an extensive music library. You can explore detailed information about songs, albums, artists, and playlists. The intuitive search functionality makes it easy to find songs, artists, albums, and playlists effortlessly.
 
-## 🔍 How It Works
-
-- **Authenticate with Spotify** – Securely log in to access your personalized music experience.
-- **Explore the Music Library** – Discover an extensive collection of songs, albums, artists, and playlists.
-- **Search Easily** – Find your favorite songs, artists, albums, and playlists with a powerful search function.
-- **Stream Music Seamlessly** – Play, pause, skip tracks, shuffle, repeat, and adjust volume effortlessly.
-- **Enjoy Personalized Listening** – Use mobile-friendly playback and radio mode for endless music discovery.
-
 ## ✨ Key Features
 
 - **Extensive Music Library** – Access a vast catalog of songs, albums, and playlists.
