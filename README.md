@@ -66,12 +66,12 @@ Ryth is a music streaming platform that offers seamless access to an extensive m
 
 ## 🛠️ Tech Stack
 
-- **Next.js 14** – React-based framework
-- **React** – JavaScript framework
-- **DaisyUI** – Tailwind CSS component library
-- **Tailwind CSS** – Styling and UI design
-- **Spotify API** – Authentication and database
-- **Spotify Web Playback** – Web-based music player
+- **Next.js 14**
+- **React**
+- **DaisyUI**
+- **Tailwind CSS**
+- **Spotify API**
+- **Spotify Web Playback**
 
 ## 🚀 Fork the repository
 
