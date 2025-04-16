@@ -1,6 +1,7 @@
 import CardLong from "@/components/Card/CardLong";
 import DetailsHero from "@/components/Layout/Details/Hero";
 import RetryAfter from "@/components/Modals/RetryAfter";
+import { siteConfig } from "@/config/site";
 import { createSpotifyAxiosInstance } from "@/lib/axios";
 import moment from "moment";
 import Link from "next/link";
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }) {
       },
     };
   } catch (error) {
-    const retryAfter = error?.response.headers["retry-after"];
+    const retryAfter = error?.response?.headers["retry-after"];
     if (retryAfter)
       return {
         title: "Sorry you can't access this page",
@@ -171,7 +172,7 @@ export default async function page({ params }) {
       </div>
     );
   } catch (error) {
-    const retryAfter = error?.response.headers["retry-after"];
+    const retryAfter = error?.response?.headers["retry-after"];
     if (retryAfter) return <RetryAfter retryAfter={retryAfter} />;
 
     throw error;
