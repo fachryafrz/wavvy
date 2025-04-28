@@ -7,7 +7,7 @@ export default function manifest() {
     description: siteConfig.description,
     start_url: "/",
     display: "standalone",
-    background_color: "#0a0a0a",
+    background_color: "#e65931", // 10% darker than #ff6337
     theme_color: "#0a0a0a",
     icons: [
       {
