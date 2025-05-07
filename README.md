@@ -78,7 +78,7 @@ git clone https://github.com/{your-username}/ryth.git
 
 cd ryth
 
-npm install
+pnpm install
 
 cp .env.example .env
 
