@@ -72,7 +72,7 @@ export default function ErrorAlert() {
             </div>
           </div>
 
-          {/* Image of Ryth when Logged In (Coming Soon) */}
+          {/* Image of Wavvy when Logged In (Coming Soon) */}
           {/* <figure></figure> */}
         </div>
       </div>

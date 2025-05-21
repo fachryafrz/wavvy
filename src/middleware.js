@@ -1,6 +1,6 @@
 // import { revalidatePath } from "next/cache";
 import {
-  RYTH_REDIRECT,
+  WAVVY_REDIRECT,
   SPOTIFY_ACCESS_TOKEN,
   SPOTIFY_REFRESH_TOKEN,
 } from "./lib/constants";
@@ -21,7 +21,7 @@ export default async function middleware(request) {
   const cookiesStore = request.cookies;
   const accessToken = cookiesStore.has(SPOTIFY_ACCESS_TOKEN);
   const refreshToken = cookiesStore.has(SPOTIFY_REFRESH_TOKEN);
-  const redirect = cookiesStore.get(RYTH_REDIRECT)?.value || pathname;
+  const redirect = cookiesStore.get(WAVVY_REDIRECT)?.value || pathname;
 
   const code = searchParams.get("code");
   const error = searchParams.get("error");
@@ -52,7 +52,7 @@ export default async function middleware(request) {
     response.cookies.set(SPOTIFY_REFRESH_TOKEN, data.refresh_token, {
       maxAge: 60 * 60 * 24 * 30 * 12, // 1 year
     });
-    response.cookies.delete(RYTH_REDIRECT);
+    response.cookies.delete(WAVVY_REDIRECT);
 
     return response;
   } else if (accessToken) {
@@ -76,7 +76,7 @@ export default async function middleware(request) {
       maxAge: data.expires_in,
     });
     // response.cookies.delete(SPOTIFY_REFRESH_TOKEN); // NOTE: Me being a dumbass for deleting refresh token
-    response.cookies.delete(RYTH_REDIRECT);
+    response.cookies.delete(WAVVY_REDIRECT);
 
     return response;
   }
@@ -97,7 +97,7 @@ export default async function middleware(request) {
     response.cookies.set(SPOTIFY_ACCESS_TOKEN, data.access_token, {
       maxAge: data.expires_in,
     });
-    response.cookies.delete(RYTH_REDIRECT);
+    response.cookies.delete(WAVVY_REDIRECT);
 
     return response;
   }

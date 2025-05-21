@@ -1,5 +1,5 @@
 import {
-  RYTH_REDIRECT,
+  WAVVY_REDIRECT,
   SPOTIFY_ACCESS_TOKEN,
   SPOTIFY_REFRESH_TOKEN,
 } from "@/lib/constants";
@@ -22,7 +22,7 @@ export async function GET(req) {
   if (remainingToken < 0) return tokenExpired(req);
 
   try {
-    cookiesStore.set(RYTH_REDIRECT, path);
+    cookiesStore.set(WAVVY_REDIRECT, path);
 
     return NextResponse.json({ message: "Login attempt" }, { status: 200 });
   } catch (error) {

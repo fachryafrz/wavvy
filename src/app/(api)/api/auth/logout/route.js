@@ -1,5 +1,5 @@
 import {
-  RYTH_REDIRECT,
+  WAVVY_REDIRECT,
   SPOTIFY_ACCESS_TOKEN,
   SPOTIFY_REFRESH_TOKEN,
 } from "@/lib/constants";
@@ -36,7 +36,7 @@ export async function DELETE(req) {
     cookiesStore.set(SPOTIFY_ACCESS_TOKEN, data.access_token, {
       maxAge: data.expires_in,
     });
-    cookiesStore.delete(RYTH_REDIRECT);
+    cookiesStore.delete(WAVVY_REDIRECT);
 
     return NextResponse.json(
       { message: "Logged out successfully" },

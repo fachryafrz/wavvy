@@ -13,11 +13,11 @@ export default function LoginWarning({ onLogin }) {
           <h3 className="text-3xl font-bold !mt-0 text-center">Access Restricted</h3>
           <div className={`space-y-4`}>
             <p>
-              Only users approved by the site owner can log in to Ryth. If you
+              Only users approved by the site owner can log in to Wavvy. If you
               want to access, please contact the site owner via{" "}
               <Link
                 href={
-                  "mailto:fachrydwiafriza@gmail.com?subject=Request%20Access%20to%20Ryth&body=Hello,%0D%0A%0D%0AMy name: [Your Name]%0D%0AMy email: [Your Email]%0D%0A%0D%0AI would like to request access to Ryth. Thank you!"
+                  "mailto:fachrydwiafriza@gmail.com?subject=Request%20Access%20to%20Wavvy&body=Hello,%0D%0A%0D%0AMy name: [Your Name]%0D%0AMy email: [Your Email]%0D%0A%0D%0AI would like to request access to Wavvy. Thank you!"
                 }
                 prefetch={false}
                 className={`link-primary underline`}

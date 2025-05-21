@@ -56,7 +56,7 @@ export default function PremiumAlert() {
             </div>
           </div>
 
-          {/* Image of Ryth when Logged In (Coming Soon) */}
+          {/* Image of Wavvy when Logged In (Coming Soon) */}
           {/* <figure></figure> */}
         </div>
       </div>

@@ -1,8 +1,8 @@
-[![Ryth](https://fachryafrz.com/projects/ryth/home.png)](https://ryth.vercel.app)
+[![Wavvy](https://fachryafrz.com/projects/wavvy/home.png)](https://wavvy.vercel.app)
 
-# Ryth – Music Streaming and Discovery
+# Wavvy – Music Streaming and Discovery
 
-Ryth is a music streaming platform that offers seamless access to an extensive music library. You can explore detailed information about songs, albums, artists, and playlists. The intuitive search functionality makes it easy to find songs, artists, albums, and playlists effortlessly.
+Wavvy is a music streaming platform that offers seamless access to an extensive music library. You can explore detailed information about songs, albums, artists, and playlists. The intuitive search functionality makes it easy to find songs, artists, albums, and playlists effortlessly.
 
 ## ✨ Key Features
 
@@ -74,9 +74,9 @@ Click the **Fork** button at the top-right corner of this page to create a copy 
 ### 2. Clone Your Forked Repository
 
 ```sh
-git clone https://github.com/{your-username}/ryth.git
+git clone https://github.com/{your-username}/wavvy.git
 
-cd ryth
+cd wavvy
 
 pnpm install
 
@@ -87,7 +87,7 @@ pnpm dev
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please fork the repository, make your changes, and submit a pull request. We'll review and merge your contributions as we continue to improve Ryth.
+Contributions are welcome! Please fork the repository, make your changes, and submit a pull request. We'll review and merge your contributions as we continue to improve Wavvy.
 
 ## 📜 License
 
@@ -95,6 +95,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 📸 Screenshots
 
-[![Ryth](https://fachryafrz.com/projects/ryth/details.png)](https://ryth.vercel.app)
-[![Ryth](https://fachryafrz.com/projects/ryth/mobile.png)](https://ryth.vercel.app)
-[![Ryth](https://fachryafrz.com/projects/ryth/filters.png)](https://ryth.vercel.app)
+[![Wavvy](https://fachryafrz.com/projects/wavvy/details.png)](https://wavvy.vercel.app)
+[![Wavvy](https://fachryafrz.com/projects/wavvy/mobile.png)](https://wavvy.vercel.app)
+[![Wavvy](https://fachryafrz.com/projects/wavvy/filters.png)](https://wavvy.vercel.app)
