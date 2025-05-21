@@ -1,4 +1,4 @@
-[![Wavvy](https://fachryafrz.com/projects/wavvy/home.png)](https://wavvy.vercel.app)
+[![Wavvy](https://fachryafrz.com/projects/wavvy/home.png)](https://wavvy.fachryafrz.com)
 
 # Wavvy – Music Streaming and Discovery
 
@@ -95,6 +95,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 📸 Screenshots
 
-[![Wavvy](https://fachryafrz.com/projects/wavvy/details.png)](https://wavvy.vercel.app)
-[![Wavvy](https://fachryafrz.com/projects/wavvy/mobile.png)](https://wavvy.vercel.app)
-[![Wavvy](https://fachryafrz.com/projects/wavvy/filters.png)](https://wavvy.vercel.app)
+[![Wavvy](https://fachryafrz.com/projects/wavvy/details.png)](https://wavvy.fachryafrz.com)
+[![Wavvy](https://fachryafrz.com/projects/wavvy/mobile.png)](https://wavvy.fachryafrz.com)
+[![Wavvy](https://fachryafrz.com/projects/wavvy/filters.png)](https://wavvy.fachryafrz.com)
