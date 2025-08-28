@@ -15,11 +15,11 @@ export async function getSpotifyAccessToken() {
       {
         headers: {
           Authorization: `Basic ${Buffer.from(
-            `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`
+            `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`,
           ).toString("base64")}`,
           "Content-Type": "application/x-www-form-urlencoded",
         },
-      }
+      },
     );
 
     access_token = data.access_token;
@@ -36,6 +36,10 @@ export async function createSpotifyAxiosInstance() {
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${access_token}`,
+    },
+    adapter: "fetch",
+    fetchOptions: {
+      next: { revalidate: 3600 },
     },
   });
 }

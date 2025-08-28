@@ -28,28 +28,29 @@ export default function LeftContent({ categories, categoriesPlaylists }) {
   return (
     <div className={`flex flex-col gap-4 @container`}>
       {/* Categories */}
-      {categories.items?.slice(0, 1).map((category, i) => {
-        return (
-          handleFindCategory(category.name) &&
-          handleFindCategory(category.name).playlists.items.length > 0 && (
-            <section key={category.id}>
-              <SliderPlaylist
-                id={`slider-${category.id}`}
-                title={
-                  <Link
-                    href={`/section/${category.id}`}
-                    prefetch={false}
-                    className={`hocus:underline`}
-                  >
-                    {category.name}
-                  </Link>
-                }
-                data={handleFindCategory(category.name).playlists.items}
-              />
-            </section>
-          )
-        );
-      })}
+      {user &&
+        categories.items?.slice(0, 1).map((category, i) => {
+          return (
+            handleFindCategory(category.name) &&
+            handleFindCategory(category.name).playlists.items.length > 0 && (
+              <section key={category.id}>
+                <SliderPlaylist
+                  id={`slider-${category.id}`}
+                  title={
+                    <Link
+                      href={`/section/${category.id}`}
+                      prefetch={false}
+                      className={`hocus:underline`}
+                    >
+                      {category.name}
+                    </Link>
+                  }
+                  data={handleFindCategory(category.name).playlists.items}
+                />
+              </section>
+            )
+          );
+        })}
 
       {/* Playlists, Artists, Albums, Streams */}
       {user && (

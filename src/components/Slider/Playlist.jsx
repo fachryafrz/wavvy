@@ -19,22 +19,24 @@ export default function SliderPlaylist({
       isLoading={isLoading}
       isLoadingClassName={isLoadingClassName}
     >
-      {data?.map((item, i) => {
-        const [image] =
-          item.images ?? item.album?.images ?? item.track?.album?.images;
+      {data
+        ?.filter((item) => item.id !== null)
+        .map((item, i) => {
+          const [image] =
+            item.images ?? item.album?.images ?? item.track?.album?.images;
 
-        return (
-          <SwiperSlide
-            key={i}
-            className={`!max-w-[calc(100%/2)] @md:!max-w-[calc(100%/3)] @2xl:!max-w-[calc(100%/4)] @5xl:!max-w-[calc(100%/5)]`}
-          >
-            <CardVertical
-              item={item.track ?? item}
-              image={image?.url ?? "/maskable/maskable_icon_x192.png"}
-            />
-          </SwiperSlide>
-        );
-      })}
+          return (
+            <SwiperSlide
+              key={i}
+              className={`!max-w-[calc(100%/2)] @md:!max-w-[calc(100%/3)] @2xl:!max-w-[calc(100%/4)] @5xl:!max-w-[calc(100%/5)]`}
+            >
+              <CardVertical
+                item={item.track ?? item}
+                image={image?.url ?? "/maskable/maskable_icon_x192.png"}
+              />
+            </SwiperSlide>
+          );
+        })}
     </Slider>
   );
 }
