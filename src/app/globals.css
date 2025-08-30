@@ -6,6 +6,18 @@
   @apply !opacity-10;
 }
 
+@layer base {
+  @media (display-mode: standalone) {
+    * {
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    body {
+      overscroll-behavior-y: contain;
+    }
+  }
+}
+
 @layer components {
   img {
     @apply h-full w-full object-cover italic;
