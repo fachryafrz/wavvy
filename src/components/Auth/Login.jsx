@@ -64,6 +64,7 @@ export default function Login({ authorizationURL, client_id }) {
     <>
       <button
         id="login"
+        disabled
         onClick={() => document.getElementById("loginWarning").showModal()}
         className={`btn btn-primary aspect-square rounded-full px-0 sm:aspect-auto sm:px-2 sm:pr-4`}
       >
